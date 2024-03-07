@@ -7,7 +7,7 @@ function check()
     if(use == "Dipesh" && pwd == "D123")
     {
         alert("Login Successfully");
-        window.open("Student\dipeshh.html");
+        window.open("dipeshh.html");
         
     }
     else if(use == "Riya" && pwd == "R123")
@@ -37,11 +37,15 @@ function check1()
     var rn1 = document.getElementById("rno").value;
     var cn1 = document.getElementById("cno").value;
 
-    if(rn1 == "555555" && cn1 == "555555")
+    if(rn1 == "442831" && cn1 == "164873")
     {
         alert("Certificate Is Verfy");
     }
-    else
+    else if(rn1 == "442831" && cn1 == "190516")
+    {
+        alert("Certificate Is Verfy");
+    }
+    else    
     {
         alert("Chek Your Number");
     }
