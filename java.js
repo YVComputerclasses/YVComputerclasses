@@ -47,6 +47,6 @@ function check1()
     }
     else    
     {
-        alert("Chek Your Number","Wroung");
+        alert("Pless Enter Velid register Our Certificate No !");
     }
 }
