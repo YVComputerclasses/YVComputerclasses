@@ -4,23 +4,23 @@ function check()
     var use = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
 
-    if(use == "Dipesh" && pwd == "D123")
+    if(use == "Dipesh" && pwd == "DK123")
     {
         alert("Login Successfully");
         window.open("dipeshh.html");
         
     }
-    else if(use == "Riya" && pwd == "R123")
+    else if(use == "Riya" && pwd == "RPA123")
     {
         alert("Login Successfully");
         window.open("riyaph.html");
     }
-    else if(use == "Parth" && pwd == "P123")
+    else if(use == "Parth" && pwd == "PP123")
     {
         alert("Login Successfully");
         window.open("parthph.html");
     }
-    else if(use == "Vraj" && pwd == "V123")
+    else if(use == "Vraj" && pwd == "VPA123")
     {
         alert("Login Successfully");
         window.open("vrajh.html");
