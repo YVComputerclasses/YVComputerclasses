@@ -47,6 +47,6 @@ function check1()
     }
     else    
     {
-        alert("Chek Your Number");
+        alert("Chek Your Number","Wroung");
     }
 }
