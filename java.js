@@ -7,7 +7,7 @@ function check()
     if(use == "Dipesh" && pwd == "D123")
     {
         alert("Login Successfully");
-        window.open("C:\web\Student\dipeshh.html");
+        window.open("C:\pull from gitup\YVComputerclasses\Student\dipeshh.html");
         
     }
     else if(use == "Riya" && pwd == "R123")
