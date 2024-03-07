@@ -27,7 +27,7 @@ function check()
     }
     else
     {
-        alert("Invalid Password !");
+        alert("Pless Enter Velid Id Our Password !");
         window.open("Home.html");
     }
 }
