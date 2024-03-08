@@ -7,7 +7,7 @@ function check()
     if(use == "Admin" && pwd == "Y@V")
     {
         alert("Admin Login Successfully");
-        window.open("dipeshh.html");
+        window.open("adminh.html");
     }
     else if(use == "Dipesh" && pwd == "DK123")
     {
