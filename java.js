@@ -25,6 +25,11 @@ function check()
         alert("Login Successfully");
         window.open("vrajh.html");
     }
+    else if(use == "Man" && pwd =="MP123")
+    {
+        alert("Login Successfully");
+        window.open("manh.html");
+    }
     else
     {
         alert("Pless Enter Velid Id Our Password !");
