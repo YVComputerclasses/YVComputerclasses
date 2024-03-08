@@ -4,32 +4,38 @@ function check()
     var use = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
 
-    if(use == "Dipesh" && pwd == "DK123")
+    if(use == "Admin" && pwd == "Y@V")
     {
-        alert("Login Successfully");
+        alert("Admin Login Successfully");
+        window.open("dipeshh.html");
+    }
+    else if(use == "Dipesh" && pwd == "DK123")
+    {
+        alert("Student Login Successfully");
         window.open("dipeshh.html");
         
     }
     else if(use == "Riya" && pwd == "RPA123")
     {
-        alert("Login Successfully");
+        alert("Student Login Successfully");
         window.open("riyaph.html");
     }
     else if(use == "Parth" && pwd == "PP123")
     {
-        alert("Login Successfully");
+        alert("Student Login Successfully");
         window.open("parthph.html");
     }
     else if(use == "Vraj" && pwd == "VPA123")
     {
-        alert("Login Successfully");
+        alert("Student Login Successfully");
         window.open("vrajh.html");
     }
     else if(use == "Man" && pwd =="MP123")
     {
-        alert("Login Successfully");
+        alert("Student Login Successfully");
         window.open("manh.html");
     }
+
     else
     {
         alert("Pless Enter Velid Id Our Password !");
