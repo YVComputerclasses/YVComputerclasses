@@ -39,7 +39,6 @@ function check()
     else
     {
         alert("Pless Enter Velid Id Our Password !");
-        window.open("Home.html");
     }
 }
 
