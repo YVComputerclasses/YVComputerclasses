@@ -1,8 +1,20 @@
 <html>
 <head>
-<title>Parth Course Details</title>
+<title>Download</title>
 <style>
-.navbar ul 
+    .blink {
+                animation: blinker 5s linear infinite;
+                color: red;
+                font-family: sans-serif;
+                font-size: 50px;
+            }
+
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
+            }
+ .navbar ul 
  {
     list-style: none;
     background: whitesmoke;
@@ -32,16 +44,40 @@
     border-radius: 50%;
     color: white;
 }
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  color: red;
+}
+.center
+{
+    position: absolute;
+  top: 60%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  color: red;
+}
 #cs
 {
     text-align: center;
 }
+table
+{
+    border: 1px solid black;
+}
+td
+{
+    height: 12px;
+    width: 600px;
+}
 </style>
 </head>
 <body>
-<img src="Phota\YV.png" width="150" height="150">  
+<img src="Phota\YV.png" width="150" height="150">&nbsp;&nbsp;&nbsp;&nbsp;
 <span style=font-size:90px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-<a href="home.html"><input type="button" value="LogOut" onclick="window.close();" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;></a>
+<input type="button" value="LogOut" onclick="window.close()" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;></a>
 <div class="navbar">
     <ul>
         <li><a href="parthph.html">Home</a></li>
@@ -52,23 +88,18 @@
         <li><a href="parthpd.html">Download</a></li>
     </ul>
     </div>
-<table border="1px" cellspacing="3px" width="330px" height="100px">
-    <div >
-        <tr id="cs">
-            <td width="50.33%" height="330px" ><br>
-                <h1 style="background-color: lightblue;">Basic Computer Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 3 Months</p>
-                <p style="font-size: 25px;">Fee : ₹3500 <del>₹ 5000</del></p>
-                <hr>
-                <p style="font-size: 30px;color: red;">Exam Date: 22-Apr-2024</p>
-                <hr>
-                <a href="#"><input type="submit" value="Download Certificate" style=color:white;background-color:blue;border-radius:20px;height:45px;width:160px;margin-top:35px;></a>
-                <a href="#"><input type="submit" value="Marksheet" style=color:white;background-color:blue;border-radius:20px;height:45px;width:100px;margin-top:35px;></a>
-                <br><br><br>
-            </td>
-        </tr>
-    </div>
+<table cellspacing="20px">
+    <tr>
+        <td>
+            09/03/2024
+        </td>
+        <td>
+            Home Page
+        </td>
+        <td>
+            <a href="Phota/Dipesh.jpg" download="Html Page"><input type="submit" value="Download"></a>
+        </td>
+    </tr>
 </table>
 </body>
 </html>
