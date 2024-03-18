@@ -34,7 +34,16 @@ function check()
         alert("Student Login Successfully");
         window.open("manh.html");
     }
-
+    else if(use == "Dhruv" && pwd =="DM123")
+    {
+        alert("Student Login Successfully");
+        window.open("Dhruvh.html");
+    }
+    else if(use == "Shubh" && pwd =="SPA123")
+    {
+        alert("Student Login Successfully");
+        window.open("Shubhh.html");
+    }
     else
     {
         alert("Pless Enter Velid Id Our Password !");
