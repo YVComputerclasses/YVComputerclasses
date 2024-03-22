@@ -1,3 +1,6 @@
+<?php
+$pdo = new PDO("mysql:host=localhost;dbname=yvreg","root","");
+?>
 <!doctype html>
 <html>
     <head>
@@ -9,7 +12,7 @@
     <div align="center">
         <h1>Registrain Details</h1>
     </div>
-    <form action="C:\xampp\htdocs\regi_entry.php" method="post">
+    <form action="regi.php" method="POST">
         <table border="1" align="center">
             <tr>
                 <td>
@@ -63,14 +66,15 @@
                     <td><input type="text" name="Pin"></td>
             </tr>
             <tr>
-                    <td colspan="2" align="center"><input type="submit" name="save" value="submit" style="font-size: 20px;"></td>
+                    <td colspan="2" align="center"><input type="submit" name="btnsave" value="submit" style="font-size: 20px;"></td>
             </tr>
         </table>
     </form>
 </body>
 </html> 
 <?php
-
+    if(isset($_POST['btnsave']))
+    {
     $student_name = $_POST['Student_name'];
     $father_name = $_POST['Father_Name'];
     $Mother_name = $_POST['Mother_Name'];
@@ -82,18 +86,21 @@
     $com_add = $_POST['Comp_Add'];
     $pincode = $_POST['Pin'];
 
-        $conn = new mysqli('localhost','root','','yvreg');
-        if($conn->connect_error){
-            die('Connection Failed : '.$conn->connect_error);
-        }else{
-            $stmt = $conn->prepare("INSERT INTO reg (student_name, father_name, Mother_Name, Qulification, Gender, BOD, E-ID, Pho_No, Comp_Add, Pin)
-            VALUES (?,?,?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("sssssisisi",$student_name, $father_name ,$Mother_name, $Qulification, $gender, $birth_date, $email, $phone, $com_add, $pincode);
+            $stmt = $pdo->prepare("Insert Into reg(Student_Name,Father_Name,Mother_Name,Qualification,Gender,Date_Birth,Email_id,Phone_No,Complete_Address,Pincode)
+            values (':sname',':fname',':mname',':qlf',':gender',':bdate',':email',':pno',':add',':pcode')");
+            $stmt->bind_param(':sname',$_POST['Student_name']);
+            $stmt->bind_param(':fname',$father_name);
+            $stmt->bind_param(':mname',$Mother_name);
+            $stmt->bind_param(':qlf',$Qulification);
+            $stmt->bind_param(':gender',$gender);
+            $stmt->bind_param(':bdate',$birth_date);
+            $stmt->bind_param(':email',$email);
+            $stmt->bind_param(':pno',$phone);
+            $stmt->bind_param(':add',$com_add);
+            $stmt->bind_param(':pcode',$pincode);
             $stmt->execute();
-            echo "Resistrasion Sessesfully...";
+            echo "<h1>Resistrasion Sessesfully...</h1>";
             $stmt->close();
             $conn->close();
-        }
-    
-
+    }
 ?>
