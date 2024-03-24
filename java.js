@@ -88,3 +88,7 @@ function check1()
         alert("Pless Enter Velid register Our Certificate No !");
     }
 }
+function wait()
+{
+    alert("આ પેજ પર કામ ચાલુ છે થોડા સમય પછી પ્રયાસ કરો. || This page is a work in progress Try after some time.");
+} 
