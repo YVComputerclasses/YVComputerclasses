@@ -47,17 +47,30 @@
     <li><a href="cd.html">Course details</a>
     </li>
     <li><a href="cv.html">Certificate Verification</a></li>
+    <li><a href="#">Notice</a></li>
     <li><a href="Contacts.html">Contacts</a></li>
     </ul>
 </div>
 <center>
-    <form>
-        Register Number:-
-        <input type="text"  placeholder="Enter Your Register No" id="rno" required><br><br>
-        Certificate Number:-
-        <input type="text" placeholder="Enter Your Certificate No" id="cno" required><br><br>
-        <input type="submit" value="Chek" onclick="check1()">
-    </form>
+    <table border="1px" width="1200px" >
+        <tr><td>
+    <p style="font-size: 80px;text-align: center;padding-top: 25px;">Verify Your Certificate</p>
+    </td></tr>
+    <tr>
+        <td>
+    
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label style="font-size: 30px;">Register No.</label><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" style="height: 30px;width: 250px;font-size: 19px;" placeholder="Enter Your Register No" id="rno" required><br><br>
+    
+    
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<lable style="font-size: 30px;">Certificate No.</lable><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" style="height: 30px;width: 250px;font-size: 19px;" placeholder="Enter Your Certificate No" id="cno" required><br><br>
+    
+    
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" style="font-size: 20px;background-color: blue;color: whitesmoke;width: 200px;" value="Verify Now !" onclick="check1()"><br><br>
+    </td>
+        </tr>
+    </table >
 </center>
 <script src="java.js"></script>
 </body>
