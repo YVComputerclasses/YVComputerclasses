@@ -32,9 +32,45 @@
     border-radius: 50%;
     color: white;
 }
-#cs
-{
-    text-align: center;
+div.gallery {
+  border: 1px solid #ccc;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: 300px;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.responsive {
+  padding: 0 6px;
+  float: left;
+  width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
 }
 </style>
 </head>
@@ -53,33 +89,79 @@
         <li><a href="#">Notice</a></li>
     </ul>
     </div>
-<table border="1px" cellspacing="20px" width="100%" height="1000px">
-    <div >
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-                <img  src="Phota\IMG_0428.jpg" style="height:360px;">
-            </td>
-            <td width="33.33%" height="330px" >
-                <img src="Phota\IMG_0433.jpg" style="height:360px;">
-            </td >
-            <td width="33.33%" height="330px">
-                <img src="Phota\IMG_0437.jpg" style="height:360px;">
-            </td>
-        </tr>
-    </div>
-    <div>
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-            <img src="Phota\IMG_0429.jpg" style="height:360px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <img src="Phota\IMG_0442.jpg"  style="height:360px;"> 
-            </td>
-            <td width="33.33%" height="330px">
-                <img src="Phota\Phota/logo/YV.png"  style="height:330px;">
-            </td>
-        </tr>
-    </div>
-</table>
+    <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/Riya Prectical Time.jpg">
+            <img src="Phota/Prectical/Riya Prectical Time.jpg" alt="logo" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+      
+      
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/riya prectical (1).png">
+            <img src="Phota/Prectical/riya prectical (1).png" alt="html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+      
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/parth prectical (2).png">
+            <img src="Phota/Prectical/parth prectical (2).png" alt="excel" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+      
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/riya prectical (3).png">
+            <img src="Phota/Prectical/riya prectical (3).png" alt="Html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+    
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/riya prectical (4).png">
+            <img src="Phota/Prectical/riya prectical (4).png  " alt="Html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+    
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Prectical/riya prectical (5).png">
+            <img src="Phota/Prectical/riya prectical (5).png" alt="Html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+      
+      
+      
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Thiyari/Thyery 4.jpg">
+            <img src="Phota/Thiyari/Thyery 4.jpg" alt="Html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
+      
+      <div class="responsive">
+        <div class="gallery">
+          <a target="_blank" href="Phota/Thiyari/Thyery 12.jpg">
+            <img src="Phota/Thiyari/Thyery 12.jpg" alt="Html" width="600" height="400">
+          </a>
+          <div class="desc">Click Image to Open Full Image</div>
+        </div>
+      </div>
 </body>
 </html>
