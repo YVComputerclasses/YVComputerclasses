@@ -14,7 +14,7 @@ function check()
         window.open("dipeshh.html");
         
     }
-    else if(use == "Riya" && pwd == "RPA123")
+    else if(use == "Riya" && pwd == "Raa123")
     {
         alert("Student Login Successfully");
         window.open("riyaph.html");
