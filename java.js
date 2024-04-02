@@ -4,9 +4,10 @@ function check()
     var use = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
 
-    if(use == "Admin" && pwd == "Y@V")
+    if(use == "0" && pwd == "0")
     {
         alert("Admin Login Successfully");
+        window.open("#");
     }
     else if(use == "Dipesh" && pwd == "DK123")
     {
