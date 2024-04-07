@@ -4,10 +4,10 @@ function check()
     var use = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
 
-    if(use == "0" && pwd == "0")
+    if(use == "YV" && pwd == "Y@V")
     {
         alert("Admin Login Successfully");
-        window.open("#");
+        window.open("adminh.html");
     }
     else if(use == "Dipesh" && pwd == "DK123")
     {
@@ -67,7 +67,7 @@ function check()
     }
     else
     {
-        alert("Pless Enter Velid Id Our Password !");
+        alert("Pless Enter Valid Id Our Password !");
     }
 }
 

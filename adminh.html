@@ -1,106 +1,479 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Admin Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    .blink {
-                animation: blinker 5s linear infinite;
-                color: red;
-                font-family: sans-serif;
-                font-size: 50px;
-            }
+/* Image */
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+/*tabs*/
+body {font-family: Arial;}
 
-            @keyframes blinker {
-                50% {
-                    opacity: 0;
-                }
-            }
- .navbar ul 
- {
-    list-style: none;
-    background: whitesmoke;
-    display: flex;
-    justify-content: center;
-    
- }
-
-.navbar ul li
-{
-    display: inline-block;
-    position: relative;
-    
-}
-.navbar ul li a 
-{
-    display: block;
-    text-decoration: none;
-    font-size: 30px;
-    color: #551738;
-    font-weight: 500;
-    padding: 10px 20px;
-}
-.navbar ul li a:hover 
-{
-    background: #551738;
-    border-radius: 50%;
-    color: white;
-}
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  color: red;
-}
-.center
-{
-    position: absolute;
-  top: 60%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  color: red;
-}
-@media(min-width: 992px)
-{
-    .accordion li{
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-    .td{
-        width: 100%;
-    }
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
 }
 
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+td{
+  text-align: center;
+}
 </style>
 </head>
 <body>
-<img src="Phota\YV.png" width="150" height="150">  
-<span style=font-size:90px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-<input type="button" value="LogOut" onclick="window.close()" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;></a>
-<div class="navbar">
-    <ul>
-    <li><a href="adminh.html">Home</a></li>
-    <li><a href="asd.html">Students Ditails</a></li>
-    <li><a href="#">Student login Ditails</a></li>
-    </ul>
-    </div>
-<div>
-    <img src="Phota\download (1).jpg" height="800px" width="1330px" id="baner">
-    <h1 class="centered">Learn Computer Courses, Include Free Certificate.</h1>
-    <h3 class="center">Certificate Valid in Govt. & Pvt. Jobs. </h3>
+  <body>
+    <img src="Phota/logo/YV.png" width="150" height="150">  
+    <span style=font-size:90px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" value="LogOut" onclick="window.close()" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;>
+<div class="container">
+  <img src="Phota/Thiyari/Thyery 4.jpg" alt="Snow" style="width:100%;height: 500px;">
 </div>
-<div>
-    <marquee class="blink">यह वेबसाइट केवल व्यक्तियों और छात्रों के लिए है किसी संस्थान और संगठन के लिए नहीं। This Website is Only For Individual and Students Not for Any Institutions and Organisation.</marquee>
-</div>
-<div>
-<marquee behavior="none" direction="left" height="350px" width="100%"  vspace="20">
-    <img src="Phota\IMG_0439.jpg" height="350px" width="350px">
-    <img src="Phota\Group cer (1).jpg" height="350px" width="350px">
-    <img src="Phota\Thyery 3.jpg" height="350px" width="350px">
-    <img src="Phota\IMG_0441.jpg" height="350px" width="350px">
-    <img src="Phota\rudra cer (3).jpg" height="350px" width="350px">
-    <img src="Phota\Dipesh cer (4).jpg" height="350px" width="350px">
-</marquee>
-</div>
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Sdata')">S_data</button>
+    <button class="tablinks" onclick="openCity(event, 'sfees')">S_Fees</button>
+    <button class="tablinks" onclick="openCity(event, 'sprapic')">S_Prac_Pic</button>
+    <button class="tablinks" onclick="openCity(event, 'Cerpic')">Certi_Pic</button>
+    <button class="tablinks" onclick="openCity(event, 'Exam')">Exam</button>
+  </div>
+  
+  <div id="Sdata" class="tabcontent">
+    <center>
+      <h3>Student_Details</h3>
+      <table border="1">
+      <tr>
+        <td>
+          Id_No
+        </td>
+        <td>
+          Stu_Name
+        </td>
+        <td>
+          Cour_Name
+        </td>
+        <td>
+          Joi_Date
+        </td>
+        <td>
+          Regi_no
+        </td>
+        <td>
+          Exam_Date
+        </td>
+        <td>
+          Certi_Date
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2301
+        </td>
+        <td>
+          Dipesh_Kalani
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          12/09/2023
+        </td>
+        <td>
+          442831
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164873
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          2302
+        </td>
+        <td>
+          Shubh Patel
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          12/09/2023
+        </td>
+        <td>
+          442851
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164742
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2303
+        </td>
+        <td>
+          Rudhara Patel
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          12/09/2023
+        </td>
+        <td>
+          442824
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164871
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2304
+        </td>
+        <td>
+          Dhruv Makvana
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          12/09/2023
+        </td>
+        <td>
+          442799
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164705
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2305
+        </td>
+        <td>
+          Jaimin Suthar
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          12/09/2023
+        </td>
+        <td>
+          -
+        </td>
+        <td>
+          -
+        </td>
+        <td>
+          -
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2306
+        </td>
+        <td>
+          Man patel
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          15/09/2023
+        </td>
+        <td>
+          442796
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164761
+        </td>
+      </tr><tr>
+        <td>
+          2307
+        </td>
+        <td>
+          Raj Bhoi
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          16/09/2023
+        </td>
+        <td>
+          442804
+        </td>
+        <td>
+          06/01/2024
+        </td>
+        <td>
+          164752
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2308
+        </td>
+        <td>
+          Sagar_Bhoi
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          30/09/2023
+        </td>
+        <td>
+          441908
+        </td>
+        <td>
+          05/01/2024
+        </td>
+        <td>
+          164562
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2309
+        </td>
+        <td>
+          Aksh_Prajapati
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          21/09/2023
+        </td>
+        <td>
+          446419
+        </td>
+        <td>
+          12/01/2024
+        </td>
+        <td>
+          169259
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2310
+        </td>
+        <td>
+          Vraj_Parekh
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          23/12/2023
+        </td>
+        <td>
+          482769
+        </td>
+        <td>
+          23/03/2024
+        </td>
+        <td>
+             
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2311
+        </td>
+        <td>
+          Yashkumar_Parmar
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          21/12/2023
+        </td>
+        <td>
+          -
+        </td>
+        <td>
+          -
+        </td>
+        <td>
+          -
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2312
+        </td>
+        <td>
+          Dipesh_Kalani
+        </td>
+        <td>
+          HTML
+        </td>
+        <td>
+          20/12/2023
+        </td>
+        <td>
+          442831
+        </td>
+        <td>
+          10/02/2024
+        </td>
+        <td>
+          190516
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2313
+        </td>
+        <td>
+          Riya_Parmar
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          27/01/2024
+        </td>
+        <td>
+          540035
+        </td>
+        <td>
+          22/04/2024
+        </td>
+        <td>
+            
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2314
+        </td>
+        <td>
+          Parth_Parmar
+        </td>
+        <td>
+          BCC
+        </td>
+        <td>
+          27/01/2024
+        </td>
+        <td>
+          540010
+        </td>
+        <td>
+          22/04/2024
+        </td>
+        <td>
+          -
+        </td>
+      </tr>
+    </table>
+  </center>
+  </div>
+  
+  <div id="sfees" class="tabcontent">
+    <center>
+      <h3>Student_Fees_Details</h3>
+      <table border="1">
+        <tr>
+          <td>Bach_No</td>
+          <td>View_Data</td>
+        </tr>
+        <tr>
+          <td>Bach 1</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
+            <input type="button" value="View" style="color:blue;background-color:rgb(2, 2, 2);border-radius:20px;height:30px;width:100px;font-size: 18px;border-color: yellowgreen;">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Bach 2</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
+            <input type="button" value="View" style="color:blue;background-color:rgb(2, 2, 2);border-radius:20px;height:30px;width:100px;font-size: 18px;border-color: yellowgreen;">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </div>
+  
+  <div id="sprapic" class="tabcontent">
+    <center>
+    <h3>Student_Prectical_Images</h3>
+  </center>
+  </div>
+  </div>
+  
+
+  <script>
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  </script>
+  
 </body>
-</html>
+</html> 
