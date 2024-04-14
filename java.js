@@ -1,15 +1,25 @@
 
+function or()
+{
+    var us = document.getElementById("log").value;
+    var pw = document.getElementById("pas").value;
+
+    if(us == "YV" && pw == "Y@V")
+    {
+        alert("Admin Login Successfully");
+        window.open("adminh.html");
+    }
+    else
+    {
+        alert("Pless Enter Valid Id Our Password !");
+    }
+}
 function check()
 {
     var use = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
 
-    if(use == "YV" && pwd == "Y@V")
-    {
-        alert("Admin Login Successfully");
-        window.open("adminh.html");
-    }
-    else if(use == "Dipesh" && pwd == "DK123")
+    if(use == "Dipesh" && pwd == "DK123")
     {
         alert("Student Login Successfully");
         window.open("dipeshh.html");
