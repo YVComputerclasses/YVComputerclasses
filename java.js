@@ -11,7 +11,7 @@ function or()
     }
     else
     {
-        alert("Pless Enter Valid Id Our Password !");
+        alert("Admin Pless Enter Valid Id Our Password !");
     }
 }
 function check()
@@ -96,7 +96,7 @@ function check1()
     }
     else    
     {
-        alert("Pless Enter Velid register Our Certificate No !");
+        alert("Student Pless Enter Velid register Our Certificate No !");
     }
 }
 function wait()
