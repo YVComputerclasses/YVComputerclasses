@@ -75,6 +75,11 @@ function check()
         alert("Student Login Successfully");
         window.open("Rudhrah.html");
     }
+    else if(use == "Payal" && pwd == "PP123")
+    {
+        alert("Student Login Successfully");
+        window.open("payalh.html");
+    }
     else
     {
         alert("Student Pless Enter Valid Id Our Password !");
