@@ -1,268 +1,277 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Course Details</title>
+  <title>Course Ditails</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    .blink {
-                animation: blinker 3s linear infinite;
-                color: red;
-                font-family: sans-serif;
-                font-size: 50px;
-            }
+  /*Tags*/
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-            @keyframes blinker {
-                50% {
-                    opacity: 0;
-                }
-            }
-.navbar ul 
- {
-    list-style: none;
-    background: whitesmoke;
-    display: flex;
-    justify-content: center;
-    
- }
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
 
-.navbar ul li
-{
-    display: inline-block;
-    position: relative;
-    
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
-.navbar ul li a 
-{
-    display: block;
-    text-decoration: none;
-    font-size: 30px;
-    color: #551738;
-    font-weight: 500;
-    padding: 10px 20px;
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }
-.navbar ul li a:hover 
-{
-    background: #551738;
-    border-radius: 50%;
-    color: white;
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
 }
-#cs
-{
-    text-align: center;
+.topnav a.log{
+  background-color: violet;
+}
+.topnav a.or{
+  background-color: green;
+}
+.topnav a.re{
+  background-color: red;
+}
+/*Course Ditails*/
+* {
+  box-sizing: border-box;
+}
+
+.columns {
+  float: left;
+  width: 33.3%;
+  padding: 8px;
+}
+
+.price {
+  list-style-type: none;
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.price:hover {
+  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+.price .header {
+  background-color: #111;
+  color: white;
+  font-size: 25px;
+}
+
+.price li {
+  border-bottom: 1px solid #eee;
+  padding: 20px;
+  text-align: center;
+}
+
+.price .grey {
+  background-color: #eee;
+  font-size: 20px;
+}
+
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 600px) {
+  .columns {
+    width: 100%;
+  }
+}
+/*footer*/
+.footer {
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: white;
+}
+p.solid{
+  border-style: solid;
 }
 </style>
 </head>
 <body>
-<img src="Phota/logo/YV.png" width="150" height="150">  
-<span style=font-size:80px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="or_login.html"><input type="button" value=" Organization Login" style="color: whitesmoke;background-color:red;border-radius:20px;height:50px;width:150px;font-size: 15px;"></a>
-<a href="Login.html"><input type="button" value="Login" style="color:white;background-color:blue;border-radius:20px;height:50px;width:90px;font-size: 20px;"></a>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-<input type="button" value="Take Admission" style="color:black;background-color:yellow;border-radius:20px;height:50px;width:150px;font-size: 18px;"></a>
-<div class="navbar">
-    <ul>
-    <li><a href="home.html">Home</a></li>
-    <li><a href="Gallery.html">Gallary</a></li>
-    <li><a href="cd.html">Course details</a>
-    </li>
-    <li><a href="cv.html">Certificate Verification</a></li>
-    <li><a href="Notice.html">Notice</a></li>
-    <li><a href="Contacts.html">Contacts</a></li>
+<div class="topnav">
+  <a href="home.html">Home</a>
+  <a href="Gallery.html">Gallary</a>
+  <a class="active" href="cd.html">Course Details</a>
+  <a href="cv.html">Certificate Verification</a>
+  <a href="Notice.html">Notice</a>
+  <a href="Contacts.html">Contacts</a>
+  <a class="or" href="or_login.html">Or_Login</a>
+  <a class="log" href="Login.html">Login</a>
+  <a class="re" href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">Registrasion</a>
+</div>
+<div style="padding-left:16px">
+</div>
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Basic Computer Course</li>
+      <li class="grey">Duration: 3 month</li>
+      <li>Fee : ₹3,000 <del>₹4,999</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
     </ul>
-    </div>
-    <div>
-        <marquee class="blink">ઓફર ઓફર ઓફર વેકેશન સ્પેશિયલ ઓફર કોઈ પણ કોર્સ કરો અને મેળવો ₹500 ડિસ્કાઉન્ટ.|| Offer Offer Offer Vacation Special Offer Take any course and get ₹500 discount.</marquee>
-    </div>
-    <hr>
-    <div>
-        <p style="font-size: 30px;color: yellow;background-color: black;">આ તમામ કોર્સ ગુજરાતી, હિન્દી અને અંગ્રેજીમાં ભણાવવામાં આવે છે. || All these courses are taught in Gujarati, Hindi and English.</p>
-    </div>
-<table border="1px" cellspacing="20px" width="100%" height="1000px">
-    <div >
-        <tr id="cs">
-            <td width="33.33%" height="330px" >
-                <h1 style="background-color: lightblue;">Basic Computer Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 3 Months</p>
-                <p style="font-size: 25px;">Fee : ₹3,000 <del>₹4,999</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style="color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;font-size: 18px;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="bcci.html"><input type="button" value="Details" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;"></a>
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">HTML Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2,500 <del>₹2,999</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-                
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Tally Erp 9 Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 1 Months</p>
-                <p style="font-size: 25px;">Fee : ₹3,000 <del>₹4,999</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-        </tr>
-    </div>
-    <div>
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">MS Office Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2,600 <del>₹3,300</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">CCC Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹3,600 <del>₹4,500</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Out Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:30px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Create Bill With GST(18% & 9%) Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹1,700 <del>₹2,300</del></p>
-                <p style="font-size: 35px;color:red;"><b>With Out Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-        </tr>
-    </div>
-    <div>
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Plemplet Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹1,600 <del>₹1,999<del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Out Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Diploma In Computer Applicasion Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 4 Months</p>
-                <p style="font-size: 25px;">Fee : ₹5,400 <del>₹6,200</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Web Devlopment Course Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 12 Months</p>
-                <p style="font-size: 25px;">Fee : ₹38,000 <del>₹43,500</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-        </tr>
-    </div>
-    <div>
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">ADCA Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 12 Months</p>
-                <p style="font-size: 25px;">Fee : ₹19,000 <del>₹23,500<del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Advance Excel Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 2 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2200 <del>₹2999</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Tally Prime Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 12 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2900 <del>₹3500</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-        </tr>
-    </div>
-    <div>
-        <tr id="cs">
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">CSS Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 1 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2400 <del>₹2999<del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">CSS3 Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 1 Months</p>
-                <p style="font-size: 25px;">Fee : ₹2500 <del>₹3000</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-            <td width="33.33%" height="330px">
-                <h1 style="background-color: lightblue;">Java Script Course</h1>
-                <hr width="310px">
-                <p style="font-size: 30px;">Duration : 3 Months</p>
-                <p style="font-size: 25px;">Fee : ₹4800 <del>₹5400</del></p>
-                <p style="font-size: 35px;color:red;" ><b>With Certificate</b></p>
-                <hr width="310px">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-                <input type="submit" value="Take Admission Now" style=color:white;background-color:blue;border-radius:20px;height:45px;width:180px;margin-top:35px;></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Details" onclick="wait();" style="background-color: whitesmoke;border-radius: 20px;height: 45px;width: 180px;font-size: 25px;">
-            </td>
-        </tr>
-    </div>
-</table>
-<script src="java.js"></script>
+  </div>
+  
+  <div class="columns">
+    <ul class="price">
+      <li class="header">HTML</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹2,500 <del>₹2,999</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Tally Erp9 Course</li>
+      <li class="grey">Duration: 1 month</li>
+      <li>Fee : ₹3,000 <del>₹4,999</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+  
+  <div class="columns">
+    <ul class="price">
+      <li class="header">MS Office Course</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹2,600 <del>₹3,300</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">CCC Course</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹3,600 <del>₹4,500</del></li>
+      <li>With Out Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Create Bill With GST%</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹1,700 <del>₹2,300</del></li>
+      <li>With Out Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Plemplet Course</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹1,600 <del>₹1,999</del></li>
+      <li>With Out Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">DCA</li>
+      <li class="grey">Duration: 4 month</li>
+      <li>Fee : ₹5,400 <del>₹6,200</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Web Development Course</li>
+      <li class="grey">Duration: 12 month</li>
+      <li>Fee : ₹38,000 <del>₹43,500</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">ADCA Course</li>
+      <li class="grey">Duration: 12 month</li>
+      <li>Fee : ₹19,000 <del>₹23,500</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Advance Excel Course</li>
+      <li class="grey">Duration: 2 month</li>
+      <li>Fee : ₹2,200 <del>₹2,999</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Tally Prime Course</li>
+      <li class="grey">Duration: 12 month</li>
+      <li>Fee : ₹2,900 <del>₹3,500</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+  
+  <div class="columns">
+    <ul class="price">
+      <li class="header">CSS Course</li>
+      <li class="grey">Duration: 1 month</li>
+      <li>Fee : ₹2,400 <del>₹2,999</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+  <div class="columns">
+    <ul class="price">
+      <li class="header">CSS3 Course</li>
+      <li class="grey">Duration: 1 month</li>
+      <li>Fee : ₹2,500 <del>₹3,000</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Java Script Course</li>
+      <li class="grey">Duration: 3 month</li>
+      <li>Fee : ₹4,800 <del>₹5,400</del></li>
+      <li>With Certificate</li>
+      <li class="grey"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform" class="button">Take Admission Now</a></li>
+    </ul>
+  </div>
+
 </body>
 </html>
