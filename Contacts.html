@@ -1,37 +1,48 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Contacts</title>
+  <title>Course Ditails</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
- .navbar ul 
- {
-    list-style: none;
-    background: whitesmoke;
-    display: flex;
-    justify-content: center;
-    
- }
+  /*Tags*/
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-.navbar ul li
-{
-    display: inline-block;
-    position: relative;
-    
+.topnav {
+  overflow: hidden;
+  background-color: #333;
 }
-.navbar ul li a 
-{
-    display: block;
-    text-decoration: none;
-    font-size: 30px;
-    color: #551738;
-    font-weight: 500;
-    padding: 10px 20px;
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
-.navbar ul li a:hover 
-{
-    background: #551738;
-    border-radius: 50%;
-    color: white;
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.topnav a.log{
+  background-color: violet;
+}
+.topnav a.or{
+  background-color: green;
+}
+.topnav a.re{
+  background-color: red;
+}
+/*Card*/
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
@@ -68,53 +79,44 @@ button:hover, a:hover {
   opacity: 0.7;
 }
 </style>
-</script>
 </head>
 <body>
-<img src="Phota/logo/YV.png" width="150" height="150">  
-<span style=font-size:80px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="or_login.html"><input type="button" value=" Organization Login" style="color: whitesmoke;background-color:red;border-radius:20px;height:50px;width:150px;font-size: 15px;"></a>
-<a href="Login.html"><input type="button" value="Login" style="color:white;background-color:blue;border-radius:20px;height:50px;width:90px;font-size: 20px;"></a>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">
-<input type="button" value="Take Admission" style="color:black;background-color:yellow;border-radius:20px;height:50px;width:150px;font-size: 18px;"></a>
-<div class="navbar">
-    <ul>
-    <li><a href="home.html">Home</a></li>
-    <li><a href="Gallery.html">Gallary</a></li>
-    <li><a href="cd.html">Course details</a>
-    </li>
-    <li><a href="cv.html">Certificate Verification</a></li>
-    <li><a href="Notice.html">Notice</a></li>
-    <li><a href="Contacts.html">Contacts</a></li>
-    </ul>
-    </div>
-    <div class="card">
-        <img src="Phota/logo/avatar.png" alt="Yash" style="width:100%">
-        <h1>Yash</h1>
-        <p class="title">Owner Of YV Computer Classes</p>
-        <p>Contect : 9714768895</p>
-        <p>Email Id :yvcomputerclasses@gmail.com</p></a>
-        <p>Instagram : YV_Computer_Classes</p>
-        <div style="margin: 24px 0;">
-          <a href="https://www.instagram.com/yv_computer_classes_?utm_source=qr"><img src="Phota/logo/Instagram.png" style="height: 30px;"></a>&nbsp;&nbsp;&nbsp;
-          <a href="https://yvcomputerclasses.netlify.app/"><img src="Phota/logo/Website.png" style="height: 30px;"></a>&nbsp;&nbsp;&nbsp;
-          <a href="mailto:yvcomputerclasses@gmail.com"><img src="Phota/logo/Email.png" style="height: 30px;"></a>
-        </div>
-        <p><a href="https://yvcomputerclasses.netlify.app/"><button>Contact</button></a></p>
-      </div>
-      <div class="card">
-        <img src="Phota/logo/avatar.png" alt="Vrund" style="width:100%">
-        <h1>Vrund</h1>
-        <p class="title">Owner Of YV Computer Classes</p>
-        <p>Contect : 9428028446</p>
-        <p>Email Id :yvcomputerclasses@gmail.com</p></a>
-        <p>Instagram : YV_Computer_Classes</p>
-        <div style="margin: 24px 0;">
-          <a href="https://www.instagram.com/yv_computer_classes_?utm_source=qr"><img src="Phota/logo/Instagram.png" style="height: 30px;"></a>&nbsp;&nbsp;&nbsp;
-          <a href="https://yvcomputerclasses.netlify.app/"><img src="Phota/logo/Website.png" style="height: 30px;"></a>&nbsp;&nbsp;&nbsp;
-          <a href="mailto:yvcomputerclasses@gmail.com"><img src="Phota/logo/Email.png" style="height: 30px;"></a>
-        </div>
-        <p><a href="https://yvcomputerclasses.netlify.app/"><button>Contact</button></a></p>
-      </div>
+<div class="topnav">
+  <a href="home.html">Home</a>
+  <a href="Gallery.html">Gallary</a>
+  <a href="cd.html">Course Details</a>
+  <a href="cv.html">Certificate Verification</a>
+  <a href="Notice.html">Notice</a>
+  <a class="active" href="Contacts.html">Contacts</a>
+  <a class="or" href="or_login.html">Or_Login</a>
+  <a class="log" href="Login.html">Login</a>
+  <a class="re" href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">Registrasion</a>
+</div>
+<h2 style="text-align:center">Computer Classes Owner Profile Card</h2>
+
+<div class="card">
+  <img src="Phota/logo/avatar.png" alt="John" style="width:100%">
+  <h1>Yash</h1>
+  <p class="title">Owner</p>
+  <p>YV Computer Classes</p>
+  <div style="margin: 24px 0;">
+    <a href="mailto:yvcomputerclasses@gmail.com"><img src="Phota/logo/Email.png" height="30px"></i></a> 
+    <a href="https://www.instagram.com/yv_computer_classes_?igsh=Mnh2MzA5am5yMTBk"><img src="Phota/logo/Instagram.png" height="30px"></i></a>  
+    <a href="https://youtube.com/@yash-ev2hi?si=51CgXZxt6TsuUtvv"><img src="Phota/logo/youtube.png" height="30px"></i></a>
+  </div>
+  <p><a href="mailto:jangidy791@gmail.com"><button>Contact</button></a></p>
+</div>
+<div class="card">
+  <img src="Phota/logo/avatar.png" alt="John" style="width:100%">
+  <h1>Vrund</h1>
+  <p class="title">Owner</p>
+  <p>YV Computer Classes</p>
+  <div style="margin: 24px 0;">
+    <a href="mailto:yvcomputerclasses@gmail.com"><img src="Phota/logo/Email.png" height="30px"></i></a> 
+    <a href="https://www.instagram.com/yv_computer_classes_?igsh=Mnh2MzA5am5yMTBk"><img src="Phota/logo/Instagram.png" height="30px"></i></a>  
+    <a href="https://youtube.com/@yash-ev2hi?si=51CgXZxt6TsuUtvv"><img src="Phota/logo/youtube.png" height="30px"></i></a>
+  </div>
+  <p><a href="mailto:vrund710@gmail.com"><button>Contact</button></a></p>
+</div>
 </body>
 </html>
