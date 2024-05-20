@@ -1,43 +1,46 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Dipesh Gallery</title>
+  <title>Dipesh Gallary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-.navbar ul 
- {
-    list-style: none;
-    background: whitesmoke;
-    display: flex;
-    justify-content: center;
-    
- }
-
-.navbar ul li
-{
-    display: inline-block;
-    position: relative;
-    
-}
-.navbar ul li a 
-{
-    display: block;
-    text-decoration: none;
-    font-size: 30px;
-    color: #551738;
-    font-weight: 500;
-    padding: 10px 20px;
-}
-.navbar ul li a:hover 
-{
-    background: #551738;
-    border-radius: 50%;
-    color: white;
-}
-#cs
-{
-    text-align: center;
+  /*Tags*/
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
 
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.topnav a.re{
+  background-color: red;
+}
+.topnav a.po{
+  font-size: auto;
+  margin-left: 400px;
+}
+/*Gallyery*/
 * {
   box-sizing: border-box;
 }
@@ -81,139 +84,135 @@ div.desc {
 </style>
 </head>
 <body>
-<img src="Phota/logo/YV.png" width="150" height="150">  
-<span style=font-size:90px>YV Computer Classes</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="button" value="LogOut" onclick="window.close();" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;>
-<div class="navbar">
-    <ul>
-      <li><a href="dipeshh.html">Home</a></li>
-      <li><a href="dipeshp.html">Profile</a></li>
-      <li><a href="dipeshg.html">Gallary</a></li>
-      <li><a href="dipeshmc.html">My Course</a></li>
-      <li><a href="dipeshcd.html">All Courses</a></li>
-      <li><a href="dipeshd.html">Download</a></li>
-      <li><a href="Dipesh_N.html">Notice</a></li>
-    </ul>
-    </div>
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh prectical time3.jpg">
-        <img src="Phota/Prectical/Dipesh prectical time3.jpg" alt="logo" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
-  </div>
-  
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh 03-11-2023.jpg">
-        <img src="Phota/Prectical/Dipesh 03-11-2023.jpg" alt="html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
-  </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/dipesh 2023-10-30.jpg">
-        <img src="Phota/Prectical/dipesh 2023-10-30.jpg" alt="excel" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
-  </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Certificate/Group cer (1).jpg">
-        <img src="Phota/Certificate/Group cer (1).jpg" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
-  </div>
+<div class="topnav">
+  <a href="dipeshh.html">Home</a>
+  <a href="dipeshp.html">Profile</a>
+  <a class="active" href="dipeshg.html">Gallary</a>
+  <a href="dipeshmc.html">My Course</a>
+  <a href="dipeshcd.html">All Course</a>
+  <a href="dipeshd.html">Download</a>
+  <a href="Dipesh_N.html">Notice</a>
+  <a class="re" href="#" onclick="window.close()">LogOut</a>
+  <a class="po">Hello Dipesh Kalani</a>
+</div>
 
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Certificate/Dipesh Certi S (1).jpg">
-        <img src="Phota/Certificate/Dipesh Certi S (1).jpg  " alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh prectical time3.jpg">
+      <img src="Phota/Prectical/Dipesh prectical time3.jpg" alt="logo" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
+</div>
 
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Home Page.jpg">
-        <img src="Phota/Prectical/Dipesh Home Page.jpg" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh 03-11-2023.jpg">
+      <img src="Phota/Prectical/Dipesh 03-11-2023.jpg" alt="html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (1).png">
-        <img src="Phota/Prectical/Dipesh Prectical  (1).png" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/dipesh 2023-10-30.jpg">
+      <img src="Phota/Prectical/dipesh 2023-10-30.jpg" alt="excel" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (2).png">
-        <img src="Phota/Prectical/Dipesh Prectical  (2).png" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Certificate/Group cer (1).jpg">
+      <img src="Phota/Certificate/Group cer (1).jpg" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (3).png">
-        <img src="Phota/Prectical/Dipesh Prectical  (3).png" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Certificate/Dipesh Certi S (1).jpg">
+      <img src="Phota/Certificate/Dipesh Certi S (1).jpg  " alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (4).png">
-        <img src="Phota/Prectical/Dipesh Prectical  (4).png" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Home Page.jpg">
+      <img src="Phota/Prectical/Dipesh Home Page.jpg" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (5).png">
-        <img src="Phota/Prectical/Dipesh Prectical  (5).png" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (1).png">
+      <img src="Phota/Prectical/Dipesh Prectical  (1).png" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Thiyari/Thyery 4.jpg">
-        <img src="Phota/Thiyari/Thyery 4.jpg" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (2).png">
+      <img src="Phota/Prectical/Dipesh Prectical  (2).png" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  <div class="responsive">
-    <div class="gallery">
-      <a target="_blank" href="Phota/Thiyari/Thyery 12.jpg">
-        <img src="Phota/Thiyari/Thyery 12.jpg" alt="Html" width="600" height="400">
-      </a>
-      <div class="desc">Click Image to Open Full Image</div>
-    </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (3).png">
+      <img src="Phota/Prectical/Dipesh Prectical  (3).png" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
   </div>
-  
-  
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (4).png">
+      <img src="Phota/Prectical/Dipesh Prectical  (4).png" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
+  </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (5).png">
+      <img src="Phota/Prectical/Dipesh Prectical  (5).png" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
+  </div>
+</div>
+
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Thiyari/Thyery 4.jpg">
+      <img src="Phota/Thiyari/Thyery 4.jpg" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
+  </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Phota/Thiyari/Thyery 12.jpg">
+      <img src="Phota/Thiyari/Thyery 12.jpg" alt="Html" width="600" height="400">
+    </a>
+    <div class="desc">Click Image to Open Full Image</div>
+  </div>
+</div>
 </body>
 </html>
