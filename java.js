@@ -75,10 +75,10 @@ function check()
         alert("Student Login Successfully");
         window.open("Rudhrah.html");
     }
-    else if(use == "Payal" && pwd == "PP123")
+    else if(use == "Kundan" && pwd =="KR123")
     {
         alert("Student Login Successfully");
-        window.open("payalh.html");
+        window.open("kundanh.html");
     }
     else
     {
