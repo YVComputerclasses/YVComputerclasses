@@ -48,21 +48,94 @@ body {
   margin-top: 120px;
 }
 
-img {
-  max-width: 100%;
-  max-height:100%;
-  border-radius: 50%;
-}
-
 .text {
   font-size: 20px;
   padding-left: 20px;
 }
+/*popup*/
+.butto{
+  background-color: #34495e;
+  padding: 10px 15px;
+  color: #f2f2ff;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-radius: 5px;
+  box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+  margin-top: 20px;
+  text-decoration: none;
+  transition: 0.4%;
+}
+.butto:hover{
+  background-color: #f2f2ff;
+  color: #34495e;
+}
+.popup{
+    background: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    display: none;
+    justify-content:center ;
+    align-items: center;
+}
+.popup-contain{
+  height: 250px;
+  width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+
+}
+.close{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #fff;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.popupf{
+    background: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    display: none;
+    justify-content:center ;
+    align-items: center;
+}
+.popupf-contain{
+  height: 250px;
+  width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.closef{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #fff;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
 <div class="topnav">
-    <a href="dipeshh.html">Home</a>
+    <a href="dipeshh.html" onclick="feesd()">Home</a>
     <a class="active" href="dipeshp.html">Profile</a>
     <a href="dipeshg.html">Gallary</a>
     <a href="dipeshmc.html">My Course</a>
@@ -75,7 +148,7 @@ img {
 
 <div class="container">
     <div class="image">
-      <img src="Phota/dipesh/dipesh01.jpg" height="200px" width="200px">
+      <img src="Phota/dipesh/dipesh01.jpg" height="200px" width="200px" style="max-width: 100%;max-height:100%;border-radius: 50%;">
     </div>
     <div class="text">
         <h1>Dipesh Hardikbhai Kalani</h1>
@@ -87,11 +160,60 @@ img {
         <a href="dipeshmc.html"><input type="button" value="Go to My Course" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;></a>
             <input type="button" value="Edit Your Details" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;>
             <hr>
-            <a href="#"><input type="button" value="Fess Payment" style=color:white;background-color:blue;border-radius:20px;height:30px;width:150px;></a>
+             <a href="#" class="butto" id="button">Fess Payment</a>
             </td></tr>
             <br>
             <br><br>
     </div>
   </div>
+  <div class="popup">
+      <div class="popup-contain">
+        <center>
+          <h1>Your Fees Details</h1><hr>
+          Course Name : BCC <br>
+          Course Fee : 3000₹ <hr>
+          10/06/2024 : 1000₹<br><hr>
+          Panding Fees : 2000₹<hr>
+          <a href="#" class="butto" id="fees">Pay Fees</a>
+          <img src="Phota/logo/close.png" alt="close" class="close" style="margin:20px auto;display: block;width: 20px;padding: 8px;border: 1px solid gray;">
+        </center>
+      </div>
+
+      <div class="popupf">
+        <div class="popupf-contain">
+          <center>
+            <h1>Scan & Pay</h1><hr>
+            <img src="Phota/Fees/1800₹.jpg" alt="1800₹" style="height: 150px;">
+            <img src="Phota/logo/close.png" alt="close" class="closef" style="margin:20px auto;display: block;width: 20px;padding: 8px;border: 1px solid gray;">
+          </center>
+              
+        </div>
+
+
+
+
+  </div>
+
+<script>
+  document.getElementById("button").addEventListener("click",function(){
+    document.querySelector(".popup").style.display = "flex";
+  })
+
+  document.querySelector(".close").addEventListener("click",function(){
+    document.querySelector(".popup").style.display = "none";
+  })
+
+    document.getElementById("fees").addEventListener("click",function(){
+    document.querySelector(".popupf").style.display = "flex";
+  })
+
+  document.querySelector(".closef").addEventListener("click",function(){
+    document.querySelector(".popupf").style.display = "none";
+  
+  })
+
+</script>
+<script src="java.js"></script>
+
 </body>
 </html>

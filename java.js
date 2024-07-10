@@ -108,3 +108,8 @@ function wait()
 {
     alert("આ પેજ પર કામ ચાલુ છે થોડા સમય પછી પ્રયાસ કરો. || This page is a work in progress Try after some time.");
 } 
+
+function feesd(){
+    alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
+    window.open("dipeshh.html");
+}
