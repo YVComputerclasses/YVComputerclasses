@@ -51,6 +51,7 @@ table.center {
 </style>
 </head>
 <body>
+
   <button class="tablink" onclick="openPage('S_data', this, 'red')" id="defaultOpen">S_data</button>
   <button class="tablink" onclick="openPage('S_Fees', this, 'green')">S_Fees</button>
   <button class="tablink" onclick="openPage('Certi_dd', this, 'blue')">Certificate_Data</button>
@@ -58,7 +59,7 @@ table.center {
   <button class="tablink" onclick="openPage('Exam', this, 'yellowgreen')">Exam</button>
   <button class="tablink" onclick="openPage('Gallary', this, 'green')">Gallary</button>
   <button class="tablink" onclick="openPage('Web-Up', this, 'yellowgreen')">Web-Up</button>
-  <button class="tablink" onclick="openPage('Log', this, 'yellowgreen')">LogOut</button>
+  <button class="tablink" onclick="logout()">LogOut</button>
   
   <div id="S_data" class="tabcontent">
     <center>
@@ -413,6 +414,7 @@ table.center {
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
   </script>
-     
+  <script src="java.js"></script>
+     5
 </body>
 </html>

@@ -22,8 +22,8 @@ function check()
     if(use == "Dipesh" && pwd == "DK123")
     {
         alert("Student Login Successfully");
-        window.open("dipeshh.html");
-        
+        // window.open("dipeshh.html");
+        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");  
     }
     else if(use == "Riya" && pwd == "Raa123")
     {
@@ -35,50 +35,15 @@ function check()
         alert("Student Login Successfully");
         window.open("parthph.html");
     }
-    else if(use == "Vraj" && pwd == "VPA123")
-    {
-        alert("Student Login Successfully");
-        window.open("vrajh.html");
-    }
-    else if(use == "Man" && pwd =="MP123")
-    {
-        alert("Student Login Successfully");
-        window.open("manh.html");
-    }
-    else if(use == "Dhruv" && pwd =="DM123")
-    {
-        alert("Student Login Successfully");
-        window.open("Dhruvh.html");
-    }
-    else if(use == "Shubh" && pwd =="SPA123")
-    {
-        alert("Student Login Successfully");
-        window.open("Shubhh.html");
-    }
-    else if(use == "Sagar" && pwd =="SB123")
-    {
-        alert("Student Login Successfully");
-        window.open("Sagarh.html");
-    }
-    else if(use == "Aksh" && pwd =="APA123")
-    {
-        alert("Student Login Successfully");
-        window.open("Akshh.html");
-    }
-    else if(use == "Raj" && pwd =="RB123")
-    {
-        alert("Student Login Successfully");
-        window.open("Rajh.html");
-    }
-    else if(use == "Rudhra" && pwd =="RPA123")
-    {
-        alert("Student Login Successfully");
-        window.open("Rudhrah.html");
-    }
     else if(use == "Kundan" && pwd =="KR123")
     {
         alert("Student Login Successfully");
         window.open("kundanh.html");
+    }
+    else if(use == "Vikash" && pwd == "VR123")
+    {
+        alert("Student Login Successfully");
+        window.open("vikashh.html");
     }
     else
     {
@@ -106,10 +71,11 @@ function check1()
 }
 function wait()
 {
-    alert("આ પેજ પર કામ ચાલુ છે થોડા સમય પછી પ્રયાસ કરો. || This page is a work in progress Try after some time.");
+    alert("પરીક્ષા ની તારીખ ના દિવસ થી તમે સર્ટિફિકેટ & માર્કશીટ ડાઉનલોડ કરી સકો છો");
 } 
-
-function feesd(){
-    alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
-    window.open("dipeshh.html");
-}
+function logout(){
+        let text = "Are You Sourse";
+        if (confirm(text) == true) {
+          window.close();
+        } 
+      }
