@@ -22,8 +22,8 @@ function check()
     if(use == "Dipesh" && pwd == "DK123")
     {
         alert("Student Login Successfully");
-        // window.open("dipeshh.html");
-        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");  
+        window.open("dipeshh.html");
+        // alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");  
     }
     else if(use == "Riya" && pwd == "Raa123")
     {
