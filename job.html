@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Job Ditails</title>
+  <title>Course Ditails</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   /*Tags*/
@@ -42,47 +42,73 @@ body {
 .topnav a.re{
   background-color: red;
 }
+/*Course Ditails*/
+* {
+  box-sizing: border-box;
+}
 
-/* Adverticment */
-
-/* Adverticemnet */
-.card {
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
-  max-width: 300px;
-  text-align: center;
-  font-family: arial; 
+.columns {
+  float: left;
+  width: 33.3%;
+  padding: 8px;
 }
 
 .price {
-  color: grey;
-  font-size: 22px;
+  list-style-type: none;
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
-.card button {
-  border: none;
-  outline: 0;
-  padding: 12px;
+.price:hover {
+  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+.price .header {
+  background-color: #111;
   color: white;
-  background-color: #79892d;
+  font-size: 25px;
+}
+
+.price li {
+  border-bottom: 1px solid #eee;
+  padding: 20px;
   text-align: center;
-  cursor: pointer;
-  width: 100%;
+}
+
+.price .grey {
+  background-color: #eee;
+  font-size: 20px;
+}
+
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
   font-size: 18px;
 }
 
-.card button:hover {
-  opacity: 0.7;
+@media only screen and (max-width: 600px) {
+  .columns {
+    width: 100%;
+  }
 }
-.button{
-    background-color: aqua;
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 18px;
+/*footer*/
+.footer {
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: white;
 }
-
+p.solid{
+  border-style: solid;
+}
 </style>
 </head>
 <body>
@@ -99,7 +125,19 @@ body {
   <a class="log" href="Login.html">Login</a>
   <a class="re" href="https://docs.google.com/forms/d/e/1FAIpQLSd1HEjpTN0OxpmyAshpuUac8JWSCa-qsrMvNW0g_aiALToHOg/viewform">Registrasion</a>
 </div>
+<div style="padding-left:16px">
+</div>
+  <div class="columns">
+    <ul class="price">
+      <li class="header">Office Assistant</li>
+      <li class="grey">P & C INSURANCE SERVICES</li>
+      <li class="grey">Anand,Gujarat</li>
+      <li>Skills:- Office Experince(Word,Excel,powerpoint )</li>
+      <li>₹12,000 - ₹15,000 a month</li>
+      <li class="grey"><a href="#" class="button">Apply Now</a></li>
+      <!-- https://in.indeed.com/jobs?q=computer&l=Anand%2C+Gujarat&vjk=e14975bd0c7e63a1 -->
+    </ul>
+  </div>
 
-<h2 style="text-align:center">Work in Under Prosess....</h2>
 </body>
 </html>
