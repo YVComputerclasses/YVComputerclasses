@@ -22,28 +22,28 @@ function check()
     if(use == "Dipesh" && pwd == "DK123")
     {
         alert("Student Login Successfully");
-        window.open("dipeshp.html");
-        // alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");  
+        // window.open("dipeshp.html");
+        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");  
     }
-    else if(use == "Riya" && pwd == "Raa123")
-    {
-        alert("Student Login Successfully");
-        window.open("riyapp.html");
-    }
+
     else if(use == "Parth" && pwd == "PP123")
     {
         alert("Student Login Successfully");
-        window.open("parthpp.html");
+        // window.open("parthpp.html");
+        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
+
     else if(use == "Kundan" && pwd =="KR123")
     {
         alert("Student Login Successfully");
-        window.open("kundanp.html");
+        // window.open("kundanp.html");
+        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
     else if(use == "Vikash" && pwd == "VR123")
     {
         alert("Student Login Successfully");
-        window.open("vikashp.html");
+        // window.open("vikashp.html");
+        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
     else
     {
