@@ -44,7 +44,7 @@ body {
 }
 .topnav a.po{
   font-size: auto;
-  margin-left: 400px;
+  margin-left: 500px;
 }
 /*Big image*/
 .container {
@@ -119,6 +119,49 @@ body {
 p.solid{
   border-style: solid;
 }
+/* dropdown */
+
+.dropdown { 
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+} 
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -128,8 +171,17 @@ p.solid{
     <a href="dipeshg.html">Gallary</a>
     <a href="dipeshmc.html">My Course</a>
     <a href="dipeshcd.html">All Course</a>
-    <a href="dipeshd.html">Download</a>
-    <a href="Dipesh_N.html">Notice</a>
+    <div class="dropdown">
+      <button class="dropbtn">
+        About
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="dipeshd.html">Download</a>
+      <a href="Dipesh_N.html">Notice</a>
+      <a href="Assig.html">Assignment</a>
+      </div>
+    </div>
     <a class="re"  onclick="window.close()">LogOut</a>
     <a class="po">Hello Dipesh Kalani</a>
 </div>
