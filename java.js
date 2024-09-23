@@ -29,8 +29,8 @@ function check()
     else if(use == "Parth" && pwd == "PP123")
     {
         alert("Student Login Successfully");
-        // window.open("parthpp.html");
-        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
+         window.open("parthpp.html");
+        // alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
 
     else if(use == "Kundan" && pwd =="KR123")
