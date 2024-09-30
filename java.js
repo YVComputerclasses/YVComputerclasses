@@ -42,8 +42,8 @@ function check()
     else if(use == "Vikash" && pwd == "VR123")
     {
         alert("Student Login Successfully");
-        // window.open("vikashp.html");
-        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
+        window.open("vikashp.html");
+        // alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
     else
     {
