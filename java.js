@@ -36,8 +36,8 @@ function check()
     else if(use == "Kundan" && pwd =="KR123")
     {
         alert("Student Login Successfully");
-        // window.open("kundanp.html");
-        alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
+        window.open("kundanp.html");
+        // alert("પહેલા બાકી રહેલી ફી ભરો પછીજ તમે તમરી આઈડી વાપરી સકશો.");
     }
     else if(use == "Vikash" && pwd == "VR123")
     {
