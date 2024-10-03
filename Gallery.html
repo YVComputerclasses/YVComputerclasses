@@ -127,57 +127,6 @@ img {vertical-align: middle;}
   to {opacity: 1}
 }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
-/*Gallary*/
-* {
-  box-sizing: border-box;
-}
-.header {
-  text-align: center;
-  padding: 32px;
-}
-
-.row {
-  display: -ms-flexbox; /* IE 10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE 10 */
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-
-/* Create two equal columns that sits next to each other */
-.column {
-  -ms-flex: 50%; /* IE 10 */
-  flex: 50%;
-  padding: 0 4px;
-}
-
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-}
-
-/* Style the buttons */
-.btn {
-  border: none;
-  outline: none;
-  padding: 10px 16px;
-  background-color: #f1f1f1;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.btn:hover {
-  background-color: #ddd;
-}
-
-.btn.active {
-  background-color: #666;
-  color: white;
-}
 /* dropdown */
 .dropdown { 
   float: left;
@@ -221,6 +170,26 @@ img {vertical-align: middle;}
   display: block;
 }
 
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -254,13 +223,13 @@ img {vertical-align: middle;}
     <div class="mySlides fade">
       <div class="numbertext">1 / 2</div>
       <img src="Phota/Thiyari/Thyery 4.jpg" style="width:100%">
-      <div class="text">New Computer Class</div>
+      <!-- <div class="text">New Computer Class</div> -->
     </div>
 
     <div class="mySlides fade">
       <div class="numbertext">2 / 2</div>
       <img src="Phota/Thiyari/Thyery 6.jpg" style="width:100%">
-      <div class="text">New Computer Class Students</div>
+      <!-- <div class="text">New Computer Class Students</div> -->
     </div>
     
     <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -273,56 +242,76 @@ img {vertical-align: middle;}
       <span class="dot" onclick="currentSlide(1)"></span> 
       <span class="dot" onclick="currentSlide(2)"></span> 
     </div>
+    <!-- Gallary -->
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/Riya Prectical Time.jpg">
+        <img src="Phota/Prectical/Riya Prectical Time.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+    
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/Dipesh prectical time3.jpg">
+        <img src="Phota/Prectical/Dipesh prectical time3.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+    
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/parth prectical (8).png">
+        <img src="Phota/Prectical/parth prectical (8).png" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+    
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/riya prectical (5).png">
+        <img src="Phota/Prectical/riya prectical (5).png" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
 
-   <!--Gallary--> 
-    <!-- Header -->
-<div class="header" id="myHeader">
-  <p>Click on the buttons to change the grid view.</p>
-  <button class="btn" onclick="one()">1</button>
-  <button class="btn active" onclick="two()">2</button>
-  <button class="btn" onclick="four()">4</button>
-</div>
+    <div class="gallery">
+      <a target="_blank" href="Phota/Photo/Demo.jpg">
+        <img src="Phota/Photo/Demo.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
 
-<!-- Photo Grid -->
-<div class="row"> 
-  <div class="column">
-    <img src="Phota/Prectical/Aksh 2023-10-31.jpg" style="width:100%">
-    <img src="Phota/Prectical/dhruv  2023-11-03.jpg" style="width:100%">
-    <img src="Phota/Prectical/dipesh work in excel bill.jpg" style="width:100%">
-    <img src="Phota/Prectical/Shubh 30-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Man 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Sagar 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Rudra 03-11-2023.jpg" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="Phota/Prectical/dipesh work in excel bill.jpg" style="width:100%">
-    <img src="Phota/Prectical/Aksh 2023-10-31.jpg" style="width:100%">
-    <img src="Phota/Prectical/Man 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Shubh 30-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Sagar 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/dhruv  2023-11-03.jpg" style="width:100%">
-    <img src="Phota/Prectical/Rudra 03-11-2023.jpg" style="width:100%">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Thiyari/Thyery 4.jpg">
+        <img src="Phota/Thiyari/Thyery 4.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
 
-  </div>  
-  <div class="column">
-    <img src="Phota/Prectical/Aksh 2023-10-31.jpg" style="width:100%">
-    <img src="Phota/Prectical/dhruv  2023-11-03.jpg" style="width:100%">
-    <img src="Phota/Prectical/dipesh work in excel bill.jpg" style="width:100%">
-    <img src="Phota/Prectical/Shubh 30-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Man 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Sagar 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Rudra 03-11-2023.jpg" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="Phota/Prectical/dipesh work in excel bill.jpg" style="width:100%">
-    <img src="Phota/Prectical/Aksh 2023-10-31.jpg" style="width:100%">
-    <img src="Phota/Prectical/Shubh 30-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Sagar 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/Man 29-10-2023.jpg" style="width:100%">
-    <img src="Phota/Prectical/dhruv  2023-11-03.jpg" style="width:100%">
-    <img src="Phota/Prectical/Rudra 03-11-2023.jpg" style="width:100%">
-  </div>
-</div>
+    <div class="gallery">
+      <a target="_blank" href="Phota/Thiyari/Thyery 13.jpg">
+        <img src="Phota/Thiyari/Thyery 13.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+
+    <div class="gallery">
+      <a target="_blank" href="Phota/Thiyari/vraj Thiyeriy Time.jpg">
+        <img src="Phota/Thiyari/vraj Thiyeriy Time.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/Parth.jpg">
+        <img src="Phota/Prectical/Parth.jpg" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
+
+    <div class="gallery">
+      <a target="_blank" href="Phota/Prectical/riya prectical (1).png">
+        <img src="Phota/Prectical/riya prectical (1).png" alt="YV" width="600" height="400">
+      </a>
+      <!-- <div class="desc">Add a description of the image here</div> -->
+    </div>
 
     <script>
     let slideIndex = 1;
