@@ -90,12 +90,32 @@ div {
     <label for="pin">pincode</label>
     <input type="text" id="pin" name="pincode" placeholder="Your Pincode.." required>
 
+    <label for="Course">Select Course</label>
+    <select name="Course" id="Course" required>
+      <option value="Select">Select</option>
+      <option value="Basic Computer Course" >Basic Computer Course</option>
+      <option value="HTML">HTML</option>
+      <option value="Tally Erp9 Course">Tally Erp9 Course</option>
+      <option value="Ms Office Course">Ms Office Course</option>
+      <option value="Course on Computer Concepts">Course on Computer Concepts</option>
+      <option value="Create Fill With GST%">Create Fill With GST%</option>
+      <option value="Plemplet">Plemplet</option>
+      <option value="Diploma in Computer Applications">Diploma in Computer Applications</option>
+      <option value="Web Devlopment Course">Web Devlopment Course</option>
+      <option value="Advance Diploma in Computer Applications">Advance Diploma in Computer Applications</option>
+      <option value="Advance Excel Course">Advance Excel Course</option>
+      <option value="Tally Prime Course">Tally Prime Course</option>
+      <option value="Cascading Style Sheets (CSS)">Cascading Style Sheets (CSS)</option>
+      <option value="Cascading Style Sheets 3 (CSS3)">Cascading Style Sheets 3 (CSS3)</option>
+      <option value="Java Script Course">Java Script Course</option>
+    </select>
+
     <label for="usn">Set Username</label>
     <input type="text" id="usn" name="username" placeholder="Your username.." required>
 
     <label for="pass">Set Password</label>
     <input type="password" id="pass" name="password" placeholder="Your password.." required>
-
+    
     <input type="submit" value="Submit" name="submit">
   </form>
 </div>
@@ -107,9 +127,10 @@ div {
   form.addEventListener('submit', e => {
     e.preventDefault()
     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => alert("Thanks for Registration! You will get your login soon."))
+      .then(response => alert("Thanks for Registration! You will get your login soon.|| You will get a reply from us shortly via e-mail."))
       .catch(error => console.error('Error!', error.message))
   })
+
 </script>
 
 </body>
