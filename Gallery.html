@@ -212,9 +212,35 @@ div.desc {
   text-align: center;
 }
 
+/* Tab link */
+.tablink {
+
+background-color: #555;
+color: white;
+float: left;
+border: none;
+outline: none;
+cursor: pointer;
+padding: 14px 16px;
+font-size: 17px;
+
+}
+
+.tablink:hover {
+background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+display: none;
+padding: 100px 20px;
+height: 100%;
+}
+
 </style>
 </head>
 <body>
+
 <div class="topnav">
   <a href="home.html">Home</a>
   <a class="active" href="Gallery.html">Gallary</a>
@@ -238,47 +264,38 @@ div.desc {
   <a class="log" href="Login.html">Login</a>
   <a class="re" href="registration.html">Registrasion</a>
 </div>
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh prectical time3.jpg">
-      <img src="Phota/Prectical/Dipesh prectical time3.jpg" alt="logo" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
+
+<br>
+
+<button class="tablink" onclick="openPage('s_pic', this, 'red')" id="defaultOpen">Student_Picture</button>
+<button class="tablink" onclick="openPage('s_work', this, 'black')">Student_Work</button>
+  <button class="tablink" onclick="openPage('classes', this, 'green')">Class</button>
+  <button class="tablink" onclick="openPage('events', this, 'blue')">Events</button>
+
+<div id="s_pic" class="tabcontent">
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Riya Prectical Time.jpg">
+        <img src="Phota/Studnet_Prectical/Riya Prectical Time.jpg" alt="html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
   </div>
-</div>
 
-
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh 03-11-2023.jpg">
-      <img src="Phota/Prectical/Dipesh 03-11-2023.jpg" alt="html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/IMG_20240809_213433.jpg">
+        <img src="Phota/Studnet_Prectical/IMG_20240809_213433.jpg" alt="html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
   </div>
-</div>
 
 <div class="responsive">
   <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/dipesh 2023-10-30.jpg">
-      <img src="Phota/Prectical/dipesh 2023-10-30.jpg" alt="excel" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
-  </div>
-</div>
-
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Certificate/Group cer (1).jpg">
-      <img src="Phota/Certificate/Group cer (1).jpg" alt="Html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
-  </div>
-</div>
-
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Certificate/Dipesh Certi S (1).jpg">
-      <img src="Phota/Certificate/Dipesh Certi S (1).jpg  " alt="Html" width="600" height="400">
+    <a target="_blank" href="Phota/Studnet_Prectical/Dipesh prectical time3.jpg">
+      <img src="Phota/Studnet_Prectical/Dipesh prectical time3.jpg" alt="logo" width="600" height="400">
     </a>
     <div class="desc">Click Image to Open Full Image</div>
   </div>
@@ -286,8 +303,8 @@ div.desc {
 
 <div class="responsive">
   <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Home Page.jpg">
-      <img src="Phota/Prectical/Dipesh Home Page.jpg" alt="Html" width="600" height="400">
+    <a target="_blank" href="Phota/Studnet_Prectical/IMG_20240809_213524.jpg">
+      <img src="Phota/Studnet_Prectical/IMG_20240809_213524.jpg" alt="logo" width="600" height="400">
     </a>
     <div class="desc">Click Image to Open Full Image</div>
   </div>
@@ -295,8 +312,8 @@ div.desc {
 
 <div class="responsive">
   <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (1).png">
-      <img src="Phota/Prectical/Dipesh Prectical  (1).png" alt="Html" width="600" height="400">
+    <a target="_blank" href="Phota/Student_Certificate/Group cer (1).jpg">
+      <img src="Phota/Student_Certificate/Group cer (1).jpg" alt="Html" width="600" height="400">
     </a>
     <div class="desc">Click Image to Open Full Image</div>
   </div>
@@ -304,8 +321,8 @@ div.desc {
 
 <div class="responsive">
   <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (2).png">
-      <img src="Phota/Prectical/Dipesh Prectical  (2).png" alt="Html" width="600" height="400">
+    <a target="_blank" href="Phota/Studnet_Prectical/karan.jpg">
+      <img src="Phota/Studnet_Prectical/karan.jpg" alt="logo" width="600" height="400">
     </a>
     <div class="desc">Click Image to Open Full Image</div>
   </div>
@@ -313,48 +330,145 @@ div.desc {
 
 <div class="responsive">
   <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (3).png">
-      <img src="Phota/Prectical/Dipesh Prectical  (3).png" alt="Html" width="600" height="400">
+    <a target="_blank" href="Phota/Studnet_Prectical/parth.jpg">
+      <img src="Phota/Studnet_Prectical/parth.jpg" alt="logo" width="600" height="400">
     </a>
     <div class="desc">Click Image to Open Full Image</div>
   </div>
 </div>
 
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (4).png">
-      <img src="Phota/Prectical/Dipesh Prectical  (4).png" alt="Html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
+</div> 
+
+<div id="s_work" class="tabcontent">
+
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh 03-11-2023.jpg">
+        <img src="Phota/Studnet_Prectical/Dipesh 03-11-2023.jpg" alt="html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
   </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/dipesh 2023-10-30.jpg">
+        <img src="Phota/Studnet_Prectical/dipesh 2023-10-30.jpg" alt="excel" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Home Page.jpg">
+        <img src="Phota/Studnet_Prectical/Dipesh Home Page.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Prectical  (1).png">
+        <img src="Phota/Studnet_Prectical/Dipesh Prectical  (1).png" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Prectical  (2).png">
+        <img src="Phota/Studnet_Prectical/Dipesh Prectical  (2).png" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Prectical  (3).png">
+        <img src="Phota/Studnet_Prectical/Dipesh Prectical  (3).png" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Prectical  (4).png">
+        <img src="Phota/Studnet_Prectical/Dipesh Prectical  (4).png" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+  
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/Dipesh Prectical  (5).png">
+        <img src="Phota/Studnet_Prectical/Dipesh Prectical  (5).png" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
 </div>
 
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Prectical/Dipesh Prectical  (5).png">
-      <img src="Phota/Prectical/Dipesh Prectical  (5).png" alt="Html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
+<div id="classes" class="tabcontent">
+
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Demo_lechar/Demo.jpg">
+        <img src="Phota/Studnet_Demo_lechar/Demo.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
   </div>
+
+<div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Demo_lechar/IMG_20240815_215021.jpg">
+        <img src="Phota/Studnet_Demo_lechar/IMG_20240815_215021.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Demo_lechar/IMG_20240816_213849.jpg">
+        <img src="Phota/Studnet_Demo_lechar/IMG_20240816_213849.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Demo_lechar/IMG_20240814_214434.jpg">
+        <img src="Phota/Studnet_Demo_lechar/IMG_20240814_214434.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="gallery">
+      <a target="_blank" href="Phota/Studnet_Prectical/IMG_20240809_213524.jpg">
+        <img src="Phota/Studnet_Prectical/IMG_20240809_213524.jpg" alt="Html" width="600" height="400">
+      </a>
+      <div class="desc">Click Image to Open Full Image</div>
+    </div>
+  </div>
+
 </div>
 
+<div id="events" class="tabcontent">
 
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Thiyari/Thyery 4.jpg">
-      <img src="Phota/Thiyari/Thyery 4.jpg" alt="Html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
-  </div>
-</div>
 
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Phota/Thiyari/Thyery 12.jpg">
-      <img src="Phota/Thiyari/Thyery 12.jpg" alt="Html" width="600" height="400">
-    </a>
-    <div class="desc">Click Image to Open Full Image</div>
-  </div>
 </div>
 
     <script>
@@ -424,6 +538,26 @@ for (var i = 0; i < btns.length; i++) {
     this.className += " active";
   });
 }
+
+// tab link
+
+function openPage(pageName,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(pageName).style.display = "block";
+    elmnt.style.backgroundColor = color;
+  }
+  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+
     </script>
     
 </div>
