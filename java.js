@@ -73,9 +73,14 @@ function wait()
 {
     alert("પરીક્ષા ની તારીખ ના દિવસ થી તમે સર્ટિફિકેટ & માર્કશીટ ડાઉનલોડ કરી સકો છો");
 } 
-function logout(){
+function logout()
+{
         let text = "Are You Sourse";
         if (confirm(text) == true) {
           window.close();
         } 
-      }
+}
+function let()
+{
+    alert("The competition is over, try next time");
+}
