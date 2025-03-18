@@ -13,10 +13,12 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #333;
+  display: flex; /* Use Flexbox */
+  align-items: center;
 }
 
 .topnav a {
-  float: left;
+  float: none;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -42,9 +44,11 @@ body {
 .topnav a.re{
   background-color: red;
 }
-.topnav a.po{
+/* Right Side Alignment for Hello Dipesh Kalani */
+.topnav .po {
+  margin-left: auto; /* Push to the right */
   font-size: auto;
-  margin-left: 500px;
+  padding-right: 16px; /* Add some spacing from the edge */
 }
 /*Big image*/
 .container {

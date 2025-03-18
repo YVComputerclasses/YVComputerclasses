@@ -13,10 +13,13 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #333;
+  display: flex; /* Use Flexbox */
+  align-items: center;
+  /* justify-content: space-between; Space between left and right items */
 }
 
 .topnav a {
-  float: left;
+  float: none; /* Remove float */
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -36,9 +39,11 @@ body {
 .topnav a.re{
   background-color: red;
 }
-.topnav a.po{
+/* Right Side Alignment for Hello Dipesh Kalani */
+.topnav .po {
+  margin-left: auto; /* Push to the right */
   font-size: auto;
-  margin-left: 300px;
+   padding-right: 16px; /*Add some spacing from the edge */
 }
 /*Profile*/
 .container {
@@ -176,6 +181,19 @@ body {
   display: block;
 }
 
+.image img {
+  display: block; /* Ensures proper alignment inside the container */
+  width: 200px; /* Fixed width */
+  height: 200px; /* Fixed height */
+  max-width: 100%; /* Responsive scaling */
+  max-height: 100%; /* Prevents overflow */
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image fits well in the circle */
+  border: 2px solid #333; /* Adds a border for better visibility */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow effect */
+  margin-top: -150px;
+}
+
 </style>
 </head>
 <body>
@@ -203,10 +221,10 @@ body {
 
 <div class="container">
     <div class="image">
-      <img src="Phota/dipesh/dipesh01.jpg" height="200px" width="200px" style="max-width: 100%;max-height:100%;border-radius: 50%;">
+      <img src="Phota/dipesh/dipesh01.jpg" height="200px" width="200px">
     </div>
     <div class="text">
-        <h1>Dipesh</h1>
+        <h1>Dipesh kalani</h1>
         <h2>Student Id:- 2312</h2>
         <h2>Registrain No:- 442831</h2>
         <h2>Kalani Hardikbhai Bhikhabhai</h2>
