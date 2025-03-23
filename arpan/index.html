@@ -192,6 +192,7 @@
     </div>
 
     <!-- Sidebar -->
+    <div class="sidebar hidden" id="sidebar">
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
@@ -208,6 +209,7 @@
             </div>
         </div>
         <a href="../or_login.html">Logout</a>
+    </div>
     </div>
 
     <!-- Content -->
@@ -248,6 +250,16 @@
             const dropdown = document.getElementById("dropdown-content");
             dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
         }
+        document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+
+    // Apply the expanded class to the content if the sidebar is hidden
+    if (sidebar.classList.contains('hidden')) {
+        content.classList.add('expanded');
+    }
+});
+
     </script>
 </body>
 </html>
