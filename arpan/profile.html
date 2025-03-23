@@ -6,62 +6,19 @@
     <title>Profile Page</title>
     <style>
         /* General Reset */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f5;
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    height: 100vh;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+        }
 
-/* Profile Container */
-.profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-/* Profile Card */
-.profile-card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 30px 20px;
-    max-width: 350px;
-    line-height: 1.6;
-}
-
-/* Profile Picture */
-.profile-pic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #4CAF50;
-    margin-bottom: 20px;
-}
-
-/* Profile Name */
-.profile-name {
-    font-size: 1.8em;
-    margin: 0;
-    color: #333;
-}
-
-/* Profile Information */
-.profile-info {
-    font-size: 1em;
-    color: #555;
-    margin: 10px 0;
-}
-/* left side bar */
-.sidebar {
+        /* Sidebar */
+        .sidebar {
             height: 100vh;
             width: 250px;
             position: fixed;
+            left: 0;
+            top: 0;
             background-color: #333;
             color: white;
             padding-top: 20px;
@@ -123,21 +80,57 @@ body {
             padding: 8px 15px;
         }
 
+        /* Profile Container */
+        .profile-container {
+            margin-left: 250px; /* Offset for sidebar */
+            padding: 20px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 30px 20px;
+            max-width: 350px;
+            margin: auto; /* Center card in content area */
+        }
+
+        .profile-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .profile-card h1 {
+            font-size: 1.8em;
+            margin: 0;
+            color: #333;
+        }
+
+        .profile-card p {
+            font-size: 1em;
+            color: #555;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="profile">
-            <img src="" alt="Profile Picture">
+            <img src="pic/photo.jpg" alt="Profile Picture">
             <h3>Arpan Parmar</h3>
         </div>
         <a href="#">Home</a>
         <a href="profile.html">Profile</a>
         <div class="dropdown">
-            <button class="dropdown-btn" onclick="toggleDropdown()">Settings ▼</button>
+            <button class="dropdown-btn" onclick="toggleDropdown()">Services ▼</button>
             <div class="dropdown-content" id="dropdown-content">
-                <a href="#">Account</a>
-                <a href="#">Privacy</a>
+                <a href="#">Electricity Bill</a>
+                <a href="#">Ration Card</a>
                 <a href="#">Notifications</a>
             </div>
         </div>
@@ -145,12 +138,20 @@ body {
     </div>
     <div class="profile-container">
         <div class="profile-card">
-            <img src="" alt="Profile Picture" class="profile-pic">
-            <h1 class="profile-name">John Doe</h1>
+            <img src="pic/photo.jpg" alt="Profile Picture" class="profile-pic">
+            <h1 class="profile-name">Arpan Parmar</h1>
             <p class="profile-info"><strong>Address:</strong> Aazad Chowk, Narsanda</p>
             <p class="profile-info"><strong>Phone:</strong> +91 93131 24964</p>
-            <p class="profile-info"><strong>Email:</strong> xyz@example.com</p>
+            <p class="profile-info"><strong>Email:</strong> arpanparmar23031@gmail.com</p>
         </div>
     </div>
+
+    <script>
+        // Dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-content");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>
