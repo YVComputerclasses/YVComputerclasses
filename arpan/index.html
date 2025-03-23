@@ -3,20 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard with Sidebar</title>
+    <title>Vertical Navigation Bar with Animated Menu Icon</title>
     <style>
+        /* General Reset */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
         }
 
+        /* Sidebar Styles */
         .sidebar {
             height: 100vh;
             width: 250px;
             position: fixed;
+            left: 0;
+            top: 0;
             background-color: #333;
             color: white;
             padding-top: 20px;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0); /* Fully visible by default */
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%); /* Hidden state */
         }
 
         .sidebar .profile {
@@ -46,74 +57,90 @@
             background-color: #575757;
         }
 
-        .dropdown {
-            margin: 10px 0;
-        }
-
-        .dropdown-btn {
-            background-color: #333;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            text-align: left;
-            width: 100%;
+        /* Animated Menu Icon */
+        .menu-icon {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             cursor: pointer;
-            outline: none;
+            z-index: 1000;
         }
 
-        .dropdown-btn:hover {
-            background-color: #575757;
+        .bar {
+            height: 3px;
+            width: 100%;
+            background-color: #333;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            background-color: aqua;
         }
 
-        .dropdown-content {
-            display: none;
-            background-color: #444;
-            padding-left: 20px;
+        .menu-icon.open .bar1 {
+            transform: rotate(45deg) translate(5px, 5px);
         }
 
-        .dropdown-content a {
-            padding: 8px 15px;
+        .menu-icon.open .bar2 {
+            opacity: 0;
         }
 
+        .menu-icon.open .bar3 {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Content Styles */
         .content {
             margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
         }
 
-        .welcome-message {
-            font-size: 1.5em;
-            color: #333;
+        .content.expanded {
+            margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
     </style>
-    <script>
-        function toggleDropdown() {
-            const content = document.getElementById('dropdown-content');
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
-        }
-    </script>
 </head>
 <body>
-    <div class="sidebar">
+    <!-- Menu Icon -->
+    <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
+        <div class="bar bar1"></div>
+        <div class="bar bar2"></div>
+        <div class="bar bar3"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
             <h3>Arpan Parmar</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
-        <div class="dropdown">
-            <button class="dropdown-btn" onclick="toggleDropdown()">Services ▼</button>
-            <div class="dropdown-content" id="dropdown-content">
-                <a href="#">Electricity Bill</a>
-                <a href="#">Ration Card</a>
-                <a href="#">Voter Id Card</a>
-                <a href="#">Pan Card</a>
-            </div>
-        </div>
+        <a href="#">Services</a>
         <a href="../or_login.html">Logout</a>
     </div>
-    <div class="content">
+
+    <!-- Content -->
+    <div class="content" id="content">
         <h1>Dashboard</h1>
         <p class="welcome-message">Welcome back, Arpan Parmar!</p>
     </div>
+
+    <script>
+        // Function to toggle sidebar visibility and animate menu icon
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            sidebar.classList.toggle('hidden');
+            content.classList.toggle('expanded');
+            menuIcon.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
