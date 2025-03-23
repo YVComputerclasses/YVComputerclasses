@@ -9,9 +9,14 @@ function or()
         alert("Admin Login Successfully");
         window.open("adminh.html");
     }
+    else if(us == "arpan" && pw == "arpan@123")
+        {
+            alert("Operator Login Successfully");
+            window.open("arpan/");
+        }
     else
     {
-        alert("Admin Pless Enter Valid Id Our Password !");
+        alert("Admin/Operator Pless Enter Valid Id Our Password !");
     }
 }
 function check()
