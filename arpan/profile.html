@@ -82,7 +82,8 @@
 
         /* Profile Container */
         .profile-container {
-            margin-left: 250px; /* Offset for sidebar */
+            margin-top: 10%;
+            /* margin-left: 250px; Offset for sidebar */
             padding: 20px;
         }
 
@@ -116,6 +117,10 @@
             color: #555;
             margin: 10px 0;
         }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -124,28 +129,30 @@
             <img src="pic/photo.jpg" alt="Profile Picture">
             <h3>Arpan Parmar</h3>
         </div>
-        <a href="#">Home</a>
+        <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
         <div class="dropdown">
             <button class="dropdown-btn" onclick="toggleDropdown()">Services ▼</button>
             <div class="dropdown-content" id="dropdown-content">
                 <a href="#">Electricity Bill</a>
                 <a href="#">Ration Card</a>
-                <a href="#">Notifications</a>
+                <a href="#">Voter Id Card</a>
             </div>
         </div>
         <a href="../or_login.html">Logout</a>
     </div>
+    <div class="content">
     <div class="profile-container">
         <div class="profile-card">
             <img src="pic/photo.jpg" alt="Profile Picture" class="profile-pic">
             <h1 class="profile-name">Arpan Parmar</h1>
             <p class="profile-info"><strong>Address:</strong> Aazad Chowk, Narsanda</p>
             <p class="profile-info"><strong>Phone:</strong> +91 93131 24964</p>
-            <p class="profile-info"><strong>Email:</strong> arpanparmar23031@gmail.com</p>
+            <p class="profile-info"><strong>Email:</strong> arpanparmar23031
+                @gmail.com</p>
         </div>
     </div>
-
+</div>  
     <script>
         // Dropdown functionality
         function toggleDropdown() {
