@@ -175,6 +175,25 @@
             margin-top: 20px;
         }
         
+        /* Style for the Download Button */
+    .download-btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #45a049;
+    }
 
     </style>
 </head>
@@ -220,6 +239,7 @@
                     <th>Payment Type</th>
                     <th>Payment Status</th>
                     <th>Commission</th>
+                    <th>Download Receipt</th>
                 </tr>
             </thead>
             <tbody>
@@ -231,7 +251,8 @@
                     <td class="amount">₹0</td> <!-- Start at 0 for animation -->
                     <td>Online</td>
                     <td>Paid</td>
-                    <td class="commission">₹0</td> <!-- Start at 0 for animation -->
+                    <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/10005063256.pdf" download="10005063256recipt"><button class="download-btn">Download</button></a></td> <!-- Start at 0 for animation -->
                 </tr>
                 <tr>
                     <td>28/03/2025</td>
@@ -241,6 +262,7 @@
                     <td>Online</td>
                     <td>Paid</td>
                     <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/19702011159.pdf" download="19702011159recipt"><button class="download-btn">Download</button></a></td>
                 </tr>
 
                 <tr>
@@ -251,6 +273,7 @@
                     <td>Online</td>
                     <td>Paid</td>
                     <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/19702004357.pdf" download="19702004357recipt"><button class="download-btn">Download</button></a></td>
                 </tr>
 
                 <tr>
@@ -261,6 +284,7 @@
                     <td>Online</td>
                     <td>Paid</td>
                     <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/19702000653.pdf" download="19702000653recipt"><button class="download-btn">Download</button></a></td>
                 </tr>
                 <!-- Add more rows as needed -->
             </tbody>
@@ -321,6 +345,16 @@ document.addEventListener('DOMContentLoaded', () => {
     animateMoneyCount('.amount', [643.11,1333.9,562,1386.86]); // Add array of target amounts for each row
     animateMoneyCount('.commission', [20,12,6,14]); // Add array of commissions for each row
 });
+
+function downloadReceipt(customerNo, amount, commission) {
+    const receiptContent = `Electricity Payment Receipt\n\nCustomer No: ${customerNo}\nAmount Paid: ${amount}\nCommission: ${commission}\nPayment Status: Paid\n\nThank you for your payment!`;
+    const blob = new Blob([receiptContent], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Receipt_${customerNo}.txt`; // Set the file name dynamically
+    link.click();
+}
+
 
     </script>
 </body>
