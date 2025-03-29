@@ -346,15 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateMoneyCount('.commission', [20,12,6,14]); // Add array of commissions for each row
 });
 
-function downloadReceipt(customerNo, amount, commission) {
-    const receiptContent = `Electricity Payment Receipt\n\nCustomer No: ${customerNo}\nAmount Paid: ${amount}\nCommission: ${commission}\nPayment Status: Paid\n\nThank you for your payment!`;
-    const blob = new Blob([receiptContent], { type: "text/plain" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Receipt_${customerNo}.txt`; // Set the file name dynamically
-    link.click();
-}
-
 
     </script>
 </body>

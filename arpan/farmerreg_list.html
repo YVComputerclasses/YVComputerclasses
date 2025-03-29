@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Farmer Registration List</title>
     <style>
         /* General Reset */
         body {
@@ -91,7 +91,7 @@
         .dropdown-content a:hover {
             background-color: #575757;
         }
-        
+
         /* Animated Menu Icon */
         .menu-icon {
             position: fixed;
@@ -137,54 +137,68 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-        
-        /* Container for Boxes */
-        .box-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
+
+        /* table */
+        .container {
             padding: 20px;
         }
 
-        /* Box Styles */
-        .box {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
             text-align: center;
-            padding: 20px;
-            width: 250px;
-            height: 250px;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+            color: #333;
+            margin-top: 20px;
         }
+        
+        /* Style for the Download Button */
+    .download-btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-        .box img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 10px;
-        }
-
-        .box h3 {
-            font-size: 1.2em;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        .box p {
-            font-size: 1em;
-            margin: 0;
-        }
+    .download-btn:hover {
+        background-color: #45a049;
+    }
 
     </style>
 </head>
 <body>
-    <!-- Menu Icon -->
+    <!-- Animated Menu Icon -->
     <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
         <div class="bar bar1"></div>
         <div class="bar bar2"></div>
@@ -212,37 +226,43 @@
     </div>
     </div>
 
-    <!-- Content -->
-    <div class="content" id="content">
-        <h1>Dashboard</h1>
-        <p class="welcome-message">Welcome back, Arpan Parmar!</p>
-        <div class="box-container">
-
-            <div class="box">
-                <img src="pic/farmerreg.jpeg" alt="Electricity Icon">
-                <h3>Apply Farmer Registration</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSet4dk7dIHROKhOj9epidvslTHMNddJaa4LG8n3NQ-cQA3xiQ/viewform?usp=dialog">Pay Now</a></p>
-            </div>
-
-            <!-- Box 1 -->
-            <div class="box">
-                <img src="pic/electricity.jpeg" alt="Electricity Icon">
-                <h3>Pay Electricity Bill</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSeAuvwMjKpfkJseIGudYOCHZs4Zesf_lAmR0fZ5D30e8C4iWQ/viewform?usp=preview">Pay Now</a></p>
-            </div>
-            
-            <!-- Box 2 -->
-            <div class="box">
-                <img src="pic/mobile richarge.png" alt="Amount Icon">
-                <h3>Mobile Recharge</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">Recharge Now</a></p>
-            </div>
-
-        </div>
+    <div class="content expanded" id="content">
+    <div class="container">
+        <h1>Farmer Registration List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Aadhaar card No</th>
+                    <th>Name</th>
+                    <th>Payment Type</th>
+                    <th>Payment Status</th>
+                    <th>Commission</th>
+                    <th>Download Receipt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows to be updated dynamically -->
+                <!-- <tr>
+                    <td>25/03/2025</td>
+                    <td>16:07:07</td>
+                    <td>10005063256</td>
+                    <td class="amount">₹0</td> 
+                    <td>Online</td>
+                    <td>Paid</td>
+                    <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/10005063256.pdf" download="10005063256recipt"><button class="download-btn" disabled>Download</button></a></td>
+                </tr> -->
+                
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
     </div>
+</div>
 
     <script>
-        // Function to toggle sidebar visibility and animate menu icon
+        // Sidebar toggle functionality
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const content = document.getElementById('content');
@@ -252,6 +272,7 @@
             content.classList.toggle('expanded');
             menuIcon.classList.toggle('open');
         }
+
         // Dropdown functionality
         function toggleDropdown() {
             const dropdown = document.getElementById("dropdown-content");
@@ -265,6 +286,33 @@
     if (sidebar.classList.contains('hidden')) {
         content.classList.add('expanded');
     }
+});
+
+// Money count animation for multiple boxes
+function animateMoneyCount(selector, targetAmount, duration = 2000) {
+    const elements = document.querySelectorAll(selector); // Select all matching elements
+    elements.forEach((element, index) => {
+        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+        let currentAmount = 0;
+
+        const incrementAmount = () => {
+            currentAmount += 1;
+            if (currentAmount >= targetAmount[index]) {
+                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+            } else {
+                element.textContent = `₹${currentAmount.toFixed(2)}`;
+                setTimeout(incrementAmount, stepTime);
+            }
+        };
+
+        incrementAmount();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Example: Animating amounts and commissions for each row
+    animateMoneyCount('.amount', [0]); // Add array of target amounts for each row
+    animateMoneyCount('.commission', [0]); // Add array of commissions for each row
 });
 
     </script>
