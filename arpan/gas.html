@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Commission List</title>
+    <title>Gas Bill</title>
     <style>
         /* General Reset */
         body {
@@ -137,64 +137,41 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-
-        /* table */
-        .container {
+        /* Container for Boxes */
+        .box-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
             padding: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            text-align: center;
-            padding: 8px;
-        }
-
-        th {
+        /* Box Styles */
+        .box {
             background-color: #4CAF50;
             color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-
-        h1 {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
-            color: #333;
-            margin-top: 20px;
+            padding: 20px;
+            width: 250px;
+            height: 150px;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        
-        /* Style for the Download Button */
-    .download-btn {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 8px 12px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
 
-    .download-btn:hover {
-        background-color: #45a049;
-    }
+        .box h3 {
+            font-size: 1.5em;
+            margin: 0;
+            margin-bottom: 10px;
+        }
 
+        .box p {
+            font-size: 1em;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -226,51 +203,35 @@
     </div>
     </div>
 
+    <!-- Content -->
     <div class="content expanded" id="content">
-    <div class="container">
-        <h1>Total Commission List</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Commission</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows to be updated dynamically -->
-                <tr>
-                    <td>0</td>
-                    <td>First Entry</td>
-                    <td><a href="">₹18</a></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Electricity Bill</td>
-                    <td><a href="electricity_list.html">₹52</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Gas Bill</td>
-                    <td><a href="gas_list.html">₹0</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mobile Recharge</td>
-                    <td><a href="mobile_list.html">₹2</a></td>
-                </tr>
+        <div class="box-container">
 
-                <tr>
-                    <td>4</td>
-                    <td>Ration Card</td>
-                    <td><a href="">₹0</a></td>
-                </tr>
-                
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
+            <div class="box">
+                <h3>Pay Gas Bill</h3>
+                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSefk6PRFkdbN2ueEaQpWhKrEOcSw4i99OyYcxldJK3KMROBYg/viewform?usp=dialog">Pay Now</a></p>
+            </div>
+
+            <!-- Box 1 -->
+            <div class="box">
+                <h3>Total Gas Bill</h3>
+                <p> </p>
+            </div>
+            
+            <!-- Box 2 -->
+            <div class="box">
+                <h3>Total Amount</h3>
+                <a href="gas_list.html"><p> </p></a>
+            </div>
+    
+            <!-- Box 3 -->
+            <div class="box">
+                <h3>Total Commission</h3>
+                <a href="gas_list.html"><p> </p></a>
+            </div>
+
+        </div>
     </div>
-</div>
 
     <script>
         // Sidebar toggle functionality
@@ -297,6 +258,39 @@
     if (sidebar.classList.contains('hidden')) {
         content.classList.add('expanded');
     }
+});
+
+
+// Money count animation for multiple boxes
+document.addEventListener('DOMContentLoaded', () => {
+    // Define the targets for animation
+    const targets = [
+        { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
+        { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
+        { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
+    ];
+    const duration = 2000; // Animation duration in milliseconds
+
+    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
+        const element = document.querySelector(selector);
+        const stepTime = Math.abs(Math.floor(duration / targetAmount));
+        let currentAmount = 0;
+
+        const incrementAmount = () => {
+            currentAmount += 1;
+            if (currentAmount >= targetAmount) {
+                element.textContent = decimals 
+                    ? `${prefix}${targetAmount.toFixed(2)}` 
+                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
+            } else {
+                element.textContent = decimals 
+                    ? `${prefix}${currentAmount.toFixed(2)}` 
+                    : `${prefix}${currentAmount.toFixed(0)}`;
+                setTimeout(incrementAmount, stepTime);
+            }
+        };
+        incrementAmount();
+    });
 });
 
     </script>

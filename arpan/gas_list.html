@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Commission List</title>
+    <title>Gas Bill List</title>
     <style>
         /* General Reset */
         body {
@@ -228,44 +228,32 @@
 
     <div class="content expanded" id="content">
     <div class="container">
-        <h1>Total Commission List</h1>
+        <h1>Gas Bill Payment List</h1>
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Customer No</th>
+                    <th>Amount</th>
+                    <th>Payment Type</th>
+                    <th>Payment Status</th>
                     <th>Commission</th>
+                    <th>Download Receipt</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Rows to be updated dynamically -->
-                <tr>
-                    <td>0</td>
-                    <td>First Entry</td>
-                    <td><a href="">₹18</a></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Electricity Bill</td>
-                    <td><a href="electricity_list.html">₹52</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Gas Bill</td>
-                    <td><a href="gas_list.html">₹0</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mobile Recharge</td>
-                    <td><a href="mobile_list.html">₹2</a></td>
-                </tr>
-
-                <tr>
-                    <td>4</td>
-                    <td>Ration Card</td>
-                    <td><a href="">₹0</a></td>
-                </tr>
-                
+                <!-- <tr>
+                    <td>25/03/2025</td>
+                    <td>16:07:07</td>
+                    <td>10005063256</td>
+                <td class="amount">₹0</td>
+                    <td>Online</td>
+                    <td>Paid</td>
+                    <td class="commission">₹0</td>
+                    <td><a href="Receipt/MGVCL/10005063256.pdf" download="10005063256recipt"><button class="download-btn" disabled>Download</button></a></td>
+                </tr> -->
                 <!-- Add more rows as needed -->
             </tbody>
         </table>
@@ -298,6 +286,34 @@
         content.classList.add('expanded');
     }
 });
+
+// Money count animation for multiple boxes
+function animateMoneyCount(selector, targetAmount, duration = 2000) {
+    const elements = document.querySelectorAll(selector); // Select all matching elements
+    elements.forEach((element, index) => {
+        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+        let currentAmount = 0;
+
+        const incrementAmount = () => {
+            currentAmount += 1;
+            if (currentAmount >= targetAmount[index]) {
+                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+            } else {
+                element.textContent = `₹${currentAmount.toFixed(2)}`;
+                setTimeout(incrementAmount, stepTime);
+            }
+        };
+
+        incrementAmount();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Example: Animating amounts and commissions for each row
+    animateMoneyCount('.amount', [0]); // Add array of target amounts for each row
+    animateMoneyCount('.commission', [0]); // Add array of commissions for each row
+});
+
 
     </script>
 </body>
