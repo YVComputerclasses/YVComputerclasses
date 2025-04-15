@@ -9,7 +9,7 @@ function or()
         alert("Admin Login Successfully");
         window.open("adminh.html");
     }
-    else if(us == "arpan" && pw == "arpan@123")
+    else if(us == "arpan" && pw == "arpan@2008")
         {
             alert("Operator Login Successfully");
             window.open("arpan/");
