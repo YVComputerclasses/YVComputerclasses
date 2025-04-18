@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Voter ID Payment List</title>
     <style>
         /* General Reset */
         body {
@@ -91,7 +91,7 @@
         .dropdown-content a:hover {
             background-color: #575757;
         }
-        
+
         /* Animated Menu Icon */
         .menu-icon {
             position: fixed;
@@ -137,54 +137,49 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-        
-        /* Container for Boxes */
-        .box-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
+
+        /* table */
+        .container {
             padding: 20px;
         }
 
-        /* Box Styles */
-        .box {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
             text-align: center;
-            padding: 20px;
-            width: 250px;
-            height: 250px;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+            color: #333;
+            margin-top: 20px;
         }
-
-        .box img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 10px;
-        }
-
-        .box h3 {
-            font-size: 1.2em;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        .box p {
-            font-size: 1em;
-            margin: 0;
-        }
+        
 
     </style>
 </head>
 <body>
-    <!-- Menu Icon -->
+    <!-- Animated Menu Icon -->
     <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
         <div class="bar bar1"></div>
         <div class="bar bar2"></div>
@@ -213,29 +208,49 @@
     </div>
     </div>
 
-    <!-- Content -->
-    <div class="content" id="content">
-        <h1>Dashboard</h1>
-        <p class="welcome-message">Welcome back, Arpan Parmar!</p>
-        <div class="box-container">
-
-            <div class="box">
-                <img src="pic/Commission.png" alt="Commission">
-                <h3>Total Commission</h3>
-                <p><a href="totalcommission_list.html">₹115</a></p>
-            </div>
-
-            <div class="box">
-                <img src="pic/farmerreg.jpeg" alt="Electricity Icon">
-                <h3>Farmer Registration</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSet4dk7dIHROKhOj9epidvslTHMNddJaa4LG8n3NQ-cQA3xiQ/viewform?usp=dialog">Applay Now</a></p>
-            </div>
-
-        </div>
+    <div class="content expanded" id="content">
+    <div class="container">
+        <h1>Voter Id Payment List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Customer Mobile No</th>
+                    <th>Amount</th>
+                    <th>Payment Type</th>
+                    <th>Payment Status</th>
+                    <th>Commission</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows to be updated dynamically -->
+                <tr>
+                    <td>17/04/2025</td>
+                    <td>22:41:07</td>
+                    <td>9727849126</td>
+                    <td class="amount">₹0</td> <!--  Start at 0 for animation -->
+                    <td>Online</td>
+                    <td>Paid</td>
+                    <td class="commission">₹0</td> <!--  Start at 0 for animation -->
+                </tr>
+                <!-- <tr>
+                    <td>18/04/2025</td>
+                    <td>19:37:21</td>
+                    <td>9265301717</td>
+                    <td class="amount">₹0</td>
+                    <td>Online</td>
+                    <td>Paid</td>
+                    <td class="commission">₹0</td>
+                </tr> -->
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
     </div>
+</div>
 
     <script>
-        // Function to toggle sidebar visibility and animate menu icon
+        // Sidebar toggle functionality
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const content = document.getElementById('content');
@@ -245,6 +260,7 @@
             content.classList.toggle('expanded');
             menuIcon.classList.toggle('open');
         }
+
         // Dropdown functionality
         function toggleDropdown() {
             const dropdown = document.getElementById("dropdown-content");
@@ -258,6 +274,33 @@
     if (sidebar.classList.contains('hidden')) {
         content.classList.add('expanded');
     }
+});
+
+// Money count animation for multiple boxes
+function animateMoneyCount(selector, targetAmount, duration = 2000) {
+    const elements = document.querySelectorAll(selector); // Select all matching elements
+    elements.forEach((element, index) => {
+        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+        let currentAmount = 0;
+
+        const incrementAmount = () => {
+            currentAmount += 1;
+            if (currentAmount >= targetAmount[index]) {
+                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+            } else {
+                element.textContent = `₹${currentAmount.toFixed(2)}`;
+                setTimeout(incrementAmount, stepTime);
+            }
+        };
+
+        incrementAmount();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Example: Animating amounts and commissions for each row
+    animateMoneyCount('.amount', [150]); // Add array of target amounts for each row
+    animateMoneyCount('.commission', [30]); // Add array of commissions for each row
 });
 
     </script>
