@@ -65,6 +65,7 @@ span.psw {
      width: 100%;
   }
 }
+
 </style>
 </head>
 <body>
@@ -81,19 +82,30 @@ span.psw {
     <input type="text" id="log" placeholder="Enter Username" name="uname" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" id="pas" placeholder="Enter Password" name="psw" required>
+    <input type="password" id="pas" placeholder="Enter Password" name="psw"  required>
+    <input type="checkbox" onclick="myFunction()">Show Password
         
     <button type="submit" onclick="or();">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
+
   </div>
 
   <div class="container" style="background-color:#f1f1f1">
     <a href="home.html"><button type="button" class="cancelbtn">Cancel</button></a>
-    <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
+
 <script src="java.js"></script>
+<script>
+  function myFunction() {
+    var x = document.getElementById("pas");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
+  </script>
+  
 </body>
 </html>
