@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmer 2,000₹</title>
+    <title>Reqvird Documets</title>
     <style>
         /* General Reset */
         body {
@@ -137,41 +137,64 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-        /* Container for Boxes */
-        .box-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
+
+        /* table */
+        .container {
             padding: 20px;
         }
 
-        /* Box Styles */
-        .box {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
             text-align: center;
-            padding: 20px;
-            width: 250px;
-            height: 150px;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            color: #333;
+            margin-top: 20px;
         }
+        
+        /* Style for the Download Button */
+    .download-btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-        .box h3 {
-            font-size: 1.5em;
-            margin: 0;
-            margin-bottom: 10px;
-        }
+    .download-btn:hover {
+        background-color: #45a049;
+    }
 
-        .box p {
-            font-size: 1em;
-            margin: 0;
-        }
     </style>
 </head>
 <body>
@@ -204,40 +227,59 @@
     </div>
     </div>
 
-    <!-- Content -->
     <div class="content expanded" id="content">
-        <div class="box-container">
-
-            <div class="box">
-                <h3>Apply Farmer 2,000₹</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdylh7jJFXJ8jFHP7EbhHXIesoqKHzjjIrelP6PX-2qFbWbwA/viewform?usp=dialog">Apply Now</a></p>
-            </div>
-
-            <!-- Box 1 -->
-            <div class="box">
-                <h3>Total Farmer 2,000₹</h3>
-                <p>0</p>
-            </div>
-            
-            <!-- Box 2 -->
-            <div class="box">
-                <h3>Total Amount Pay</h3>
-                <p>0₹</p>
-            </div>
-    
-            <!-- Box 3 -->
-            <div class="box">
-                <h3>Total Commission</h3>
-                <p>0₹</p>
-            </div>
-
-            <div class="box">
-                <h3>Reqvird Documets</h3>
-                <a href="farmer2_rd.html"><p>Show</p></a>
-            </div>
-
-        </div>
+    <div class="container">
+     <img src="pic/comingsoon.png" alt="comingsoon">
+       <!-- <h1>Reqvird Documets</h1>
+         <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Passport Size Photo ( પાસપોર્ટ સાઇઝનો ફોટો )</td>
+                    <td>Image</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Front and back of Aadhaar card ( આધાર કાર્ડની આગળની બાજુ અને પાછળની બાજુ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>First and Last Page of Ration Card ( રેશનકાર્ડનું પહેલું અને છેલ્લું પાનું )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Aadhar Card/Birth Certificate/PAN Card/Election Card/LC Any One ( આધારકાર્ડ/જન્મ દાખલો/પાનકાર્ડ/ચૂંટણી કાર્ડ/એલસી કોઈપણ એક )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Self-Declaration Form ( સેલ્ફ-ડિક્લેરેશન ફોર્મ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>I-Shram Card ( ઈ-શ્રમ કાર્ડ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Certificate of Income (  આવકનું પ્રમાણપત્ર )</td>
+                    <td>PDF</td>
+                </tr>
+            </tbody> -->
+            <a href="voter.html">Back</a>
+        </table>
     </div>
+</div>
 
     <script>
         // Sidebar toggle functionality
@@ -265,39 +307,6 @@
         content.classList.add('expanded');
     }
 });
-
-// Money count animation for multiple boxes
-document.addEventListener('DOMContentLoaded', () => {
-    // Define the targets for animation
-    const targets = [
-        { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
-        { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
-        { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
-    ];
-    const duration = 2000; // Animation duration in milliseconds
-
-    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
-        const element = document.querySelector(selector);
-        const stepTime = Math.abs(Math.floor(duration / targetAmount));
-        let currentAmount = 0;
-
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount) {
-                element.textContent = decimals 
-                    ? `${prefix}${targetAmount.toFixed(2)}` 
-                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
-            } else {
-                element.textContent = decimals 
-                    ? `${prefix}${currentAmount.toFixed(2)}` 
-                    : `${prefix}${currentAmount.toFixed(0)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
-        incrementAmount();
-    });
-});
-
 
     </script>
 </body>
