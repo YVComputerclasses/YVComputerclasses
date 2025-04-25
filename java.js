@@ -9,12 +9,12 @@ function or()
         alert("Admin Login Successfully");
         window.open("adminh.html");
     }
-    else if(us == "arpan" && pw == "arpan@2008")
+    else if(us == "20250323" && pw == "arpan@2008")
         {
             alert("Operator Login Successfully");
             window.open("arpan/");
         }
-    else if(us == "ankit" && pw == "ankit@2004")
+    else if(us == "20250414" && pw == "ankit@2004")
         {
             alert("Operator Login Successfully");
             window.open("ankit/");
