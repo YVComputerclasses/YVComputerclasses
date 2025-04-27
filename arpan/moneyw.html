@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Commission List</title>
+    <title>Money Withdrawal List</title>
     <style>
         /* General Reset */
         body {
@@ -175,25 +175,6 @@
             margin-top: 20px;
         }
         
-        /* Style for the Download Button */
-    .download-btn {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 8px 12px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-    .download-btn:hover {
-        background-color: #45a049;
-    }
 
     </style>
 </head>
@@ -229,71 +210,27 @@
 
     <div class="content expanded" id="content">
     <div class="container">
-        <h1>Total Commission List</h1>
+        <h1>Money Withdrawal List</h1>
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Commission</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Mobile No</th>
+                    <th>Amount</th>
+                    <th>Payment Type</th>
+                    <th>Payment Status</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Rows to be updated dynamically -->
                 <tr>
-                    <td>0</td>
-                    <td>First Entry</td>
-                    <td><a href="">₹18</a></td>
-                </tr>
-                <tr>
-                    <td>0</td>
-                    <td>Money Withdrawal</td>
-                    <td><a href="moneyw.html">-₹100</a></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Electricity Bill</td>
-                    <td><a href="electricity_list.html">₹20</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Gas Bill</td>
-                    <td><a href="gas_list.html">₹9</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mobile Recharge</td>
-                    <td><a href="mobile_list.html">₹34</a></td>
-                </tr>
-
-                <tr>
-                    <td>4</td>
-                    <td>Ration Card</td>
-                    <td><a href="">₹0</a></td>
-                </tr>
-                
-                <tr>
-                    <td>5</td>
-                    <td>Farmer Registration</td>
-                    <td><a href="farmerreg_list.html">₹60</a></td>
-                </tr>
-
-                <tr>
-                    <td>6</td>
-                    <td>Voter Id Card</td>
-                    <td><a href="voter_list.html">₹30</a></td>
-                </tr>
-
-                <tr>
-                    <td>7</td>
-                    <td>Farmer Registration 2,000₹</td>
-                    <td><a href="">₹90</a></td>
-                </tr>
-
-                <tr>
-                    <td>8</td>
-                    <td>E-Shram Card</td>
-                    <td><a href="">₹30</a></td>
+                    <td>21/04/2025</td>
+                    <td>22:04:33</td>
+                    <td>9313124964</td>
+                    <td class="amount">₹0</td> <!--  Start at 0 for animation -->
+                    <td>Online</td>
+                    <td>Paid</td>
                 </tr>
                 <!-- Add more rows as needed -->
             </tbody>
@@ -326,6 +263,32 @@
     if (sidebar.classList.contains('hidden')) {
         content.classList.add('expanded');
     }
+});
+
+// Money count animation for multiple boxes
+function animateMoneyCount(selector, targetAmount, duration = 2000) {
+    const elements = document.querySelectorAll(selector); // Select all matching elements
+    elements.forEach((element, index) => {
+        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+        let currentAmount = 0;
+
+        const incrementAmount = () => {
+            currentAmount += 1;
+            if (currentAmount >= targetAmount[index]) {
+                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+            } else {
+                element.textContent = `₹${currentAmount.toFixed(2)}`;
+                setTimeout(incrementAmount, stepTime);
+            }
+        };
+
+        incrementAmount();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Example: Animating amounts and commissions for each row
+    animateMoneyCount('.amount', [100]); // Add array of target amounts for each row
 });
 
     </script>
