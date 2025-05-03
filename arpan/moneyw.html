@@ -232,6 +232,15 @@
                     <td>Online</td>
                     <td>Paid</td>
                 </tr>
+
+                <tr>
+                    <td>03/05/2025</td>
+                    <td>09:12:33</td>
+                    <td>9313124964</td>
+                    <td class="amount">₹0</td> <!--  Start at 0 for animation -->
+                    <td>Online</td>
+                    <td>Paid</td>
+                </tr>
                 <!-- Add more rows as needed -->
             </tbody>
         </table>
@@ -288,7 +297,7 @@ function animateMoneyCount(selector, targetAmount, duration = 2000) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Example: Animating amounts and commissions for each row
-    animateMoneyCount('.amount', [100]); // Add array of target amounts for each row
+    animateMoneyCount('.amount', [100,220]); // Add array of target amounts for each row
 });
 
     </script>
