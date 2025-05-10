@@ -19,6 +19,11 @@ function or()
             alert("Operator Login Successfully");
             window.open("ankit/");
         }
+        else if(us == "20250510" && pw == "anil@2003")
+            {
+                alert("Operator Login Successfully");
+                window.open("anil/");
+            }
     else
     {
         alert("Admin/Operator Pless Enter Valid Id Our Password !");

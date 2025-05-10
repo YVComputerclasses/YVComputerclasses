@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Recharge</title>
+    <title>Services</title>
     <style>
         /* General Reset */
         body {
@@ -187,7 +187,7 @@
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
-            <h3>Arpan Parmar</h3>
+            <h3>Anil Solanki</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
@@ -209,29 +209,80 @@
         <div class="box-container">
 
             <div class="box">
-                <h3>Mobile Recharge Now</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">Apply Now</a></p>
+                <h3>Gas Bill</h3>
+                <p><a href="gas.html">Apply Now</a></p>
             </div>
 
-            <!-- Box 1 -->
             <div class="box">
-                <h3>Total Mobile Recharge</h3>
-                <p> </p>
+                <h3>Ration Card</h3>
+                <p><a href="ration.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Pan Card</h3>
+                <p><a href="pan.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Voter Id Card</h3>
+                <p><a href="voter.html">Apply Now</a></p>
             </div>
             
-            <!-- Box 2 -->
             <div class="box">
-                <h3>Total Amount Pay</h3>
-                <a href="mobile_list.html"><p> </p></a>
+                <h3>Aadhar Card</h3>
+                <p><a href="aadhar.html">Apply Now</a></p>
             </div>
     
-            <!-- Box 3 -->
             <div class="box">
-                <h3>Total Commission</h3>
-                <a href="mobile_list.html"><p> </p></a>
+                <h3>e-sharm Card</h3>
+                <p><a href="e-sharm.html">Apply Now</a></p>
             </div>
 
-            
+            <div class="box">
+                <h3>Ayushman Card</h3>
+                <p><a href="ayushman.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Farmer Registration</h3>
+                <p><a href="farmerreg.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Farmer ₹2,000/-</h3>
+                <p><a href="farmer2.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Jamin Nakal 7/12 & 8A</h3>
+                <p><a href="jaminnakal.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>RTE</h3>
+                <p><a href="rte.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Any Govermet Job Apply</h3>
+                <p><a href="agja.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>ITI Addmision Form</h3>
+                <p><a href="itia.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Manav Kalyan Yojna</h3>
+                <p><a href="manavkalyan.html">Apply Now</a></p>
+            </div>
+
+            <div class="box">
+                <h3>Aabha Card</h3>
+                <p><a href="services.html">Apply Now</a></p>
+            </div>
+
 
         </div>
     </div>
@@ -262,39 +313,6 @@
         content.classList.add('expanded');
     }
 });
-
-// Money count animation for multiple boxes
-document.addEventListener('DOMContentLoaded', () => {
-    // Define the targets for animation
-    const targets = [
-        { selector: '.box:nth-child(2) p', targetAmount: 8, prefix: ' ', decimals: false }, // Total Electricity Bill
-        { selector: '.box:nth-child(3) p', targetAmount: 1285, prefix: '₹', decimals: true }, // Total Amount
-        { selector: '.box:nth-child(4) p', targetAmount: 49, prefix: '₹', decimals: true } // Total Commission
-    ];
-    const duration = 2000; // Animation duration in milliseconds
-
-    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
-        const element = document.querySelector(selector);
-        const stepTime = Math.abs(Math.floor(duration / targetAmount));
-        let currentAmount = 0;
-
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount) {
-                element.textContent = decimals 
-                    ? `${prefix}${targetAmount.toFixed(2)}` 
-                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
-            } else {
-                element.textContent = decimals 
-                    ? `${prefix}${currentAmount.toFixed(2)}` 
-                    : `${prefix}${currentAmount.toFixed(0)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
-        incrementAmount();
-    });
-});
-
 
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Recharge</title>
+    <title>Aadhar Card</title>
     <style>
         /* General Reset */
         body {
@@ -187,7 +187,7 @@
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
-            <h3>Arpan Parmar</h3>
+            <h3>Anil Solanki</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
@@ -209,29 +209,32 @@
         <div class="box-container">
 
             <div class="box">
-                <h3>Mobile Recharge Now</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">Apply Now</a></p>
+                <h3>Apply Aadhar Card</h3>
+                <p><a href="">Apply Now</a></p>
             </div>
 
             <!-- Box 1 -->
             <div class="box">
-                <h3>Total Mobile Recharge</h3>
-                <p> </p>
+                <h3>Total Aadhar Card Entry</h3>
+                <p>0</p>
             </div>
             
             <!-- Box 2 -->
             <div class="box">
                 <h3>Total Amount Pay</h3>
-                <a href="mobile_list.html"><p> </p></a>
+                <p>0₹</p>
             </div>
     
             <!-- Box 3 -->
             <div class="box">
                 <h3>Total Commission</h3>
-                <a href="mobile_list.html"><p> </p></a>
+                <p>0₹</p>
             </div>
 
-            
+            <div class="box">
+                <h3>Reqvird Documets</h3>
+                <a href="aadhar_rd.html"><p>Show</p></a>
+            </div>
 
         </div>
     </div>
@@ -267,9 +270,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Define the targets for animation
     const targets = [
-        { selector: '.box:nth-child(2) p', targetAmount: 8, prefix: ' ', decimals: false }, // Total Electricity Bill
-        { selector: '.box:nth-child(3) p', targetAmount: 1285, prefix: '₹', decimals: true }, // Total Amount
-        { selector: '.box:nth-child(4) p', targetAmount: 49, prefix: '₹', decimals: true } // Total Commission
+        { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
+        { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
+        { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
     ];
     const duration = 2000; // Animation duration in milliseconds
 

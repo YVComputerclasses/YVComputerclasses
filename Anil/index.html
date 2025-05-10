@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Recharge</title>
+    <title>Dashboard</title>
     <style>
         /* General Reset */
         body {
@@ -91,7 +91,7 @@
         .dropdown-content a:hover {
             background-color: #575757;
         }
-
+        
         /* Animated Menu Icon */
         .menu-icon {
             position: fixed;
@@ -137,6 +137,7 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
+        
         /* Container for Boxes */
         .box-container {
             display: flex;
@@ -155,15 +156,22 @@
             text-align: center;
             padding: 20px;
             width: 250px;
-            height: 150px;
+            height: 250px;
             margin: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .box img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
         }
 
         .box h3 {
-            font-size: 1.5em;
+            font-size: 1.2em;
             margin: 0;
             margin-bottom: 10px;
         }
@@ -172,10 +180,11 @@
             font-size: 1em;
             margin: 0;
         }
+
     </style>
 </head>
 <body>
-    <!-- Animated Menu Icon -->
+    <!-- Menu Icon -->
     <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
         <div class="bar bar1"></div>
         <div class="bar bar2"></div>
@@ -187,7 +196,7 @@
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
-            <h3>Arpan Parmar</h3>
+            <h3>Anil Solanki</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
@@ -205,39 +214,22 @@
     </div>
 
     <!-- Content -->
-    <div class="content expanded" id="content">
+    <div class="content" id="content">
+        <h1>Dashboard</h1>
+        <p class="welcome-message">Welcome back, Anil Solanki!</p>
         <div class="box-container">
 
             <div class="box">
-                <h3>Mobile Recharge Now</h3>
-                <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">Apply Now</a></p>
-            </div>
-
-            <!-- Box 1 -->
-            <div class="box">
-                <h3>Total Mobile Recharge</h3>
-                <p> </p>
-            </div>
-            
-            <!-- Box 2 -->
-            <div class="box">
-                <h3>Total Amount Pay</h3>
-                <a href="mobile_list.html"><p> </p></a>
-            </div>
-    
-            <!-- Box 3 -->
-            <div class="box">
+                <img src="pic/Commission.png" alt="Commission">
                 <h3>Total Commission</h3>
-                <a href="mobile_list.html"><p> </p></a>
+                <p><a href="totalcommission_list.html">₹0</a></p>
             </div>
-
-            
 
         </div>
     </div>
 
     <script>
-        // Sidebar toggle functionality
+        // Function to toggle sidebar visibility and animate menu icon
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const content = document.getElementById('content');
@@ -247,7 +239,6 @@
             content.classList.toggle('expanded');
             menuIcon.classList.toggle('open');
         }
-
         // Dropdown functionality
         function toggleDropdown() {
             const dropdown = document.getElementById("dropdown-content");
@@ -262,39 +253,6 @@
         content.classList.add('expanded');
     }
 });
-
-// Money count animation for multiple boxes
-document.addEventListener('DOMContentLoaded', () => {
-    // Define the targets for animation
-    const targets = [
-        { selector: '.box:nth-child(2) p', targetAmount: 8, prefix: ' ', decimals: false }, // Total Electricity Bill
-        { selector: '.box:nth-child(3) p', targetAmount: 1285, prefix: '₹', decimals: true }, // Total Amount
-        { selector: '.box:nth-child(4) p', targetAmount: 49, prefix: '₹', decimals: true } // Total Commission
-    ];
-    const duration = 2000; // Animation duration in milliseconds
-
-    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
-        const element = document.querySelector(selector);
-        const stepTime = Math.abs(Math.floor(duration / targetAmount));
-        let currentAmount = 0;
-
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount) {
-                element.textContent = decimals 
-                    ? `${prefix}${targetAmount.toFixed(2)}` 
-                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
-            } else {
-                element.textContent = decimals 
-                    ? `${prefix}${currentAmount.toFixed(2)}` 
-                    : `${prefix}${currentAmount.toFixed(0)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
-        incrementAmount();
-    });
-});
-
 
     </script>
 </body>
