@@ -24,8 +24,8 @@ function isUnderMaintenance() {
     let now = new Date();
     let hours = now.getHours();
 
-    if (hours >= 8 && hours < 11) {
-        alert("Website is under maintenance from 8 AM to 11 AM. Please try again later.");
+    if (hours >= 11 && hours < 13) {
+        alert("Website is under maintenance from 11 AM to 01 PM. Please try again later.");
         return false; // Maintenance mode active
     }
     return true; // Login allowed
