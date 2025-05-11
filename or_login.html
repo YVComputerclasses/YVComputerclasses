@@ -65,6 +65,32 @@ span.psw {
      width: 100%;
   }
 }
+/* captcha */
+.captcha-box {
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.captcha-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Disable the login button initially */
+button[disabled] {
+  background-color: grey;
+  cursor: not-allowed;
+}
 
 </style>
 </head>
@@ -72,7 +98,7 @@ span.psw {
 
 <center><h1>Organization/Operator Login</h1></center>
 
-<form>
+<form onsubmit="return validateCaptcha()">
   <div class="imgcontainer">
     <img src="Phota/logo/avatar.png" alt="Avatar" class="avatar">
   </div>
@@ -85,7 +111,11 @@ span.psw {
     <input type="password" id="pas" placeholder="Enter Password" name="psw"  required>
     <input type="checkbox" onclick="myFunction()">Show Password
         
-    <button type="submit" onclick="or();">Login</button>
+    <!-- Basic CAPTCHA -->
+    <div class="captcha-box" id="captchaBox"></div>
+    <input type="text" id="captchaInput" class="captcha-input" placeholder="Enter CAPTCHA" required>
+    
+    <button type="submit" id="loginBtn" onclick="or();">Login</button>
 
   </div>
 
@@ -96,14 +126,57 @@ span.psw {
 
 <script src="java.js"></script>
 <script>
+  // function myFunction() {
+  //   var x = document.getElementById("pas");
+  //   if (x.type === "password") {
+  //     x.type = "text";
+  //   } else {
+  //     x.type = "password";
+  //   }
+  // }
+
   function myFunction() {
     var x = document.getElementById("pas");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
+    x.type = x.type === "password" ? "text" : "password";
   }
+
+  // captcha
+  function generateCaptcha() {
+    var captchaText = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit number
+    document.getElementById("captchaBox").innerText = captchaText;
+    return captchaText;
+  }
+
+  let captchaValue = generateCaptcha();
+
+  function validateCaptcha(event) {
+    var userCaptcha = document.getElementById("captchaInput").value;
+    if (userCaptcha != captchaValue) {
+      alert("Invalid CAPTCHA! Try again.");
+      generateCaptcha(); // Refresh CAPTCHA
+      event.preventDefault(); // Prevent form submission
+      return false;
+    }
+    return true;
+  }
+
+  // Disable login button initially
+  document.getElementById("loginBtn").disabled = true;
+
+  document.getElementById("captchaInput").addEventListener("input", function() {
+    var loginBtn = document.getElementById("loginBtn");
+    if (this.value == captchaValue) {
+      loginBtn.disabled = false; // Enable login button only on correct input
+    } else {
+      loginBtn.disabled = true; // Keep disabled otherwise
+    }
+  });
+
+  document.querySelector("form").addEventListener("submit", function(event) {
+    if (!validateCaptcha(event)) {
+      event.preventDefault();
+    }
+  });
 
   </script>
   

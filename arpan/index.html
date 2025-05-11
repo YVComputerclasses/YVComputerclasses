@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="icon" type="image/png" href="pic/61xohuxtC+L-photoaidcom-cropped.png">
     <style>
         /* Background Blur Overlay */
         .overlay {
@@ -318,6 +319,27 @@
         content.classList.add('expanded');
     }
 });
+
+//auto logout
+let logoutTimer;
+
+  function resetLogoutTimer() {
+    clearTimeout(logoutTimer); // Reset timer
+    logoutTimer = setTimeout(logoutUser, 10000); // Auto logout after 1 minute (60,000ms) 1 second (1000)
+  }
+
+  function logoutUser() {
+    alert("Session expired! Logging out...");
+    // window.location.href = "../or_login.html"; // Redirect to logout page
+    window.close();
+  }
+
+  // Detect user activity to reset the timer
+  document.addEventListener("mousemove", resetLogoutTimer);
+  document.addEventListener("keypress", resetLogoutTimer);
+
+  // Start the timer initially
+  resetLogoutTimer();
 
     </script>
 </body>
