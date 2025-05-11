@@ -26,9 +26,9 @@ function isUnderMaintenance() {
 
     if (hours >= 8 && hours < 11) {
         alert("Website is under maintenance from 8 AM to 11 AM. Please try again later.");
-        return true; // Maintenance mode active
+        return false; // Maintenance mode active
     }
-    return false; // Login allowed
+    return true; // Login allowed
 }
 
 function isUnderMaintenance1() {
@@ -105,9 +105,9 @@ function isLoginAllowed1() {
 }
 function or()
 {
-    // if (!validateLoginTime()) {
-    //     return; // Exit function if login time is invalid
-    // }
+    if (!isUnderMaintenance()) {
+        return; // Exit function if login time is invalid
+    }
     var us = document.getElementById("log").value;
     var pw = document.getElementById("pas").value;
 
