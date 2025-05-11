@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
+        /* Background Blur Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: 999; /* Ensures it's above everything */
+        }
+        /* Popup Styles */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .popup img {
+            width: 200px;
+            height: 200px;
+            margin-top: 10px;
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: darkred;
+        }
+
         /* General Reset */
         body {
             margin: 0;
@@ -184,6 +230,15 @@
     </style>
 </head>
 <body>
+    <!-- Background Overlay -->
+    <div class="overlay" id="overlay"></div>
+    <!-- Payment Pending Popup -->
+    <div class="popup" id="paymentPopup">
+        <p>Your payment is pending: <strong>₹650</strong></p>
+        <p>Pay Amount Before <strong>3 days</strong> After Your ID is Inactive</p>
+        <img src="pic/650.jpg" alt="QR Code">
+        <button onclick="closePopup()">Close</button>
+    </div>
     <!-- Menu Icon -->
     <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
         <div class="bar bar1"></div>
@@ -229,6 +284,16 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("paymentPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block"; // Block background
+        });
+
+        function closePopup() {
+            document.getElementById("paymentPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none"; // Enable background
+        }
+
         // Function to toggle sidebar visibility and animate menu icon
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');

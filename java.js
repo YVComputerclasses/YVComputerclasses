@@ -1,6 +1,113 @@
+function validateLoginTime() {
+    let now = new Date();
+    let hours = now.getHours();
 
+    if (hours < 8 || hours >= 9) {
+        alert("Login allowed only between 8 AM and 9 AM.");
+        return false; // Prevents login action
+    }
+    return true; // Allows login action
+}
+
+function validateLoginDateTime1() {
+    let now = new Date();
+    let allowedDateTime = new Date("2025-05-11T11:32:15");
+
+    if (now < allowedDateTime) {
+        alert("Login is only allowed after 11th May 2025, 11:32:15 AM.");
+        return false; // Prevent login action
+    }
+    return true; // Allows login action
+}
+
+function isUnderMaintenance() {
+    let now = new Date();
+    let hours = now.getHours();
+
+    if (hours >= 8 && hours < 11) {
+        alert("Website is under maintenance from 8 AM to 11 AM. Please try again later.");
+        return true; // Maintenance mode active
+    }
+    return false; // Login allowed
+}
+
+function isUnderMaintenance1() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+
+    // Maintenance from 12:10 AM to 12:35 AM
+    if (hours === 0 && minutes >= 10 && minutes < 35) {
+        alert("Website is under maintenance from 12:10 AM to 12:35 AM. Please try again later.");
+        return true; // Maintenance mode active
+    }
+    return false; // Login allowed
+}
+
+function isUnderMaintenance2() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+
+    // Maintenance period: 12:10 AM to 1:35 AM
+    if (hours === 0 && minutes >= 10 || (hours === 1 && minutes < 35)) {
+        alert("Website is under maintenance from 12:10 AM to 1:35 AM. Please try again later.");
+        return true; // Maintenance mode active
+    }
+    return false; // Login allowed
+}
+
+function isUnderMaintenance3() {
+    let now = new Date();
+    let maintenanceStart = new Date("2025-05-11T00:00:00");
+    let maintenanceEnd = new Date("2025-05-11T23:00:00");
+
+    if (now >= maintenanceStart && now < maintenanceEnd) {
+        alert("Website is under maintenance from May 11, 2025, 12:00 AM to 11:00 PM. Please try again later.");
+        return true; // Maintenance mode active
+    }
+    return false; // Login allowed
+}
+function isUnderMaintenance4() {
+    let now = new Date();
+    let maintenanceStart = new Date("2025-05-11T08:00:00");
+    let maintenanceEnd = new Date("2025-05-12T08:00:00");
+
+    if (now >= maintenanceStart && now < maintenanceEnd) {
+        alert("Website is under maintenance from May 11, 2025, 8:00 AM to May 12, 2025, 8:00 AM. Please try again later.");
+        return true; // Maintenance mode active
+    }
+    return false; // Login allowed
+}
+
+function isLoginAllowed() {
+    let now = new Date();
+    let loginStart = new Date("2025-05-11T08:00:00");
+    let loginEnd = new Date("2025-05-12T08:00:00");
+
+    if (now < loginStart || now >= loginEnd) {
+        alert("Login is allowed only from May 11, 2025, 8 AM to May 12, 2025, 8 AM.");
+        return false; // Prevent login action
+    }
+    return true; // Allows login action
+}
+
+function isLoginAllowed1() {
+    let now = new Date();
+    let loginStart = new Date("2025-05-11T08:00:00");
+    let loginEnd = new Date("2025-05-11T20:00:00"); // 8 PM is 20:00 in 24-hour format
+
+    if (now < loginStart || now >= loginEnd) {
+        alert("Login is only allowed on May 11, 2025, from 8 AM to 8 PM.");
+        return false; // Prevents login
+    }
+    return true; // Allows login
+}
 function or()
 {
+    // if (!validateLoginTime()) {
+    //     return; // Exit function if login time is invalid
+    // }
     var us = document.getElementById("log").value;
     var pw = document.getElementById("pas").value;
 
@@ -21,6 +128,9 @@ function or()
         }
         else if(us == "20250510" && pw == "anil@2003")
             {
+    //             if (!validateLoginTime()) {
+    //     return; // Exit function if login time is invalid
+    // }
                 alert("Operator Login Successfully");
                 window.open("anil/");
             }
