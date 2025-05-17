@@ -118,8 +118,9 @@ function or()
     }
     else if(us == "20250323" && pw == "arpan@2008")
         {
-            alert("Operator Login Successfully");
-            window.open("arpan/");
+            // alert("Operator Login Successfully");
+            alert("Operator Id Is Inactive Pay Your Pending amount 650₹ And re-activate your id and after you not pay amount in 2 days Daily Charges Are count 30₹");
+            // window.open("arpan/");
         }
     else if(us == "20250414" && pw == "ankit@2004")
         {
