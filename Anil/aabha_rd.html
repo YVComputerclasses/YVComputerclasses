@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reqvird Documets</title>
+    <link rel="icon" type="image/png" href="pic/61xohuxtC+L-photoaidcom-cropped.png">
     <style>
         /* General Reset */
         body {
@@ -307,7 +308,29 @@
         content.classList.add('expanded');
     }
 });
-let logoutTimer;
+//Screenshort code
+document.addEventListener("keydown", function(event) {
+        // Detect PrintScreen key
+        if (event.key === "PrintScreen") {
+            event.preventDefault();
+            alert("Screenshots are not allowed!");
+        }
+    });
+
+    // Try clearing clipboard to prevent pasted screenshots
+    document.addEventListener("keyup", function(event) {
+        if (event.key === "PrintScreen") {
+            navigator.clipboard.writeText("Screenshots are disabled!");
+        }
+    });
+
+    // Disable right-click to prevent context menu screenshot options
+    document.addEventListener("contextmenu", function(event) {
+        event.preventDefault();
+        alert("Right-click is disabled!");
+    });
+
+    let logoutTimer;
 
   function resetLogoutTimer() {
     clearTimeout(logoutTimer); // Reset timer

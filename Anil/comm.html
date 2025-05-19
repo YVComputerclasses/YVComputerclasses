@@ -327,6 +327,29 @@
         content.classList.add('expanded');
     }
 });
+//Screenshort code
+document.addEventListener("keydown", function(event) {
+        // Detect PrintScreen key
+        if (event.key === "PrintScreen") {
+            event.preventDefault();
+            alert("Screenshots are not allowed!");
+        }
+    });
+
+    // Try clearing clipboard to prevent pasted screenshots
+    document.addEventListener("keyup", function(event) {
+        if (event.key === "PrintScreen") {
+            navigator.clipboard.writeText("Screenshots are disabled!");
+        }
+    });
+
+    // Disable right-click to prevent context menu screenshot options
+    document.addEventListener("contextmenu", function(event) {
+        event.preventDefault();
+        alert("Right-click is disabled!");
+    });
+
+    //auto logout
 let logoutTimer;
 
   function resetLogoutTimer() {
@@ -346,6 +369,7 @@ let logoutTimer;
 
   // Start the timer initially
   resetLogoutTimer();
+
     </script>
 </body>
 </html>

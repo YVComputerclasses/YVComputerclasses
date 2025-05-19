@@ -231,6 +231,11 @@
                 <p>0₹</p>
             </div>
 
+            <div class="box">
+                <h3>Reqvird Documets</h3>
+                <a href="ration_rd.html"><p>Show</p></a>
+            </div>
+
         </div>
     </div>
 
@@ -312,6 +317,30 @@ let logoutTimer;
 
   // Start the timer initially
   resetLogoutTimer();
+
+  document.addEventListener("DOMContentLoaded", () => {
+        fetch("index.html") // Fetch the index.html content
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const balanceElement = doc.getElementById("balance"); // Extract balance
+                const applyButton = document.querySelector(".box a"); 
+
+                let balance = parseInt(balanceElement.textContent);
+
+                if (balance < 130) {
+                   // applyButton.style.pointerEvents = "none"; // Disable click
+                    applyButton.style.opacity = "0.5"; // Make button look inactive
+                    applyButton.style.cursor = "not-allowed";
+
+                    applyButton.addEventListener("click", (event) => {
+                        event.preventDefault();
+                        alert("Insufficient balance! You need ₹130 to apply.");
+                    });
+                }
+            });
+    });
     </script>
 </body>
 </html>

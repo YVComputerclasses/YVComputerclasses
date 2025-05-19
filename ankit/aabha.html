@@ -231,6 +231,11 @@
                 <p>0₹</p>
             </div>
 
+            <div class="box">
+                <h3>Reqvird Documets</h3>
+                <a href="aabha_rd.html"><p>Show</p></a>
+            </div>
+
         </div>
     </div>
 
@@ -293,7 +298,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-let logoutTimer;
+//Screenshort code
+document.addEventListener("keydown", function(event) {
+        // Detect PrintScreen key
+        if (event.key === "PrintScreen") {
+            event.preventDefault();
+            alert("Screenshots are not allowed!");
+        }
+    });
+
+    // Try clearing clipboard to prevent pasted screenshots
+    document.addEventListener("keyup", function(event) {
+        if (event.key === "PrintScreen") {
+            navigator.clipboard.writeText("Screenshots are disabled!");
+        }
+    });
+
+    // Disable right-click to prevent context menu screenshot options
+    document.addEventListener("contextmenu", function(event) {
+        event.preventDefault();
+        alert("Right-click is disabled!");
+    });
+    let logoutTimer;
 
   function resetLogoutTimer() {
     clearTimeout(logoutTimer); // Reset timer
