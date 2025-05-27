@@ -234,12 +234,12 @@
     <!-- Background Overlay -->
     <div class="overlay" id="overlay"></div>
     <!-- Payment Pending Popup -->
-    <div class="popup" id="paymentPopup">
+    <!-- <div class="popup" id="paymentPopup">
         <p>Your payment is pending: <strong>₹50</strong></p>
         <p>Pay Amount Before <strong>2 Days</strong> After Your ID is Inactive</p>
         <img src="pic/50.jpg" alt="QR Code">
         <button onclick="closePopup()">Close</button>
-    </div>
+    </div> -->
     <!-- Menu Icon -->
     <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
         <div class="bar bar1"></div>
@@ -278,7 +278,7 @@
             <div class="box">
                 <img src="pic/balance.png" alt="Commission">
                 <h3>BALANCE</h3>
-                <p id="balance"><a href="#">-50</a></p>
+                <p id="balance"><a href="balance_list.html">100</a></p>
             </div>
 
             <div class="box">
@@ -331,7 +331,7 @@ let logoutTimer;
 
   function resetLogoutTimer() {
     clearTimeout(logoutTimer); // Reset timer
-    logoutTimer = setTimeout(logoutUser, 10000); // Auto logout after 1 minute (60,000ms) 1 second (1000)
+    logoutTimer = setTimeout(logoutUser, 20000); // Auto logout after 1 minute (60,000ms) 1 second (1000)
   }
 
   function logoutUser() {

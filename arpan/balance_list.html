@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
+    <title>Add Balance List</title>
     <style>
         /* General Reset */
         body {
@@ -137,41 +137,64 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-        /* Container for Boxes */
-        .box-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
+
+        /* table */
+        .container {
             padding: 20px;
         }
 
-        /* Box Styles */
-        .box {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
             text-align: center;
-            padding: 20px;
-            width: 250px;
-            height: 150px;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            color: #333;
+            margin-top: 20px;
         }
+        
+        /* Style for the Download Button */
+    .download-btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-        .box h3 {
-            font-size: 1.5em;
-            margin: 0;
-            margin-bottom: 10px;
-        }
+    .download-btn:hover {
+        background-color: #45a049;
+    }
 
-        .box p {
-            font-size: 1em;
-            margin: 0;
-        }
     </style>
 </head>
 <body>
@@ -204,88 +227,30 @@
     </div>
     </div>
 
-    <!-- Content -->
     <div class="content expanded" id="content">
-        <div class="box-container">
-
-            <div class="box">
-                <h3>Gas Bill</h3>
-                <p><a href="gas.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Ration Card</h3>
-                <p><a href="ration.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Pan Card</h3>
-                <p><a href="pan.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Voter Id Card</h3>
-                <p><a href="voter.html">Apply Now</a></p>
-            </div>
-            
-            <div class="box">
-                <h3>Aadhar Card</h3>
-                <p><a href="aadhar.html">Apply Now</a></p>
-            </div>
-    
-            <div class="box">
-                <h3>e-sharm Card</h3>
-                <p><a href="e-sharm.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Ayushman Card</h3>
-                <p><a href="ayushman.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Farmer Registration</h3>
-                <p><a href="farmerreg.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Farmer ₹2,000/-</h3>
-                <p><a href="farmer2.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Jamin Nakal 7/12 & 8A</h3>
-                <p><a href="jaminnakal.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>RTE</h3>
-                <p><a href="rte.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Any Govermet Job Apply</h3>
-                <p><a href="agja.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>ITI Addmision Form</h3>
-                <p><a href="itia.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Manav Kalyan Yojna</h3>
-                <p><a href="manavkalyan.html">Apply Now</a></p>
-            </div>
-
-            <div class="box">
-                <h3>Aabha Card</h3>
-                <p><a href="services.html">Apply Now</a></p>
-            </div>
-
-
-        </div>
+    <div class="container">
+        <h1>Add Balance List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Ammount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows to be updated dynamically -->
+                <tr>
+                    <td>1</td>
+                    <td>27/05/2025</td>
+                    <td>₹100</td>
+                </tr>
+                
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
     </div>
+</div>
 
     <script>
         // Sidebar toggle functionality

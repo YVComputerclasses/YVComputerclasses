@@ -7,7 +7,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password],input[type=number] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -105,7 +105,7 @@ button[disabled] {
 
   <div class="container">
     <label for="uname"><b>Username</b></label>
-    <input type="text" id="log" placeholder="Enter Username" name="uname" required>
+    <input type="number" id="log" placeholder="Enter Username" name="uname" required>
 
     <label for="psw"><b>Password</b></label>
     <input type="password" id="pas" placeholder="Enter Password" name="psw"  required>
@@ -113,7 +113,7 @@ button[disabled] {
         
     <!-- Basic CAPTCHA -->
     <div class="captcha-box" id="captchaBox"></div>
-    <input type="text" id="captchaInput" class="captcha-input" placeholder="Enter CAPTCHA" required>
+    <input type="number" id="captchaInput" class="captcha-input" placeholder="Enter CAPTCHA" required>
     
     <button type="submit" id="loginBtn" onclick="or();">Login</button>
 
