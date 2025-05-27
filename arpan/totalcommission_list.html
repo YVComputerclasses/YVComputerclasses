@@ -258,7 +258,7 @@
                 <tr>
                     <td>2</td>
                     <td>Electricity Bill</td>
-                    <td><a href="electricity_list.html">₹20</a></td>
+                    <td><a href="electricity_list.html" id="totalCommissione"></a></td>
                 </tr>
                 <tr>
                     <td>3</td>
@@ -303,7 +303,7 @@
                 <tr>
                     <td>11</td>
                     <td>Mobile Recharge</td>
-                    <td><a href="mobile_list.html">₹49</a></td>
+                    <td><a href="mobile_list.html" id="totalCommission"></a></td>
                 </tr>
                 <!-- Add more rows as needed -->
             </tbody>
@@ -356,6 +356,54 @@ let logoutTimer;
 
   // Start the timer initially
   resetLogoutTimer();
+
+  async function fetchTotalCommission() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv"; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalCommission = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+      if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+        let commissionValue = parseFloat(row[12]);
+      
+      if (!isNaN(commissionValue)) {
+        totalCommission += commissionValue; // Sum only valid numeric values
+      }
+    }});
+
+    document.getElementById("totalCommission").innerText = `${totalCommission}`;
+  }
+
+  fetchTotalCommission();
+
+  async function fetchTotalCommissione() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalCommissione = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+      if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+        let commissionValue = parseFloat(row[14]);
+      
+      if (!isNaN(commissionValue)) {
+        totalCommissione += commissionValue; // Sum only valid numeric values
+      }
+    }});
+
+    document.getElementById("totalCommissione").innerText = `${totalCommissione}`;
+  }
+
+  fetchTotalCommissione();
     </script>
 </body>
 </html>
