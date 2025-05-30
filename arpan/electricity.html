@@ -372,7 +372,7 @@ let logoutTimer;
       }
     }});
 
-    document.getElementById("totalAmountPay").innerText = totalAmountPay; // Display only value
+    document.getElementById("totalAmountPay").innerText = totalAmountPay.toFixed(2); // Display only value
   }
 
   fetchTotalAmountPay();

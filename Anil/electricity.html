@@ -216,19 +216,19 @@
             <!-- Box 1 -->
             <div class="box">
                 <h3>Total Electricity Bill</h3>
-                <p> </p>
+                <p id="totalMobileRecharge"> </p>
             </div>
             
             <!-- Box 2 -->
             <div class="box">
                 <h3>Total Amount</h3>
-                <a href="electricity_list.html"><p> </p></a>
+                <a href="electricity_list.html"><p id="totalAmountPay"> </p></a>
             </div>
     
             <!-- Box 3 -->
             <div class="box">
                 <h3>Total Commission</h3>
-                <a href="electricity_list.html"><p> </p></a>
+                <a href="electricity_list.html"><p id="totalCommission"> </p></a>
             </div>
 
         </div>
@@ -262,37 +262,37 @@
 });
 
 
-// Money count animation for multiple boxes
-document.addEventListener('DOMContentLoaded', () => {
-    // Define the targets for animation
-    const targets = [
-        { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
-        { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
-        { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
-    ];
-    const duration = 2000; // Animation duration in milliseconds
+// // Money count animation for multiple boxes
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Define the targets for animation
+//     const targets = [
+//         { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
+//         { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
+//         { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
+//     ];
+//     const duration = 2000; // Animation duration in milliseconds
 
-    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
-        const element = document.querySelector(selector);
-        const stepTime = Math.abs(Math.floor(duration / targetAmount));
-        let currentAmount = 0;
+//     targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
+//         const element = document.querySelector(selector);
+//         const stepTime = Math.abs(Math.floor(duration / targetAmount));
+//         let currentAmount = 0;
 
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount) {
-                element.textContent = decimals 
-                    ? `${prefix}${targetAmount.toFixed(2)}` 
-                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
-            } else {
-                element.textContent = decimals 
-                    ? `${prefix}${currentAmount.toFixed(2)}` 
-                    : `${prefix}${currentAmount.toFixed(0)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
-        incrementAmount();
-    });
-});
+//         const incrementAmount = () => {
+//             currentAmount += 1;
+//             if (currentAmount >= targetAmount) {
+//                 element.textContent = decimals 
+//                     ? `${prefix}${targetAmount.toFixed(2)}` 
+//                     : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
+//             } else {
+//                 element.textContent = decimals 
+//                     ? `${prefix}${currentAmount.toFixed(2)}` 
+//                     : `${prefix}${currentAmount.toFixed(0)}`;
+//                 setTimeout(incrementAmount, stepTime);
+//             }
+//         };
+//         incrementAmount();
+//     });
+// });
 let logoutTimer;
 
   function resetLogoutTimer() {
@@ -336,6 +336,70 @@ let logoutTimer;
                 }
             });
     });
+
+    async function fetchTotalMobileRecharge() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+
+    const rows = text.split("\n").map(row => row.split(",")); // Clean up spaces
+
+    
+    let totalMobileRecharge = rows.slice(1).filter(row => row[1] === "as9030694@gmail.com").length;
+
+    document.getElementById("totalMobileRecharge").innerText = totalMobileRecharge; // Display only count
+  }
+
+  fetchTotalMobileRecharge();
+
+    async function fetchTotalAmountPay() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalAmountPay = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+        if (row[1] === "as9030694@gmail.com") {  // Adjust index where email is located
+        let amountValue = parseFloat(row[3]);
+      
+      if (!isNaN(amountValue)) {
+        totalAmountPay += amountValue; // Sum only valid numbers
+      }
+    }});
+
+    document.getElementById("totalAmountPay").innerText = totalAmountPay.toFixed(2); // Display only value
+  }
+
+  fetchTotalAmountPay();
+
+    async function fetchTotalCommission() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalCommission = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+      if (row[1] === "as9030694@gmail.com") {  // Adjust index where email is located
+        let commissionValue = parseFloat(row[14]);
+      
+      if (!isNaN(commissionValue)) {
+        totalCommission += commissionValue; // Sum only valid numeric values
+      }
+    }});
+
+    document.getElementById("totalCommission").innerText = `${totalCommission}`;
+  }
+
+  fetchTotalCommission();
     </script>
 </body>
 </html>

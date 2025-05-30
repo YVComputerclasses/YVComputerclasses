@@ -284,7 +284,7 @@
             <div class="box">
                 <img src="pic/Commission.png" alt="Commission">
                 <h3>Total Commission</h3>
-                <p><a href="totalcommission_list.html">Show</a></p>
+                <p><a href="totalcommission_list.html" id="totalCommission"></a></p>
             </div>
 
         </div>
@@ -347,6 +347,65 @@ let logoutTimer;
   // Start the timer initially
   resetLogoutTimer();
 
+  async function fetchTotalCommission() {
+    const sheetUrls = [
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv", // Electricity
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0VtzHpe9fVbXnGwfyRIRhGwCBZfWMf-gnN4OkgO572d3bYYs-fYG0JnRH-ZM-NYqWhxG6rIs3cQqy/pub?output=csv", // Manavkalyan
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgc-LMbp6ZVIGFR-YHAtDcQjkBv7JA8D8wBfDg4jPs7xFTjrYgxN7mOZIbd-oPIcjnRherxkEoHqzU/pub?output=csv", // Money Withdrawal (to subtract)
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQe3Jg4muYF3WnX1pI_b9It0_WKAd-sPoSIjnAx6bSPTKJfQbDjAXvJJ_qooJPh-Bc4vkpb9KSq3Ipw/pub?output=csv",  // Voter Id 
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv", // Gas bill 
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTOkDmJd9kPwnIoi1UkxIgbgqGM22uVnWMFYYXXsjj92Xa4nswaNnG224uz7tsqMGLvMcl67Qmwc214/pub?output=csv", // Farmer 2000
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQurqM48_EepfwlMUDrT-8HnN4GxBlp55Ccz9xFM-7-_YHmb2txcjoaVskxyTCMPczr_3tS0o7Q09rH/pub?output=csv", // Farmer Reg
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTOKIRKalEkHrL_xR6kPnESQD4775PtLvP2IwdqQ0NsSos5lgHm86MDmIEw1bpmgm_PTnnfHx4FBVE8/pub?output=csv",  // E shram Card
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv" // Mobile Re
+
+    ];
+
+    let totalCommission = 0;
+    const targetEmail = "arpanparmar23031@gmail.com"; // Email to filter
+
+    for (let i = 0; i < sheetUrls.length; i++) {
+        const response = await fetch(sheetUrls[i]);
+        const text = await response.text();
+        const rows = text.split("\n").map(row => row.split(","));
+
+        let columnIndex, emailIndex; // Define column indices
+
+        // Set correct column index based on the spreadsheet
+        if (i === 0) { columnIndex = 14; emailIndex = 1; } // Electricity (Addition)
+        if (i === 1) { columnIndex = 42; emailIndex = 1; } // Manavkalyan (Addition)
+        if (i === 2) { columnIndex = 2; emailIndex = 1; } // Money Withdrawal (Subtraction)
+        if (i === 3) { columnIndex = 27; emailIndex = 1; } // Voter Id card
+        if (i === 4) { columnIndex = 15; emailIndex = 1; } // Gas bill
+        if (i === 5) { columnIndex = 22; emailIndex = 1; } // Farmer 2000
+        if (i === 6) { columnIndex = 23; emailIndex = 1; } // Farmer Reg
+        if (i === 7) { columnIndex = 33; emailIndex = 1; } // E sharm
+        if (i === 8) { columnIndex = 12; emailIndex = 1; } // Mobile Re
+
+
+        rows.slice(1).forEach(row => {
+            if (row[emailIndex] === targetEmail) { // Filter by email
+                let amount = parseFloat(row[columnIndex]) || 0;
+                if (i === 2) { 
+                    totalCommission -= amount; // Subtract values from Money Withdrawal
+                } else {
+                    totalCommission += amount; // Add values from Electricity & Manavkalyan
+                }
+            }
+        });
+    }
+
+    // Store the calculated commission in local storage for use in other pages
+    localStorage.setItem("totalCommission", totalCommission.toFixed(2));
+
+    // Display in index.html
+    const commissionElement = document.getElementById("totalCommission");
+    if (commissionElement) {
+        commissionElement.innerText = totalCommission.toFixed(2);
+    }
+}
+
+fetchTotalCommission();
     </script>
 </body>
 </html>

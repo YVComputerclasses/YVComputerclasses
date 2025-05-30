@@ -230,7 +230,7 @@
     <div class="content expanded" id="content">
     <div class="container">
         <h1>Electricity Payment List</h1>
-        <table>
+        <!-- <table>
             <thead>
                 <tr>
                     <th>Date</th>
@@ -244,8 +244,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows to be updated dynamically -->
-                <!-- <tr>
+                     <tr>
                     <td>25/03/2025</td>
                     <td>16:07:07</td>
                     <td>10005063256</td>
@@ -254,10 +253,11 @@
                     <td>Paid</td>
                     <td class="commission">₹0</td>
                     <td><a href="Receipt/MGVCL/10005063256.pdf" download="10005063256recipt"><button class="download-btn" disabled>Download</button></a></td>
-                </tr> -->
-                <!-- Add more rows as needed -->
+                </tr> 
+                
             </tbody>
-        </table>
+        </table> -->
+        <div id="sheetData"></div>
     </div>
 </div>
 
@@ -288,26 +288,26 @@
     }
 });
 
-// Money count animation for multiple boxes
-function animateMoneyCount(selector, targetAmount, duration = 2000) {
-    const elements = document.querySelectorAll(selector); // Select all matching elements
-    elements.forEach((element, index) => {
-        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
-        let currentAmount = 0;
+// // Money count animation for multiple boxes
+// function animateMoneyCount(selector, targetAmount, duration = 2000) {
+//     const elements = document.querySelectorAll(selector); // Select all matching elements
+//     elements.forEach((element, index) => {
+//         const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+//         let currentAmount = 0;
 
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount[index]) {
-                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
-            } else {
-                element.textContent = `₹${currentAmount.toFixed(2)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
+//         const incrementAmount = () => {
+//             currentAmount += 1;
+//             if (currentAmount >= targetAmount[index]) {
+//                 element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+//             } else {
+//                 element.textContent = `₹${currentAmount.toFixed(2)}`;
+//                 setTimeout(incrementAmount, stepTime);
+//             }
+//         };
 
-        incrementAmount();
-    });
-}
+//         incrementAmount();
+//     });
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
     // Example: Animating amounts and commissions for each row
@@ -334,6 +334,29 @@ let logoutTimer;
 
   // Start the timer initially
   resetLogoutTimer();
+
+  async function fetchData() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";  // Replace with the published CSV URL
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let htmlOutput = "<table border='1'><tr><th>Date & Time</th><th>Customer No</th><th>Amount</th><th>Payment Type</th><th>Payment Status</th><th>Commission</th></tr>";
+
+    rows.slice(1).forEach(row => {  // Skips the header row
+      if (row.length > 3 && row[1] === "parmarankit781@gmail.com") {  // Adjust index where email is located
+        htmlOutput += `<tr><td>${row[0]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[12]}</td><td>${row[13]}</td><td>${row[14]}</td></tr>`;
+      }
+    });
+
+    htmlOutput += "</table>";
+
+    document.getElementById("sheetData").innerHTML = htmlOutput;
+}
+
+fetchData();
     </script>
 </body>
 </html>

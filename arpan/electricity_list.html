@@ -345,18 +345,18 @@ let logoutTimer;
 
     let htmlOutput = "<table border='1'><tr><th>Date & Time</th><th>Customer No</th><th>Amount</th><th>Payment Type</th><th>Payment Status</th><th>Commission</th></tr>";
 
-    rows.slice(1).forEach(row => {  // Skips the first row if it's headers
-      if (row.length > 3) {  
-        htmlOutput += `<tr><td>${row[0]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[12]}</td><td>${row[13]}</td><td>${row[14]}</td></tr>`; // Column B and D
+    rows.slice(1).forEach(row => {  // Skips the header row
+      if (row.length > 3 && row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+        htmlOutput += `<tr><td>${row[0]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[12]}</td><td>${row[13]}</td><td>${row[14]}</td></tr>`;
       }
     });
 
     htmlOutput += "</table>";
 
     document.getElementById("sheetData").innerHTML = htmlOutput;
-  }
+}
 
-  fetchData();
+fetchData();
     </script>
 </body>
 </html>
