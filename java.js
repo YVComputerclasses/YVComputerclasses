@@ -127,14 +127,20 @@ function or()
             alert("Operator Login Successfully");
             window.open("ankit/");
         }
-        else if(us == "20250510" && pw == "anil@2003")
-            {
+    else if(us == "20250510" && pw == "anil@2003")
+        {
     //             if (!validateLoginTime()) {
     //     return; // Exit function if login time is invalid
     // }
                 alert("Operator Login Successfully");
                 window.open("anil/");
-            }
+        }
+     else if(us == "20250602" && pw == "kein@2009")
+        {
+             alert("You are Login After 05/06/2025 12:00:00 PM");
+            // alert("Operator Login Successfully");
+            // window.open("ankit/");
+        }
     else
     {
         alert("Admin/Operator Pless Enter Valid Id Our Password !");
