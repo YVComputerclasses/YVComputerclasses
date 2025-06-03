@@ -242,13 +242,13 @@
                 <!-- Rows to be updated dynamically -->
                 <tr>
                     <td>0</td>
-                    <td>First Entry</td>
-                    <td><a href="">₹18</a></td>
+                    <td>Extra Commision</td>
+                    <td><a href="excomm.html" id="totalCommissionex"></a></td>
                 </tr>
                 <tr>
                     <td>0</td>
                     <td>Money Withdrawal</td>
-                    <td><a href="moneyw.html">-₹320</a></td>
+                    <td><a href="moneyw.html" id="totalCommissionmw"></a></td>
                 </tr>
                 <tr>
                     <td>1</td>
@@ -376,7 +376,7 @@ let logoutTimer;
       }
     }});
 
-    document.getElementById("totalCommission").innerText = `${totalCommission}`;
+    document.getElementById("totalCommission").innerText = `₹${totalCommission}`;
   }
 
   fetchTotalCommission();
@@ -400,10 +400,58 @@ let logoutTimer;
       }
     }});
 
-    document.getElementById("totalCommissione").innerText = `${totalCommissione}`;
+    document.getElementById("totalCommissione").innerText = `₹${totalCommissione}`;
   }
 
   fetchTotalCommissione();
+
+  async function fetchTotalCommissionex() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJ6oCTU7uwIxdz3MxwCeOytH7xrHOClqHwSm1ftQE3W4PFQekoV5iNozbA-0N55NdQ7eFbb-6ibu0S/pub?output=csv"; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalCommissionex = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+      if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+        let commissionValue = parseFloat(row[3]);
+      
+      if (!isNaN(commissionValue)) {
+        totalCommissionex += commissionValue; // Sum only valid numeric values
+      }
+    }});
+
+    document.getElementById("totalCommissionex").innerText = `₹${totalCommissionex}`;
+  }
+
+  fetchTotalCommissionex();
+
+  async function fetchTotalCommissionmw() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgc-LMbp6ZVIGFR-YHAtDcQjkBv7JA8D8wBfDg4jPs7xFTjrYgxN7mOZIbd-oPIcjnRherxkEoHqzU/pub?output=csv"; // Replace with the correct CSV link
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let totalCommissionmw = 0;
+
+    rows.slice(1).forEach(row => { // Skip header row
+      if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+        let commissionValue = parseFloat(row[2]);
+      
+      if (!isNaN(commissionValue)) {
+        totalCommissionmw += commissionValue; // Sum only valid numeric values
+      }
+    }});
+
+    document.getElementById("totalCommissionmw").innerText = `-₹${totalCommissionmw}`;
+  }
+
+  fetchTotalCommissionmw();
     </script>
 </body>
 </html>

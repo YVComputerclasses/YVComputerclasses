@@ -337,69 +337,69 @@ let logoutTimer;
             });
     });
 
-    async function fetchTotalMobileRecharge() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+        async function fetchTotalMobileRecharge() {
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
 
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
+        const response = await fetch(sheetUrl);
+        const text = await response.text();
 
-    const rows = text.split("\n").map(row => row.split(",")); // Clean up spaces
+        const rows = text.split("\n").map(row => row.split(",")); // Clean up spaces
 
-    
-    let totalMobileRecharge = rows.slice(1).filter(row => row[1] === "arpanparmar23031@gmail.com").length;
+        
+        let totalMobileRecharge = rows.slice(1).filter(row => row[1] === "arpanparmar23031@gmail.com").length;
 
-    document.getElementById("totalMobileRecharge").innerText = totalMobileRecharge; // Display only count
-  }
+        document.getElementById("totalMobileRecharge").innerText = totalMobileRecharge; // Display only count
+    }
 
-  fetchTotalMobileRecharge();
+    fetchTotalMobileRecharge();
 
-    async function fetchTotalAmountPay() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+        async function fetchTotalAmountPay() {
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
 
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
+        const response = await fetch(sheetUrl);
+        const text = await response.text();
 
-    const rows = text.split("\n").map(row => row.split(","));
+        const rows = text.split("\n").map(row => row.split(","));
 
-    let totalAmountPay = 0;
+        let totalAmountPay = 0;
 
-    rows.slice(1).forEach(row => { // Skip header row
+        rows.slice(1).forEach(row => { // Skip header row
+            if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
+            let amountValue = parseFloat(row[3]);
+        
+        if (!isNaN(amountValue)) {
+            totalAmountPay += amountValue; // Sum only valid numbers
+        }
+        }});
+
+        document.getElementById("totalAmountPay").innerText =`₹${totalAmountPay.toFixed(2)}`; // Display only value
+    }
+
+    fetchTotalAmountPay();
+
+        async function fetchTotalCommission() {
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
+
+        const response = await fetch(sheetUrl);
+        const text = await response.text();
+        
+        const rows = text.split("\n").map(row => row.split(","));
+
+        let totalCommission = 0;
+
+        rows.slice(1).forEach(row => { // Skip header row
         if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
-        let amountValue = parseFloat(row[3]);
-      
-      if (!isNaN(amountValue)) {
-        totalAmountPay += amountValue; // Sum only valid numbers
-      }
-    }});
+            let commissionValue = parseFloat(row[14]);
+        
+        if (!isNaN(commissionValue)) {
+            totalCommission += commissionValue; // Sum only valid numeric values
+        }
+        }});
 
-    document.getElementById("totalAmountPay").innerText = totalAmountPay.toFixed(2); // Display only value
-  }
+        document.getElementById("totalCommission").innerText = `₹${totalCommission}`;
+    }
 
-  fetchTotalAmountPay();
-
-    async function fetchTotalCommission() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv    "; // Replace with the correct CSV link
-
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
-    
-    const rows = text.split("\n").map(row => row.split(","));
-
-    let totalCommission = 0;
-
-    rows.slice(1).forEach(row => { // Skip header row
-      if (row[1] === "arpanparmar23031@gmail.com") {  // Adjust index where email is located
-        let commissionValue = parseFloat(row[14]);
-      
-      if (!isNaN(commissionValue)) {
-        totalCommission += commissionValue; // Sum only valid numeric values
-      }
-    }});
-
-    document.getElementById("totalCommission").innerText = `${totalCommission}`;
-  }
-
-  fetchTotalCommission();
+    fetchTotalCommission();
     </script>
 </body>
 </html>

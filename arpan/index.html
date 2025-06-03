@@ -278,11 +278,11 @@
             <div class="box">
                 <img src="pic/balance.png" alt="Commission">
                 <h3>BALANCE</h3>
-                <p id="balance"><a href="balance_list.html">100</a></p>
+                <p id="balance">₹100</p>
             </div>
 
             <div class="box">
-                <img src="pic/Commission.png" alt="Commission">
+                <a href="totalcommission_list.html"><img src="pic/Commission.png" alt="Commission"></a>
                 <h3>Total Commission</h3>
                 <p><a href="totalcommission_list.html" id="totalCommission"></a></p>
             </div>
@@ -357,7 +357,8 @@ let logoutTimer;
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTOkDmJd9kPwnIoi1UkxIgbgqGM22uVnWMFYYXXsjj92Xa4nswaNnG224uz7tsqMGLvMcl67Qmwc214/pub?output=csv", // Farmer 2000
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vQurqM48_EepfwlMUDrT-8HnN4GxBlp55Ccz9xFM-7-_YHmb2txcjoaVskxyTCMPczr_3tS0o7Q09rH/pub?output=csv", // Farmer Reg
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTOKIRKalEkHrL_xR6kPnESQD4775PtLvP2IwdqQ0NsSos5lgHm86MDmIEw1bpmgm_PTnnfHx4FBVE8/pub?output=csv",  // E shram Card
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv" // Mobile Re
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv", // Mobile Re
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJ6oCTU7uwIxdz3MxwCeOytH7xrHOClqHwSm1ftQE3W4PFQekoV5iNozbA-0N55NdQ7eFbb-6ibu0S/pub?output=csv" // Extra Commision
 
     ];
 
@@ -381,6 +382,7 @@ let logoutTimer;
         if (i === 6) { columnIndex = 23; emailIndex = 1; } // Farmer Reg
         if (i === 7) { columnIndex = 33; emailIndex = 1; } // E sharm
         if (i === 8) { columnIndex = 12; emailIndex = 1; } // Mobile Re
+        if (i === 9) { columnIndex = 3; emailIndex = 1; } // Extera Commision
 
 
         rows.slice(1).forEach(row => {
@@ -401,7 +403,7 @@ let logoutTimer;
     // Display in index.html
     const commissionElement = document.getElementById("totalCommission");
     if (commissionElement) {
-        commissionElement.innerText = totalCommission.toFixed(2);
+        commissionElement.innerText = `₹${totalCommission}`;
     }
 }
 
