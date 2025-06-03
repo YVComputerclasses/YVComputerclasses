@@ -191,7 +191,7 @@
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
-            <h3>Arpan Parmar</h3>
+            <h3>Kein Patel</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
@@ -211,41 +211,7 @@
     <div class="content expanded" id="content">
     <div class="container">
         <h1>Voter Id Payment List</h1>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Customer Mobile No</th>
-                    <th>Amount</th>
-                    <th>Payment Type</th>
-                    <th>Payment Status</th>
-                    <th>Commission</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-               <tr>
-                    <td>17/04/2025</td>
-                    <td>22:41:07</td>
-                    <td>9727849126</td>
-                    <td class="amount">₹0</td> 
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td> 
-                </tr> 
-                <tr>
-                    <td>18/04/2025</td>
-                    <td>19:37:21</td>
-                    <td>9265301717</td>
-                    <td class="amount">₹0</td>
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td>
-                </tr> -->
-                <!-- Add more rows as needed 
-            </tbody>
-        </table> -->
+        
         <div id="sheetData"></div>
     </div>
 </div>
@@ -335,7 +301,7 @@ let logoutTimer;
     let htmlOutput = "<table border='1'><tr><th>Date & Time</th><th>Customer Name</th><th>Customer Mobile No</th><th>Amount</th><th>Payment Type</th><th>Payment Status</th><th>Commission</th></tr>";
 
     rows.slice(1).forEach(row => {  // Skips the first row if it's headers
-      if (row.length > 3 && row.includes("arpanparmar23031@gmail.com")) {  
+      if (row.length > 3 && row.includes("Keinpatel26@gmail.com")) {  
         htmlOutput += `<tr><td>${row[0]}</td><td>${row[6]}</td><td>${row[7]}</td><td>${row[24]}</td><td>${row[25]}</td><td>${row[26]}</td><td>${row[27]}</td></tr>`; // Display relevant columns
       }
     });
@@ -346,6 +312,7 @@ let logoutTimer;
 }
 
 fetchData();
+
     </script>
 </body>
 </html>

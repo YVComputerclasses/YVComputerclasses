@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voter ID Payment List</title>
+    <title>Any Govermet Job Apply</title>
     <style>
         /* General Reset */
         body {
@@ -137,45 +137,41 @@
         .content.expanded {
             margin-left: 0; /* Adjust content margin when sidebar is hidden */
         }
-
-        /* table */
-        .container {
+        /* Container for Boxes */
+        .box-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
             padding: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            text-align: center;
-            padding: 8px;
-        }
-
-        th {
+        /* Box Styles */
+        .box {
             background-color: #4CAF50;
             color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-
-        h1 {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
-            color: #333;
-            margin-top: 20px;
+            padding: 20px;
+            width: 250px;
+            height: 150px;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        
 
+        .box h3 {
+            font-size: 1.5em;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .box p {
+            font-size: 1em;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -191,7 +187,7 @@
     <div class="sidebar" id="sidebar">
         <div class="profile">
             <img src="pic/photo.jpg" alt="Profile Picture">
-            <h3>Arpan Parmar</h3>
+            <h3>Kein Patel</h3>
         </div>
         <a href="index.html">Home</a>
         <a href="profile.html">Profile</a>
@@ -208,47 +204,35 @@
     </div>
     </div>
 
+    <!-- Content -->
     <div class="content expanded" id="content">
-    <div class="container">
-        <h1>Voter Id Payment List</h1>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Customer Mobile No</th>
-                    <th>Amount</th>
-                    <th>Payment Type</th>
-                    <th>Payment Status</th>
-                    <th>Commission</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-               <tr>
-                    <td>17/04/2025</td>
-                    <td>22:41:07</td>
-                    <td>9727849126</td>
-                    <td class="amount">₹0</td> 
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td> 
-                </tr> 
-                <tr>
-                    <td>18/04/2025</td>
-                    <td>19:37:21</td>
-                    <td>9265301717</td>
-                    <td class="amount">₹0</td>
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td>
-                </tr> -->
-                <!-- Add more rows as needed 
-            </tbody>
-        </table> -->
-        <div id="sheetData"></div>
+        <div class="box-container">
+
+            <div class="box">
+                <h3>Apply Gov Jpb Apply</h3>
+                <p><a href="">Apply Now</a></p>
+            </div>
+
+            <!-- Box 1 -->
+            <div class="box">
+                <h3>Total Job applay Entry</h3>
+                <p>0</p>
+            </div>
+            
+            <!-- Box 2 -->
+            <div class="box">
+                <h3>Total Amount Pay</h3>
+                <p>0₹</p>
+            </div>
+    
+            <!-- Box 3 -->
+            <div class="box">
+                <h3>Total Commission</h3>
+                <p>0₹</p>
+            </div>
+
+        </div>
     </div>
-</div>
 
     <script>
         // Sidebar toggle functionality
@@ -278,30 +262,35 @@
 });
 
 // Money count animation for multiple boxes
-function animateMoneyCount(selector, targetAmount, duration = 2000) {
-    const elements = document.querySelectorAll(selector); // Select all matching elements
-    elements.forEach((element, index) => {
-        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
+document.addEventListener('DOMContentLoaded', () => {
+    // Define the targets for animation
+    const targets = [
+        { selector: '.box:nth-child(2) p', targetAmount: 0, prefix: ' ', decimals: false }, // Total Electricity Bill
+        { selector: '.box:nth-child(3) p', targetAmount: 0, prefix: '₹', decimals: true }, // Total Amount
+        { selector: '.box:nth-child(4) p', targetAmount: 0, prefix: '₹', decimals: true } // Total Commission
+    ];
+    const duration = 2000; // Animation duration in milliseconds
+
+    targets.forEach(({ selector, targetAmount, prefix, decimals }) => {
+        const element = document.querySelector(selector);
+        const stepTime = Math.abs(Math.floor(duration / targetAmount));
         let currentAmount = 0;
 
         const incrementAmount = () => {
             currentAmount += 1;
-            if (currentAmount >= targetAmount[index]) {
-                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
+            if (currentAmount >= targetAmount) {
+                element.textContent = decimals 
+                    ? `${prefix}${targetAmount.toFixed(2)}` 
+                    : `${prefix}${targetAmount.toFixed(0)}`; // Use toFixed(0) for whole numbers
             } else {
-                element.textContent = `₹${currentAmount.toFixed(2)}`;
+                element.textContent = decimals 
+                    ? `${prefix}${currentAmount.toFixed(2)}` 
+                    : `${prefix}${currentAmount.toFixed(0)}`;
                 setTimeout(incrementAmount, stepTime);
             }
         };
-
         incrementAmount();
     });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Example: Animating amounts and commissions for each row
-    animateMoneyCount('.amount', [150]); // Add array of target amounts for each row
-    animateMoneyCount('.commission', [30]); // Add array of commissions for each row
 });
 
 let logoutTimer;
@@ -323,29 +312,6 @@ let logoutTimer;
 
   // Start the timer initially
   resetLogoutTimer();
-
-  async function fetchData() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQe3Jg4muYF3WnX1pI_b9It0_WKAd-sPoSIjnAx6bSPTKJfQbDjAXvJJ_qooJPh-Bc4vkpb9KSq3Ipw/pub?output=csv";  // Replace with the published CSV URL
-
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
-    
-    const rows = text.split("\n").map(row => row.split(","));
-
-    let htmlOutput = "<table border='1'><tr><th>Date & Time</th><th>Customer Name</th><th>Customer Mobile No</th><th>Amount</th><th>Payment Type</th><th>Payment Status</th><th>Commission</th></tr>";
-
-    rows.slice(1).forEach(row => {  // Skips the first row if it's headers
-      if (row.length > 3 && row.includes("arpanparmar23031@gmail.com")) {  
-        htmlOutput += `<tr><td>${row[0]}</td><td>${row[6]}</td><td>${row[7]}</td><td>${row[24]}</td><td>${row[25]}</td><td>${row[26]}</td><td>${row[27]}</td></tr>`; // Display relevant columns
-      }
-    });
-
-    htmlOutput += "</table>";
-
-    document.getElementById("sheetData").innerHTML = htmlOutput;
-}
-
-fetchData();
     </script>
 </body>
 </html>

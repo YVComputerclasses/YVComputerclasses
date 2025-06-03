@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voter ID Payment List</title>
+    <title>Reqvird Documets</title>
     <style>
         /* General Reset */
         body {
@@ -175,6 +175,25 @@
             margin-top: 20px;
         }
         
+        /* Style for the Download Button */
+    .download-btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #45a049;
+    }
 
     </style>
 </head>
@@ -210,43 +229,55 @@
 
     <div class="content expanded" id="content">
     <div class="container">
-        <h1>Voter Id Payment List</h1>
-        <!-- <table>
+     <img src="pic/comingsoon.png" alt="comingsoon">
+       <!-- <h1>Reqvird Documets</h1>
+         <table>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Customer Mobile No</th>
-                    <th>Amount</th>
-                    <th>Payment Type</th>
-                    <th>Payment Status</th>
-                    <th>Commission</th>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Type</th>
                 </tr>
             </thead>
             <tbody>
-                
-               <tr>
-                    <td>17/04/2025</td>
-                    <td>22:41:07</td>
-                    <td>9727849126</td>
-                    <td class="amount">₹0</td> 
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td> 
-                </tr> 
                 <tr>
-                    <td>18/04/2025</td>
-                    <td>19:37:21</td>
-                    <td>9265301717</td>
-                    <td class="amount">₹0</td>
-                    <td>Online</td>
-                    <td>Paid</td>
-                    <td class="commission">₹0</td>
-                </tr> -->
-                <!-- Add more rows as needed 
-            </tbody>
-        </table> -->
-        <div id="sheetData"></div>
+                    <td>1</td>
+                    <td>Passport Size Photo ( પાસપોર્ટ સાઇઝનો ફોટો )</td>
+                    <td>Image</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Front and back of Aadhaar card ( આધાર કાર્ડની આગળની બાજુ અને પાછળની બાજુ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>First and Last Page of Ration Card ( રેશનકાર્ડનું પહેલું અને છેલ્લું પાનું )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Aadhar Card/Birth Certificate/PAN Card/Election Card/LC Any One ( આધારકાર્ડ/જન્મ દાખલો/પાનકાર્ડ/ચૂંટણી કાર્ડ/એલસી કોઈપણ એક )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Self-Declaration Form ( સેલ્ફ-ડિક્લેરેશન ફોર્મ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>I-Shram Card ( ઈ-શ્રમ કાર્ડ )</td>
+                    <td>PDF</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Certificate of Income (  આવકનું પ્રમાણપત્ર )</td>
+                    <td>PDF</td>
+                </tr>
+            </tbody> -->
+            <a href="aadhar.html">Back</a>
+        </table>
     </div>
 </div>
 
@@ -276,34 +307,6 @@
         content.classList.add('expanded');
     }
 });
-
-// Money count animation for multiple boxes
-function animateMoneyCount(selector, targetAmount, duration = 2000) {
-    const elements = document.querySelectorAll(selector); // Select all matching elements
-    elements.forEach((element, index) => {
-        const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
-        let currentAmount = 0;
-
-        const incrementAmount = () => {
-            currentAmount += 1;
-            if (currentAmount >= targetAmount[index]) {
-                element.textContent = `₹${targetAmount[index].toFixed(2)}`;
-            } else {
-                element.textContent = `₹${currentAmount.toFixed(2)}`;
-                setTimeout(incrementAmount, stepTime);
-            }
-        };
-
-        incrementAmount();
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Example: Animating amounts and commissions for each row
-    animateMoneyCount('.amount', [150]); // Add array of target amounts for each row
-    animateMoneyCount('.commission', [30]); // Add array of commissions for each row
-});
-
 let logoutTimer;
 
   function resetLogoutTimer() {
@@ -324,28 +327,6 @@ let logoutTimer;
   // Start the timer initially
   resetLogoutTimer();
 
-  async function fetchData() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQe3Jg4muYF3WnX1pI_b9It0_WKAd-sPoSIjnAx6bSPTKJfQbDjAXvJJ_qooJPh-Bc4vkpb9KSq3Ipw/pub?output=csv";  // Replace with the published CSV URL
-
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
-    
-    const rows = text.split("\n").map(row => row.split(","));
-
-    let htmlOutput = "<table border='1'><tr><th>Date & Time</th><th>Customer Name</th><th>Customer Mobile No</th><th>Amount</th><th>Payment Type</th><th>Payment Status</th><th>Commission</th></tr>";
-
-    rows.slice(1).forEach(row => {  // Skips the first row if it's headers
-      if (row.length > 3 && row.includes("arpanparmar23031@gmail.com")) {  
-        htmlOutput += `<tr><td>${row[0]}</td><td>${row[6]}</td><td>${row[7]}</td><td>${row[24]}</td><td>${row[25]}</td><td>${row[26]}</td><td>${row[27]}</td></tr>`; // Display relevant columns
-      }
-    });
-
-    htmlOutput += "</table>";
-
-    document.getElementById("sheetData").innerHTML = htmlOutput;
-}
-
-fetchData();
     </script>
 </body>
 </html>
