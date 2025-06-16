@@ -137,9 +137,9 @@ function or()
         }
      else if(us == "20250602" && pw == "kein@2009")
         {
-            //  alert("You are Login After 05/06/2025 12:00:00 PM");
-            alert("Operator Login Successfully");
-            window.open("kein/");
+             alert("Your ID has been deactivated.");
+            // alert("Operator Login Successfully");
+            // window.open("kein/");
         }
     else
     {
