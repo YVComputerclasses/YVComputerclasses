@@ -288,33 +288,6 @@
     }
 });
 
-// Money count animation for multiple boxes
-// function animateMoneyCount(selector, targetAmount, duration = 2000) {
-//     const elements = document.querySelectorAll(selector); // Select all matching elements
-//     elements.forEach((element, index) => {
-//         const stepTime = Math.abs(Math.floor(duration / targetAmount[index]));
-//         let currentAmount = 0;
-
-//         const incrementAmount = () => {
-//             currentAmount += 1;
-//             if (currentAmount >= targetAmount[index]) {
-//                 element.textContent = `₹${targetAmount[index].toFixed(2)}`;
-//             } else {
-//                 element.textContent = `₹${currentAmount.toFixed(2)}`;
-//                 setTimeout(incrementAmount, stepTime);
-//             }
-//         };
-
-//         incrementAmount();
-//     });
-// }
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Example: Animating amounts and commissions for each row
-//     animateMoneyCount('.amount', [643.11,1333.9,562,1386.86,930.12]); // Add array of target amounts for each row
-//     animateMoneyCount('.commission', [4,4,4,4,4]); // Add array of commissions for each row
-// });
-
 let logoutTimer;
 
   function resetLogoutTimer() {
