@@ -118,22 +118,25 @@ function or()
     }
     else if(us == "20250323" && pw == "arpan@2008")
         {
-            alert("Operator Login Successfully");
-            // alert("Operator Id Is Inactive Pay Your Pending amount 650₹ And re-activate your id and after you not pay amount in 2 days Daily Charges Are count 30₹");
-            window.open("arpan/");
+            alert("Your ID has been deactivated.");
+            // alert("Operator Login Successfully");
+            // // alert("Operator Id Is Inactive Pay Your Pending amount 650₹ And re-activate your id and after you not pay amount in 2 days Daily Charges Are count 30₹");
+            // window.open("arpan/");
         }
     else if(us == "20250414" && pw == "ankit@2004")
         {
-            alert("Operator Login Successfully");
-            window.open("ankit/");
+            alert("Your ID has been deactivated.");
+            // alert("Operator Login Successfully");
+            // window.open("ankit/");
         }
     else if(us == "20250510" && pw == "anil@2003")
         {
     //             if (!validateLoginTime()) {
     //     return; // Exit function if login time is invalid
     // }
-                alert("Operator Login Successfully");
-                window.open("anil/");
+                alert("Your ID has been deactivated.");
+                // alert("Operator Login Successfully");
+                // window.open("anil/");
         }
      else if(us == "20250602" && pw == "kein@2009")
         {
