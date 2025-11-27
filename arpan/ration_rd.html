@@ -311,7 +311,7 @@ let logoutTimer;
 
   function resetLogoutTimer() {
     clearTimeout(logoutTimer); // Reset timer
-    logoutTimer = setTimeout(logoutUser, 20000); // Auto logout after 1 minute (60,000ms) 1 second (1000)
+    logoutTimer = setTimeout(logoutUser, 180000); // Auto logout after 1 minute (60,000ms) 1 second (1000)
   }
 
   function logoutUser() {
