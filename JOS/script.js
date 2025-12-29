@@ -6,9 +6,16 @@ function showPopup(service) {
   if (service === "A") {
     popupTitle.textContent = "આધાર કાર્ડ માં સરનામું બદલવા માટે";
     docList.innerHTML = `
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>ચુંટણીકાર્ડ</li>
+      <li>ગેજેટ ઓફોસ</li>
+      <li>રેશન કાર્ડ</li>
+      <li>લાઈટ બીલ</li>
+      <li>મેરેજ સર્ટીફીકેટ</li>
+      <li>ગેસ બીલ</li>
+      <li>બેંક પાસબૂક</li>
+      <li>ST/SC/OBC સર્ટીફીકેટ</li>
+      <li>ઇન્ડિયન પાસપોટ</li>
+      <li>રહેવાસી નો દાખલો</li>
     `;
     extraInfo.textContent = "આભાર";
   } else if (service === "B") {
