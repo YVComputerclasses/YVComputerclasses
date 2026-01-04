@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>History</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50;
+      padding: 10px 20px;
+      color: #fff;
+    }
+
+    /* Left menu */
+    .nav-left {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-left li {
+      list-style: none;
+    }
+
+    .nav-left a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav-left a:hover {
+      color: #1abc9c;
+    }
+
+    /* Right user menu */
+    .nav-right {
+      position: relative;
+    }
+
+    .user-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #fff;
+      color: #333;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      min-width: 120px;
+      z-index: 100;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background: #f1f1f1;
+    }
+
+    /* Dashboard content */
+    .content {
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: fadeInUp 1s ease;
+    }
+
+    thead {
+      background: #2c3e50;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    tr {
+      transition: background 0.3s ease;
+    }
+
+    tr:hover {
+      background: #f1f9ff;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">New Recharge</a></li>
+      <li><a href="history.html">History</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="user-btn" id="userBtn">UserID ▼</button>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard content -->
+  <div class="content">
+    <div id="sheetData"></div>
+
+<script>
+async function fetchData() {
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+
+    const email = localStorage.getItem("email");  // get email saved at login
+    if (!email) {
+        alert("No email found. Please login again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    const rows = text.split("\n").map(row => row.split(","));
+
+    let htmlOutput = `
+      <table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>
+        <thead style="background:#2c3e50; color:#fff;">
+          <tr>
+            <th>Date & Time</th>
+            <th>Mobile Number</th>
+            <th>Recharge Plan Amount</th>
+            <th>Select</th>
+            <th>Payment Type</th>
+            <th>Payment Status</th>
+            <th>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    rows.slice(1).forEach(row => {
+        if (row.length > 3 && row.includes(email)) {
+            htmlOutput += `
+              <tr>
+                <td>${row[0]}</td>
+                <td>${row[2]}</td>
+                <td>${row[3]}</td>
+                <td>${row[5]}</td>
+                <td>${row[10]}</td>
+                <td>${row[11]}</td>
+                <td>${row[12]}</td>
+              </tr>
+            `;
+        }
+    });
+
+    htmlOutput += "</tbody></table>";
+    document.getElementById("sheetData").innerHTML = htmlOutput;
+}
+
+fetchData();
+
+// 🔄 Auto-refresh every 30 seconds
+    setInterval(fetchData, 30000);
+</script>
+
+  </div>
+
+  <script>
+    const userBtn = document.getElementById("userBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const logout = document.getElementById("logout");
+
+    // Toggle dropdown
+    userBtn.addEventListener("click", () => {
+      dropdownMenu.style.display = 
+        dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    // Logout action
+    logout.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Logged out successfully!");
+      // Redirect to login page if needed
+      window.location.href = "index.html";
+    });
+
+    // Close dropdown when clicking outside
+    window.addEventListener("click", (e) => {
+      if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = "none";
+      }
+    });
+
+  // Get userid from localStorage
+  const userid = localStorage.getItem("userid");
+
+  // If found, update navbar button
+  if(userid) {
+    document.getElementById("userBtn").textContent = userid + " ▼";
+  } else {
+    localStorage.removeItem("userid"); // clear login info
+    // If not logged in, redirect back to login
+    window.location.href = "login.html";
+  }
+
+  // Auto logout after 5 minutes (300000 ms) of inactivity
+  let logoutTimer;
+
+  function resetTimer() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(autoLogout, 60000); // 5 minutes
+  }
+
+  function autoLogout() {
+    alert("You have been logged out due to inactivity.");
+    localStorage.clear(); // clear session
+    window.location.href = "index.html"; // redirect to login
+  }
+
+  // Reset timer on user activity
+  window.onload = resetTimer;
+  document.onmousemove = resetTimer;
+  document.onkeypress = resetTimer;
+  document.onclick = resetTimer;
+  document.onscroll = resetTimer;
+
+  </script>
+</body>
+</html>

@@ -6,7 +6,6 @@
   <link rel="icon" type="image/png" href="logo.png">
   <title>Recharge Portal</title>
   <style>
-    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -98,10 +97,11 @@
   </div>
 
   <script>
-    // Example multiuser data (replace with backend/database in real apps)
+    // Example multiuser data: userid → {password, email}
     const users = {
-      "62021030": "megh2010",
-      "arpan" : "patel1"
+      "62021030": { password: "megh2010", email: "mp1997927@gmail.com" },
+      "arpan123": { password: "arpanpass", email: "arpanparmar23031@gmail.com" }
+      // add more users here
     };
 
     const form = document.getElementById("loginForm");
@@ -112,13 +112,14 @@
       const userid = document.getElementById("userid").value.trim();
       const password = document.getElementById("password").value.trim();
 
-      if(users[userid] && users[userid] === password) {
-
+      if(users[userid] && users[userid].password === password) {
+        // Save both userid and email in localStorage
         localStorage.setItem("userid", userid);
+        localStorage.setItem("email", users[userid].email);
 
         message.style.color = "green";
         message.textContent = "Login successful! 🎉";
-        // Redirect or load dashboard
+
         setTimeout(() => {
           alert("Welcome " + userid);
           window.location.href = "dashboard.html";
