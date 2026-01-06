@@ -160,7 +160,7 @@ async function fetchData() {
     const email = localStorage.getItem("email");  // get email saved at login
     if (!email) {
         alert("No email found. Please login again.");
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
 
@@ -247,7 +247,7 @@ fetchData();
   } else {
     localStorage.removeItem("userid"); // clear login info
     // If not logged in, redirect back to login
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
 
   // Auto logout after 5 minutes (300000 ms) of inactivity
