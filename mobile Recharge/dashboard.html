@@ -166,7 +166,7 @@
     let logoutTimer;
     function resetTimer() {
       clearTimeout(logoutTimer);
-      logoutTimer = setTimeout(autoLogout, 300000); // 5 minutes
+      logoutTimer = setTimeout(autoLogout, 60000); // 5 minutes
     }
     function autoLogout() {
       alert("You have been logged out due to inactivity.");
