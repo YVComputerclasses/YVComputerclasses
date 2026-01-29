@@ -155,59 +155,83 @@
 
 <script>
 async function fetchData() {
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+  const sheetUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
 
-    const email = localStorage.getItem("email");  // get email saved at login
-    if (!email) {
-        alert("No email found. Please login again.");
-        window.location.href = "index.html";
-        return;
+  const email = localStorage.getItem("email");
+  if (!email) {
+    alert("Session expired. Please login again.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  const response = await fetch(sheetUrl + "&t=" + Date.now());
+  const csvText = await response.text();
+
+  // Split CSV rows
+  // const rows = csvText
+  //   .trim()
+  //   .split("\n")
+  //   .map(r => r.replace(/\r/g, "").split(","));
+
+  const rows = csvText
+  .trim()
+  .split("\n")
+  .map(line => {
+    const cols = line.replace(/\r/g, "").split(",");
+
+    // 👇 force minimum columns (adjust number if needed)
+    while (cols.length < 13) {
+      cols.push("");
     }
 
-    const response = await fetch(sheetUrl);
-    const text = await response.text();
-    const rows = text.split("\n").map(row => row.split(","));
+    return cols;
+  });
 
-    let htmlOutput = `
-      <table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>
-        <thead style="background:#2c3e50; color:#fff;">
-          <tr>
-            <th>Date & Time</th>
-            <th>Mobile Number</th>
-            <th>Recharge Plan Amount</th>
-            <th>Select</th>
-            <th>Payment Type</th>
-            <th>Payment Status</th>
-            <th>Commission</th>
-          </tr>
-        </thead>
-        <tbody>
+
+  let htmlOutput = `
+    <table>
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Mobile Number</th>
+          <th>Recharge Plan Amount</th>
+          <th>Select</th>
+          <th>Payment Type</th>
+          <th>Payment Status</th>
+          <th>Commission</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Start from row 1 (skip header only)
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || row.length === 0) continue;
+
+    // show only logged-in user's data
+    if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
+
+    htmlOutput += `
+      <tr>
+        <td>${row[0]  || ""}</td>
+        <td>${row[2]  || ""}</td>
+        <td>${row[3]  || ""}</td>
+        <td>${row[5]  || ""}</td>
+        <td>${row[6] || ""}</td>
+        <td>${row[7] || ""}</td>
+        <td>${row[8] || ""}</td>
+      </tr>
     `;
+  }
 
-    rows.slice(1).forEach(row => {
-        if (row.length > 3 && row.includes(email)) {
-            htmlOutput += `
-              <tr>
-                <td>${row[0]}</td>
-                <td>${row[2]}</td>
-                <td>${row[3]}</td>
-                <td>${row[5]}</td>
-                <td>${row[10]}</td>
-                <td>${row[11]}</td>
-                <td>${row[12]}</td>
-              </tr>
-            `;
-        }
-    });
-
-    htmlOutput += "</tbody></table>";
-    document.getElementById("sheetData").innerHTML = htmlOutput;
+  htmlOutput += "</tbody></table>";
+  document.getElementById("sheetData").innerHTML = htmlOutput;
 }
 
 fetchData();
-
-// 🔄 Auto-refresh every 30 seconds
-    setInterval(fetchData, 30000);
+setInterval(fetchData, 30000);
 </script>
 
   </div>

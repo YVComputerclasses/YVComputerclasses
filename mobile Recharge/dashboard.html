@@ -180,38 +180,61 @@
     document.onscroll = resetTimer;
 
     // Fetch Google Sheet data
-    async function fetchSummary() {
-      const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv"; // replace with your published CSV link
-      if (!email) return;
+async function fetchSummary() {
+  const sheetUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
 
-      try {
-        const response = await fetch(sheetUrl + "&t=" + new Date().getTime()); // avoid cache
-        const text = await response.text();
-        const rows = text.split("\n").map(r => r.split(","));
+  if (!email) return;
 
-        let totalRecharges = 0;
-        let totalAmount = 0;
-        let totalCommission = 0;
+  try {
+    const response = await fetch(sheetUrl + "&t=" + Date.now());
+    const text = await response.text();
 
-        rows.slice(1).forEach(row => {
-          if (row.length > 3 && row.includes(email)) {
-            totalRecharges++;
-            totalAmount += parseFloat(row[3]) || 0;     // Amount column
-            totalCommission += parseFloat(row[12]) || 0; // Commission column
-          }
-        });
+    const rows = text
+      .trim()
+      .split("\n")
+      .map(r => r.replace(/\r/g, "").split(","));
 
-        document.getElementById("totalRecharges").textContent = totalRecharges;
-        document.getElementById("totalAmount").textContent = "₹" + totalAmount.toFixed(2);
-        document.getElementById("totalCommission").textContent = "₹" + totalCommission.toFixed(2);
+    let totalRecharges = 0;
+    let totalAmount = 0;
+    let totalCommission = 0;
 
-      } catch (err) {
-        console.error("Error fetching sheet:", err);
-      }
-    }
+    rows.slice(1).forEach(row => {
+      if (!row || row.length < 4) return;
+      if (!row.includes(email)) return;
 
-    fetchSummary();
-    setInterval(fetchSummary, 30000); // auto-refresh every 30s (5000 ms for 5s)
-  </script>
+      totalRecharges++;
+
+      // CLEAN amount (remove ₹, commas, spaces)
+      const amountStr = (row[3] || "")
+        .replace(/₹/g, "")
+        .replace(/,/g, "")
+        .trim();
+      const amount = Number(amountStr);
+      if (!isNaN(amount)) totalAmount += amount;
+
+      // CLEAN commission
+      const commissionStr = (row[8] || "")
+        .replace(/₹/g, "")
+        .replace(/,/g, "")
+        .replace(/%/g, "")
+        .trim();
+      const commission = Number(commissionStr);
+      if (!isNaN(commission)) totalCommission += commission;
+    });
+
+    document.getElementById("totalRecharges").textContent = totalRecharges;
+    document.getElementById("totalAmount").textContent = "₹" + totalAmount.toFixed(2);
+    document.getElementById("totalCommission").textContent = "₹" + totalCommission.toFixed(2);
+
+  } catch (err) {
+    console.error("Dashboard error:", err);
+  }
+}
+
+fetchSummary();
+setInterval(fetchSummary, 30000);
+</script>
+
 </body>
 </html>
