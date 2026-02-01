@@ -131,32 +131,239 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+
+    /* ===== FILTER BAR ===== */
+.filter-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+/* ===== CUSTOM SELECT ===== */
+.service-select {
+  position: relative;
+  width: 220px;
+  animation: slideFade 0.5s ease;
+}
+
+.service-select select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 12px 40px 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+
+  background: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover + focus effect */
+.service-select select:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+.service-select select:focus {
+  outline: none;
+  border-color: #1abc9c;
+}
+
+/* Arrow */
+.select-arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: #1abc9c;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow on focus */
+.service-select select:focus + .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Entry animation */
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .filter-bar {
+    justify-content: center;
+  }
+
+  .service-select {
+    width: 100%;
+  }
+}
+
   </style>
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <ul class="nav-left">
-      <li><a href="dashboard.html">Home</a></li>
-      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog">New Recharge</a></li>
-      <li><a href="history.html">History</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="user-btn" id="userBtn">UserID ▼</button>
-      <div class="dropdown" id="dropdownMenu">
-        <a href="#" id="logout">Logout</a>
-      </div>
+  <ul class="nav-left">
+    <li><a href="dashboard.html">Home</a></li>
+    <li><a href="service.html">Service</a></li>
+    <li><a href="history.html">History</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="user-btn" id="userBtn">UserID ▼</button>
+    <div class="dropdown" id="dropdownMenu">
+      <a href="#" id="logout">Logout</a>
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <!-- Dashboard content -->
   <div class="content">
+
+    <div class="filter-bar">
+  <div class="service-select">
+    <select id="serviceFilter">
+      <option value="mobile" selected>📱 Mobile Recharge</option>
+      <option value="electricity">💡 Electricity Bill</option>
+    </select>
+    <span class="select-arrow">▾</span>
+  </div>
+</div>
+
+
+</div>
+
     <div id="sheetData"></div>
 
 <script>
+  const MOBILE_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+
+const ELECTRICITY_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/ELECTRICITY_SHEET_ID/pub?output=csv";
+
+// async function fetchData() {
+
+//   document
+//   .getElementById("serviceFilter")
+//   .addEventListener("change", fetchData);
+
+//   const sheetUrl =
+//     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+
+//   const email = localStorage.getItem("email");
+//   if (!email) {
+//     alert("Session expired. Please login again.");
+//     window.location.href = "index.html";
+//     return;
+//   }
+
+//   const response = await fetch(sheetUrl + "&t=" + Date.now());
+//   const csvText = await response.text();
+
+//   // Split CSV rows
+//   // const rows = csvText
+//   //   .trim()
+//   //   .split("\n")
+//   //   .map(r => r.replace(/\r/g, "").split(","));
+
+//   const rows = csvText
+//   .trim()
+//   .split("\n")
+//   .map(line => {
+//     const cols = line.replace(/\r/g, "").split(",");
+
+//     // 👇 force minimum columns (adjust number if needed)
+//     while (cols.length < 13) {
+//       cols.push("");
+//     }
+
+//     return cols;
+//   });
+
+
+//   let htmlOutput = `
+//     <table>
+//       <thead>
+//         <tr>
+//           <th>Date & Time</th>
+//           <th>Mobile Number</th>
+//           <th>Recharge Plan Amount</th>
+//           <th>Select</th>
+//           <th>Payment Type</th>
+//           <th>Payment Status</th>
+//           <th>Commission</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//   `;
+
+//   // Start from row 1 (skip header only)
+//   for (let i = 1; i < rows.length; i++) {
+//     const row = rows[i];
+//     if (!row || row.length === 0) continue;
+
+//     // show only logged-in user's data
+//     // if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
+//     const selectedService =
+//   document.getElementById("serviceFilter")?.value || "all";
+
+// // show only logged-in user's data
+// if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
+
+// // filter by service
+// if (
+//   selectedService !== "all" &&
+//   (row[5] || "").trim() !== selectedService
+// ) continue;
+
+
+
+//     htmlOutput += `
+//       <tr>
+//         <td>${row[0]  || ""}</td>
+//         <td>${row[2]  || ""}</td>
+//         <td>${row[3]  || ""}</td>
+//         <td>${row[5]  || ""}</td>
+//         <td>${row[6] || ""}</td>
+//         <td>${row[7] || ""}</td>
+//         <td>${row[8] || ""}</td>
+//       </tr>
+//     `;
+//   }
+
+//   htmlOutput += "</tbody></table>";
+//   document.getElementById("sheetData").innerHTML = htmlOutput;
+// }
 async function fetchData() {
+  const service =
+    document.getElementById("serviceFilter")?.value || "mobile";
+
   const sheetUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+    service === "electricity"
+      ? ELECTRICITY_SHEET_URL
+      : MOBILE_SHEET_URL; // default mobile
 
   const email = localStorage.getItem("email");
   if (!email) {
@@ -168,57 +375,38 @@ async function fetchData() {
   const response = await fetch(sheetUrl + "&t=" + Date.now());
   const csvText = await response.text();
 
-  // Split CSV rows
-  // const rows = csvText
-  //   .trim()
-  //   .split("\n")
-  //   .map(r => r.replace(/\r/g, "").split(","));
-
   const rows = csvText
-  .trim()
-  .split("\n")
-  .map(line => {
-    const cols = line.replace(/\r/g, "").split(",");
-
-    // 👇 force minimum columns (adjust number if needed)
-    while (cols.length < 13) {
-      cols.push("");
-    }
-
-    return cols;
-  });
-
+    .trim()
+    .split("\n")
+    .map(r => r.replace(/\r/g, "").split(","));
 
   let htmlOutput = `
     <table>
       <thead>
         <tr>
           <th>Date & Time</th>
-          <th>Mobile Number</th>
-          <th>Recharge Plan Amount</th>
-          <th>Select</th>
+          <th>Mobile / Account No</th>
+          <th>Amount</th>
           <th>Payment Type</th>
-          <th>Payment Status</th>
+          <th>Status</th>
           <th>Commission</th>
         </tr>
       </thead>
       <tbody>
   `;
 
-  // Start from row 1 (skip header only)
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
     if (!row || row.length === 0) continue;
 
-    // show only logged-in user's data
+    // user-based filter
     if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
 
     htmlOutput += `
       <tr>
-        <td>${row[0]  || ""}</td>
-        <td>${row[2]  || ""}</td>
-        <td>${row[3]  || ""}</td>
-        <td>${row[5]  || ""}</td>
+        <td>${row[0] || ""}</td>
+        <td>${row[2] || ""}</td>
+        <td>${row[3] || ""}</td>
         <td>${row[6] || ""}</td>
         <td>${row[7] || ""}</td>
         <td>${row[8] || ""}</td>
@@ -230,71 +418,85 @@ async function fetchData() {
   document.getElementById("sheetData").innerHTML = htmlOutput;
 }
 
+
+document
+  .getElementById("serviceFilter")
+  .addEventListener("change", fetchData);
+  
 fetchData();
 setInterval(fetchData, 30000);
+
 </script>
 
   </div>
 
   <script>
-    const userBtn = document.getElementById("userBtn");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    const logout = document.getElementById("logout");
+/* ===== LOGIN CHECK ===== */
+const userid = localStorage.getItem("userid");
+const email = localStorage.getItem("email");
 
-    // Toggle dropdown
-    userBtn.addEventListener("click", () => {
-      dropdownMenu.style.display = 
-        dropdownMenu.style.display === "block" ? "none" : "block";
-    });
+if (!userid || !email) {
+  alert("Session expired. Please login again.");
+  window.location.href = "index.html";
+}
 
-    // Logout action
-    logout.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("Logged out successfully!");
-      // Redirect to login page if needed
-      window.location.href = "index.html";
-    });
+/* ===== USER DROPDOWN ===== */
+const userBtn = document.getElementById("userBtn");
+const dropdownMenu = document.getElementById("dropdownMenu");
+const logout = document.getElementById("logout");
 
-    // Close dropdown when clicking outside
-    window.addEventListener("click", (e) => {
-      if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.style.display = "none";
-      }
-    });
+userBtn.textContent = userid + " ▼";
 
-  // Get userid from localStorage
-  const userid = localStorage.getItem("userid");
+userBtn.addEventListener("click", () => {
+  dropdownMenu.style.display =
+    dropdownMenu.style.display === "block" ? "none" : "block";
+});
 
-  // If found, update navbar button
-  if(userid) {
-    document.getElementById("userBtn").textContent = userid + " ▼";
-  } else {
-    localStorage.removeItem("userid"); // clear login info
-    // If not logged in, redirect back to login
-    window.location.href = "index.html";
+logout.addEventListener("click", (e) => {
+  e.preventDefault();
+  alert("Logged out successfully!");
+  localStorage.clear();
+  window.location.href = "index.html";
+});
+
+window.addEventListener("click", (e) => {
+  if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+    dropdownMenu.style.display = "none";
   }
+});
 
-  // Auto logout after 5 minutes (300000 ms) of inactivity
-  let logoutTimer;
+/* ===== AUTO LOGOUT (INACTIVITY) ===== */
+let logoutTimer;
 
-  function resetTimer() {
-    clearTimeout(logoutTimer);
-    logoutTimer = setTimeout(autoLogout, 60000); // 5 minutes
-  }
+function resetTimer() {
+  clearTimeout(logoutTimer);
+  logoutTimer = setTimeout(autoLogout, 60000);
+}
 
-  function autoLogout() {
-    alert("You have been logged out due to inactivity.");
-    localStorage.clear(); // clear session
-    window.location.href = "index.html"; // redirect to login
-  }
+function autoLogout() {
+  alert("You have been logged out due to inactivity.");
+  localStorage.clear();
+  window.location.href = "index.html";
+}
 
-  // Reset timer on user activity
-  window.onload = resetTimer;
-  document.onmousemove = resetTimer;
-  document.onkeypress = resetTimer;
-  document.onclick = resetTimer;
-  document.onscroll = resetTimer;
+window.onload = resetTimer;
+document.onmousemove = resetTimer;
+document.onkeypress = resetTimer;
+document.onclick = resetTimer;
+document.onscroll = resetTimer;
 
-  </script>
+/* ===== SERVICE ACTIONS ===== */
+function openMobile() {
+  window.open(
+    "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
+    "_blank"
+  );
+}
+
+function openElectricity() {
+  alert("Electricity Bill service coming soon ⚡");
+}
+</script>
+
 </body>
 </html>
