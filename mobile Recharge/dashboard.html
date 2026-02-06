@@ -144,6 +144,43 @@
   background: #16a085;
 }
 
+/* Service Dropdown */
+.service-select select {
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #dcdfe6;
+  background: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
+}
+
+.service-select select:hover {
+  border-color: #1abc9c;
+}
+
+.service-select select:focus {
+  outline: none;
+  border-color: #1abc9c;
+  box-shadow: 0 0 0 3px rgba(26,188,156,0.25);
+}
+
+/* Arrow */
+.service-select .select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: #1abc9c;
+}
+
   </style>
 </head>
 <body>
@@ -167,19 +204,34 @@
   <!-- Dashboard content -->
   <div class="content">
     <h1>Welcome to Dashboard</h1>
+
+    <div class="filter-bar" style="display:flex; justify-content:flex-end; margin:15px 0;">
+  <div class="service-select" style="position:relative; width:220px;">
+    <select id="serviceFilter">
+      <option value="mobile" selected>📱 Mobile Recharge</option>
+      <option value="electricity">💡 Electricity Bill</option>
+    </select>
+    <span class="select-arrow">▾</span>
+  </div>
+</div>
+
+
     <div class="summary">
       <div class="box">
-        <h3>Total Recharges</h3>
-        <p id="totalRecharges">0</p>
-      </div>
-      <div class="box">
-        <h3>Total Amount Paid</h3>
-        <p id="totalAmount">₹0</p>
-      </div>
-      <div class="box">
-        <h3>Total Commission</h3>
-        <p id="totalCommission">₹0</p>
-      </div>
+  <h3 id="boxTitle1">Total Recharges/Bill</h3>
+  <p id="totalRecharges">0</p>
+</div>
+
+<div class="box">
+  <h3 id="boxTitle2">Total Amount Paid</h3>
+  <p id="totalAmount">₹0</p>
+</div>
+
+<div class="box">
+  <h3 id="boxTitle3">Total Commission</h3>
+  <p id="totalCommission">₹0</p>
+</div>
+
     </div>
 
     <!-- Service Section -->
@@ -207,6 +259,14 @@
   </div>
 
   <script>
+
+    const MOBILE_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+
+const ELECTRICITY_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
+
+
     const userBtn = document.getElementById("userBtn");
     const dropdownMenu = document.getElementById("dropdownMenu");
     const logout = document.getElementById("logout");
@@ -256,71 +316,79 @@
 
     // Fetch Google Sheet data
 async function fetchSummary() {
+  const service =
+    document.getElementById("serviceFilter")?.value || "mobile";
+
   const sheetUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+    service === "electricity"
+      ? ELECTRICITY_SHEET_URL
+      : MOBILE_SHEET_URL;
 
   if (!email) return;
 
-  try {
-    const response = await fetch(sheetUrl + "&t=" + Date.now());
-    const text = await response.text();
+  const res = await fetch(sheetUrl + "&t=" + Date.now());
+  const text = await res.text();
 
-    const rows = text
-      .trim()
-      .split("\n")
-      .map(r => r.replace(/\r/g, "").split(","));
+  const rows = text
+    .trim()
+    .split("\n")
+    .map(r => r.replace(/\r/g, "").split(","));
 
-    let totalRecharges = 0;
-    let totalAmount = 0;
-    let totalCommission = 0;
+  let totalCount = 0;
+  let totalAmount = 0;
+  let totalCommission = 0;
 
-    rows.slice(1).forEach(row => {
-      if (!row || row.length < 4) return;
-      if (!row.includes(email)) return;
+  rows.slice(1).forEach(row => {
+    if (!row || !row.includes(email)) return;
 
-      totalRecharges++;
+    totalCount++;
 
-      // CLEAN amount (remove ₹, commas, spaces)
-      const amountStr = (row[3] || "")
-        .replace(/₹/g, "")
-        .replace(/,/g, "")
-        .trim();
-      const amount = Number(amountStr);
-      if (!isNaN(amount)) totalAmount += amount;
+    const amountIndex = service === "electricity" ? 3 : 3;
+    const commissionIndex = service === "electricity" ? 10 : 8;
 
-      // CLEAN commission
-      const commissionStr = (row[8] || "")
-        .replace(/₹/g, "")
-        .replace(/,/g, "")
-        .replace(/%/g, "")
-        .trim();
-      const commission = Number(commissionStr);
-      if (!isNaN(commission)) totalCommission += commission;
-    });
+    const amount = Number(
+      (row[amountIndex] || "").replace(/[₹,]/g, "")
+    );
+    if (!isNaN(amount)) totalAmount += amount;
 
-    document.getElementById("totalRecharges").textContent = totalRecharges;
-    document.getElementById("totalAmount").textContent = "₹" + totalAmount.toFixed(2);
-    document.getElementById("totalCommission").textContent = "₹" + totalCommission.toFixed(2);
+    const commission = Number(
+      (row[commissionIndex] || "").replace(/[₹,%]/g, "")
+    );
+    if (!isNaN(commission)) totalCommission += commission;
+  });
 
-  } catch (err) {
-    console.error("Dashboard error:", err);
+  // 🔁 BOX TITLES CHANGE
+  if (service === "electricity") {
+    document.getElementById("boxTitle1").textContent = "Total Electricity Bills";
+  } else {
+    document.getElementById("boxTitle1").textContent = "Total Recharges";
   }
-}
 
-fetchSummary();
+  // 🔢 VALUES UPDATE
+  document.getElementById("totalRecharges").textContent = totalCount;
+  document.getElementById("totalAmount").textContent = "₹" + totalAmount.toFixed(2);
+  document.getElementById("totalCommission").textContent = "₹" + totalCommission.toFixed(2);
+}
+//  catch (err) {
+//     console.error("Dashboard error:", err);
+//   }
+
+document
+  .getElementById("serviceFilter")
+  .addEventListener("change", fetchSummary);
+
+fetchSummary(); // default mobile
 setInterval(fetchSummary, 30000);
 
 
+  // const serviceBtn = document.getElementById("serviceBtn");
+  // const serviceSection = document.getElementById("serviceSection");
 
-
-  const serviceBtn = document.getElementById("serviceBtn");
-  const serviceSection = document.getElementById("serviceSection");
-
-  serviceBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    serviceSection.style.display =
-      serviceSection.style.display === "block" ? "none" : "block";
-  });
+  // serviceBtn.addEventListener("click", (e) => {
+  //   e.preventDefault();
+  //   serviceSection.style.display =
+  //     serviceSection.style.display === "block" ? "none" : "block";
+  // });
 
   function openMobileRecharge() {
     window.location.href =
@@ -328,8 +396,11 @@ setInterval(fetchSummary, 30000);
   }
 
   function openElectricity() {
-    alert("Electricity Bill Service Coming Soon ⚡");
+    window.location.href =
+      "https://docs.google.com/forms/d/e/1FAIpQLSeAuvwMjKpfkJseIGudYOCHZs4Zesf_lAmR0fZ5D30e8C4iWQ/viewform?usp=dialog";
+    // alert("Electricity Bill Service Coming Soon ⚡");
   }
+
 
 
 </script>

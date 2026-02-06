@@ -261,7 +261,7 @@
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
 
 const ELECTRICITY_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/ELECTRICITY_SHEET_ID/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
 
 // async function fetchData() {
 
@@ -396,22 +396,42 @@ async function fetchData() {
   `;
 
   for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row || row.length === 0) continue;
+  const row = rows[i];
+  if (!row || row.length === 0) continue;
 
-    // user-based filter
-    if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
+  // user filter
+  if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
 
-    htmlOutput += `
-      <tr>
-        <td>${row[0] || ""}</td>
-        <td>${row[2] || ""}</td>
-        <td>${row[3] || ""}</td>
-        <td>${row[6] || ""}</td>
-        <td>${row[7] || ""}</td>
-        <td>${row[8] || ""}</td>
-      </tr>
-    `;
+  let date, number, amount, payment, status, commission;
+
+  if (service === "electricity") {
+    // 💡 ELECTRICITY INDEXES
+    date       = row[0] || "";
+    number     = row[2] || ""; // account number
+    amount     = row[3] || "";
+    payment    = row[8] || "";
+    status     = row[9] || "";
+    commission = row[10] || "";
+  } else {
+    // 📱 MOBILE INDEXES
+    date       = row[0] || "";
+    number     = row[2] || ""; // mobile number
+    amount     = row[3] || "";
+    payment    = row[6] || "";
+    status     = row[7] || "";
+    commission = row[8] || "";
+  }
+
+  htmlOutput += `
+    <tr>
+      <td>${date}</td>
+      <td>${number}</td>
+      <td>${amount}</td>
+      <td>${payment}</td>
+      <td>${status}</td>
+      <td>${commission}</td>
+    </tr>
+  `;
   }
 
   htmlOutput += "</tbody></table>";
@@ -485,17 +505,21 @@ document.onkeypress = resetTimer;
 document.onclick = resetTimer;
 document.onscroll = resetTimer;
 
-/* ===== SERVICE ACTIONS ===== */
-function openMobile() {
-  window.open(
-    "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
-    "_blank"
-  );
-}
+// /* ===== SERVICE ACTIONS ===== */
+// function openMobile() {
+//   window.open(
+//     "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
+//     "_blank"
+//   );
+// }
 
-function openElectricity() {
-  alert("Electricity Bill service coming soon ⚡");
-}
+// function openElectricity() {
+//   window.open(
+//     "https://docs.google.com/spreadsheets/d/14BGRYfArCiChHS2pM8yeDC-f2RNERhyAQouP6DbbLOo/edit?usp=sharing",
+//     "_blank"
+//   );
+//   // alert("Electricity Bill service coming soon ⚡");
+// }
 </script>
 
 </body>
