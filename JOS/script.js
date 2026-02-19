@@ -54,6 +54,65 @@ function showPopup(service) {
       <li>મેરેજ સર્ટી અથવા કંકોત્રી નકલ</li>
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "F") {
+    popupTitle.textContent = "વહલી દીકરી યોજના";
+    docList.innerHTML = `
+      <li>દીકરી પાસપોર્ટ સાઈઝ ફોટો.</li>
+      <li>દીકરી આધાર કાર્ડ.</li>
+      <li>દીકરી જન્મ દાખલો</li>
+      <li>દીકરી બેંક પાસબૂક</li>
+      <li>માતા પિતા નુ આધાર કાર્ડ</li>
+      <li> આવક નો દાખલો</li>
+      <li>માતા પિતા લગ્ન નુ પ્રમાણ પત્ર</li>
+      <li>રેસન કાર્ડ</li>
+      <li>માતા પિતા નો જન્મ નો દાખલો</li>
+      <li>માતા પિતાનું પાન કાર્ડ અને ચુંટણી કાર્ડ</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "G") {
+    popupTitle.textContent = "નવું પાનકાર્ડ બનાવવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ ફોટો 2 નંગ.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>પિતા/પતિ નુ આધાર કાર્ડ.</li>
+      <li>સફેદ કાગળ પર સહી</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "H") {
+    popupTitle.textContent = "લાઈટ બીલ માં નામ બદલવા માટે ( વારસાઈ )";
+    docList.innerHTML = `
+      <li>એગ્રીમેન્ટ સ્ટેમ્પ (વકીલ દ્વારા બનાવેલ).</li>
+      <li>લાઈટ બીલ.</li>
+      <li>ઘરની આકારણી.</li>
+      <li>પિતા નો મરણ નો દાખલો.</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "I") {
+    popupTitle.textContent = "ખેડૂત 2000 સહાય ફોર્મ ભરવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ ફોટો.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>પિતા/પતિ/પત્ની નુ આધાર કાર્ડ.</li>
+      <li>મરણ નો દાખલો</li>
+      <li>બેંક પાસબૂક</li>
+      <li>૮અ નકલ</li>
+      <li>7/12 નકલ</li>
+      <li>6 હક પત્રક</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "J") {
+    popupTitle.textContent = "કુંવરબાઈ નું મામેરું સહાય ફોર્મ ભરવા માટે";
+    docList.innerHTML = `
+      <li>છોકરી પાસપોર્ટ સાઈઝ ફોટો.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>પિતા નુ આધાર કાર્ડ.</li>
+      <li>પતિ નુ આધાર કાર્ડ.</li>
+      <li>બેંક પાસબૂક</li>
+      <li>લગ્ન નુ પ્રમાણ પત્ર</li>
+      <li>રેસન કાર્ડ</li>
+      <li>આવકનો દાખલો પિતા નો</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
   }
 
   document.getElementById("popup").style.display = "flex";
