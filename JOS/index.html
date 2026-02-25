@@ -2,14 +2,14 @@
   <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Notice</title>
     <link rel="icon" type="image/png" href="/JOS/Logo.png">
     <style>
  /* === Sidebar Hidden by Default === */
-#sidebar {
+/* #sidebar {
   transform: translateX(-100%);
   transition: transform 0.3s ease;
-}
+} */
 
 /* === Sidebar Visible When Active === */
 #sidebar.active {
@@ -19,9 +19,9 @@
 /* === Toggle Button Styling === */
 .toggle-nav {
   position: fixed;
-  top: 10px;
+  top: 55px;
   left: 10px;
-  z-index: 1001;
+  z-index: 1002;
   padding: 10px 15px;
   background-color: #3498db;
   color: white;
@@ -41,14 +41,14 @@
 /* === Sidebar Container === */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 45px;
   left: 0;
   width: 220px;
-  height: 100%;
+  height: calc(100% - 45px);
   background-color: #2c3e50;
   color: white;
   padding: 20px;
-  z-index: 1000;
+  z-index: 1001;
   box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
@@ -118,10 +118,129 @@
   text-decoration: underline;
 }
 
+/* Notice Board */
+
+/* ===== NOTICE BOARD ===== */
+
+.notice-board{
+  background:linear-gradient(135deg,#fdfbfb,#ebedee);
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.15);
+  max-width:800px;
+  margin:auto;
+}
+
+.notice-board h2{
+  text-align:center;
+  color:#2c3e50;
+  margin-bottom:20px;
+}
+
+.notice-list{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.notice-item{
+  background:white;
+  padding:15px 20px;
+  border-left:6px solid #3498db;
+  border-radius:8px;
+  position:relative;
+  transform:translateX(-30px);
+  opacity:0;
+  transition:0.6s;
+}
+
+.notice-item.show{
+  transform:translateX(0);
+  opacity:1;
+}
+
+.notice-item:hover{
+  transform:scale(1.02);
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+.badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:red;
+  color:white;
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:20px;
+  animation:blink 1s infinite;
+}
+
+@keyframes blink{
+  50%{opacity:0.4;}
+}
+
+/* ===== BREAKING NEWS BAR ===== */
+
+.breaking-news{
+  display:flex;
+  align-items:center;
+  background:#c0392b;
+  color:white;
+  font-weight:bold;
+  overflow:hidden;
+  height:45px;
+  position:sticky;
+  top:0;
+  z-index:9999;
+}
+
+.news-title{
+  background:#8e0000;
+  padding:0 15px;
+  height:100%;
+  display:flex;
+  align-items:center;
+}
+
+.news-wrapper{
+  overflow:hidden;
+  white-space:nowrap;
+  flex:1;
+}
+
+.news-text{
+  display:inline-block;
+  padding-left:100%;
+  animation:scrollNews 18s linear infinite;
+}
+
+@keyframes scrollNews{
+  0%{
+    transform:translateX(0);
+  }
+  100%{
+    transform:translateX(-100%);
+  }
+}
+
 </style>
 
   </head>
   <body>
+    <!-- ===== RUNNING NEWS BAR ===== -->
+
+<div class="breaking-news">
+  <span class="news-title">📢 IMPORTANT</span>
+
+  <div class="news-wrapper">
+    <div class="news-text" id="newsText">
+      🔴 HELPER - હેલ્પર - 202526 Special Drive For Divyang End on : 12/03/2026 23:59:00. &nbsp;&nbsp;&nbsp;
+      🔴 ખેડૂત નોધણી ટુક સમય.
+    </div>
+  </div>
+</div>
+
     <button class="toggle-nav" onclick="toggleSidebar()">📁 મેનુ</button>
 <nav id="sidebar" class="sidebar">
   <ul class="nav-links">
@@ -134,6 +253,27 @@
   <main class="content">
     <h1>જાંગીડ ઓનલાઈન સેવાઓમાં આપનું સ્વાગત છે.</h1>
     <p>કોઈપણ યોજના અને સહાયના નવા અપડેટ માટે આ હોમ પેજ છે.</p>
+    <!-- ===== NEW NOTICE BOARD ===== -->
+
+<div class="notice-board">
+
+  <h2>📢 નવી સૂચનાઓ / Latest Notifications</h2>
+
+  <div class="notice-list">
+
+    <div class="notice-item">
+      <span class="badge">NEW</span>
+      <p><strong>HELPER - હેલ્પર - 202526 Special Drive For Divyang End on :</strong> 12/03/2026 23:59:00.</p>
+    </div>
+
+    <div class="notice-item">
+      <span class="badge">NEW</span>
+      <p><strong>ખેડૂત નોધણી</strong> ટુક સમય </p>
+    </div>
+
+  </div>
+
+</div>
   </main>
 
       <footer class="site-footer">
@@ -151,6 +291,27 @@
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("active");
   }
+
+  // notice board
+const notices = document.querySelectorAll(".notice-item");
+
+notices.forEach((item,index)=>{
+  setTimeout(()=>{
+    item.classList.add("show");
+  },500 * index);
+});
+
+<!-- ===== RUNNING NEWS BAR ===== -->
+const news = document.getElementById("newsText");
+
+news.addEventListener("mouseenter",()=>{
+  news.style.animationPlayState="paused";
+});
+
+news.addEventListener("mouseleave",()=>{
+  news.style.animationPlayState="running";
+});
+</script>
 </script>
 
   </body>
