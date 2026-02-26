@@ -140,7 +140,81 @@ function showPopup(service) {
 વિદ્યાર્થીઓના નામ નોંધાયેલ હોય તેવા વિદ્યાર્થીઓએ જે તે આંગણવાડીમાં અભ્યાસ કરેલ છે તે મતલબનું
 સબંધિત આંગણવાડીનાં આંગણવાડી વર્કર અથવા સરકારશ્રી દ્વારા પ્રમાણિત કરેલ દાખલો રજુ કરવો. ]</li>
       
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "L") {
+    popupTitle.textContent = "પાન કાર્ડ માં સુધારા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>પાન કાર્ડ.</li>
+      <li>પતિ અથવા પિતાનું આધાર કાર્ડ.</li>
+      <li>સફેદ કાગળ પર સહી.</li>
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "M") {
+    popupTitle.textContent = "રેશનકાર્ડ માં નામ ઉમેરવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>રેશનકાર્ડ.</li>
+      <li>જે પણ વ્યક્તિ ના નામ ઉમેરવાના હોય તે વ્યક્તિ ના આધાર કાર્ડ.</li>
 
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "N") {
+    popupTitle.textContent = "રેશનકાર્ડ માં નામ કમી કરવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>રેશનકાર્ડ.</li>
+      <li>જે પણ વ્યક્તિ ના નામ કમી કરવા ના હોય તે વ્યક્તિ ના આધાર કાર્ડ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "O") {
+    popupTitle.textContent = "રેશનકાર્ડ અલગ કરવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "P") {
+    popupTitle.textContent = "રેશનકાર્ડ નવું કાઠવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "Q") {
+    popupTitle.textContent = "જન્મ ના દાખલા માટે";
+    docList.innerHTML = `
+      <li>જુનો જન્મ નો દાખલો.</li>
+      <li>પિતા અને માતા નુ આધાર કાર્ડ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "R") {
+    popupTitle.textContent = "ખેડૂત નોધણી માટે";
+    docList.innerHTML = `
+      <li>આધાર કાર્ડ.</li>
+      <li>7/12 અને 8 અ ની નકલ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "S") {
+    popupTitle.textContent = "નવું પાસપોર્ટ માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "T") {
+    popupTitle.textContent = "પાસપોર્ટ રી-ન્યુ કરવા માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>જુનો પાસપોર્ટ.</li>
+      <li>જન્મ નો દાખલો.</li>
+      
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
   }
