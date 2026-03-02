@@ -344,7 +344,7 @@ async function fetchSummary() {
     totalCount++;
 
     const amountIndex = service === "electricity" ? 3 : 3;
-    const commissionIndex = service === "electricity" ? 10 : 8;
+    const commissionIndex = service === "electricity" ? 10 : 9;
 
     const amount = Number(
       (row[amountIndex] || "").replace(/[₹,]/g, "")
