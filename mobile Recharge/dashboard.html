@@ -210,6 +210,7 @@
     <select id="serviceFilter">
       <option value="mobile" selected>📱 Mobile Recharge</option>
       <option value="electricity">💡 Electricity Bill</option>
+      <option value="gas">🔥 Gas Bill</option> </select>
     </select>
     <span class="select-arrow">▾</span>
   </div>
@@ -263,8 +264,11 @@
     const MOBILE_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
 
-const ELECTRICITY_SHEET_URL =
+    const ELECTRICITY_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
+
+  const GAS_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv";
 
 
     const userBtn = document.getElementById("userBtn");
@@ -319,10 +323,13 @@ async function fetchSummary() {
   const service =
     document.getElementById("serviceFilter")?.value || "mobile";
 
-  const sheetUrl =
-    service === "electricity"
-      ? ELECTRICITY_SHEET_URL
-      : MOBILE_SHEET_URL;
+  // const sheetUrl =
+  //   service === "electricity"
+  //     ? ELECTRICITY_SHEET_URL
+  //     : MOBILE_SHEET_URL;
+
+      const sheetUrl = (service === "gas") ? GAS_SHEET_URL : 
+                       (service === "electricity") ? ELECTRICITY_SHEET_URL : MOBILE_SHEET_URL;
 
   if (!email) return;
 
@@ -343,8 +350,20 @@ async function fetchSummary() {
 
     totalCount++;
 
-    const amountIndex = service === "electricity" ? 3 : 3;
-    const commissionIndex = service === "electricity" ? 10 : 9;
+    // const amountIndex = service === "electricity" ? 3 : 3;
+    // const commissionIndex = service === "electricity" ? 10 : 9;
+
+    // Amount is usually the same column (Column D) for all
+      const amountIndex = 
+          service === "gas" ? 6 :           // Gas uses Index 10
+          service === "electricity" ? 3 :   // Electricity uses Index 10
+          3;                                 // Mobile uses Index 9 
+
+    // Commission changes based on the sheet structure
+      const commissionIndex = 
+          service === "gas" ? 11 :           // Gas uses Index 10
+          service === "electricity" ? 10 :   // Electricity uses Index 10
+          9;                                 // Mobile uses Index 9
 
     const amount = Number(
       (row[amountIndex] || "").replace(/[₹,]/g, "")
@@ -360,6 +379,8 @@ async function fetchSummary() {
   // 🔁 BOX TITLES CHANGE
   if (service === "electricity") {
     document.getElementById("boxTitle1").textContent = "Total Electricity Bills";
+  } else if (service === "gas") {
+    document.getElementById("boxTitle1").textContent = "Total Gas Bills";
   } else {
     document.getElementById("boxTitle1").textContent = "Total Recharges";
   }
@@ -401,6 +422,15 @@ setInterval(fetchSummary, 30000);
     // alert("Electricity Bill Service Coming Soon ⚡");
   }
 
+  function hasPermission(serviceName) {
+  const permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+  if (permissions.includes(serviceName)) {
+    return true;
+  } else {
+    alert("⛔ Access Denied: You are not eligible for " + serviceName);
+    return false;
+  }
+}
 
 
 </script>

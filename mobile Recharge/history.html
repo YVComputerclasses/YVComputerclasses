@@ -246,6 +246,7 @@
     <select id="serviceFilter">
       <option value="mobile" selected>📱 Mobile Recharge</option>
       <option value="electricity">💡 Electricity Bill</option>
+      <option value="gas">🔥 Gas Bill</option> </select>
     </select>
     <span class="select-arrow">▾</span>
   </div>
@@ -262,6 +263,9 @@
 
 const ELECTRICITY_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
+
+  const GAS_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv";
 
 // async function fetchData() {
 
@@ -360,10 +364,8 @@ async function fetchData() {
   const service =
     document.getElementById("serviceFilter")?.value || "mobile";
 
-  const sheetUrl =
-    service === "electricity"
-      ? ELECTRICITY_SHEET_URL
-      : MOBILE_SHEET_URL; // default mobile
+  const sheetUrl = (service === "gas") ? GAS_SHEET_URL : 
+                   (service === "electricity") ? ELECTRICITY_SHEET_URL : MOBILE_SHEET_URL;
 
   const email = localStorage.getItem("email");
   if (!email) {
@@ -412,7 +414,16 @@ async function fetchData() {
     payment    = row[8] || "";
     status     = row[9] || "";
     commission = row[10] || "";
-  } else {
+  } else if (service === "gas") { 
+    // 🔥 GAS INDEXES
+    date       = row[0] || "";
+    number     = row[3] || ""; // account number
+    amount     = row[6] || "";
+    payment    = row[9] || "";
+    status     = row[10] || "";
+    commission = row[11] || "";
+
+  }else {
     // 📱 MOBILE INDEXES
     date       = row[0] || "";
     number     = row[2] || ""; // mobile number

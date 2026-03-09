@@ -268,22 +268,42 @@ body {
   document.onscroll = resetTimer;
 
 function openMobile() {
+  if (hasPermission("mobile")) {
   window.open(
     "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
     "_blank"
   );
 }
+}
 
 function openElectricity() {
+  if (hasPermission("electricity")) {
   window.open(
     "https://docs.google.com/forms/d/e/1FAIpQLSeAuvwMjKpfkJseIGudYOCHZs4Zesf_lAmR0fZ5D30e8C4iWQ/viewform?usp=dialog",
     "_blank"
   );
   // alert("Electricity bill service coming soon ⚡");
 }
+}
 
 function openGas() {
-  alert("Gas bill service coming soon ⚡");
+  if (hasPermission("gas")) {
+  window.open(
+    "https://docs.google.com/forms/d/e/1FAIpQLSefk6PRFkdbN2ueEaQpWhKrEOcSw4i99OyYcxldJK3KMROBYg/viewform?usp=dialog",
+    "_blank"
+  );
+  // alert("Gas bill service coming soon ⚡");
+}
+}
+
+function hasPermission(serviceName) {
+  const permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+  if (permissions.includes(serviceName)) {
+    return true;
+  } else {
+    alert("⛔ Access Denied: You are not eligible for " + serviceName);
+    return false;
+  }
 }
 
 </script>

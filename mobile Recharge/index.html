@@ -99,8 +99,8 @@
   <script>
     // Example multiuser data: userid → {password, email}
     const users = {
-      "62021030": { password: "megh2010", email: "mp1997927@gmail.com" },
-      "arpan123": { password: "arpanpass", email: "arpanparmar23031@gmail.com" }
+      "62021030": { password: "megh2010", email: "mp1997927@gmail.com", permissions: ["mobile", "electricity"] },
+      "62023090": { password: "vishal2001", email: "vishalraval3931@gmail.com" , permissions: ["mobile"] }
       // add more users here
     };
 
@@ -116,6 +116,8 @@
         // Save both userid and email in localStorage
         localStorage.setItem("userid", userid);
         localStorage.setItem("email", users[userid].email);
+        // When logging in, save permissions to localStorage
+        localStorage.setItem("permissions", JSON.stringify(users[userid].permissions));
 
         message.style.color = "green";
         message.textContent = "Login successful! 🎉";
