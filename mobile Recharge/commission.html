@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Commission Chart</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+    }
+
+    /* Navbar matching your theme */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50;
+      padding: 10px 20px;
+      color: #fff;
+    }
+    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; }
+    .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
+    .nav-left a:hover { color: #1abc9c; }
+
+    /* Main Container */
+    .container {
+      max-width: 700px; /* Narrowed for better look since column removed */
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #f4f6f9;
+      padding-bottom: 10px;
+    }
+
+    h2 { color: #2c3e50; margin: 0; }
+
+    /* Search Bar */
+    #searchBar {
+      padding: 10px;
+      width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th {
+      background: #2c3e50;
+      color: white;
+      text-align: left;
+      padding: 15px;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background-color: #f1f9f8;
+    }
+
+    /* Commission Tag Styling */
+    .comm-tag {
+      background: #1abc9c;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95em;
+      display: inline-block;
+    }
+
+    @media (max-width: 600px) {
+      .header-section { flex-direction: column; gap: 10px; align-items: flex-start; }
+      #searchBar { width: 100%; }
+      .container { margin: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="service.html">Services</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="commission.html">Commission</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="header-section">
+      <h2>Operator Commission</h2>
+      <input type="text" id="searchBar" placeholder="Search Service..." onkeyup="filterTable()">
+    </div>
+
+    <table id="commTable">
+      <thead>
+        <tr>
+          <th>Service Name</th>
+          <th style="text-align: right;">Commission (Profit)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mobile Recharge</td>
+          <td style="text-align: right;"><span class="comm-tag">As per Recharge</span></td>
+        </tr>
+        <tr>
+          <td>Electricity Bill</td>
+          <td style="text-align: right;"><span class="comm-tag">₹3.00</span></td>
+        </tr>
+        <tr>
+          <td>Gas Bill</td>
+          <td style="text-align: right;"><span class="comm-tag">₹2.00</span></td>
+        </tr>
+        <tr>
+          <td>PAN Card Application</td>
+          <td style="text-align: right;"><span class="comm-tag">₹30.00</span></td>
+        </tr>
+        <tr>
+          <td>Voter ID Service</td>
+          <td style="text-align: right;"><span class="comm-tag">₹50.00</span></td>
+        </tr>
+        <tr>
+          <td>Aadhar Download Slip</td>
+          <td style="text-align: right;"><span class="comm-tag">₹30.00</span></td>
+        </tr>
+        <tr>
+          <td>Aadhar card Update Address</td>
+          <td style="text-align: right;"><span class="comm-tag">₹35.00</span></td>
+        </tr>
+        <tr>
+          <td>Smart PVC Card (Any)</td>
+          <td style="text-align: right;"><span class="comm-tag">₹30.00</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function filterTable() {
+      const input = document.getElementById("searchBar");
+      const filter = input.value.toUpperCase();
+      const table = document.getElementById("commTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        // [0] still refers to the Service Name column
+        let td = tr[i].getElementsByTagName("td")[0]; 
+        if (td) {
+          let textValue = td.textContent || td.innerText;
+          if (textValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
