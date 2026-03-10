@@ -6,27 +6,40 @@
   <link rel="icon" type="image/png" href="logo.png">
   <title>History</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-    }
+    /* Updated Styles for Mobile Compatibility */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  /* Prevents the entire page from wobbling left/right */
+  overflow-x: hidden; 
+  width: 100%;
+}
 
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #2c3e50;
-      padding: 10px 20px;
-      color: #fff;
-    }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 10px 20px;
+  color: #fff;
+  /* Ensure background covers full width even with padding */
+  width: 100%;
+  box-sizing: border-box; 
+  position: relative;
+  z-index: 1001;
+}
 
-    /* Left menu */
-    .nav-left {
-      display: flex;
-      gap: 20px;
-    }
+.nav-left {
+  display: flex;
+  gap: 15px; /* Slightly reduced gap for mobile */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  /* Allows menu items to wrap to a new line if the screen is too narrow */
+  flex-wrap: wrap; 
+}
 
     .nav-left li {
       list-style: none;
@@ -209,12 +222,22 @@
 
 /* Mobile responsive */
 @media (max-width: 600px) {
-  .filter-bar {
-    justify-content: center;
+  .navbar {
+    padding: 15px 10px;
+    flex-direction: column; /* Optional: stacks user ID and menu */
+    gap: 10px;
   }
 
-  .service-select {
+  .nav-left {
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  /* Ensures the table is scrollable sideways without breaking the navbar */
+  #sheetData {
     width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -308,99 +331,6 @@ const ELECTRICITY_SHEET_URL =
   const GAS_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv";
 
-// async function fetchData() {
-
-//   document
-//   .getElementById("serviceFilter")
-//   .addEventListener("change", fetchData);
-
-//   const sheetUrl =
-//     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
-
-//   const email = localStorage.getItem("email");
-//   if (!email) {
-//     alert("Session expired. Please login again.");
-//     window.location.href = "index.html";
-//     return;
-//   }
-
-//   const response = await fetch(sheetUrl + "&t=" + Date.now());
-//   const csvText = await response.text();
-
-//   // Split CSV rows
-//   // const rows = csvText
-//   //   .trim()
-//   //   .split("\n")
-//   //   .map(r => r.replace(/\r/g, "").split(","));
-
-//   const rows = csvText
-//   .trim()
-//   .split("\n")
-//   .map(line => {
-//     const cols = line.replace(/\r/g, "").split(",");
-
-//     // 👇 force minimum columns (adjust number if needed)
-//     while (cols.length < 13) {
-//       cols.push("");
-//     }
-
-//     return cols;
-//   });
-
-
-//   let htmlOutput = `
-//     <table>
-//       <thead>
-//         <tr>
-//           <th>Date & Time</th>
-//           <th>Mobile Number</th>
-//           <th>Recharge Plan Amount</th>
-//           <th>Select</th>
-//           <th>Payment Type</th>
-//           <th>Payment Status</th>
-//           <th>Commission</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//   `;
-
-//   // Start from row 1 (skip header only)
-//   for (let i = 1; i < rows.length; i++) {
-//     const row = rows[i];
-//     if (!row || row.length === 0) continue;
-
-//     // show only logged-in user's data
-//     // if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
-//     const selectedService =
-//   document.getElementById("serviceFilter")?.value || "all";
-
-// // show only logged-in user's data
-// if ((row[1] || "").trim().toLowerCase() !== email.toLowerCase()) continue;
-
-// // filter by service
-// if (
-//   selectedService !== "all" &&
-//   (row[5] || "").trim() !== selectedService
-// ) continue;
-
-
-
-//     htmlOutput += `
-//       <tr>
-//         <td>${row[0]  || ""}</td>
-//         <td>${row[2]  || ""}</td>
-//         <td>${row[3]  || ""}</td>
-//         <td>${row[5]  || ""}</td>
-//         <td>${row[6] || ""}</td>
-//         <td>${row[7] || ""}</td>
-//         <td>${row[8] || ""}</td>
-//       </tr>
-//     `;
-//   }
-
-//   htmlOutput += "</tbody></table>";
-//   document.getElementById("sheetData").innerHTML = htmlOutput;
-// }
 async function fetchData() {
   const service =
     document.getElementById("serviceFilter")?.value || "mobile";
@@ -556,22 +486,6 @@ document.onmousemove = resetTimer;
 document.onkeypress = resetTimer;
 document.onclick = resetTimer;
 document.onscroll = resetTimer;
-
-// /* ===== SERVICE ACTIONS ===== */
-// function openMobile() {
-//   window.open(
-//     "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
-//     "_blank"
-//   );
-// }
-
-// function openElectricity() {
-//   window.open(
-//     "https://docs.google.com/spreadsheets/d/14BGRYfArCiChHS2pM8yeDC-f2RNERhyAQouP6DbbLOo/edit?usp=sharing",
-//     "_blank"
-//   );
-//   // alert("Electricity Bill service coming soon ⚡");
-// }
 
 // Robust Dropdown Toggle
   const otherBtn = document.getElementById("otherBtn");

@@ -8,18 +8,17 @@
 
 <style>
 /* ===== RESET ===== */
-* {
+/* Updated Styles for Mobile Compatibility */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
   font-family: Arial, sans-serif;
   background: #f4f6f9;
+  /* Prevents the whole page from "wobbling" horizontally */
+  overflow-x: hidden; 
+  width: 100%;
 }
 
-/* ===== NAVBAR ===== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -27,11 +26,22 @@ body {
   background: #2c3e50;
   padding: 10px 20px;
   color: #fff;
+  /* Fix: Ensures background covers the full width regardless of padding */
+  width: 100%;
+  box-sizing: border-box; 
+  position: relative;
+  z-index: 1001;
 }
 
 .nav-left {
   display: flex;
-  gap: 20px;
+  gap: 15px; /* Slightly reduced gap for better mobile fit */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  /* Fix: Allows menu items to wrap to a second line if the screen is too narrow */
+  flex-wrap: wrap; 
 }
 
 .nav-left li {
@@ -144,8 +154,18 @@ body {
   .services {
     flex-direction: column;
   }
+  
+  /* Adds specific mobile styling for the navbar */
+  .navbar {
+    padding: 15px 10px;
+  }
+  
+  .nav-left {
+    justify-content: center; /* Centers links on mobile */
+    font-size: 13px; /* Slightly smaller text for better fit */
+    gap: 10px;
+  }
 }
-
 /* Dropdown Container */
 .dropdown {
   display: none;
@@ -177,6 +197,8 @@ body {
 .show {
   display: block;
 }
+
+
 </style>
 </head>
 
@@ -238,21 +260,7 @@ body {
 
 
 <script>
-// function openMobile() {
-//   window.open(
-//     "https://docs.google.com/forms/d/e/1FAIpQLSfJOv9OeIclcWb9dtApwx4pIqOq3JM0aWlVcvB4aCqJx3ANOQ/viewform?usp=dialog",
-//     "_blank"
-//   );
-// }
-
-// function openElectricity() {
-//   window.open(
-//     "https://docs.google.com/forms/d/e/1FAIpQLSeAuvwMjKpfkJseIGudYOCHZs4Zesf_lAmR0fZ5D30e8C4iWQ/viewform?usp=dialog",
-//     "_blank"
-//   );
-//   // alert("Electricity bill service coming soon ⚡");
-// }
-
+  
   /* ===== LOGIN CHECK ===== */
   const userid = localStorage.getItem("userid");
   const email = localStorage.getItem("email");

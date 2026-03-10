@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="logo.png">
-  <title>Dashboard</title>
+  <title>JOS</title>
   <style>
     body {
       margin: 0;
@@ -12,21 +12,33 @@
       background: #f4f6f9;
     }
 
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #2c3e50;
-      padding: 10px 20px;
-      color: #fff;
-    }
+    /* Updated Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 10px 20px;
+  color: #fff;
+  /* Fixes for mobile width */
+  width: 100%;
+  box-sizing: border-box; 
+}
 
-    .nav-left {
-      display: flex;
-      gap: 20px;
-    }
-    .nav-left li { list-style: none; }
+.nav-left {
+  display: flex;
+  gap: 15px; /* Slightly reduced for mobile */
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap; /* Allows items to wrap if screen is too narrow */
+}
+
+.nav-left li { 
+  list-style: none; 
+}
+
+/* Ensure the body doesn't cause weird horizontal gaps */
+
     .nav-left a {
       text-decoration: none;
       color: #fff;
@@ -211,6 +223,16 @@
 /* Show class for JS */
 .show {
   display: block;
+}
+
+@media (max-width: 600px) {
+  .summary {
+    flex-direction: column;
+  }
+  .nav-left {
+    gap: 10px;
+    font-size: 14px;
+  }
 }
 
   </style>
@@ -442,15 +464,6 @@ document
 fetchSummary(); // default mobile
 setInterval(fetchSummary, 30000);
 
-
-  // const serviceBtn = document.getElementById("serviceBtn");
-  // const serviceSection = document.getElementById("serviceSection");
-
-  // serviceBtn.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   serviceSection.style.display =
-  //     serviceSection.style.display === "block" ? "none" : "block";
-  // });
 
   function openMobileRecharge() {
     window.location.href =

@@ -4,11 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="logo.png">
-  <title>Payout Request - JOS Portal</title>
+  <title>Payout</title>
   <style>
-    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; }
-    .navbar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; padding: 10px 20px; color: #fff; }
-    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+    /* Updated for Mobile Compatibility */
+body { 
+  margin: 0; 
+  font-family: 'Segoe UI', Arial, sans-serif; 
+  background: #f4f6f9; 
+  /* Prevents the whole page from "wobbling" horizontally */
+  overflow-x: hidden; 
+  width: 100%;
+}
+
+.navbar { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: #2c3e50; 
+  padding: 10px 20px; 
+  color: #fff; 
+  /* Fix: Padding stays INSIDE the 100% width */
+  width: 100%;
+  box-sizing: border-box; 
+  position: relative;
+  z-index: 1001;
+}
+
+.nav-left { 
+  display: flex; 
+  gap: 15px; 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  align-items: center;
+  /* Fix: Allows menu items to wrap to a new line if the screen is too narrow */
+  flex-wrap: wrap; 
+}
     .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
     .nav-left a:hover { color: #1abc9c; }
     .dropdown { position: relative; list-style: none; }
@@ -60,6 +91,20 @@
     .r-val { color: #2c3e50; font-weight: bold; }
     .btn-close { width: 100%; padding: 12px; background: #2c3e50; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 20px; font-size: 15px; }
     .btn-close:hover { background: #1abc9c; }
+
+    @media (max-width: 600px) {
+  .navbar {
+    padding: 15px 10px;
+  }
+  .nav-left {
+    gap: 10px;
+    font-size: 13px; /* Smaller text to help fit more items */
+  }
+  .container {
+    margin: 20px 15px; /* Adds breathing room on sides */
+    padding: 20px;
+  }
+}
   </style>
 </head>
 <body>
@@ -287,27 +332,6 @@
     function generateTxId() {
         return 'JOS' + Math.floor(Math.random() * 90000000 + 10000000);
     }
-
-    // function handlePayout() {
-    //   const amount = parseFloat(document.getElementById("payoutAmount").value);
-    //   const limit = currentServiceBalance - minBalance;
-    //   const bankName = userData[currentUserId] ? userData[currentUserId].bank : "Bank";
-    //   const serviceName = document.getElementById("serviceSelect").options[document.getElementById("serviceSelect").selectedIndex].text;
-
-    //   if (!amount || amount <= 0) return alert("Please enter a valid amount.");
-    //   if (currentServiceBalance < minBalance) return alert("Balance too low for payout.");
-    //   if (amount > limit) return alert("Insufficient Withdrawable Balance. Max allowed: ₹" + limit.toFixed(2));
-
-    //   // Pop-up Data Fill
-    //   document.getElementById("topNotice").innerHTML = `<b>Success!</b> Rs. ${amount.toFixed(2)} transferred to <b>${bankName}</b> Successfully. It May Take up to 45 mins for the funds to reflect in your account.`;
-    //   document.getElementById("res-txid").textContent = generateTxId();
-    //   document.getElementById("res-date").textContent = new Date().toLocaleString();
-    //   document.getElementById("res-amount").textContent = "₹" + amount.toFixed(2);
-    //   document.getElementById("res-service").textContent = serviceName;
-
-    //   // Show Pop-up
-    //   document.getElementById("payoutModal").style.display = "flex";
-    // }
 
     async function handlePayout() {
   const amount = parseFloat(document.getElementById("payoutAmount").value);

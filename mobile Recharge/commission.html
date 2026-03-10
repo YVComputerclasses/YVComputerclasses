@@ -4,26 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="logo.png">
-  <title>Commission Chart</title>
+  <title>Commission</title>
   <style>
     /* Global Styles */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f9;
-      color: #333;
-    }
+   /* Updated Navbar Styles for Mobile Compatibility */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 10px 20px;
+  color: #fff;
+  /* Fix: Ensure the background covers the full width and handles padding correctly */
+  width: 100%;
+  box-sizing: border-box; 
+  position: relative;
+}
 
-    /* Navbar matching your theme */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #2c3e50;
-      padding: 10px 20px;
-      color: #fff;
-    }
-    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; }
+.nav-left { 
+  display: flex; 
+  gap: 15px; 
+  list-style: none; 
+  padding: 0; 
+  margin: 0;
+  /* Fix: Allow items to wrap to a new line on small screens */
+  flex-wrap: wrap; 
+}
+
+/* Ensure the body doesn't allow horizontal scrolling gaps */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+  overflow-x: hidden;
+  width: 100%;
+}
     .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
     .nav-left a:hover { color: #1abc9c; }
 
@@ -92,10 +108,18 @@
     }
 
     @media (max-width: 600px) {
-      .header-section { flex-direction: column; gap: 10px; align-items: flex-start; }
-      #searchBar { width: 100%; }
-      .container { margin: 15px; }
-    }
+  .navbar {
+    padding: 15px 10px; /* Slightly more vertical padding for easier tapping */
+  }
+  .nav-left {
+    justify-content: center; /* Centers the menu links on mobile */
+    gap: 10px;
+    font-size: 14px;
+  }
+  .header-section { flex-direction: column; gap: 10px; align-items: flex-start; }
+  #searchBar { width: 100%; }
+  .container { margin: 15px; }
+}
 
     /* Dropdown Container */
 .dropdown {
