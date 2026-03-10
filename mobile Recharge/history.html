@@ -9,9 +9,10 @@
     /* Updated Styles for Mobile Compatibility */
 body {
   margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
   background: #f4f6f9;
-  /* Prevents the entire page from wobbling left/right */
+  /* Prevents the whole page from "wobbling" horizontally */
   overflow-x: hidden; 
   width: 100%;
 }
@@ -23,7 +24,7 @@ body {
   background: #2c3e50;
   padding: 10px 20px;
   color: #fff;
-  /* Ensure background covers full width even with padding */
+  /* Fix: Ensures background covers the full width regardless of padding */
   width: 100%;
   box-sizing: border-box; 
   position: relative;
@@ -32,12 +33,12 @@ body {
 
 .nav-left {
   display: flex;
-  gap: 15px; /* Slightly reduced gap for mobile */
+  gap: 15px; /* Slightly reduced gap for better mobile fit */
   list-style: none;
   padding: 0;
   margin: 0;
   align-items: center;
-  /* Allows menu items to wrap to a new line if the screen is too narrow */
+  /* Fix: Allows menu items to wrap to a second line if the screen is too narrow */
   flex-wrap: wrap; 
 }
 
@@ -224,13 +225,12 @@ body {
 @media (max-width: 600px) {
   .navbar {
     padding: 15px 10px;
-    flex-direction: column; /* Optional: stacks user ID and menu */
-    gap: 10px;
   }
-
+  
   .nav-left {
-    justify-content: center;
-    font-size: 13px;
+    justify-content: center; /* Centers links on mobile */
+    font-size: 13px; /* Slightly smaller text for better fit */
+    gap: 10px;
   }
 
   /* Ensures the table is scrollable sideways without breaking the navbar */

@@ -7,37 +7,38 @@
   <title>Payout</title>
   <style>
     /* Updated for Mobile Compatibility */
-body { 
-  margin: 0; 
-  font-family: 'Segoe UI', Arial, sans-serif; 
-  background: #f4f6f9; 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
   /* Prevents the whole page from "wobbling" horizontally */
   overflow-x: hidden; 
   width: 100%;
 }
 
-.navbar { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  background: #2c3e50; 
-  padding: 10px 20px; 
-  color: #fff; 
-  /* Fix: Padding stays INSIDE the 100% width */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 10px 20px;
+  color: #fff;
+  /* Fix: Ensures background covers the full width regardless of padding */
   width: 100%;
   box-sizing: border-box; 
   position: relative;
   z-index: 1001;
 }
 
-.nav-left { 
-  display: flex; 
-  gap: 15px; 
-  list-style: none; 
-  padding: 0; 
-  margin: 0; 
+.nav-left {
+  display: flex;
+  gap: 15px; /* Slightly reduced gap for better mobile fit */
+  list-style: none;
+  padding: 0;
+  margin: 0;
   align-items: center;
-  /* Fix: Allows menu items to wrap to a new line if the screen is too narrow */
+  /* Fix: Allows menu items to wrap to a second line if the screen is too narrow */
   flex-wrap: wrap; 
 }
     .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
@@ -96,9 +97,11 @@ body {
   .navbar {
     padding: 15px 10px;
   }
+  
   .nav-left {
+    justify-content: center; /* Centers links on mobile */
+    font-size: 13px; /* Slightly smaller text for better fit */
     gap: 10px;
-    font-size: 13px; /* Smaller text to help fit more items */
   }
   .container {
     margin: 20px 15px; /* Adds breathing room on sides */
