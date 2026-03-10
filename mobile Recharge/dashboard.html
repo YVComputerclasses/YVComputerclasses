@@ -6,13 +6,16 @@
   <link rel="icon" type="image/png" href="logo.png">
   <title>JOS</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-    }
+   body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  /* Prevents the whole page from "wobbling" horizontally */
+  overflow-x: hidden; 
+  width: 100%;
+}
 
-    /* Updated Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -20,17 +23,22 @@
   background: #2c3e50;
   padding: 10px 20px;
   color: #fff;
-  /* Fixes for mobile width */
+  /* Fix: Ensures background covers the full width regardless of padding */
   width: 100%;
   box-sizing: border-box; 
+  position: relative;
+  z-index: 1001;
 }
 
 .nav-left {
   display: flex;
-  gap: 15px; /* Slightly reduced for mobile */
+  gap: 15px; /* Slightly reduced gap for better mobile fit */
+  list-style: none;
   padding: 0;
   margin: 0;
-  flex-wrap: wrap; /* Allows items to wrap if screen is too narrow */
+  align-items: center;
+  /* Fix: Allows menu items to wrap to a second line if the screen is too narrow */
+  flex-wrap: wrap; 
 }
 
 .nav-left li { 
@@ -229,9 +237,14 @@
   .summary {
     flex-direction: column;
   }
+  .navbar {
+    padding: 15px 10px;
+  }
+  
   .nav-left {
+    justify-content: center; /* Centers links on mobile */
+    font-size: 13px; /* Slightly smaller text for better fit */
     gap: 10px;
-    font-size: 14px;
   }
 }
 
