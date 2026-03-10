@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Payout Request - JOS Portal</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; padding: 10px 20px; color: #fff; }
+    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+    .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
+    .nav-left a:hover { color: #1abc9c; }
+    .dropdown { position: relative; list-style: none; }
+    .dropdown-content { display: none; position: absolute; background-color: #2c3e50; min-width: 160px; z-index: 100; top: 100%; left: 0; border-radius: 4px; }
+    .dropdown-content a { padding: 12px 16px; display: block; color: white; text-decoration: none; font-size: 14px; border-bottom: 1px solid #34495e; }
+    .show { display: block !important; }
+
+    .container { max-width: 500px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 10px; }
+    .info-box { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #1abc9c; }
+    .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+    .label { font-weight: bold; color: #7f8c8d; }
+    .alert-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-size: 13px; margin-bottom: 15px; border: 1px solid #ffeeba; }
+    input, select { width: 100%; padding: 12px; margin: 10px 0 20px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+    .btn-send { background: #1abc9c; color: white; border: none; padding: 15px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
+    .btn-send:hover { background: #16a085; }
+    #loading { font-size: 12px; color: #1abc9c; display: none; margin-left: 10px; }
+
+    /* --- SUCCESS POPUP STYLES --- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .success-modal {
+      background: white;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    
+    .receipt-header { display: flex; align-items: center; gap: 15px; border-bottom: 2px dashed #eee; padding-bottom: 15px; margin-bottom: 15px; }
+    .receipt-logo { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+    .biz-name { font-weight: bold; color: #2c3e50; font-size: 16px; text-align: left; }
+    
+    .status-text { background: #e8f5e9; color: #1b5e20; padding: 12px; border-radius: 8px; font-size: 13px; margin: 10px 0; border-left: 5px solid #4caf50; text-align: left; line-height: 1.4; }
+    .receipt-details { text-align: left; margin-top: 15px; background: #fcfcfc; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0; }
+    .r-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
+    .r-label { color: #7f8c8d; }
+    .r-val { color: #2c3e50; font-weight: bold; }
+    .btn-close { width: 100%; padding: 12px; background: #2c3e50; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 20px; font-size: 15px; }
+    .btn-close:hover { background: #1abc9c; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="service.html">Services</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="commission.html">Commission</a></li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" id="otherBtn">Other ▼</a>
+        <div class="dropdown-content" id="otherMenu">
+          <a href="payout.html">Payout</a>
+          <a href="check-mrc.html">Check MRC</a>
+          <a href="#" onclick="alert('Support: Contact Admin')">Complain</a>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-right" style="position: relative;">
+      <button class="btn-send" id="userBtn" style="padding: 8px 15px; font-size: 14px; width: auto;">UserID ▼</button>
+      <div class="dropdown-content" id="dropdownMenu" style="right: 0; left: auto;">
+        <a href="#" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Payout Request</h2>
+    
+    <div class="alert-box">
+      ⚠️ <b>Minimum Balance:</b> You must leave at least <b>₹150</b> in your commission.
+    </div>
+
+    <div class="info-box">
+      <div class="info-row"><span class="label">User Gmail:</span> <span id="disp-email" style="font-weight:bold; color:#2c3e50;">---</span></div>
+      <div class="info-row"><span class="label">A/C Holder:</span> <span id="disp-holder">---</span></div>
+      <div class="info-row"><span class="label">Bank Name:</span> <span id="disp-bank">---</span></div>
+      <div class="info-row"><span class="label">IFSC:</span> <span id="disp-ifsc">---</span></div>
+    </div>
+
+    <label>Select Service</label>
+    <select id="serviceSelect" onchange="fetchServiceCommission()">
+      <option value="mobile">Mobile Recharge</option>
+      <option value="electricity">Electricity</option>
+      <option value="gas">Gas Bill</option>
+    </select>
+    <span id="loading" style="display: none; color: #e67e22; font-weight: bold; margin-left: 10px;">Updating Balance...</span>
+
+    <div class="info-row" style="margin-top: 10px;">
+      <span class="label">Total Commission:</span>
+      <span id="disp-balance" style="color: #2c3e50; font-weight: bold;">₹0.00</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Withdrawable (Balance - 150):</span>
+      <span id="disp-withdrawable" style="color: #27ae60; font-weight: bold; font-size: 18px;">₹0.00</span>
+    </div>
+
+    <label style="display:block; margin-top:15px;">Amount to Payout</label>
+    <input type="number" id="payoutAmount" placeholder="0.00">
+
+    <button class="btn-send" id="submitPayout" onclick="handlePayout()">Send Request</button>
+  </div>
+
+  <div id="payoutModal" class="modal-overlay">
+    <div class="success-modal">
+      <div class="receipt-header">
+        <img src="logo.png" class="receipt-logo" alt="logo">
+        <div class="biz-name">Jangid Online Services<br><small style="color:#1abc9c">Digital Payment Receipt</small></div>
+      </div>
+
+      <div id="topNotice" class="status-text"></div>
+
+      <div class="receipt-details">
+        <div class="r-row"><span class="r-label">Payment Status:</span> <span class="r-val" style="color:#2e7d32">SUCCESS</span></div>
+        <div class="r-row"><span class="r-label">Service:</span> <span id="res-service" class="r-val"></span></div>
+        <div class="r-row"><span class="r-label">Amount Paid:</span> <span id="res-amount" class="r-val" style="font-size:15px;"></span></div>
+        <div class="r-row"><span class="r-label">Transaction ID:</span> <span id="res-txid" class="r-val" style="font-family:monospace;"></span></div>
+        <div class="r-row"><span class="r-label">Date & Time:</span> <span id="res-date" class="r-val"></span></div>
+      </div>
+
+      <button class="btn-close" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+
+  <script>
+
+        // --- CONFIG & DATA ---
+    const currentUserId = localStorage.getItem("userid");
+    const currentUserEmail = localStorage.getItem("email"); 
+    const minBalance = 150;
+    let currentServiceBalance = 0;
+
+    // --- SESSION & USER DATA ---
+//   const currentUserId = localStorage.getItem("userid");
+//   const currentUserEmail = localStorage.getItem("email"); 
+  
+  if (!currentUserId || !currentUserEmail) { 
+    window.location.href = "index.html"; 
+  }
+
+  // Display User ID on button
+  document.getElementById("userBtn").innerText = currentUserId + " ▼";
+
+  // --- NAVIGATION LOGIC ---
+  const otherBtn = document.getElementById("otherBtn");
+  const otherMenu = document.getElementById("otherMenu");
+  const userBtn = document.getElementById("userBtn");
+  const dropdownMenu = document.getElementById("dropdownMenu");
+
+  // Toggle Other Menu
+  otherBtn.onclick = (e) => {
+    e.stopPropagation();
+    otherMenu.classList.toggle("show");
+    dropdownMenu.classList.remove("show"); // Close other if open
+  };
+
+  // Toggle User Menu
+  userBtn.onclick = (e) => {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle("show");
+    otherMenu.classList.remove("show"); // Close other if open
+  };
+
+  // Logout Logic
+  document.getElementById("logout").onclick = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "index.html";
+  };
+
+  // Close menus when clicking anywhere else
+  window.onclick = () => {
+    otherMenu.classList.remove("show");
+    dropdownMenu.classList.remove("show");
+  };
+
+  // --- MODAL LOGIC (Fixed duplicate) ---
+  function closeModal() {
+    window.location.reload(); 
+  }
+    
+    // --- NAV LOGIC ---
+    document.getElementById("otherBtn").onclick = (e) => {
+      e.stopPropagation();
+      document.getElementById("otherMenu").classList.toggle("show");
+    };
+    window.onclick = () => document.getElementById("otherMenu").classList.remove("show");
+
+    // Google Sheets index mapping
+    const EMAIL_COL_INDEX = 1; // Gmail ID is in Column B
+    const serviceColumnMap = {
+        "mobile": 9,      // Column J
+        "electricity": 10, // Column K
+        "gas": 11          // Column L
+    };
+
+    const userData = {
+      "62021030": { name: "MEGH CHIRAGKUMAR PATEL", bank: "UNION BANK OF INDIA", ifsc: "UBIN0563064" },
+      "62023090": { name: "VISHALKUMAR SOMABHAI RAVAL", bank: "NULL", ifsc: "NULL" }
+    };
+
+    // --- FETCH COMMISSION USING GMAIL ---
+    async function fetchServiceCommission() {
+  const service = document.getElementById("serviceSelect").value;
+  const serviceName = document.getElementById("serviceSelect").options[document.getElementById("serviceSelect").selectedIndex].text;
+  const loader = document.getElementById("loading");
+  loader.style.display = "inline";
+
+      const sheetUrls = {
+        mobile: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv",
+        electricity: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv", 
+        gas: "PASTE_YOUR_GAS_CSV_LINK_HERE"
+      };
+
+      const url = sheetUrls[service];
+      if (!url || url.includes("PASTE_YOUR")) {
+        currentServiceBalance = 0;
+        updateUI();
+        loader.style.display = "none";
+        return;
+      }
+
+      try {
+        // આ લાઈન દર વખતે નવી રિક્વેસ્ટ મોકલશે (Auto Refresh Trick) 
+        const freshQuery = "?v=" + new Date().getTime();
+
+        const response = await fetch(url);
+        const data = await response.text();
+        const rows = data.split("\n").slice(1); 
+        let total = 0;
+        const targetCol = serviceColumnMap[service];
+
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if (cols.length > targetCol && cols[EMAIL_COL_INDEX]) { 
+            const rowEmail = cols[EMAIL_COL_INDEX].trim().toLowerCase();
+            const commission = parseFloat(cols[targetCol]) || 0; 
+            
+            if (rowEmail === currentUserEmail.toLowerCase()) {
+              total += commission;
+            }
+          }
+        });
+        currentServiceBalance = total;
+        updateUI();
+      } catch (err) { console.error("Fetch Error:", err); } 
+      finally { loader.style.display = "none"; }
+    }
+
+    function updateUI() {
+      document.getElementById("disp-email").textContent = currentUserEmail || "---";
+      if (userData[currentUserId]) {
+        document.getElementById("disp-holder").textContent = userData[currentUserId].name;
+        document.getElementById("disp-bank").textContent = userData[currentUserId].bank;
+        document.getElementById("disp-ifsc").textContent = userData[currentUserId].ifsc;
+      }
+      const withdrawable = currentServiceBalance - minBalance;
+      document.getElementById("disp-balance").textContent = "₹" + currentServiceBalance.toFixed(2);
+      document.getElementById("disp-withdrawable").textContent = "₹" + (withdrawable > 0 ? withdrawable.toFixed(2) : "0.00");
+    }
+
+    // --- PAYOUT MODAL LOGIC ---
+    function generateTxId() {
+        return 'JOS' + Math.floor(Math.random() * 90000000 + 10000000);
+    }
+
+    // function handlePayout() {
+    //   const amount = parseFloat(document.getElementById("payoutAmount").value);
+    //   const limit = currentServiceBalance - minBalance;
+    //   const bankName = userData[currentUserId] ? userData[currentUserId].bank : "Bank";
+    //   const serviceName = document.getElementById("serviceSelect").options[document.getElementById("serviceSelect").selectedIndex].text;
+
+    //   if (!amount || amount <= 0) return alert("Please enter a valid amount.");
+    //   if (currentServiceBalance < minBalance) return alert("Balance too low for payout.");
+    //   if (amount > limit) return alert("Insufficient Withdrawable Balance. Max allowed: ₹" + limit.toFixed(2));
+
+    //   // Pop-up Data Fill
+    //   document.getElementById("topNotice").innerHTML = `<b>Success!</b> Rs. ${amount.toFixed(2)} transferred to <b>${bankName}</b> Successfully. It May Take up to 45 mins for the funds to reflect in your account.`;
+    //   document.getElementById("res-txid").textContent = generateTxId();
+    //   document.getElementById("res-date").textContent = new Date().toLocaleString();
+    //   document.getElementById("res-amount").textContent = "₹" + amount.toFixed(2);
+    //   document.getElementById("res-service").textContent = serviceName;
+
+    //   // Show Pop-up
+    //   document.getElementById("payoutModal").style.display = "flex";
+    // }
+
+    async function handlePayout() {
+  const amount = parseFloat(document.getElementById("payoutAmount").value);
+  const limit = currentServiceBalance - minBalance;
+  const bankName = userData[currentUserId] ? userData[currentUserId].bank : "Bank";
+  const serviceName = document.getElementById("serviceSelect").options[document.getElementById("serviceSelect").selectedIndex].text;
+  
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwsArSXSZMJlVkCywJQ9flC8Tg69kIb6bZxt58CcZwD_3V5J4AJdBiPf7qsqptW0qbW8Q/exec";
+
+  if (!amount || amount <= 0) return alert("Please enter a valid amount.");
+  if (amount > limit) return alert("Insufficient balance!");
+
+  const txId = 'JOS' + Math.floor(Math.random() * 90000000 + 10000000);
+  const dateStr = new Date().toLocaleString();
+
+  // --- અહીં ફેરફાર છે ---
+  const submitBtn = document.getElementById("submitPayout");
+
+  try {
+    // બટન લોડિંગ મોડમાં મૂકવું
+    submitBtn.innerText = "Processing...";
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = "0.7"; // થોડો ઝાંખો કરવા માટે
+
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      cache: "no-cache",
+      body: JSON.stringify({
+        date: dateStr,
+        email: currentUserEmail,
+        service: serviceName,
+        amount: "₹" + amount.toFixed(2),
+        txid: txId
+      })
+    });
+
+    document.getElementById("topNotice").innerHTML = `<b>Success!</b> Rs. ${amount.toFixed(2)} transferred to <b>${bankName}</b> Successfully.`;
+    document.getElementById("res-txid").textContent = txId;
+    document.getElementById("res-date").textContent = dateStr;
+    document.getElementById("res-amount").textContent = "₹" + amount.toFixed(2);
+    document.getElementById("res-service").textContent = serviceName;
+
+    document.getElementById("payoutModal").style.display = "flex";
+
+  } catch (error) {
+    console.error("Error!", error);
+    alert("Request failed, try again.");
+  } finally {
+    // બટન પાછું નોર્મલ કરવું
+    submitBtn.innerText = "Send Request";
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = "1";
+  }
+}
+
+    function closeModal() {
+        window.location.href = "dashboard.html";
+    }
+
+    window.onload = () => {
+      if (!currentUserId || !currentUserEmail) { 
+          window.location.href = "index.html"; 
+          return; 
+      }
+      fetchServiceCommission();
+    };
+
+    function closeModal() {
+    // ડેશબોર્ડ પર જવાને બદલે પેજ રિફ્રેશ કરશે જેથી નવું બેલેન્સ દેખાય
+    window.location.reload(); 
+}
+  </script>
+</body>
+</html>

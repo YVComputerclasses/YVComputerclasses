@@ -1,0 +1,491 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Check MRC - JOS Portal</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; }
+    
+    /* Navbar Styles */
+    .navbar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; padding: 10px 20px; color: #fff; }
+    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+    .nav-left a { text-decoration: none; color: #fff; font-weight: bold; }
+    .nav-left a:hover { color: #1abc9c; }
+    
+    .container { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    h2 { color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 10px; margin-bottom: 20px; }
+    
+    .input-box { max-width: 450px; margin: 0 auto 25px auto; text-align: left; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; color: #34495e; }
+    input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+    
+    .btn-check { background: #1abc9c; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; margin-top: 15px; }
+    .btn-check:hover { background: #16a085; }
+    
+    #loading { display: none; margin-top: 15px; color: #1abc9c; font-weight: bold; }
+
+    /* Table Styles */
+    .result-container { margin-top: 30px; display: none; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+    th { background-color: #2c3e50; color: white; text-transform: uppercase; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #f1f1f1; }
+
+    /* Expiry Status Styles */
+    .status-expired { color: #ffffff; font-weight: bold; background: #e74c3c; padding: 5px 10px; border-radius: 4px; display: inline-block; }
+    .status-active { color: #27ae60; font-weight: bold; }
+
+    /* Dropdown Container */
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #2c3e50;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1000;
+  border-radius: 4px;
+  top: 100%; /* Positions it right below the nav item */
+  left: 0;
+}
+
+/* Dropdown Links */
+.dropdown a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+}
+
+.dropdown a:hover {
+  background-color: #1abc9c;
+  color: black;
+}
+
+/* Show class for JS */
+.show {
+  display: block;
+}
+
+/* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50;
+      padding: 10px 20px;
+      color: #fff;
+    }
+
+    .nav-left {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-left li { list-style: none; }
+    .nav-left a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .nav-left a:hover { color: #1abc9c; }
+
+    .nav-right { position: relative; }
+    .user-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #fff;
+      color: #333;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      min-width: 120px;
+      z-index: 100;
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.3s;
+    }
+    .dropdown a:hover { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="service.html">Service</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="commission.html">Commission</a></li>
+      <li style="position: relative;">
+    <a href="javascript:void(0)" id="otherBtn">Other ▼</a>
+    <div class="dropdown" id="otherMenu">
+      <a href="payout.html">Payout</a>
+      <a href="check-mrc.html">Check MRC</a>
+      <a href="#" onclick="alert('Opening Complain...')">Complain</a>
+    </div>
+  </li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="user-btn" id="userBtn">UserID ▼</button>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container">
+    <h2>Check Mobile Recharge Code (MRC)</h2>
+    
+    <div class="input-box">
+      <label>Enter Mobile Recharge Code</label>
+      <input type="text" id="mrcInput" placeholder="Ex: JOS12345678">
+      <button class="btn-check" onclick="checkMRC()">Check Now</button>
+    </div>
+    
+    <div id="loading">Fetching data...</div>
+
+    <div id="resultContainer" class="result-container">
+      <h3>Search Result</h3>
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Recharge Code</th>
+            <th>Mobile Number</th>
+            <th>Amount</th>
+            <th>Discount</th>
+            <th>E Date / Status</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+
+    // --- SESSION SECURITY CHECK ---
+  (function() {
+      const currentUserId = localStorage.getItem("userid");
+      const currentUserEmail = localStorage.getItem("email");
+      if (!currentUserId || !currentUserEmail) {
+          window.location.href = "index.html";
+      }
+  })();
+  
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrFWy4RnzVA_eu2Yb8JaQh2v5hFLzLeEVmfwqZnZJoekOwuSjPKIkkex0VymksfNpe2K5YHozKUGot/pub?gid=0&single=true&output=csv";
+
+    // Function to parse DD-MM-YYYY format
+    function parseDateDMY(dateStr) {
+      if (!dateStr) return null;
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return null;
+      // JS Date constructor uses Year, Month (0-11), Day
+      return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+
+    async function checkMRC() {
+      const mrcInput = document.getElementById("mrcInput").value.trim();
+      const loader = document.getElementById("loading");
+      const resultContainer = document.getElementById("resultContainer");
+      const resultBody = document.getElementById("resultBody");
+
+      if (!mrcInput) {
+        alert("Please enter a Recharge Code!");
+        return;
+      }
+
+      loader.style.display = "block";
+      resultContainer.style.display = "none";
+      resultBody.innerHTML = "";
+
+      try {
+        const response = await fetch(SHEET_CSV_URL + "&cache=" + new Date().getTime());
+        const data = await response.text();
+        const rows = data.split("\n").slice(1);
+
+        let isFound = false;
+        
+        // Get Today's Date at Midnight
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        rows.forEach(row => {
+          const cols = row.split(",");
+          const sheetCode = cols[2] ? cols[2].trim() : "";
+
+          if (sheetCode === mrcInput) {
+            isFound = true;
+            
+            // Expiry Logic
+            const eDateStr = cols[8] ? cols[8].trim() : ""; // Column I (Index 8)
+            const expiryDate = parseDateDMY(eDateStr);
+            
+            let statusHtml = "";
+            if (!expiryDate) {
+              statusHtml = `<td>${eDateStr || '-'}</td>`;
+            } else if (expiryDate < today) {
+              // Date has passed
+              statusHtml = `<td><span class="status-expired">CODE EXPIRED ❌</span></td>`;
+            } else {
+              // Date is today or in future
+              statusHtml = `<td><span class="status-active">${eDateStr} ✅</span></td>`;
+            }
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${cols[1] || '-'}</td>
+              <td><b>${cols[2] || '-'}</b></td>
+              <td>${cols[3] || '-'}</td>
+              <td>₹${cols[4] || '0'}</td>
+              <td style="color:green; font-weight:bold;">${cols[7] || '0'}</td>
+              ${statusHtml}
+            `;
+            resultBody.appendChild(tr);
+          }
+        });
+
+        if (isFound) {
+          resultContainer.style.display = "block";
+        } else {
+          alert("No records found for this code.");
+        }
+
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("Error connecting to the database.");
+      } finally {
+        loader.style.display = "none";
+      }
+    }
+
+    // Session Security Check
+    (function() {
+        if (!localStorage.getItem("userid")) {
+            window.location.href = "index.html";
+        }
+    })();
+
+
+    // Robust Dropdown Toggle
+  const otherBtn = document.getElementById("otherBtn");
+  const otherMenu = document.getElementById("otherMenu");
+
+  otherBtn.onclick = function(e) {
+    e.stopPropagation();
+    otherMenu.classList.toggle("show");
+  };
+
+  // Close dropdown if user clicks outside
+  window.onclick = function(event) {
+    if (!event.target.matches('#otherBtn')) {
+      if (otherMenu.classList.contains('show')) {
+        otherMenu.classList.remove('show');
+      }
+    }
+  };
+
+  const userBtn = document.getElementById("userBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const logout = document.getElementById("logout");
+
+    userBtn.addEventListener("click", () => {
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    logout.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Logged out successfully!");
+      window.location.href = "index.html";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Check MRC - JOS Portal</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f9; }
+    
+    /* Navbar Styles */
+    .navbar { display: flex; justify-content: space-between; align-items: center; background: #2c3e50; padding: 10px 20px; color: #fff; }
+    .nav-left { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; align-items: center; }
+    .nav-left li { position: relative; }
+    .nav-left a { text-decoration: none; color: #fff; font-weight: bold; transition: color 0.3s; }
+    .nav-left a:hover { color: #1abc9c; }
+    
+    .nav-right { position: relative; }
+    .user-btn { background: #1abc9c; border: none; color: #fff; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+    /* Unified Dropdown Style for both Left and Right */
+    .dropdown { 
+      display: none; 
+      position: absolute; 
+      background: #fff; 
+      min-width: 150px; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+      z-index: 1000; 
+      border-radius: 4px; 
+      top: 100%;
+    }
+    #otherMenu { left: 0; margin-top: 10px; }
+    #dropdownMenu { right: 0; margin-top: 5px; }
+
+    .dropdown a { color: #333; padding: 10px 15px; text-decoration: none; display: block; font-size: 14px; font-weight: normal; }
+    .dropdown a:hover { background: #f1f1f1; color: #1abc9c; }
+    .show { display: block; }
+
+    /* Page Content */
+    .container { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    .input-box { max-width: 450px; margin: 0 auto 25px auto; text-align: left; }
+    input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+    .btn-check { background: #1abc9c; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+    th { background: #2c3e50; color: white; }
+    .status-expired { color: white; background: #e74c3c; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-left">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="service.html">Service</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="commission.html">Commission</a></li>
+      <li>
+        <a href="javascript:void(0)" id="otherBtn">Other ▼</a>
+        <div class="dropdown" id="otherMenu">
+          <a href="payout.html">Payout</a>
+          <a href="check-mrc.html">Check MRC</a>
+          <a href="#" onclick="alert('Support: Contact Admin')">Complain</a>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="user-btn" id="userBtn">UserID ▼</button>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Check Mobile Recharge Code (MRC)</h2>
+    <div class="input-box">
+      <input type="text" id="mrcInput" placeholder="Ex: JOS12345678">
+      <button class="btn-check" onclick="checkMRC()">Check Now</button>
+    </div>
+    <div id="resultContainer" style="display:none; overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Code</th>
+            <th>Mobile</th>
+            <th>Amount</th>
+            <th>Discount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // --- SECURITY & UI LOGIC ---
+    const currentUserId = localStorage.getItem("userid");
+    if (!currentUserId) { window.location.href = "index.html"; }
+    document.getElementById("userBtn").innerText = currentUserId + " ▼";
+
+    // Toggle Other Menu
+    const otherBtn = document.getElementById("otherBtn");
+    const otherMenu = document.getElementById("otherMenu");
+    otherBtn.onclick = (e) => {
+        e.stopPropagation();
+        otherMenu.classList.toggle("show");
+        dropdownMenu.classList.remove("show");
+    };
+
+    // Toggle User Menu
+    const userBtn = document.getElementById("userBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    userBtn.onclick = (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("show");
+        otherMenu.classList.remove("show");
+    };
+
+    // Logout
+    document.getElementById("logout").onclick = () => {
+        localStorage.clear();
+        window.location.href = "index.html";
+    };
+
+    window.onclick = () => {
+        otherMenu.classList.remove("show");
+        dropdownMenu.classList.remove("show");
+    };
+
+    // --- MRC DATA LOGIC ---
+    async function checkMRC() {
+      const input = document.getElementById("mrcInput").value.trim();
+      const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrFWy4RnzVA_eu2Yb8JaQh2v5hFLzLeEVmfwqZnZJoekOwuSjPKIkkex0VymksfNpe2K5YHozKUGot/pub?gid=0&single=true&output=csv";
+      
+      try {
+        const res = await fetch(SHEET_URL + "&t=" + new Date().getTime());
+        const data = await res.text();
+        const rows = data.split("\n").slice(1);
+        const tbody = document.getElementById("resultBody");
+        tbody.innerHTML = "";
+        let found = false;
+        const today = new Date(); today.setHours(0,0,0,0);
+
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if(cols[2] && cols[2].trim() === input) {
+            found = true;
+            const parts = cols[8].trim().split('-');
+            const expDate = new Date(parts[2], parts[1]-1, parts[0]);
+            let status = (expDate < today) ? `<span class="status-expired">EXPIRED ❌</span>` : `<span style="color:green; font-weight:bold;">${cols[8]} ✅</span>`;
+            tbody.innerHTML += `<tr><td>${cols[1]}</td><td>${cols[2]}</td><td>${cols[3]}</td><td>₹${cols[4]}</td><td>${cols[7]}</td><td>${status}</td></tr>`;
+          }
+        });
+        document.getElementById("resultContainer").style.display = found ? "block" : "none";
+        if(!found) alert("Code not found.");
+      } catch(e) { alert("Fetch error"); }
+    }
+  </script>
+</body>
+</html>
