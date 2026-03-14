@@ -323,7 +323,7 @@ body {
 
 <script>
   const MOBILE_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf0j2Snp-gSwlYj_agvVS07rusqd2hROFo-bSWkCDvcvFpbGRSNl6GbAsAL8o5t4XTpkJn8ZwHzAxm/pub?output=csv";
 
 const ELECTRICITY_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
@@ -358,10 +358,10 @@ async function fetchData() {
       <thead>
         <tr>
           <th>Date & Time</th>
+          <th>Ordar ID</th>
           <th>Mobile / Account No</th>
+          <th>Operator</th>
           <th>Amount</th>
-          <th>Payment Type</th>
-          <th>Status</th>
           <th>Commission</th>
         </tr>
       </thead>
@@ -399,9 +399,9 @@ async function fetchData() {
     date       = row[0] || "";
     number     = row[2] || ""; // mobile number
     amount     = row[3] || "";
-    payment    = row[7] || "";
-    status     = row[8] || "";
-    commission = row[9] || "";
+    payment    = row[4] || "";
+    status     = row[5] || "";
+    commission = row[7] || "";
   }
 
   htmlOutput += `

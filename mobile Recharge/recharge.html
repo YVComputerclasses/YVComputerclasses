@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobile Recharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .form-container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-next { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #1abc9c; color: #fff; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>📱 Mobile Recharge</h2>
+    <form id="rechargeForm">
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="number" id="mobile" required>
+        </div>
+        <div class="form-group">
+            <label>Operator</label>
+            <select id="operator" required>
+                <option value="Jio">Jio</option>
+                <option value="Airtel">Airtel</option>
+                <option value="VI">Vi</option>
+                <option value="BSNL">BSNL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Amount (₹)</label>
+            <input type="number" id="amount" required>
+        </div>
+        <button type="submit" class="btn-next">Generate Order & Pay</button>
+    </form>
+</div>
+
+<script>
+    // Replace the script section in your recharge.html with this:
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyr7kFN1iiEXSezpRGsKj8M-4eaN0AmXRKs_RALPefIx4sdkWtWVh8ci8Q6Wlsm_1JD/exec';
+
+document.getElementById('rechargeForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = e.submitter;
+    btn.disabled = true;
+    btn.textContent = "Generating ID...";
+
+    try {
+        // ૧. Google Script માંથી ઓર્ડર આઈડી મેળવો
+        const response = await fetch(scriptURL);
+        const nextOrderId = await response.text();
+
+        // ૨. લોકલ સ્ટોરેજ માંથી યુઝરનું Email ID અને UserID મેળવો
+        const userEmail = localStorage.getItem("email") || "No Email";
+        const realUserID = localStorage.getItem("userid") || "Guest";
+
+        const pendingData = {
+            orderId: nextOrderId,
+            mobile: document.getElementById("mobile").value,
+            operator: document.getElementById("operator").value,
+            amount: document.getElementById("amount").value,
+            
+            // અહીં મહત્વનો ફેરફાર: 
+            // userid પ્રોપર્ટીમાં આપણે યુઝરનો ઈમેલ મોકલીશું જેથી શીટમાં ઈમેલ સ્ટોર થાય
+            userid: userEmail, 
+            
+            // જો તમારે બંને વસ્તુ મોકલવી હોય તો વધારાની પ્રોપર્ટી ઉમેરી શકો
+            actual_uid: realUserID, 
+            
+            date: new Date().toLocaleString()
+        };
+        
+        // ૩. ડેટાને સેશનમાં સેવ કરી પેમેન્ટ પેજ પર મોકલો
+        sessionStorage.setItem("pendingRecharge", JSON.stringify(pendingData));
+        
+        alert("Order Generated! Order No: " + nextOrderId);
+        window.location.href = "mrpay.html";
+        
+    } catch (err) {
+        alert("Error generating Order ID. Please check connection.");
+        btn.disabled = false;
+        btn.textContent = "Generate Order & Pay";
+    }
+});
+</script>
+</body>
+</html>

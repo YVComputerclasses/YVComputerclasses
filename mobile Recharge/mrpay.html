@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Payment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; text-align: center; }
+        .pay-box { max-width: 400px; margin: auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .order-display { font-size: 22px; font-weight: bold; color: #1abc9c; margin: 15px 0; border: 2px dashed #1abc9c; padding: 10px; }
+        
+        .upi-container { display: flex; align-items: center; justify-content: center; margin: 20px 0; gap: 5px; }
+        .upi-id-box { background: #f8f9fa; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex-grow: 1; font-weight: bold; color: #2c3e50; font-size: 15px; text-align: left; }
+        .copy-btn-box { background: #1abc9c; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+
+        .btn-submit { background: #2c3e50; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: bold; }
+
+        /* ===== SUCCESS POPUP (MODAL) STYLES ===== */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center; }
+        .success-popup { background: #fff; width: 90%; max-width: 350px; padding: 25px; border-radius: 20px; position: relative; animation: popIn 0.3s ease; }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .shop-header { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+        .shop-logo { width: 50px; height: 50px; margin-bottom: 5px; }
+        .shop-name { font-size: 18px; font-weight: bold; color: #2c3e50; margin: 0; }
+        
+        .success-icon { color: #27ae60; font-size: 40px; margin-bottom: 10px; }
+        .success-msg { color: #27ae60; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
+        
+        .receipt-info { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 10px; font-size: 14px; line-height: 1.8; }
+        .receipt-info b { color: #333; }
+        
+        .btn-done { background: #1abc9c; color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        /* Add this inside the <style> tag of pay.html */
+@media (max-width: 360px) {
+    .success-popup {
+        padding: 15px;
+        width: 95%;
+    }
+    .shop-name {
+        font-size: 16px;
+    }
+    .receipt-info {
+        font-size: 13px;
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="pay-box">
+    <h2>Order Payment</h2>
+    <p>Order Code:</p>
+    <div id="orderCode" class="order-display"></div>
+    
+    <div class="upi-container">
+        <div class="upi-id-box" id="upiIdText">9426959052-1@okbizaxis</div>
+        <button type="button" class="copy-btn-box" onclick="copyUPI()" id="copyBtn">
+            <i class="fas fa-copy" id="copyIcon"></i>
+        </button>
+    </div>
+    
+    <form id="payForm">
+        <label style="display:block; text-align:left; font-weight:bold;">Upload Payment Screenshot:</label>
+        <input type="file" id="screenshot" accept="image/*" required style="width:100%; margin:10px 0;">
+        <button type="submit" class="btn-submit" id="btnSubmit">Submit</button>
+    </form>
+</div>
+
+<div class="modal-overlay" id="successModal">
+    <div class="success-popup">
+        <div class="shop-header">
+            <img src="logo.png" alt="Logo" class="shop-logo">
+            <p class="shop-name">Jangid Online Services</p>
+        </div>
+        
+        <i class="fas fa-check-circle success-icon"></i>
+        <div class="success-msg">Success! Transaction Saved</div>
+        
+        <div class="receipt-info" id="receiptDetails">
+            </div>
+        
+        <button class="btn-done" onclick="closePopup()">Done</button>
+    </div>
+</div>
+
+<script>
+    function copyUPI() {
+        const upiText = document.getElementById("upiIdText").innerText;
+        const icon = document.getElementById("copyIcon");
+        const btn = document.getElementById("copyBtn");
+        navigator.clipboard.writeText(upiText).then(() => {
+            icon.className = "fas fa-check";
+            btn.style.background = "#27ae60";
+            setTimeout(() => { icon.className = "fas fa-copy"; btn.style.background = "#1abc9c"; }, 2000);
+        });
+    }
+
+    const data = JSON.parse(sessionStorage.getItem("pendingRecharge"));
+    if (!data) window.location.href = "recharge.html";
+    document.getElementById("orderCode").textContent = data.orderId;
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyr7kFN1iiEXSezpRGsKj8M-4eaN0AmXRKs_RALPefIx4sdkWtWVh8ci8Q6Wlsm_1JD/exec';
+
+    document.getElementById("payForm").addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById("btnSubmit");
+        btn.disabled = true;
+        btn.textContent = "Processing...";
+
+        const file = document.getElementById("screenshot").files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+    const base64Data = reader.result.split(',')[1];
+    
+    // --- નવો ફેરફાર અહીં છે ---
+    // આ લાઇન તારીખ અને સમય વચ્ચેથી (,) કાઢી નાખશે
+    const formattedDate = new Date().toLocaleString().replace(/,/g, ""); 
+    
+    const userEmail = localStorage.getItem("email");
+
+    const finalPayload = { 
+        ...data, 
+        userid: userEmail, 
+        date: formattedDate, // સુધારેલી તારીખ અહીં મોકલો
+        screenshot: base64Data, 
+        mimeType: file.type, 
+        fileName: file.name 
+    };
+    // -----------------------
+
+    fetch(scriptURL, { method: 'POST', body: JSON.stringify(finalPayload) })
+    .then(() => {
+        showSuccessPopup(finalPayload);
+    })
+    .catch(() => {
+        alert("Error saving data!");
+        btn.disabled = false;
+        btn.textContent = "Submit";
+    });
+};
+        reader.readAsDataURL(file);
+    });
+
+    function showSuccessPopup(info) {
+        const receipt = document.getElementById("receiptDetails");
+        receipt.innerHTML = `
+            <b>Service:</b> Mobile Recharge <br>
+            <b>Operator:</b> ${info.operator} <br>
+            <b>Mobile No:</b> ${info.mobile} <br>
+            <b>Amount Paid:</b> ₹${info.amount} <br>
+            <b>Order ID:</b> ${info.orderId} <br>
+            <b>Date & Time:</b> ${info.date}
+        `;
+        document.getElementById("successModal").style.display = "flex";
+    }
+
+    function closePopup() {
+    // 1. સેશન ડેટા સાફ કરો
+    sessionStorage.removeItem("pendingRecharge");
+    
+    // 2. યુઝરને જાણ કરવા માટે નાનું એલર્ટ (વૈકલ્પિક)
+    // falert("તમારો ઓર્ડર સફળતાપૂર્વક સબમિટ થઈ ગયો છે. હવે આ ટેબ બંધ થઈ જશે.");
+
+    // 3. ટેબ બંધ કરવા માટે
+    // નોંધ: બ્રાઉઝર સુરક્ષાના કારણે આ ત્યારે જ કામ કરશે જો આ ટેબ JavaScript (window.open) દ્વારા ખોલવામાં આવી હોય.
+    window.close();
+
+    // જો window.close() કામ ના કરે (ડાયરેક્ટ ટેબ ખોલી હોય તો), તો તેને હોમ પેજ પર મોકલી દો
+    setTimeout(function() {
+        window.location.href = "service.html"; 
+    }, 500);
+}
+</script>
+</body>
+</html>

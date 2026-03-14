@@ -318,7 +318,7 @@
   <script>
 
     const MOBILE_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzdrSCbr2qf3cszQI8SE2KDeBjSi-5dzKKFD1_xemwhjbA1GpbA3eYqlASxyy1CaIY0S7v4dTHNYE5/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf0j2Snp-gSwlYj_agvVS07rusqd2hROFo-bSWkCDvcvFpbGRSNl6GbAsAL8o5t4XTpkJn8ZwHzAxm/pub?output=csv";
 
     const ELECTRICITY_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
@@ -379,15 +379,13 @@ async function fetchSummary() {
   const service =
     document.getElementById("serviceFilter")?.value || "mobile";
 
-  // const sheetUrl =
-  //   service === "electricity"
-  //     ? ELECTRICITY_SHEET_URL
-  //     : MOBILE_SHEET_URL;
-
       const sheetUrl = (service === "gas") ? GAS_SHEET_URL : 
                        (service === "electricity") ? ELECTRICITY_SHEET_URL : MOBILE_SHEET_URL;
 
-  if (!email) return;
+  const email = localStorage.getItem("email");
+  const userid = localStorage.getItem("userid"); // UserID પણ મેળવો
+
+  if (!email || !userid) return;
 
   const res = await fetch(sheetUrl + "&t=" + Date.now());
   const text = await res.text();
@@ -402,24 +400,25 @@ async function fetchSummary() {
   let totalCommission = 0;
 
   rows.slice(1).forEach(row => {
-    if (!row || !row.includes(email)) return;
+    if (!row || row.length < 2) return;
 
-    totalCount++;
-
-    // const amountIndex = service === "electricity" ? 3 : 3;
-    // const commissionIndex = service === "electricity" ? 10 : 9;
+    const rowIdentifier = (row[1] || "").trim().toLowerCase();
+    
+    // જો બીજી કોલમ યુઝરના ઈમેલ અથવા યુઝર આઈડી સાથે મેચ થાય તો જ ગણતરી કરો
+    if (rowIdentifier === email.toLowerCase() || rowIdentifier === userid.toLowerCase()) {
+      totalCount++;
 
     // Amount is usually the same column (Column D) for all
       const amountIndex = 
           service === "gas" ? 6 :           // Gas uses Index 10
           service === "electricity" ? 3 :   // Electricity uses Index 10
-          3;                                 // Mobile uses Index 9 
+          5;                                 // Mobile uses Index 9 
 
     // Commission changes based on the sheet structure
       const commissionIndex = 
           service === "gas" ? 11 :           // Gas uses Index 10
           service === "electricity" ? 10 :   // Electricity uses Index 10
-          9;                                 // Mobile uses Index 9
+          7;                                 // Mobile uses Index 9
 
     const amount = Number(
       (row[amountIndex] || "").replace(/[₹,]/g, "")
@@ -430,6 +429,7 @@ async function fetchSummary() {
       (row[commissionIndex] || "").replace(/[₹,%]/g, "")
     );
     if (!isNaN(commission)) totalCommission += commission;
+    }
   });
 
   // 🔁 BOX TITLES CHANGE
