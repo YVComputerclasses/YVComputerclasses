@@ -321,7 +321,7 @@
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf0j2Snp-gSwlYj_agvVS07rusqd2hROFo-bSWkCDvcvFpbGRSNl6GbAsAL8o5t4XTpkJn8ZwHzAxm/pub?output=csv";
 
     const ELECTRICITY_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD11VkzbcX9lNhSnKm_tgXFJl6KjeSLXRUrvZkxcCRsTWBXEmc6PjWH-RHK1n2dGi_3FGPxjbcjVNc/pub?gid=0&single=true&output=csv";
 
   const GAS_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv";
@@ -411,13 +411,13 @@ async function fetchSummary() {
     // Amount is usually the same column (Column D) for all
       const amountIndex = 
           service === "gas" ? 6 :           // Gas uses Index 10
-          service === "electricity" ? 3 :   // Electricity uses Index 10
+          service === "electricity" ? 6 :   // Electricity uses Index 10
           5;                                 // Mobile uses Index 9 
 
     // Commission changes based on the sheet structure
       const commissionIndex = 
           service === "gas" ? 11 :           // Gas uses Index 10
-          service === "electricity" ? 10 :   // Electricity uses Index 10
+          service === "electricity" ? 7 :   // Electricity uses Index 10
           7;                                 // Mobile uses Index 9
 
     const amount = Number(

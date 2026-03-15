@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
+        .form-container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select, input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn { width: 100%; background: #1abc9c; color: white; border: none; padding: 12px; margin-top: 20px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .status-msg { font-size: 12px; margin-top: 5px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Electricity Bill</h2>
+    
+    <label>Provider</label>
+    <select id="provider">
+        <option value="MGVCL">MGVCL</option>
+        <option value="PGVCL">PGVCL</option>
+        <option value="DGVCL">DGVCL</option>
+        <option value="UGVCL">UGVCL</option>
+    </select>
+
+    <label>Customer Number</label>
+    <input type="number" id="customerNo" placeholder="Enter No" onblur="fetchDetails()">
+    <span id="status" class="status-msg"></span>
+
+    <label>Customer Name</label>
+    <input type="text" id="customerName" placeholder="Enter Name" readonly>
+
+    <label>Amount (₹)</label>
+    <input type="number" id="amount" placeholder="0.00">
+
+    <button class="btn" onclick="processOrder()">Generate Order & Pay</button>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbJ2ZREL8TVnv0Xazr-YDE9nmI7oGRBKrvvxDr3AZ3VGjiOqu0QHnD5JwmVMFv6nf_jw/exec";
+
+    async function fetchDetails() {
+        const no = document.getElementById("customerNo").value;
+        const nameInput = document.getElementById("customerName");
+        const status = document.getElementById("status");
+
+        if (no.length < 5) return;
+
+        status.innerText = "Searching...";
+        status.style.color = "blue";
+
+        try {
+            const response = await fetch(`${SCRIPT_URL}?action=getName&custNo=${no}`);
+            const data = await response.json();
+
+            if (data.name) {
+                nameInput.value = data.name;
+                nameInput.readOnly = true; // Lock if found
+                status.innerText = "Verified Customer";
+                status.style.color = "green";
+            } else {
+                nameInput.value = "";
+                nameInput.readOnly = false; // Open for typing if NOT found
+                nameInput.focus();
+                status.innerText = "New Customer: Please enter name manually";
+                status.style.color = "orange";
+            }
+        } catch (e) {
+            status.innerText = "Error connecting to database";
+        }
+    }
+
+    function processOrder() {
+    const isNewCustomer = document.getElementById("customerName").readOnly === false;
+
+    const orderData = {
+        orderNo: "EB" + Date.now(),
+        provider: document.getElementById("provider").value,
+        customerNo: document.getElementById("customerNo").value,
+        customerName: document.getElementById("customerName").value,
+        amount: document.getElementById("amount").value,
+        isNew: isNewCustomer // <--- This tells the script to make 2 entries
+    };
+    
+    sessionStorage.setItem("currentOrder", JSON.stringify(orderData));
+    window.location.href = "ebpay.html";
+}
+</script>
+</body>
+</html>

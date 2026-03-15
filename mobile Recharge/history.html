@@ -326,7 +326,7 @@ body {
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf0j2Snp-gSwlYj_agvVS07rusqd2hROFo-bSWkCDvcvFpbGRSNl6GbAsAL8o5t4XTpkJn8ZwHzAxm/pub?output=csv";
 
 const ELECTRICITY_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq5Aehnb_p4ZUzl1LMpV1hTerAR73VXdVr99Bzo8NnfcBEdQChxz19FfyaH5YEyiSwvjKwDZffI0IA/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD11VkzbcX9lNhSnKm_tgXFJl6KjeSLXRUrvZkxcCRsTWBXEmc6PjWH-RHK1n2dGi_3FGPxjbcjVNc/pub?gid=0&single=true&output=csv";
 
   const GAS_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZRvHJZmcUja2_rLURbglTL735MKZNOf3HUUwamfALw3LxpYU-4LXCPDlNkT2xCOmVKC0Buq3dM7sZ/pub?output=csv";
@@ -381,10 +381,10 @@ async function fetchData() {
     // 💡 ELECTRICITY INDEXES
     date       = row[0] || "";
     number     = row[2] || ""; // account number
-    amount     = row[3] || "";
-    payment    = row[8] || "";
-    status     = row[9] || "";
-    commission = row[10] || "";
+    amount     = row[4] || "";
+    payment    = row[3] || "";
+    status     = row[6] || "";
+    commission = row[7] || "";
   } else if (service === "gas") { 
     // 🔥 GAS INDEXES
     date       = row[0] || "";

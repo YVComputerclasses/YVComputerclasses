@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Jangid Online Services</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .payment-card { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .amount { font-size: 32px; color: #1abc9c; font-weight: bold; margin: 10px 0; }
+        .upi-section { background: #e8f8f5; padding: 15px; border-radius: 10px; margin-bottom: 25px; }
+        .upi-id { font-size: 18px; font-weight: bold; color: #2c3e50; display: block; margin-bottom: 10px; }
+        .copy-btn { background: #34495e; color: white; border: none; padding: 6px 18px; border-radius: 5px; cursor: pointer; }
+        .submit-btn { width: 100%; background: #1abc9c; color: white; border: none; padding: 16px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
+
+        /* Success Modal Styles */
+        .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .modal-content { background: white; margin: 10% auto; padding: 25px; width: 85%; max-width: 350px; border-radius: 15px; text-align: center; border-top: 8px solid #1abc9c; }
+        .modal-logo { width: 70px; margin-bottom: 10px; }
+        .receipt-line { display: flex; justify-content: space-between; margin: 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px; font-size: 14px; }
+        .done-btn { background: #1abc9c; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="payment-card">
+    <h2>Pay Bill</h2>
+    <div class="order-info">
+        <div style="color: #718096;">Order ID: <span id="dispOrder"></span></div>
+        <div class="amount">₹<span id="dispAmount"></span></div>
+        <div id="dispName" style="font-weight: 500;"></div>
+    </div>
+
+    <div class="upi-section">
+        <span class="upi-id">9426959052-1@okbizaxis</span>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('9426959052-1@okbizaxis'); alert('Copied!')">Copy UPI ID</button>
+    </div>
+
+    <div style="text-align: left;">
+        <label style="font-weight:bold; font-size:14px;">Upload Screenshot</label>
+        <input type="file" id="screenshot" accept="image/*" style="width:100%; margin:10px 0 20px 0;">
+    </div>
+
+    <button class="submit-btn" id="subBtn" onclick="finalSubmit()">Submit Request</button>
+</div>
+
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <img src="logo.png" class="modal-logo" alt="JOS Logo">
+        <h3 style="color: #1abc9c; margin: 5px 0;">Success!</h3>
+        <p style="font-size: 13px; color: #7f8c8d;">Electricity Bill Pay</p>
+        <hr>
+        <div class="receipt-line"><span>Provider:</span> <b id="mProvider"></b></div>
+        <div class="receipt-line"><span>Customer No:</span> <b id="mCustNo"></b></div>
+        <div class="receipt-line"><span>Customer Name:</span> <b id="mCustName"></b></div>
+        <div class="receipt-line"><span>Amount:</span> <b id="mAmount"></b></div>
+        <button class="done-btn" onclick="closePaymentFlow()">Done</button>
+    </div>
+</div>
+
+<script>
+    const order = JSON.parse(sessionStorage.getItem("currentOrder"));
+    // Ensure Order No starts with JOS
+    if(order) {
+        order.orderNo = "JOS" + order.orderNo.replace(/\D/g, '').slice(-6); 
+        document.getElementById("dispOrder").innerText = order.orderNo;
+        document.getElementById("dispAmount").innerText = order.amount;
+        document.getElementById("dispName").innerText = order.customerName;
+    }
+
+    async function finalSubmit() {
+    const fileInput = document.getElementById("screenshot");
+    const subBtn = document.getElementById("subBtn");
+
+    if (fileInput.files.length === 0) {
+        alert("Please upload the payment screenshot first.");
+        return;
+    }
+
+    subBtn.innerText = "Uploading... Please Wait";
+    subBtn.disabled = true;
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+        const base64Image = e.target.result;
+        
+        const finalPayload = { 
+            ...order, 
+            userid: localStorage.getItem("userid") || "Guest",
+            imageFile: base64Image 
+        };
+
+        // Inside your finalSubmit()
+const reader = new FileReader();
+reader.onload = async function(e) {
+    const base64Image = e.target.result;
+    const finalPayload = { 
+        ...order, 
+        userid: localStorage.getItem("userid"),
+        imageFile: base64Image 
+    };
+    // Fetch call here...
+};
+reader.readAsDataURL(file);
+
+        try {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbwbJ2ZREL8TVnv0Xazr-YDE9nmI7oGRBKrvvxDr3AZ3VGjiOqu0QHnD5JwmVMFv6nf_jw/exec", {
+                method: "POST",
+                body: JSON.stringify(finalPayload)
+            });
+
+            const result = await response.text();
+
+            if (result.includes("Success")) {
+                showSuccess(); // Opens your JOS Success Popup
+            } else {
+                alert("Server Error: " + result);
+                subBtn.disabled = false;
+                subBtn.innerText = "Submit Request";
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Connection Error. Check your internet or Script URL.");
+            subBtn.disabled = false;
+            subBtn.innerText = "Submit Request";
+        }
+    };
+
+    reader.onerror = function() {
+        alert("Error reading file. Try a different photo.");
+        subBtn.disabled = false;
+    };
+
+    reader.readAsDataURL(file); 
+}
+
+    function showSuccess() {
+        document.getElementById("mProvider").innerText = order.provider;
+        document.getElementById("mCustNo").innerText = order.customerNo;
+        document.getElementById("mCustName").innerText = order.customerName;
+        document.getElementById("mAmount").innerText = "₹" + order.amount;
+        document.getElementById("successModal").style.display = "block";
+    }
+    function closePaymentFlow() {
+    // 1. Try to close the window
+    window.close();
+
+    // 2. Fallback: If it's still open after 300ms, redirect to service.html
+    setTimeout(function() {
+        if (!window.closed) {
+            window.location.href = "service.html";
+        }
+    }, 300);
+}
+</script>
+</body>
+</html>
