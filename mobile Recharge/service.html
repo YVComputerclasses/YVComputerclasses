@@ -250,6 +250,35 @@ body {
       <button onclick="openGas()">Click Here</button>
     </div>
 
+    <div class="service-box">
+      <h3>Aadhar Card Address Update</h3>
+      <button onclick="openAadhar()">Click Here</button>
+    </div>
+
+    <div class="service-box">
+      <h3>Ration Card</h3>
+      <button onclick="openRation()">Click Here</button>
+    </div>
+
+    <div class="service-box">
+      <h3>Pan Card</h3>
+      <button onclick="openPan()">Click Here</button>
+    </div>
+
+    <div class="service-box">
+      <h3>Voter ID</h3>
+      <button onclick="openVoter()">Click Here</button>
+    </div>
+
+    <div class="service-box">
+      <h3>RTE</h3>
+      <button onclick="openRTE()">Click Here</button>
+    </div>
+
+    <div class="service-box">
+      <h3>Farmer 2000</h3>
+      <button onclick="openFarmer()">Click Here</button>
+    </div>
 
     <div class="service-box">
       <h3>➕ More Services</h3>
@@ -336,11 +365,50 @@ function openElectricity() {
 
 function openGas() {
   if (hasPermission("gas")) {
-  window.open(
-    "https://docs.google.com/forms/d/e/1FAIpQLSefk6PRFkdbN2ueEaQpWhKrEOcSw4i99OyYcxldJK3KMROBYg/viewform?usp=dialog",
-    "_blank"
-  );
+  window.open("gas.html", "_blank");
   // alert("Gas bill service coming soon ⚡");
+}
+}
+
+function openAadhar() {
+  if (hasPermission("aadhar")) {
+  window.open("aadhar.html", "_blank");
+  // alert("Aadhar card service coming soon ⚡");
+}
+}
+
+function openRation() {
+  if (hasPermission("ration")) {
+  window.open("ration.html", "_blank");
+  // alert("Ration card service coming soon ⚡");
+}
+}
+
+function openPan() {
+  if (hasPermission("pan")) {
+  window.open("pan.html", "_blank");
+  // alert("Pan card service coming soon ⚡");
+}
+}
+
+function openVoter() {
+  if (hasPermission("voter")) {
+  window.open("voter.html", "_blank");
+  // alert("Voter ID service coming soon ⚡");
+}
+}
+
+function openRTE() {
+  if (hasPermission("rte")) {
+  window.open("rte.html", "_blank");
+  // alert("RTE service coming soon ⚡");
+}
+}
+
+function openFarmer() {
+  if (hasPermission("farmer")) {
+  window.open("farmer.html", "_blank");
+  // alert("Farmer 2000 service coming soon ⚡");
 }
 }
 
