@@ -66,29 +66,7 @@
         </form>
     </div>
 
-    <!-- ૨. સ્ટેટસ અપડેટ બોક્સ -->
-    <div class="container no-print" style="background-color: #fef3c7; border: 1px solid #f59e0b;">
-        <h3 style="color: #b45309; border-bottom: 2px solid #b45309;">જૂની સ્લિપનું સ્ટેટસ અપડેટ કરો</h3>
-        <div class="form-group" style="display: flex; gap: 10px;">
-            <input type="text" id="searchReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
-            <button type="button" onclick="searchForUpdate()" style="background-color: #d97706; width: auto; white-space: nowrap;">쇼ધો</button>
-        </div>
-        <div id="updateFieldsWrapper" style="display: none; margin-top: 15px; border-top: 1px dashed #d97706; padding-top: 15px;">
-            <p><b>ગ્રાહક:</b> <span id="upCustName" style="font-weight: bold;"></span> | <b>સેવા:</b> <span id="upCustService"></span></p>
-            <input type="hidden" id="upRowNum">
-            <div class="form-group">
-                <label>નવું સ્ટેટસ:</label>
-                <div class="radio-group">
-                    <input type="radio" id="upPending" name="upWorkStatus" value="Pending" onchange="toggleUpStatusExtra()"> <label for="upPending">Pending</label>
-                    <input type="radio" id="upConfirm" name="upWorkStatus" value="Confirm" onchange="toggleUpStatusExtra()"> <label for="upConfirm">Confirm</label>
-                    <input type="radio" id="upReject" name="upWorkStatus" value="Reject" onchange="toggleUpStatusExtra()"> <label for="upReject">Reject</label>
-                </div>
-            </div>
-            <div class="form-group" id="upStatusExtraWrapper"><label id="upExtraLabel">વિગત:</label><input type="text" id="upStatusExtraInput"></div>
-            <button type="button" onclick="submitStatusUpdate()" style="background-color: #059669;">સ્ટેટસ લાઈવ અપડેટ કરો</button>
-        </div>
-    </div>
-
+    
     <!-- ૩. પ્રીમિયમ A6 સ્લિપ પ્રિવ્યૂ -->
     <div id="printArea">
         <div class="watermark">JANGID OS</div>
@@ -118,6 +96,31 @@
         </div>
         <button class="no-print" style="margin-top:15px; background-color:#059669; color:white; padding:10px; border:none; width:100%; font-weight:bold; cursor:pointer;" onclick="window.print()">પ્રિન્ટ રસીદ (A6 સાઈઝ)</button>
     </div>
+
+    <!-- ૨. સ્ટેટસ અપડેટ બોક્સ -->
+    <div class="container no-print" style="background-color: #fef3c7; border: 1px solid #f59e0b;">
+        <h3 style="color: #b45309; border-bottom: 2px solid #b45309;">જૂની સ્લિપનું સ્ટેટસ અપડેટ કરો</h3>
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <input type="text" id="searchReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
+            <button type="button" onclick="searchForUpdate()" style="background-color: #d97706; width: auto; white-space: nowrap;">쇼ધો</button>
+        </div>
+        <div id="updateFieldsWrapper" style="display: none; margin-top: 15px; border-top: 1px dashed #d97706; padding-top: 15px;">
+            <p><b>ગ્રાહક:</b> <span id="upCustName" style="font-weight: bold;"></span> | <b>સેવા:</b> <span id="upCustService"></span></p>
+            <input type="hidden" id="upRowNum">
+            <div class="form-group">
+                <label>નવું સ્ટેટસ:</label>
+                <div class="radio-group">
+                    <input type="radio" id="upPending" name="upWorkStatus" value="Pending" onchange="toggleUpStatusExtra()"> <label for="upPending">Pending</label>
+                    <input type="radio" id="upConfirm" name="upWorkStatus" value="Confirm" onchange="toggleUpStatusExtra()"> <label for="upConfirm">Confirm</label>
+                    <input type="radio" id="upReject" name="upWorkStatus" value="Reject" onchange="toggleUpStatusExtra()"> <label for="upReject">Reject</label>
+                </div>
+            </div>
+            <div class="form-group" id="upStatusExtraWrapper"><label id="upExtraLabel">વિગત:</label><input type="text" id="upStatusExtraInput"></div>
+            <button type="button" onclick="submitStatusUpdate()" style="background-color: #059669;">સ્ટેટસ લાઈવ અપડેટ કરો</button>
+        </div>
+    </div>
+
+
     <!-- ૪. જૂની સ્લિપ ફરીથી પ્રિન્ટ કરવાનું બોક્સ (Re-Print Section) -->
 <div class="container no-print" style="background-color: #e0f2fe; border: 1px solid #7dd3fc;">
     <h3 style="color: #0369a1; border-bottom: 2px solid #0369a1;">જૂની સ્લિપ ફરીથી પ્રિન્ટ કરો (Re-Print)</h3>
@@ -212,7 +215,7 @@
                 document.getElementById('slipInfo').innerText = detail ? detail : 'N/A';
                 
                 // કસ્ટમર ફાઇલ ઓપન થાય એવો QR કોડ (તમારા PC ના લોકેશન પ્રમાણે કસ્ટમર ફાઇલનું સરનામું બારકોડમાં નાખશે)
-                var customerFileUrl = "file:///" + window.location.pathname.replace("Index.html", "Customer.html");
+                var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
                 
                 document.getElementById('printArea').style.display = 'block';
