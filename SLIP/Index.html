@@ -2,7 +2,7 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <title>જાંગીડ ઓનલાઈન સેવાઓ - એડમિન પેનલ</title>
+    <title>જાંગીડ ઓનલાઇન સેવાઓ - એડમિન પેનલ</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f6f9; margin: 20px; color: #333; }
         .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: 0 auto 20px auto; }
@@ -32,7 +32,6 @@
 </head>
 <body>
 
-<!-- ૧. લોગિન સ્ક્રીન -->
 <div id="loginScreen" class="login-box no-print">
     <h2 style="border: none; color: #1e3a8a;">Admin Login</h2>
     <div class="form-group" style="text-align: left;"><label>USER ID:</label><input type="text" id="adminUser"></div>
@@ -40,10 +39,12 @@
     <button type="button" onclick="handleLogin()">LOGIN</button>
 </div>
 
-<!-- મુખ્ય સિસ્ટમ કન્ટેન્ટ -->
 <div id="mainContent">
     <div class="container no-print">
-        <h2>જાંગીડ ઓનલાઇન સેવાઓ - નવી એન્ટ્રી</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 15px;">
+            <h2 style="border: none; margin: 0;">જાંગીડ ઓનલાઇન સેવાઓ - નવી એન્ટ્રી</h2>
+            <button onclick="handleLogout()" style="width: auto; padding: 6px 12px; font-size: 13px; background-color: #dc2626;">LOGOUT</button>
+        </div>
         <form id="receiptForm">
             <div class="form-group"><label>ગ્રાહકનું નામ:</label><input type="text" id="custName" required></div>
             <div class="form-group"><label>મોબાઈલ નંબર:</label><input type="text" id="custMobile" maxlength="10" required></div>
@@ -66,12 +67,10 @@
         </form>
     </div>
 
-    
-    <!-- ૩. પ્રીમિયમ A6 સ્લિપ પ્રિવ્યૂ -->
     <div id="printArea">
         <div class="watermark">JANGID OS</div>
         <div class="slip-header" style="text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 15px;">
-            <img src="logo.png" style="width: 55px; height: auto; margin-bottom: 5px;">
+            <img src="logo.jpg" style="width: 55px; height: auto; margin-bottom: 5px;" onerror="this.style.display='none'">
             <h1 style="margin: 0; font-size: 20px; color: #1e3a8a; font-weight: 800;">જાંગીડ ઓનલાઇન સેવાઓ</h1>
             <p style="margin: 3px 0 1px 0; font-size: 11px; color: #b45309; font-weight: bold;">ડિજિટલ સેવા કેન્દ્ર</p>
         </div>
@@ -92,12 +91,11 @@
                 <img id="slipQRCode" style="width: 75px; height: 75px; border: 1px solid #e2e8f0; padding: 3px; background: #fff; border-radius: 6px;">
                 <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e3a8a; font-size: 11px;">અરજીની સ્થિતિ જોવા સ્કેન કરો</p>
             </div>
-            <p style="font-weight: bold; color: #1e3a8a; font-size: 12px;">મુલાકાત બદલ આભાર!</p>
+            <p style="font-weight: bold; color: #1e3a8a; font-size: 12px;">муલાકાત બદલ આભાર!</p>
         </div>
         <button class="no-print" style="margin-top:15px; background-color:#059669; color:white; padding:10px; border:none; width:100%; font-weight:bold; cursor:pointer;" onclick="window.print()">પ્રિન્ટ રસીદ (A6 સાઈઝ)</button>
     </div>
 
-    <!-- ૨. સ્ટેટસ અપડેટ બોક્સ -->
     <div class="container no-print" style="background-color: #fef3c7; border: 1px solid #f59e0b;">
         <h3 style="color: #b45309; border-bottom: 2px solid #b45309;">જૂની સ્લિપનું સ્ટેટસ અપડેટ કરો</h3>
         <div class="form-group" style="display: flex; gap: 10px;">
@@ -120,21 +118,27 @@
         </div>
     </div>
 
-
-    <!-- ૪. જૂની સ્લિપ ફરીથી પ્રિન્ટ કરવાનું બોક્સ (Re-Print Section) -->
-<div class="container no-print" style="background-color: #e0f2fe; border: 1px solid #7dd3fc;">
-    <h3 style="color: #0369a1; border-bottom: 2px solid #0369a1;">જૂની સ્લિપ ફરીથી પ્રિન્ટ કરો (Re-Print)</h3>
-    <div class="form-group" style="display: flex; gap: 10px;">
-        <input type="text" id="rePrintReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
-        <button type="button" onclick="loadSlipForRePrint()" style="background-color: #0284c7; width: auto; white-space: nowrap;">સ્લિપ શોધો</button>
+    <div class="container no-print" style="background-color: #e0f2fe; border: 1px solid #7dd3fc;">
+        <h3 style="color: #0369a1; border-bottom: 2px solid #0369a1;">જૂની સ્લિપ ફરીથી પ્રિન્ટ કરો (Re-Print)</h3>
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <input type="text" id="rePrintReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
+            <button type="button" onclick="loadSlipForRePrint()" style="background-color: #0284c7; width: auto; white-space: nowrap;">સ્લિપ શોધો</button>
+        </div>
     </div>
-</div>
 </div>
 
 <script>
-    // 🚨 અહીં તમારી ગૂગલ એપ્સ સ્ક્રિપ્ટની સાચી વેબ એપ લિંક પેસ્ટ કરો
     const scriptUrl = "https://script.google.com/macros/s/AKfycbysh0pM8BjrO0TSUT0OaqHK22ArME4G_sH7Udqe-adlPwg8MeiIDK2gMr59nJQK-HUDkg/exec";
     var allServices = {};
+
+    // 💡 ઓટો-લોગિન ચેક: પેજ લોડ થાય ત્યારે સેશન ચેક કરશે
+    window.onload = function() {
+        if (sessionStorage.getItem("isLoggedIn") === "true") {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+            loadDropdownServices();
+        }
+    };
 
     function handleLogin() {
         var user = document.getElementById("adminUser").value;
@@ -143,11 +147,19 @@
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "login", username: user, password: pass }) })
         .then(r => r.json()).then(res => {
             if (res.status === "success") {
+                // સેશનમાં સ્ટેટસ સેવ કરવું જેથી રિફ્રેશ કરવા પર લોગિન ના માંગે
+                sessionStorage.setItem("isLoggedIn", "true");
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 loadDropdownServices();
             } else { alert(res.message); }
         });
+    }
+
+    // લોગઆઉટ કરવા માટેનું ફંક્શન
+    function handleLogout() {
+        sessionStorage.removeItem("isLoggedIn");
+        window.location.reload();
     }
 
     function loadDropdownServices() {
@@ -156,6 +168,7 @@
             if (res.status === "success") {
                 allServices = res.services;
                 var mainSelect = document.getElementById("mainService");
+                mainSelect.innerHTML = '<option value="">-- સેવા પસંદ કરો --</option>'; // ક્લિયર અને ડિફોલ્ટ સેટ
                 for (var main in allServices) {
                     var opt = document.createElement("option");
                     opt.value = main; opt.innerHTML = main;
@@ -214,7 +227,7 @@
                 document.getElementById('slipService').innerText = fullService;
                 document.getElementById('slipInfo').innerText = detail ? detail : 'N/A';
                 
-                // કસ્ટમર ફાઇલ ઓપન થાય એવો QR કોડ (તમારા PC ના લોકેશન પ્રમાણે કસ્ટમર ફાઇલનું સરનામું બારકોડમાં નાખશે)
+                // ઓરિજિનલ Netlify કસ્ટમર પેજ લિંક સેટ કરી છે
                 var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
                 
@@ -265,45 +278,36 @@
             document.getElementById("searchReceiptNo").value = "";
         });
     }
-    // જૂની સ્લિપ ગૂગલ શીટમાંથી શોધીને ફરી લોડ કરવા માટે
-function loadSlipForRePrint() {
-    var id = document.getElementById("rePrintReceiptNo").value;
-    if(!id) { alert("કૃપા કરીને પહોંચ Number લખો!"); return; }
-    
-    // આપણે બેકએન્ડમાં અગાઉથી બનાવેલા "searchForUpdate" લોજિકનો જ ઉપયોગ કરીશું
-    fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "searchForUpdate", receiptNo: id }) })
-    .then(r => r.json()).then(res => {
-        if(res.found) {
-            // સ્લિપમાં ડેટા સેટ કરવો
-            document.getElementById('slipReceiptNo').innerText = id.toUpperCase();
-            document.getElementById('slipName').innerText = res.name;
-            document.getElementById('slipService').innerText = res.service;
-            
-            // તારીખ અને ડિટેલ માટે બેકએન્ડમાંથી ડેટા લાવવા ચેકસ્ટેટસ વાપરીશું
-            fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkStatus", receiptNo: id }) })
-            .then(r2 => r2.json()).then(res2 => {
-                if(res2.found) {
-                    // જો ઓનલાઈન એપ્લિકેશન નંબર હોય તો, નહીંતર N/A
-                    var appDetail = sheetDataInfoFix(id); // અથવા ડાયરેક્ટ રેકોર્ડ
-                    // અહી બેકએન્ડ ડેટા સેટિંગ
-                    document.getElementById('slipDate').innerText = new Date().toLocaleDateString('en-GB'); // અથવા શીટની જૂની ડેટ
-                    document.getElementById('slipInfo').innerText = "જૂનો રેકોર્ડ લોડ થયેલ છે";
-                    
-                    // QR કોડ પણ એ જ જૂની કસ્ટમર ફાઈલનો સેટ થઈ જશે
-                    var customerFileUrl = "file:///" + window.location.pathname.replace("Jangid_Admin.html", "Jangid_Customer.html");
-                    document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
-                    
-                    // સ્લિપ એરિયા બતાવો અને સ્ક્રોલ કરો
-                    document.getElementById('printArea').style.display = 'block';
-                    document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
-                    document.getElementById("rePrintReceiptNo").value = "";
-                }
-            });
-        } else {
-            alert("આ પહોંચ નંબરનો કોઈ ડેટા ગૂગલ શીટમાં મળ્યો નથી!");
-        }
-    });
-}
+
+    // જૂની સ્લિપ ગૂગલ શીટમાંથી શોધીને ફરી લોડ કરવા માટે (Error Fixed)
+    function loadSlipForRePrint() {
+        var id = document.getElementById("rePrintReceiptNo").value;
+        if(!id) { alert("કૃપા કરીને પહોંચ Number લખો!"); return; }
+        
+        fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkStatus", receiptNo: id }) })
+        .then(r => r.json()).then(res => {
+            if(res.found) {
+                // સ્લિપમાં સાચો લાઇવ ડેટા સેટ કરવો
+                document.getElementById('slipReceiptNo').innerText = id.toUpperCase();
+                document.getElementById('slipName').innerText = res.name;
+                document.getElementById('slipService').innerText = res.service;
+                document.getElementById('slipMob').innerText = "N/A (Database)"; 
+                document.getElementById('slipInfo').innerText = res.extra ? res.extra : 'N/A';
+                document.getElementById('slipDate').innerText = "જૂનો રેકોર્ડ"; 
+                
+                var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
+                document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
+                
+                document.getElementById('printArea').style.display = 'block';
+                document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("rePrintReceiptNo").value = "";
+            } else {
+                alert("આ પહોંચ નંબરનો કોઈ ડેટા ગૂગલ શીટમાં મળ્યો નથી!");
+            }
+        }).catch(err => {
+            alert("સર્વર કનેક્શનમાં ભૂલ આવી!");
+        });
+    }
 </script>
 </body>
 </html>
