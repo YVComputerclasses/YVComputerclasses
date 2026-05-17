@@ -267,10 +267,23 @@
     var allServices = {};
 
     window.onload = function() {
-        if (sessionStorage.getItem("isLoggedIn") === "true") {
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("mainContent").style.display = "block";
-            loadDropdownServices();
+        var loginTime = sessionStorage.getItem("loginTime");
+        var isLoggedIn = sessionStorage.getItem("isLoggedIn");
+        
+        if (isLoggedIn === "true" && loginTime) {
+            var currentTime = new Date().getTime();
+            // મિલીસેકન્ડમાંથી મિનિટ શોધવા માટેનું ગણિત
+            var minutesPassed = (currentTime - loginTime) / (1000 * 60);
+            
+            // જો લોગિન થયાને ૩ મિનિટથી વધુ સમય થઈ ગયો હોય તો ઓટોમેટિક લોગઆઉટ
+            if (minutesPassed > 3) { 
+                handleLogout();
+                alert("સુરક્ષા ખાતર લોગિન સમય (૩ મિનિટ) સમાપ્ત થઈ ગયો છે! કૃપા કરીને ફરી લોગિન કરો.");
+            } else {
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                loadDropdownServices();
+            }
         }
     };
 
@@ -305,15 +318,20 @@
             showLoader('loginBtn', 'loginSpin', false);
             if (res.status === "success") {
                 sessionStorage.setItem("isLoggedIn", "true");
+                sessionStorage.setItem("loginTime", new Date().getTime()); // લોગિનનો સમય સેવ થયો
+                
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 loadDropdownServices();
-            } else { alert(res.message); }
+            } else { 
+                alert(res.message); 
+            }
         }).catch(() => showLoader('loginBtn', 'loginSpin', false));
     }
 
     function handleLogout() {
         sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("loginTime");
         window.location.reload();
     }
 
