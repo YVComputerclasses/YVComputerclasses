@@ -2,7 +2,7 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <title>જાંગીડ ઓનલાઇન સેવાઓ - એડવાન્સ એડમિન ડેશબોર્ડ</title>
+    <title>જાંગીડ ઓનલાઇન સેવાઓ - એડમિન ડેશબોર્ડ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
@@ -13,30 +13,26 @@
             --card-bg: #ffffff;
             --text: #0f172a;
             --sidebar-width: 260px;
+            --whatsapp: #25d366;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
+            background-color: var(--bg); color: var(--text); min-height: 100vh;
         }
 
-        /* પ્રીમિયમ ગ્લાસ લોગિન બોક્સ */
+        /* ગ્લાસ લોગિન બોક્સ */
         .login-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            display: flex; align-items: center; justify-content: center; z-index: 9999;
-            padding: 20px;
+            display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
         }
         .login-box { 
-            width: 100%; max-width: 400px; 
-            background: rgba(255, 255, 255, 0.1);
+            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 35px 25px; border-radius: 16px; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 35px 25px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: center; color: white;
         }
         .login-box input {
@@ -45,10 +41,9 @@
         }
         .login-box input:focus { background: rgba(255, 255, 255, 0.2); border-color: var(--accent); outline: none; }
 
-        /* ડેશબોર્ડ લેઆઉટ સ્ટ્રક્ચર */
+        /* ડેશબોર્ડ લેઆઉટ */
         .dashboard-container { display: flex; min-height: 100vh; }
         
-        /* એડવાન્સ સાઇડબાર */
         .sidebar {
             width: var(--sidebar-width); background-color: #0f172a; color: white;
             padding: 25px 15px; display: flex; flex-direction: column; gap: 20px;
@@ -66,10 +61,8 @@
         .nav-item:hover { background: #1e293b; color: white; }
         .nav-item.active { background: var(--primary-light); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
         
-        /* મેઈન કન્ટેન્ટ એરિયા */
         .main-content { flex: 1; padding: 30px; max-width: 1200px; margin: 0 auto; width: 100%; }
         
-        /* સેક્શન કાર્ડ્સ (બાય ડિફોલ્ટ છુપાયેલા) */
         .tab-section { display: none; animation: fadeIn 0.4s ease; }
         .tab-section.active-section { display: block; }
         
@@ -79,7 +72,6 @@
         }
         .card h3 { color: var(--primary); font-size: 18px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f1f5f9; }
 
-        /* ફોર્મ ડિઝાઇન */
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #475569; }
         input, select { 
@@ -93,7 +85,6 @@
         .radio-group input:checked + label { background-color: var(--primary); color: white; border-color: var(--primary); }
         .radio-group input { display: none; }
 
-        /* બટન્સ અને સ્પિનર્સ */
         button { 
             background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); color: white; 
             padding: 14px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 15px; 
@@ -101,36 +92,46 @@
             display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.2s;
         }
         button:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(30, 58, 138, 0.25); }
+        
+        /* 🟢 વોટ્સએપ ખાસ બટન ડિઝાઇન */
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2) !important; margin-top: 10px;
+        }
+        .btn-whatsapp:hover { box-shadow: 0 6px 15px rgba(37, 211, 102, 0.35) !important; }
+
         .spinner { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s linear infinite; }
 
         #subServiceWrapper, #statusExtraWrapper, #upStatusExtraWrapper { display: none; background: #f8fafc; padding: 15px; border-radius: 6px; margin-top: 12px; border-left: 4px solid var(--accent); }
 
-        /* રસીદ પ્રિન્ટ એરિયા - સ્માર્ટ પોપઅપ મોડલ લુક */
-        #printArea { 
-            display: none; background: #fff; border: 2px dashed var(--primary); padding: 20px; 
-            width: 100%; max-width: 101mm; margin: 20px auto; position: relative; box-sizing: border-box; 
-            border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        /* 🖨️ A4 Half Page Print CSS */
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 148mm; height: 210mm; padding: 25px; border: none; background: #fff; box-sizing: border-box; }
+            .no-print { display: none !important; }
+            @page { size: A4 portrait; margin: 0; }
+            .slip-header h1 { font-size: 26px !important; }
+            .slip-body { font-size: 16px !important; line-height: 2.2 !important; }
+            #slipQRCode { width: 110px !important; height: 110px !important; }
         }
-        .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 35px; color: rgba(30, 58, 138, 0.03); font-weight: 800; white-space: nowrap; pointer-events: none; }
+        
+        #printArea { 
+            display: none; background: #fff; border: 2px dashed var(--primary); padding: 25px; 
+            width: 100%; max-width: 148mm; margin: 20px auto; position: relative; box-sizing: border-box; 
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); animation: fadeIn 0.5s ease;
+        }
+        .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 45px; color: rgba(30, 58, 138, 0.03); font-weight: 800; white-space: nowrap; pointer-events: none; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* મોબાઇલ સ્ક્રીન ઓપ્ટિમાઇઝેશન */
         @media (max-width: 768px) {
             .dashboard-container { flex-direction: column; }
             .sidebar { width: 100%; padding: 15px; border-bottom: 1px solid #1e293b; }
             .nav-menu { flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 5px; }
-            .nav-item { flex: 1; min-width: 100px; padding: 10px; justify-content: center; font-size: 12px; text-align: center; }
+            .nav-item { flex: 1; min-width: 100px; padding: 10px; justify-content: center; font-size: 12px; }
             .main-content { padding: 15px; }
-        }
-
-        @media print {
-            body * { visibility: hidden; }
-            #printArea, #printArea * { visibility: visible; }
-            #printArea { position: absolute; left: 2mm; top: 2mm; width: 101mm; padding: 15px; border: none; }
-            .no-print { display: none !important; }
-            @page { size: A6 portrait; margin: 0; }
         }
     </style>
 </head>
@@ -141,7 +142,7 @@
         <h2 style="font-size: 22px; margin-bottom: 20px;">Jangid OS Admin Login</h2>
         <div class="form-group" style="text-align: left;"><label style="color: #cbd5e1;">USER ID:</label><input type="text" id="adminUser"></div>
         <div class="form-group" style="text-align: left;"><label style="color: #cbd5e1;">PASSWORD:</label><input type="password" id="adminPass"></div>
-        <button type="button" onclick="handleLogin()" id="loginBtn"><span class="spinner" id="loginSpin"></span>LOGIN ડેશબોર્ડ</button>
+        <button type="button" onclick="handleLogin()" id="loginBtn"><span class="spinner" id="loginSpin"></span>LOGIN</button>
     </div>
 </div>
 
@@ -202,7 +203,7 @@
                     <div id="updateFieldsWrapper" style="display: none; margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 20px;">
                         <p style="font-size: 15px; margin-bottom: 15px;"><b>ગ્રાહકનું નામ:</b> <span id="upCustName" style="color: var(--primary); font-weight: bold;"></span> | <b>સેવા:</b> <span id="upCustService" style="font-weight: bold;"></span></p>
                         <input type="hidden" id="upRowNum">
-                        <div class="form-group">
+                        <input type="hidden" id="upCustMobile"> <div class="form-group">
                             <label>નવું લાઇવ સ્ટેટસ સેટ કરો:</label>
                             <div class="radio-group">
                                 <input type="radio" id="upPending" name="upWorkStatus" value="Pending" onchange="toggleUpStatusExtra()">
@@ -215,6 +216,7 @@
                         </div>
                         <div class="form-group" id="upStatusExtraWrapper"><label id="upExtraLabel">વિગત:</label><input type="text" id="upStatusExtraInput"></div>
                         <button type="button" onclick="submitStatusUpdate()" id="updateBtn" style="background: #059669;"><span class="spinner" id="updateSpin"></span>સ્ટેટસ લાઈવ સેવ કરો</button>
+                        <button type="button" onclick="sendUpdateWhatsApp()" id="updateWABtn" class="btn-whatsapp" style="display:none;">💬 વોટ્સએપ પર અપડેટ મોકલો</button>
                     </div>
                 </div>
             </div>
@@ -231,13 +233,13 @@
 
             <div id="printArea">
                 <div class="watermark">JANGID OS</div>
-                <div style="text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;">
+                <div class="slip-header" style="text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;">
                     <img src="logo.jpg" style="width: 55px; height: auto; margin-bottom: 5px;" onerror="this.style.display='none'">
                     <h1 style="margin: 0; font-size: 18px; color: var(--primary); font-weight: 800;">જાંગીડ ઓનલાઇન સેવાઓ</h1>
                     <p style="margin: 3px 0 1px 0; font-size: 11px; color: var(--accent); font-weight: bold;">ડિજિટલ સેવા કેન્દ્ર</p>
                 </div>
                 
-                <div style="font-size: 13px; color: #222; line-height: 1.8;">
+                <div class="slip-body" style="font-size: 13px; color: #222; line-height: 1.8;">
                     <div style="display: flex; justify-content: space-between; background-color: #f1f5f9; padding: 6px 12px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
                         <span><strong>પહોંચ નંબર:</strong> <span id="slipReceiptNo" style="font-weight: bold; color: var(--accent); font-size: 14px;"></span></span>
                         <span><strong>તારીખ:</strong> <span id="slipDate"></span></span>
@@ -255,7 +257,8 @@
                     </div>
                     <p style="font-weight: bold; color: var(--primary); font-size: 12px; margin: 8px 0 0 0;">મુલાકાત બદલ આભાર!</p>
                 </div>
-                <button class="no-print" style="margin-top:18px; background: #059669;" onclick="window.print()">પ્રિન્ટ આઉટ (A6 સાઈઝ)</button>
+                <button class="no-print" style="margin-top:18px; background: #059669; color:white; padding:12px;" onclick="window.print()">પ્રિન્ટ આઉટ (A4 Half Page)</button>
+                <button type="button" onclick="sendNewEntryWhatsApp()" id="newWABtn" class="no-print btn-whatsapp">💬 વોટ્સએપ પર રસીદ મોકલો</button>
             </div>
 
         </div>
@@ -265,6 +268,9 @@
 <script>
     const scriptUrl = "https://script.google.com/macros/s/AKfycbysh0pM8BjrO0TSUT0OaqHK22ArME4G_sH7Udqe-adlPwg8MeiIDK2gMr59nJQK-HUDkg/exec";
     var allServices = {};
+    
+    // વોટ્સએપ મેસેજ ટાઇપ ગ્લોબલ વેરિએબલ્સ
+    var lastSavedData = {};
 
     window.onload = function() {
         var loginTime = sessionStorage.getItem("loginTime");
@@ -272,13 +278,11 @@
         
         if (isLoggedIn === "true" && loginTime) {
             var currentTime = new Date().getTime();
-            // મિલીસેકન્ડમાંથી મિનિટ શોધવા માટેનું ગણિત
             var minutesPassed = (currentTime - loginTime) / (1000 * 60);
             
-            // જો લોગિન થયાને ૩ મિનિટથી વધુ સમય થઈ ગયો હોય તો ઓટોમેટિક લોગઆઉટ
             if (minutesPassed > 3) { 
                 handleLogout();
-                alert("સુરક્ષા ખાતર લોગિન સમય (૩ મિનિટ) સમાપ્ત થઈ ગયો છે! કૃપા કરીને ફરી લોગિન કરો.");
+                alert("સુરક્ષા ખાતર લોગિન સમય (૩ મિનિટ) સમાપ્ત થઈ ગયો છે! ફરી લોગિન કરો.");
             } else {
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
@@ -287,18 +291,12 @@
         }
     };
 
-    // એડવાન્સ ટેબ સ્વિચિંગ લોજિક
     function switchTab(tabId, el) {
         document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active-section'));
         document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        
         document.getElementById(tabId).classList.add('active-section');
         if(el) el.classList.add('active');
-        
-        // જ્યારે મેનુ બદલાય ત્યારે જૂની પ્રિન્ટ સ્લિપ એરિયા છુપાવી દેવો
-        if (tabId !== 'newEntryTab') {
-            document.getElementById('printArea').style.display = 'none';
-        }
+        if (tabId !== 'newEntryTab') { document.getElementById('printArea').style.display = 'none'; }
     }
 
     function showLoader(btnId, spinId, isLoad) {
@@ -318,14 +316,11 @@
             showLoader('loginBtn', 'loginSpin', false);
             if (res.status === "success") {
                 sessionStorage.setItem("isLoggedIn", "true");
-                sessionStorage.setItem("loginTime", new Date().getTime()); // લોગિનનો સમય સેવ થયો
-                
+                sessionStorage.setItem("loginTime", new Date().getTime());
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 loadDropdownServices();
-            } else { 
-                alert(res.message); 
-            }
+            } else { alert(res.message); }
         }).catch(() => showLoader('loginBtn', 'loginSpin', false));
     }
 
@@ -343,9 +338,7 @@
                 var mainSelect = document.getElementById("mainService");
                 mainSelect.innerHTML = '<option value="">-- સેવા પસંદ કરો --</option>';
                 for (var main in allServices) {
-                    var opt = document.createElement("option");
-                    opt.value = main; opt.innerHTML = main;
-                    mainSelect.appendChild(opt);
+                    var opt = document.createElement("option"); opt.value = main; opt.innerHTML = main; mainSelect.appendChild(opt);
                 }
             }
         });
@@ -359,9 +352,7 @@
         if(main && allServices[main] && allServices[main].length > 0) {
             subWrapper.style.display = "block";
             allServices[main].forEach(function(sub) {
-                var opt = document.createElement("option");
-                opt.value = sub; opt.innerHTML = sub;
-                subSelect.appendChild(opt);
+                var opt = document.createElement("option"); opt.value = sub; opt.innerHTML = sub; subSelect.appendChild(opt);
             });
         } else { subWrapper.style.display = "none"; }
     }
@@ -405,6 +396,9 @@
                 var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
                 
+                // વોટ્સએપ મેસેજ મોકલવા ડેટા યાદ રાખવો
+                lastSavedData = { name: name, mobile: mobile, receiptNo: res.receiptNo, service: fullService };
+                
                 document.getElementById('printArea').style.display = 'block';
                 document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
                 document.getElementById('receiptForm').reset();
@@ -412,6 +406,14 @@
                 document.getElementById("statusExtraWrapper").style.display = "none";
             }
         }).catch(() => showLoader('saveBtn', 'saveSpin', false));
+    }
+
+    // 🟢 ૧. નવી રસીદનો સુંદર ગુજરાતી વોટ્સએપ મેસેજ લોજિક
+    function sendNewEntryWhatsApp() {
+        if(!lastSavedData.mobile) return;
+        var msg = `*જાંગીડ ઓનલાઇન સેવાઓ*%0A-----------------------------------%0A*નમસ્કાર ${lastSavedData.name},*%0A%0Aઆપની અરજી સફળતાપૂર્વક સ્વીકારવામાં આવી છે.%0A%0A📝 *વિગત:*%0A• *પહોંચ નંબર:* ${lastSavedData.receiptNo}%0A• *સેવા:* ${lastSavedData.service}%0A%0A👇 આપની અરજીનું લાઈવ સ્ટેટસ જોવા માટે નીચેની લિંક પર ક્લિક કરો:%0Ahttps://jangidos.netlify.app%0A%0A_મુલાકાત બદલ આભાર!_ 🙏`;
+        var url = "https://api.whatsapp.com/send?phone=91" + lastSavedData.mobile + "&text=" + msg;
+        window.open(url, '_blank');
     }
 
     function searchForUpdate() {
@@ -427,10 +429,13 @@
                 document.getElementById("upCustName").innerText = res.name;
                 document.getElementById("upCustService").innerText = res.service;
                 document.getElementById("upRowNum").value = res.rowNum;
+                document.getElementById("upCustMobile").value = res.mobile; // મોબાઈલ સ્ટોર કર્યો
+                
                 if(res.workStatus === "Confirm") document.getElementById("upConfirm").checked = true;
                 else if(res.workStatus === "Reject") document.getElementById("upReject").checked = true;
                 else document.getElementById("upPending").checked = true;
                 toggleUpStatusExtra();
+                document.getElementById("updateWABtn").style.display = "none"; // જૂનું બટન રીસેટ
             } else { alert("આ નંબર મળ્યો નથી!"); }
         }).catch(() => showLoader('searchBtn', 'searchSpin', false));
     }
@@ -455,9 +460,32 @@
         .then(r => r.json()).then(res => {
             showLoader('updateBtn', 'updateSpin', false);
             alert(res.message);
-            document.getElementById("updateFieldsWrapper").style.display = "none";
-            document.getElementById("searchReceiptNo").value = "";
+            // અપડેટ સેવ થયા પછી વોટ્સએપ મોકલવાનું બટન લાઈવ કરવું
+            document.getElementById("updateWABtn").style.display = "block";
         }).catch(() => showLoader('updateBtn', 'updateSpin', false));
+    }
+
+    // 🟢 ૨. સ્ટેટસ અપડેટ (Confirm / Reject) નો વોટ્સએપ મેસેજ લોજિક
+    function sendUpdateWhatsApp() {
+        var name = document.getElementById("upCustName").innerText;
+        var service = document.getElementById("upCustService").innerText;
+        var mobile = document.getElementById("upCustMobile").value;
+        var receiptNo = document.getElementById("searchReceiptNo").value.toUpperCase();
+        var status = document.querySelector('input[name="upWorkStatus"]:checked').value;
+        var reason = document.getElementById("upStatusExtraInput").value;
+        
+        var statusMsg = "";
+        if(status === "Confirm") {
+            statusMsg = `*🎉 ખુશખબર! આપનું કામ સફળતાપૂર્વક થઈ ગયું છે.*%0Aઆપ દુકાને આવીને આપના અસલી દસ્તાવેજો/ડોક્યુમેન્ટ મેળવી શકો છો.`;
+        } else if(status === "Reject") {
+            statusMsg = `*⚠️ અરજી અસ્વીકૃત (Rejected) થયેલ છે.*%0A• *કારણ:* ${reason}%0Aવધુ માહિતી માટે જરૂરી આધાર પુરાવા સાથે દુકાને સંપર્ક કરો.`;
+        } else {
+            statusMsg = `*🔄 આપનું કામ હાલ પ્રક્રિયા હેઠળ (Pending) છે.*`;
+        }
+        
+        var msg = `*જાંગીડ ઓનલાઇન સેવાઓ*%0A-----------------------------------%0A*નમસ્કાર ${name},*%0A%0Aઆપની અરજી નંબર *${receiptNo}* (${service}) માટે નવું અપડેટ આવેલ છે.%0A%0A${statusMsg}%0A%0A👇 લાઇવ સ્થિતિ હંમેશા જોવા માટે નીચે ક્લિક કરો:%0Ahttps://jangidos.netlify.app%0A%0A_જાંગીડ ઓનલાઇન સેવાઓ, નરસંડા_`;
+        var url = "https://api.whatsapp.com/send?phone=91" + mobile + "&text=" + msg;
+        window.open(url, '_blank');
     }
 
     function loadSlipForRePrint() {
@@ -478,6 +506,9 @@
                 
                 var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
+                
+                // રી-પ્રિન્ટ વખતે પણ વોટ્સએપ ડેટા સેટ કરી દેવો
+                lastSavedData = { name: res.name, mobile: res.mobile, receiptNo: id.toUpperCase(), service: res.service };
                 
                 document.getElementById('printArea').style.display = 'block';
                 document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
