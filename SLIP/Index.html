@@ -2,127 +2,243 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <title>જાંગીડ ઓનલાઇન સેવાઓ - એડમિન પેનલ</title>
+    <title>જાંગીડ ઓનલાઇન સેવાઓ - પ્રીમિયમ એડમિન પેનલ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f6f9; margin: 20px; color: #333; }
-        .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: 0 auto 20px auto; }
-        h2, h3 { color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-top: 0; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; }
-        .radio-group { display: flex; gap: 15px; margin-top: 5px; }
-        .radio-group label { font-weight: normal; display: inline; cursor: pointer; }
-        button { background-color: #1e3a8a; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; font-weight: bold; }
-        #subServiceWrapper, #statusExtraWrapper, #upStatusExtraWrapper { display: none; background: #f0f4f8; padding: 10px; border-radius: 4px; margin-top: 10px; border-left: 4px solid #1e3a8a; }
-        .login-box { max-width: 400px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 100px auto; text-align: center; }
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --accent: #f97316;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+            margin: 0; 
+            padding: 10px; /* ફોન માટે પેડિંગ ઓછું કર્યું */
+            color: var(--text);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* સ્મૂધ એનિમેશન */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* પ્રીમિયમ ગ્લાસ લોગિન બોક્સ (મોબાઈલ સેફ) */
+        .login-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #1e3a8a, #0f172a);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+            padding: 15px; box-sizing: border-box;
+        }
+        .login-box { 
+            width: 100%; max-width: 400px; 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 30px 20px; border-radius: 16px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); text-align: center;
+            color: white; animation: fadeIn 0.5s ease-out; box-sizing: border-box;
+        }
+        .login-box input {
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255,255,255,0.2);
+            color: white; font-size: 16px; transition: all 0.3s;
+        }
+        .login-box input:focus {
+            background: rgba(255, 255, 255, 0.25); border-color: var(--accent); outline: none; box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+        }
+
+        /* કન્ટેનર અને કાર્ડ્સ (મોબાઈલ માટે ૧૦૦% ફીટ) */
+        .container { 
+            width: 100%; max-width: 650px; background: var(--card-bg); padding: 20px; 
+            border-radius: 12px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08); 
+            margin: 0 auto 20px auto; animation: fadeIn 0.4s ease-out;
+            border-top: 4px solid var(--primary); box-sizing: border-box;
+        }
+        
+        h2, h3 { color: var(--primary); font-weight: 700; margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; font-size: 18px; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #475569; }
+        
+        input, select { 
+            width: 100%; padding: 12px; box-sizing: border-box; 
+            border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; 
+            transition: all 0.3s; background-color: #f8fafc;
+        }
+        input:focus, select:focus { 
+            border-color: var(--primary-light); background-color: #fff; 
+            outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); 
+        }
+        
+        /* મોબાઈલ ફ્રેન્ડલી રેડિયો બટન્સ */
+        .radio-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+        .radio-group label { 
+            font-weight: 500; display: flex; align-items: center; gap: 6px; 
+            cursor: pointer; background: #f1f5f9; padding: 8px 14px; border-radius: 20px;
+            transition: all 0.2s; border: 1px solid #e2e8f0; margin-bottom: 0; font-size: 14px;
+        }
+        .radio-group input:checked + label {
+            background-color: var(--primary); color: white; border-color: var(--primary);
+        }
+        .radio-group input { display: none; }
+
+        /* એનિમેટેડ બટન અને લોડર */
+        button { 
+            background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); 
+            color: white; padding: 14px 20px; border: none; border-radius: 6px; 
+            cursor: pointer; font-size: 16px; width: 100%; font-weight: bold; 
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2); transition: all 0.2s;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            box-sizing: border-box;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(30, 58, 138, 0.3); }
+        button:active { transform: translateY(0); }
+        
+        .spinner {
+            display: none; width: 18px; height: 18px; 
+            border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+            border-top-color: white; animation: spin 0.8s linear infinite;
+        }
+
+        #subServiceWrapper, #statusExtraWrapper, #upStatusExtraWrapper { 
+            display: none; background: #f0f4f8; padding: 12px; border-radius: 6px; 
+            margin-top: 12px; border-left: 4px solid var(--accent); animation: fadeIn 0.3s ease;
+        }
+        
         #mainContent { display: none; }
 
         /* A6 Size Premium Print CSS */
         @media print {
             body * { visibility: hidden; }
             #printArea, #printArea * { visibility: visible; }
-            #printArea { position: absolute; left: 2mm; top: 2mm; width: 101mm; height: auto; padding: 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; }
+            #printArea { position: absolute; left: 2mm; top: 2mm; width: 101mm; height: auto; padding: 15px; border: none; background: #fff; }
             .no-print { display: none !important; }
             @page { size: A6 portrait; margin: 0; }
         }
-        #printArea { display: none; background: #fff; border: 1px solid #e2e8f0; padding: 20px; max-width: 105mm; margin: 20px auto; position: relative; box-sizing: border-box; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 35px; color: rgba(30, 58, 138, 0.03); font-weight: bold; white-space: nowrap; pointer-events: none; text-transform: uppercase; }
-        .print-btn { background-color: #059669; margin-top: 15px; }
+        
+        #printArea { 
+            display: none; background: #fff; border: 2px dashed var(--primary); padding: 20px; 
+            width: 100%; max-width: 101mm; margin: 20px auto; position: relative; box-sizing: border-box; 
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); animation: fadeIn 0.5s ease;
+        }
+        .watermark { 
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); 
+            font-size: 35px; color: rgba(30, 58, 138, 0.03); font-weight: 800; white-space: nowrap; pointer-events: none; 
+        }
     </style>
 </head>
 <body>
 
-<div id="loginScreen" class="login-box no-print">
-    <h2 style="border: none; color: #1e3a8a;">Admin Login</h2>
-    <div class="form-group" style="text-align: left;"><label>USER ID:</label><input type="text" id="adminUser"></div>
-    <div class="form-group" style="text-align: left;"><label>PASSWORD:</label><input type="password" id="adminPass"></div>
-    <button type="button" onclick="handleLogin()">LOGIN</button>
+<div id="loginScreen" class="login-bg no-print">
+    <div class="login-box">
+        <h2 style="border: none; color: white; margin-bottom: 25px; font-size: 22px;">Jangid OS Admin</h2>
+        <div class="form-group"><label style="color: #cbd5e1;">USER ID:</label><input type="text" id="adminUser"></div>
+        <div class="form-group"><label style="color: #cbd5e1;">PASSWORD:</label><input type="password" id="adminPass"></div>
+        <button type="button" onclick="handleLogin()" id="loginBtn"><span class="spinner" id="loginSpin"></span>LOGIN</button>
+    </div>
 </div>
 
 <div id="mainContent">
     <div class="container no-print">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 15px;">
-            <h2 style="border: none; margin: 0;">જાંગીડ ઓનલાઇન સેવાઓ - નવી એન્ટ્રી</h2>
-            <button onclick="handleLogout()" style="width: auto; padding: 6px 12px; font-size: 13px; background-color: #dc2626;">LOGOUT</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+            <h2 style="border: none; margin: 0; font-size: 20px;">જાંગીડ ઓનલાઇન સેવાઓ</h2>
+            <button onclick="handleLogout()" style="width: auto; padding: 6px 12px; font-size: 13px; background: #dc2626; box-shadow: none;">LOGOUT</button>
         </div>
         <form id="receiptForm">
-            <div class="form-group"><label>ગ્રાહકનું નામ:</label><input type="text" id="custName" required></div>
-            <div class="form-group"><label>મોબાઈલ નંબર:</label><input type="text" id="custMobile" maxlength="10" required></div>
+            <div class="form-group"><label>ગ્રાહકનું નામ:</label><input type="text" id="custName" required placeholder="પૂરૂં નામ લખો"></div>
+            <div class="form-group"><label>મોબાઈલ નંબર:</label><input type="text" id="custMobile" maxlength="10" required placeholder="10 આંકડાનો નંબર"></div>
             <div class="form-group">
                 <label>સેવાનો પ્રકાર:</label>
                 <select id="mainService" onchange="updateSubServices()"><option value="">-- સેવા પસંદ કરો --</option></select>
                 <div id="subServiceWrapper"><label>પેટા વિગત (Sub-Service):</label><select id="subService"></select></div>
             </div>
-            <div class="form-group"><label>એપ્લિકેશન / ટોકન નંબર:</label><input type="text" id="serviceDetail"></div>
+            <div class="form-group"><label>એપ્લિકેશન / ટોકન નંબર:</label><input type="text" id="serviceDetail" placeholder="નંબર (જો હોય તો)"></div>
             <div class="form-group">
                 <label>કામનું સ્ટેટસ:</label>
                 <div class="radio-group">
-                    <input type="radio" id="stPending" name="workStatus" value="Pending" checked onchange="toggleStatusExtra()"> <label for="stPending">Pending</label>
-                    <input type="radio" id="stConfirm" name="workStatus" value="Confirm" onchange="toggleStatusExtra()"> <label for="stConfirm">Confirm</label>
-                    <input type="radio" id="stReject" name="workStatus" value="Reject" onchange="toggleStatusExtra()"> <label for="stReject">Reject</label>
+                    <input type="radio" id="stPending" name="workStatus" value="Pending" checked onchange="toggleStatusExtra()">
+                    <label for="stPending">Pending</label>
+                    <input type="radio" id="stConfirm" name="workStatus" value="Confirm" onchange="toggleStatusExtra()">
+                    <label for="stConfirm">Confirm</label>
+                    <input type="radio" id="stReject" name="workStatus" value="Reject" onchange="toggleStatusExtra()">
+                    <label for="stReject">Reject</label>
                 </div>
                 <div id="statusExtraWrapper"><label id="extraLabel">વિગત:</label><input type="text" id="statusExtraInput"></div>
             </div>
-            <button type="button" onclick="submitData()">ડેટા સેવ કરો અને સ્લિપ બનાવો</button>
+            <button type="button" onclick="submitData()" id="saveBtn"><span class="spinner" id="saveSpin"></span>ડેટા સેવ કરો અને સ્લિપ બનાવો</button>
         </form>
     </div>
 
     <div id="printArea">
         <div class="watermark">JANGID OS</div>
-        <div class="slip-header" style="text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 15px;">
+        <div class="slip-header" style="text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;">
             <img src="logo.jpg" style="width: 55px; height: auto; margin-bottom: 5px;" onerror="this.style.display='none'">
-            <h1 style="margin: 0; font-size: 20px; color: #1e3a8a; font-weight: 800;">જાંગીડ ઓનલાઇન સેવાઓ</h1>
-            <p style="margin: 3px 0 1px 0; font-size: 11px; color: #b45309; font-weight: bold;">ડિજિટલ સેવા કેન્દ્ર</p>
+            <h1 style="margin: 0; font-size: 18px; color: var(--primary); font-weight: 800;">જાંગીડ ઓનલાઇન સેવાઓ</h1>
+            <p style="margin: 3px 0 1px 0; font-size: 11px; color: var(--accent); font-weight: bold;">ડિજિટલ સેવા કેન્દ્ર</p>
         </div>
         
         <div class="slip-body" style="font-size: 13px; color: #222; line-height: 1.8;">
-            <div class="slip-row" style="display: flex; justify-content: space-between; background-color: #f8fafc; padding: 5px 10px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
-                <span><strong>પહોંચ નંબર:</strong> <span id="slipReceiptNo" style="font-weight: bold; color: #b45309; font-size: 14px;"></span></span>
+            <div class="slip-row" style="display: flex; justify-content: space-between; background-color: #f1f5f9; padding: 6px 12px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+                <span><strong>પહોંચ નંબર:</strong> <span id="slipReceiptNo" style="font-weight: bold; color: var(--accent); font-size: 14px;"></span></span>
                 <span><strong>તારીખ:</strong> <span id="slipDate"></span></span>
             </div>
-            <div><strong>ગ્રાહકનું નામ:</strong> <span id="slipName"></span></div>
-            <div><strong>મોબાઈલ નંબર:</strong> <span id="slipMob"></span></div>
-            <div><strong>લીધેલ સેવા:</strong> <span id="slipService" style="color: #1e3a8a; font-weight: bold;"></span></div>
-            <div><strong>એપ્લિકેશન નં:</strong> <span id="slipInfo"></span></div>
+            <div style="margin-bottom: 4px;"><strong>ગ્રાહકનું નામ:</strong> <span id="slipName" style="font-weight: 600;"></span></div>
+            <div style="margin-bottom: 4px;"><strong>મોબાઈલ નંબર:</strong> <span id="slipMob"></span></div>
+            <div style="margin-bottom: 4px;"><strong>લીધેલ સેવા:</strong> <span id="slipService" style="color: var(--primary); font-weight: bold;"></span></div>
+            <div style="margin-bottom: 4px;"><strong>એપ્લિકેશન નં:</strong> <span id="slipInfo"></span></div>
         </div>
-        <div class="slip-footer" style="text-align: center; margin-top: 15px; border-top: 1px dashed #1e3a8a; padding-top: 10px;">
-            <p style="font-size: 10px; color: #64748b;">નોંધ: આ સ્લિપ સાચવી રાખવી. સ્ટેટસ ચેક કરવા સાથે લાવવી.</p>
-            <div style="margin: 10px 0; text-align: center;">
-                <img id="slipQRCode" style="width: 75px; height: 75px; border: 1px solid #e2e8f0; padding: 3px; background: #fff; border-radius: 6px;">
-                <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e3a8a; font-size: 11px;">અરજીની સ્થિતિ જોવા સ્કેન કરો</p>
+        <div class="slip-footer" style="text-align: center; margin-top: 15px; border-top: 1px dashed var(--primary); padding-top: 10px;">
+            <p style="font-size: 10px; color: #64748b; margin: 0 0 8px 0;">નોંધ: આ સ્લિપ સાચવી રાખવી. સ્ટેટસ ચેક કરવા સાથે લાવવી.</p>
+            <div style="margin: 5px 0; text-align: center;">
+                <img id="slipQRCode" style="width: 80px; height: 80px; border: 1px solid #cbd5e1; padding: 3px; background: #fff; border-radius: 6px;">
+                <p style="margin: 5px 0 0 0; font-weight: 700; color: var(--primary); font-size: 11px;">અરજીની સ્થિતિ જોવા સ્કેન કરો</p>
             </div>
-            <p style="font-weight: bold; color: #1e3a8a; font-size: 12px;">муલાકાત બદલ આભાર!</p>
+            <p style="font-weight: bold; color: var(--primary); font-size: 12px; margin: 8px 0 0 0;">મુલાકાત બદલ આભાર!</p>
         </div>
-        <button class="no-print" style="margin-top:15px; background-color:#059669; color:white; padding:10px; border:none; width:100%; font-weight:bold; cursor:pointer;" onclick="window.print()">પ્રિન્ટ રસીદ (A6 સાઈઝ)</button>
+        <button class="no-print" style="margin-top:18px; background: #059669; color:white; padding:12px;" onclick="window.print()">પ્રિન્ટ રસીદ (A6 સાઈઝ)</button>
     </div>
 
-    <div class="container no-print" style="background-color: #fef3c7; border: 1px solid #f59e0b;">
-        <h3 style="color: #b45309; border-bottom: 2px solid #b45309;">જૂની સ્લિપનું સ્ટેટસ અપડેટ કરો</h3>
+    <div class="container no-print" style="background-color: #fffbeb; border-top: 4px solid #f59e0b;">
+        <h3 style="color: #b45309; border-bottom: 2px solid #fef3c7;">જૂની સ્લિપનું સ્ટેટસ અપડેટ કરો</h3>
         <div class="form-group" style="display: flex; gap: 10px;">
             <input type="text" id="searchReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
-            <button type="button" onclick="searchForUpdate()" style="background-color: #d97706; width: auto; white-space: nowrap;">쇼ધો</button>
+            <button type="button" onclick="searchForUpdate()" id="searchBtn" style="background: #d97706; width: auto; white-space: nowrap;"><span class="spinner" id="searchSpin"></span>શોધો</button>
         </div>
         <div id="updateFieldsWrapper" style="display: none; margin-top: 15px; border-top: 1px dashed #d97706; padding-top: 15px;">
-            <p><b>ગ્રાહક:</b> <span id="upCustName" style="font-weight: bold;"></span> | <b>સેવા:</b> <span id="upCustService"></span></p>
+            <p style="font-size: 15px;"><b>ગ્રાહક:</b> <span id="upCustName" style="font-weight: bold; color: var(--primary);"></span> | <b>સેવા:</b> <span id="upCustService"></span></p>
             <input type="hidden" id="upRowNum">
             <div class="form-group">
                 <label>નવું સ્ટેટસ:</label>
                 <div class="radio-group">
-                    <input type="radio" id="upPending" name="upWorkStatus" value="Pending" onchange="toggleUpStatusExtra()"> <label for="upPending">Pending</label>
-                    <input type="radio" id="upConfirm" name="upWorkStatus" value="Confirm" onchange="toggleUpStatusExtra()"> <label for="upConfirm">Confirm</label>
-                    <input type="radio" id="upReject" name="upWorkStatus" value="Reject" onchange="toggleUpStatusExtra()"> <label for="upReject">Reject</label>
+                    <input type="radio" id="upPending" name="upWorkStatus" value="Pending" onchange="toggleUpStatusExtra()">
+                    <label for="upPending">Pending</label>
+                    <input type="radio" id="upConfirm" name="upWorkStatus" value="Confirm" onchange="toggleUpStatusExtra()">
+                    <label for="upConfirm">Confirm</label>
+                    <input type="radio" id="upReject" name="upWorkStatus" value="Reject" onchange="toggleUpStatusExtra()">
+                    <label for="upReject">Reject</label>
                 </div>
             </div>
             <div class="form-group" id="upStatusExtraWrapper"><label id="upExtraLabel">વિગત:</label><input type="text" id="upStatusExtraInput"></div>
-            <button type="button" onclick="submitStatusUpdate()" style="background-color: #059669;">સ્ટેટસ લાઈવ અપડેટ કરો</button>
+            <button type="button" onclick="submitStatusUpdate()" id="updateBtn" style="background: #059669;"><span class="spinner" id="updateSpin"></span>સ્ટેટસ લાઈવ અપડેટ કરો</button>
         </div>
     </div>
 
-    <div class="container no-print" style="background-color: #e0f2fe; border: 1px solid #7dd3fc;">
-        <h3 style="color: #0369a1; border-bottom: 2px solid #0369a1;">જૂની સ્લિપ ફરીથી પ્રિન્ટ કરો (Re-Print)</h3>
+    <div class="container no-print" style="background-color: #f0f9ff; border-top: 4px solid #0284c7;">
+        <h3 style="color: #0369a1; border-bottom: 2px solid #e0f2fe;">જૂની સ્લિપ ફરીથી પ્રિન્ટ કરો (Re-Print)</h3>
         <div class="form-group" style="display: flex; gap: 10px;">
             <input type="text" id="rePrintReceiptNo" placeholder="પહોંચ નંબર લખો (દા.ત. JOS001)" style="text-transform: uppercase;">
-            <button type="button" onclick="loadSlipForRePrint()" style="background-color: #0284c7; width: auto; white-space: nowrap;">સ્લિપ શોધો</button>
+            <button type="button" onclick="loadSlipForRePrint()" id="rePrintBtn" style="background: #0284c7; width: auto; white-space: nowrap;"><span class="spinner" id="rePrintSpin"></span>સ્લિપ શોધો</button>
         </div>
     </div>
 </div>
@@ -131,7 +247,6 @@
     const scriptUrl = "https://script.google.com/macros/s/AKfycbysh0pM8BjrO0TSUT0OaqHK22ArME4G_sH7Udqe-adlPwg8MeiIDK2gMr59nJQK-HUDkg/exec";
     var allServices = {};
 
-    // 💡 ઓટો-લોગિન ચેક: પેજ લોડ થાય ત્યારે સેશન ચેક કરશે
     window.onload = function() {
         if (sessionStorage.getItem("isLoggedIn") === "true") {
             document.getElementById("loginScreen").style.display = "none";
@@ -140,23 +255,30 @@
         }
     };
 
+    function showLoader(btnId, spinId, isLoad) {
+        const btn = document.getElementById(btnId);
+        const spin = document.getElementById(spinId);
+        if(isLoad) { spin.style.display = 'block'; btn.style.pointerEvents = 'none'; btn.style.opacity = '0.8'; }
+        else { spin.style.display = 'none'; btn.style.pointerEvents = 'auto'; btn.style.opacity = '1'; }
+    }
+
     function handleLogin() {
         var user = document.getElementById("adminUser").value;
         var pass = document.getElementById("adminPass").value;
+        showLoader('loginBtn', 'loginSpin', true);
         
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "login", username: user, password: pass }) })
         .then(r => r.json()).then(res => {
+            showLoader('loginBtn', 'loginSpin', false);
             if (res.status === "success") {
-                // સેશનમાં સ્ટેટસ સેવ કરવું જેથી રિફ્રેશ કરવા પર લોગિન ના માંગે
                 sessionStorage.setItem("isLoggedIn", "true");
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 loadDropdownServices();
             } else { alert(res.message); }
-        });
+        }).catch(() => showLoader('loginBtn', 'loginSpin', false));
     }
 
-    // લોગઆઉટ કરવા માટેનું ફંક્શન
     function handleLogout() {
         sessionStorage.removeItem("isLoggedIn");
         window.location.reload();
@@ -168,7 +290,7 @@
             if (res.status === "success") {
                 allServices = res.services;
                 var mainSelect = document.getElementById("mainService");
-                mainSelect.innerHTML = '<option value="">-- સેવા પસંદ કરો --</option>'; // ક્લિયર અને ડિફોલ્ટ સેટ
+                mainSelect.innerHTML = '<option value="">-- સેવા પસંદ કરો --</option>';
                 for (var main in allServices) {
                     var opt = document.createElement("option");
                     opt.value = main; opt.innerHTML = main;
@@ -213,12 +335,14 @@
         var statusExtra = document.getElementById('statusExtraInput').value;
         
         if(!name || !mobile || !mainServ) { alert('કૃપા કરીને બધી વિગતો ભરો!'); return; }
+        showLoader('saveBtn', 'saveSpin', true);
         
         var fullService = subServ ? mainServ + " - " + subServ : mainServ;
         var payload = { action: "saveData", name: name, mobile: mobile, service: fullService, detail: detail, status: status, statusExtra: statusExtra };
         
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(payload) })
         .then(r => r.json()).then(res => {
+            showLoader('saveBtn', 'saveSpin', false);
             if(res.status === "success") {
                 document.getElementById('slipReceiptNo').innerText = res.receiptNo;
                 document.getElementById('slipDate').innerText = res.date;
@@ -227,22 +351,26 @@
                 document.getElementById('slipService').innerText = fullService;
                 document.getElementById('slipInfo').innerText = detail ? detail : 'N/A';
                 
-                // ઓરિજિનલ Netlify કસ્ટમર પેજ લિંક સેટ કરી છે
                 var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
                 
                 document.getElementById('printArea').style.display = 'block';
+                document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
                 document.getElementById('receiptForm').reset();
                 document.getElementById("subServiceWrapper").style.display = "none";
                 document.getElementById("statusExtraWrapper").style.display = "none";
             }
-        });
+        }).catch(() => showLoader('saveBtn', 'saveSpin', false));
     }
 
     function searchForUpdate() {
         var id = document.getElementById("searchReceiptNo").value;
+        if(!id) return;
+        showLoader('searchBtn', 'searchSpin', true);
+        
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "searchForUpdate", receiptNo: id }) })
         .then(r => r.json()).then(res => {
+            showLoader('searchBtn', 'searchSpin', false);
             if(res.found) {
                 document.getElementById("updateFieldsWrapper").style.display = "block";
                 document.getElementById("upCustName").innerText = res.name;
@@ -253,7 +381,7 @@
                 else document.getElementById("upPending").checked = true;
                 toggleUpStatusExtra();
             } else { alert("આ નંબર મળ્યો નથી!"); }
-        });
+        }).catch(() => showLoader('searchBtn', 'searchSpin', false));
     }
 
     function toggleUpStatusExtra() {
@@ -270,42 +398,52 @@
         var rowNum = document.getElementById("upRowNum").value;
         var status = document.querySelector('input[name="upWorkStatus"]:checked').value;
         var statusExtra = document.getElementById("upStatusExtraInput").value;
+        showLoader('updateBtn', 'updateSpin', true);
         
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "updateStatus", rowNum: rowNum, status: status, statusExtra: statusExtra }) })
         .then(r => r.json()).then(res => {
+            showLoader('updateBtn', 'updateSpin', false);
             alert(res.message);
             document.getElementById("updateFieldsWrapper").style.display = "none";
             document.getElementById("searchReceiptNo").value = "";
-        });
+        }).catch(() => showLoader('updateBtn', 'updateSpin', false));
     }
 
-    // જૂની સ્લિપ ગૂગલ શીટમાંથી શોધીને ફરી લોડ કરવા માટે (Error Fixed)
+    // 💡 ફિક્સ થયેલું રી-પ્રિન્ટ લોજિક (હવે મોબાઈલ, તારીખ અને એપ્લિકેશન નંબર ૧૦૦% શો થશે!)
+    // જૂની સ્લિપ ગૂગલ શીટમાંથી શોધીને બધી જ વિગતો સાથે ફરી લોડ કરવા માટે (૧૦૦% ફિક્સ)
     function loadSlipForRePrint() {
         var id = document.getElementById("rePrintReceiptNo").value;
         if(!id) { alert("કૃપા કરીને પહોંચ Number લખો!"); return; }
+        showLoader('rePrintBtn', 'rePrintSpin', true);
         
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkStatus", receiptNo: id }) })
         .then(r => r.json()).then(res => {
+            showLoader('rePrintBtn', 'rePrintSpin', false);
             if(res.found) {
-                // સ્લિપમાં સાચો લાઇવ ડેટા સેટ કરવો
+                // સ્લિપમાં ડેટાબેઝમાંથી આવેલો બિલકુલ સાચો ઓરિજિનલ ડેટા સેટ કરવો
                 document.getElementById('slipReceiptNo').innerText = id.toUpperCase();
                 document.getElementById('slipName').innerText = res.name;
                 document.getElementById('slipService').innerText = res.service;
-                document.getElementById('slipMob').innerText = "N/A (Database)"; 
-                document.getElementById('slipInfo').innerText = res.extra ? res.extra : 'N/A';
-                document.getElementById('slipDate').innerText = "જૂનો રેકોર્ડ"; 
                 
+                // અહીં હવે N/A કે જૂનો રેકોર્ડ નહીં આવે, શીટમાંથી લાઈવ ડેટા લોડ થશે:
+                document.getElementById('slipMob').innerText = res.mobile ? res.mobile : 'N/A'; 
+                document.getElementById('slipInfo').innerText = res.detail ? res.detail : 'N/A';
+                document.getElementById('slipDate').innerText = res.date ? res.date : ''; 
+                
+                // QR કોડ જનરેટ કરવો
                 var customerFileUrl = "https://jangidos.netlify.app/slip/customer.html";
                 document.getElementById('slipQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(customerFileUrl);
                 
+                // સ્લિપ એરિયા બતાવીને ત્યાં સ્ક્રોલ કરવું
                 document.getElementById('printArea').style.display = 'block';
                 document.getElementById('printArea').scrollIntoView({ behavior: 'smooth' });
                 document.getElementById("rePrintReceiptNo").value = "";
-            } else {
-                alert("આ પહોંચ નંબરનો કોઈ ડેટા ગૂગલ શીટમાં મળ્યો નથી!");
+            } else { 
+                alert("આ પહોંચ નંબરનો કોઈ ડેટા ગૂગલ શીટમાં મળ્યો નથી!"); 
             }
-        }).catch(err => {
-            alert("સર્વર કનેક્શનમાં ભૂલ આવી!");
+        }).catch(() => {
+            showLoader('rePrintBtn', 'rePrintSpin', false);
+            alert("સર્વર સાથે કનેક્ટ કરવામાં ભૂલ આવી!");
         });
     }
 </script>

@@ -2,48 +2,133 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <title>લાઈવ સ્ટેટસ - જાંગીડ ઓનલાઈન સેવાઓ</title>
+    <title>લાઇવ સ્ટેટસ - જાંગીડ ઓનલાઇન સેવાઓ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; padding: 20px; text-align: center; }
-        .status-box { max-width: 450px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 100px auto; }
-        h2 { color: #1e3a8a; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; box-sizing: border-box; border: 2px solid #ccc; border-radius: 6px; font-size: 16px; margin-bottom: 15px; text-align: center; text-transform: uppercase; }
-        button { background-color: #1e3a8a; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
-        #result { margin-top: 25px; padding: 15px; border-radius: 6px; display: none; text-align: left; line-height: 1.6; }
-        .status-Pending { background-color: #fef3c7; color: #92400e; border-left: 5px solid #d97706; }
-        .status-Confirm { background-color: #d1fae5; color: #065f46; border-left: 5px solid #059669; }
-        .status-Reject { background-color: #fee2e2; color: #991b1b; border-left: 5px solid #dc2626; }
+        :root {
+            --primary: #1e3a8a;
+            --accent: #f97316;
+            --success: #10b981;
+            --pending: #f59e0b;
+            --danger: #ef4444;
+        }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); 
+            padding: 15px; text-align: center; margin: 0; min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .status-box { 
+            width: 100%; max-width: 480px; background: white; padding: 25px 15px; 
+            border-radius: 16px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); 
+            margin: 40px auto; border-top: 5px solid var(--primary);
+            animation: fadeIn 0.4s ease-out; box-sizing: border-box;
+        }
+        h2 { color: var(--primary); margin-bottom: 8px; font-weight: 700; font-size: 22px; }
+        
+        input { 
+            width: 100%; padding: 14px; box-sizing: border-box; border: 2px solid #cbd5e1; 
+            border-radius: 8px; font-size: 16px; margin-bottom: 15px; text-align: center; 
+            text-transform: uppercase; font-weight: bold; transition: all 0.3s;
+        }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); }
+        
+        button { 
+            background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); 
+            color: white; padding: 14px; border: none; border-radius: 8px; font-size: 16px; 
+            cursor: pointer; width: 100%; font-weight: bold; box-shadow: 0 4px 12px rgba(30,58,138,0.2);
+            box-sizing: border-box;
+        }
+        
+        #result { margin-top: 25px; padding: 15px; border-radius: 8px; display: none; text-align: left; box-sizing: border-box; }
+        
+        /* પ્રીમિયમ લાઇવ ટાઇમલાઇન CSS (મોબાઈલ રિસ્પોન્સિવ) */
+        .timeline { display: flex; justify-content: space-between; margin: 25px 0 15px 0; position: relative; width: 100%; }
+        .timeline::before { content: ''; position: absolute; top: 15px; left: 10px; right: 10px; height: 3px; background: #cbd5e1; z-index: 1; }
+        .step { text-align: center; z-index: 2; flex: 1; }
+        .circle { width: 30px; height: 30px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px auto; font-weight: bold; color: #64748b; border: 2px solid #cbd5e1; font-size: 12px; }
+        .label { font-size: 11px; font-weight: 600; color: #64748b; white-space: nowrap; }
+        
+        /* એનિમેશન અને કલર સ્ટેટ્સ */
+        .active-Pending .c1 { background: var(--pending); color: white; border-color: var(--pending); box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+        .active-Pending .l1 { color: var(--pending); font-weight: bold; }
+        
+        .active-Confirm .c1, .active-Confirm .c2, .active-Confirm .c3 { background: var(--success); color: white; border-color: var(--success); }
+        .active-Confirm .l3 { color: var(--success); font-weight: bold; }
+        .active-Confirm .timeline::before { background: var(--success); }
+        
+        .active-Reject .c1 { background: var(--success); color: white; border-color: var(--success); }
+        .active-Reject .c2, .active-Reject .c3 { background: var(--danger); color: white; border-color: var(--danger); }
+        .active-Reject .l3 { color: var(--danger); font-weight: bold; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
     </style>
 </head>
 <body>
 
-<div class="status-box">
-    <h2>લાઈવ કામનું સ્ટેટસ ચેક કરો</h2>
-    <p style="color: #666; font-size: 14px;">તમારી પાવતી પરનો પહોંચ નંબર લખો (દા.ત. JOS001)</p>
-    <input type="text" id="receiptInput" placeholder="પહોંચ નંબર લખો...">
+<div class="status-box" id="mainBox">
+    <h2>લાઇવ સ્ટેટસ ચેક</h2>
+    <p style="color: #64748b; font-size: 14px; margin-top: 0;">તમારી પહોંચ નંબર લખો (દા.ત. JOS001)</p>
+    <input type="text" id="receiptInput" placeholder="પહોંચ નંબર અહીં લખો...">
     <button onclick="searchStatus()">સ્ટેટસ જુઓ</button>
     <div id="result"></div>
 </div>
 
 <script>
-    // 🚨 અહીં પણ તમારી ગૂગલ એપ્સ સ્ક્રિપ્ટની સાચી વેબ એપ લિંક પેસ્ટ કરો
     const scriptUrl = "https://script.google.com/macros/s/AKfycbysh0pM8BjrO0TSUT0OaqHK22ArME4G_sH7Udqe-adlPwg8MeiIDK2gMr59nJQK-HUDkg/exec";
 
     function searchStatus() {
         var id = document.getElementById("receiptInput").value;
-        if(!id) { alert("નંબર લખો!"); return; }
+        if(!id) { alert("કૃપા કરીને નંબર લખો!"); return; }
         var resDiv = document.getElementById("result");
-        resDiv.innerHTML = "<b>શોધી રહ્યું છે...</b>"; resDiv.style.display = "block";
+        var mainBox = document.getElementById("mainBox");
+        
+        resDiv.innerHTML = "<center style='color:var(--primary); font-weight:600;'>🔄 માહિતી શોધી રહી છે, કૃપા કરીને રાહ જુઓ...</center>"; 
+        resDiv.style.display = "block";
+        mainBox.classList.remove("shake");
         
         fetch(scriptUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkStatus", receiptNo: id }) })
         .then(r => r.json()).then(res => {
             if(res.found) {
-                resDiv.className = "status-" + res.workStatus;
-                var html = "<h3>કામની વિગત:</h3><p><b>નામ:</b> " + res.name + "</p><p><b>સેવા:</b> " + res.service + "</p><p><b>સ્ટેટસ:</b> <span style='font-weight:bold; font-size:18px;'> " + res.workStatus + "</span></p>";
-                if(res.workStatus === "Confirm") html += "<p><b>કન્ફર્મ વિગત:</b> " + res.extra + "</p>";
-                else if(res.workStatus === "Reject") html += "<p style='color:#dc2626;'><b>કારણ:</b> " + res.extra + "</p>";
-                resDiv.innerHTML = html;
-            } else { resDiv.className = ""; resDiv.innerHTML = "<b style='color:#dc2626;'>ભૂલ:</b> આ નંબર મળ્યો નથી."; }
+                var statusClass = "active-" + res.workStatus;
+                var currentStatusText = res.workStatus;
+                var extraDetailHtml = "";
+                
+                if(res.workStatus === "Confirm") {
+                    currentStatusText = "🟢 કામ સફળતાપૂર્વક થઈ ગયું છે!";
+                    extraDetailHtml = `<div style="background:#d1fae5; padding:10px; border-radius:6px; color:#065f46; margin-top:10px;"><b>કન્ફર્મ વિગત:</b> ${res.extra}</div>`;
+                } else if(res.workStatus === "Reject") {
+                    currentStatusText = "🔴 અરજી અસ્વીકૃત (Reject) થયેલ છે";
+                    extraDetailHtml = `<div style="background:#fee2e2; padding:10px; border-radius:6px; color:#991b1b; margin-top:10px;"><b>રિજેક્ટ કારણ:</b> ${res.extra}</div>`;
+                    mainBox.classList.add("shake");
+                } else {
+                    currentStatusText = "🟡 તમારી અરજી હાલ પ્રક્રિયામાં (Pending) છે";
+                }
+
+                resDiv.innerHTML = `
+                    <div class="${statusClass}">
+                        <h3 style="color:var(--primary); margin: 15px 0 5px 0; border-bottom:1px solid #e2e8f0; padding-bottom:5px;">અરજીની વિગત:</h3>
+                        <p style="margin:5px 0; font-size:14px;"><b>ગ્રાહક:</b> ${res.name}</p>
+                        <p style="margin:5px 0; font-size:14px;"><b>સેવા:</b> ${res.service}</p>
+                        
+                        <div class="timeline">
+                            <div class="step"><div class="circle c1">1</div><div class="label l1">Received</div></div>
+                            <div class="step"><div class="circle c2">2</div><div class="label l2">In Progress</div></div>
+                            <div class="step"><div class="circle c3">${res.workStatus === 'Reject' ? '❌' : '✓'}</div><div class="label l3">${res.workStatus === 'Reject' ? 'Rejected' : 'Ready'}</div></div>
+                        </div>
+                        
+                        <p style="font-size:15px; font-weight:700; text-align:center; margin:15px 0 10px 0;">${currentStatusText}</p>
+                        ${extraDetailHtml}
+                    </div>
+                `;
+            } else {
+                mainBox.classList.add("shake");
+                resDiv.innerHTML = "<b style='color:var(--danger);'>❌ ભૂલ:</b> આ પહોંચ નંબર મળ્યો નથી.";
+            }
+        }).catch(() => {
+            resDiv.innerHTML = "<b style='color:var(--danger);'>⚠️ નેટવર્ક પ્રોબ્લેમ:</b> સર્વર કનેક્શન ફેલ થયું.";
         });
     }
 </script>
