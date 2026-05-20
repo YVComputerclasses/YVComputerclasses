@@ -411,7 +411,7 @@
     // 🟢 ૧. નવી રસીદનો સુંદર ગુજરાતી વોટ્સએપ મેસેજ લોજિક
     function sendNewEntryWhatsApp() {
         if(!lastSavedData.mobile) return;
-        var msg = `*જાંગીડ ઓનલાઇન સેવાઓ*%0A-----------------------------------%0A*નમસ્કાર ${lastSavedData.name},*%0A%0Aઆપની અરજી સફળતાપૂર્વક સ્વીકારવામાં આવી છે.%0A%0A📝 *વિગત:*%0A• *પહોંચ નંબર:* ${lastSavedData.receiptNo}%0A• *સેવા:* ${lastSavedData.service}%0A%0A👇 આપની અરજીનું લાઈવ સ્ટેટસ જોવા માટે નીચેની લિંક પર ક્લિક કરો:%0Ahttps://jangidos.netlify.app%0A%0A_મુલાકાત બદલ આભાર!_ 🙏`;
+        var msg = `*જાંગીડ ઓનલાઇન સેવાઓ*%0A-----------------------------------%0A*નમસ્કાર ${lastSavedData.name},*%0A%0Aઆપની અરજી સફળતાપૂર્વક સ્વીકારવામાં આવી છે.%0A%0A📝 *વિગત:*%0A• *પહોંચ નંબર:* ${lastSavedData.receiptNo}%0A• *સેવા:* ${lastSavedData.service}%0A%0A👇 આપની અરજીનું લાઈવ સ્ટેટસ જોવા માટે નીચેની લિંક પર ક્લિક કરો:%0Ahttps://jangidos.netlify.app/slip/customer.html%0A%0A_મુલાકાત બદલ આભાર!_ 🙏`;
         var url = "https://api.whatsapp.com/send?phone=91" + lastSavedData.mobile + "&text=" + msg;
         window.open(url, '_blank');
     }
