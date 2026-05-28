@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANGO - ઓનલાઇન ફૂડ ડિલિવરી</title>
+    <style>
+        /* ૧. રreset અને ગ્લોબલ સ્ટાઇલ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.section-padding {
+    padding: 60px 10%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 28px;
+    color: #222;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    width: 60px;
+    height: 4px;
+    background: #ff5722;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* ૨. હેડર અને નેવિગેશન બાર */
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ff5722;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: #ff5722;
+}
+
+.login-btn {
+    background: #ff5722;
+    color: #ffffff !important;
+    padding: 10px 24px;
+    border-radius: 25px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.2);
+}
+
+.login-btn:hover {
+    background: #e04716;
+    transform: scale(1.03);
+}
+
+/* ૩. હીરો બેનર (Hero Banner) */
+.hero {
+    height: 500px;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('bg.png') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+.hero-content h1 {
+    font-size: 46px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.hero-content p {
+    font-size: 20px;
+    margin-bottom: 35px;
+    opacity: 0.95;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+/* સર્ચ બાર કન્ટેનર */
+.search-container {
+    display: flex;
+    align-items: center;
+    max-width: 650px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 8px 8px 8px 20px;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.search-icon {
+    color: #ff5722;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.search-container input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    color: #333;
+}
+
+.search-btn {
+    background: #ff5722;
+    color: #ffffff;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: #e04716;
+}
+
+/* ૪. ફૂડ કેટેગરીઝ (Categories) */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.category-card {
+    background: #ffffff;
+    border: 1px solid #eee;
+    text-align: center;
+    padding: 25px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.12);
+    border-color: #ff5722;
+}
+
+.category-card img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+}
+
+.category-card p {
+    font-weight: 700;
+    color: #444;
+    font-size: 16px;
+}
+
+/* ૫. રેસ્ટોરન્ટ કાર્ડ્સ (Restaurant Cards) */
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+}
+
+.res-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    border: 1px solid #f0f0f0;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.res-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.res-image {
+    position: relative;
+    height: 200px;
+}
+
+.res-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #2e7d32;
+    color: #ffffff;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.res-details {
+    padding: 25px;
+}
+
+.res-details h3 {
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.cuisine {
+    font-size: 15px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.res-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.rating {
+    background: #fff8e1;
+    color: #ffb300;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time {
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ૬. ફૂટર */
+footer {
+    background: #1a1a1a;
+    color: #999;
+    text-align: center;
+    padding: 25px;
+    font-size: 14px;
+    margin-top: 40px;
+    border-top: 3px solid #ff5722;
+}
+    </style>
+    <!-- આઇકોન્સ (Icons) માટે FontAwesome CDN -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+</head>
+<body>
+
+    <!-- ૧. હેડર અને નેવિગેશન બાર -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-utensils"></i> JANGO
+            </div>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Restaurants</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="login.html" class="login-btn">Login / Signup</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ૨. હીરો બેનર અને સર્ચ સેક્શન -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>નરસંડાનો પોતાનો ફૂડ પાર્ટનર</h1>
+            <p>ગરમ, તાજું અને સ્વાદિષ્ટ ભોજન હવે સીધું તમારા ઘરના દરવાજે!</p>
+            
+            <!-- કસ્ટમ સર્ચ બાર -->
+            <div class="search-container">
+                <i class="fa-solid fa-location-dot search-icon"></i>
+                <input type="text" placeholder="તમારી મનપસંદ વાનગી અથવા હોટલ શોધો...">
+                <button class="search-btn">શોધો</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ૩. ફૂડ કેટેગરીઝ સેક્શન -->
+    <section class="categories section-padding">
+        <h2 class="section-title">તમને જે ખાવું ગમે તે ઓર્ડર કરો</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://img.icons8.com/fluency/96/pizza.png" alt="Pizza">
+                <p>પિઝા</p>
+            </div>
+            <div class="category-card">
+                <img src="https://img.icons8.com/fluency/96/thali.png" alt="Thali">
+                <p>ગુજરાતી થાળી</p>
+            </div>
+            <div class="category-card">
+                <img src="https://img.icons8.com/fluency/96/samosa.png" alt="Snacks">
+                <p>લોકલ સ્નેક્સ</p>
+            </div>
+            <div class="category-card">
+                <img src="https://img.icons8.com/fluency/96/noodles.png" alt="Chinese">
+                <p>ચાઇનીઝ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ૪. ટોપ લોકલ રેસ્ટોરન્ટ્સ સેક્શન -->
+    <section class="restaurants section-padding">
+        <h2 class="section-title">ટોપ લોકલ રેસ્ટોરન્ટ્સ</h2>
+        <div class="restaurant-grid">
+            
+            <!-- હોટલ કાર્ડ ૧ -->
+            <div class="res-card">
+                <div class="res-image">
+                    <img src="watermarked_img_1812350655084496368.png" alt="Hotel JANGO">
+                    <span class="badge">Popular</span>
+                </div>
+                <div class="res-details">
+                    <h3>શ્રીનાથજી ઢાબા & રેસ્ટોરન્ટ</h3>
+                    <p class="cuisine">પંજાબી, કાઠિયાવાડી, ચાઇનીઝ</p>
+                    <div class="res-info">
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.2</span>
+                        <span class="time"><i class="fa-solid fa-clock"></i> 25-30 મિનિટ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- હોટલ કાર્ડ ૨ -->
+            <div class="res-card">
+                <div class="res-image">
+                    <img src="watermarked_img_1812350655084496368.png" alt="Hotel JANGO">
+                </div>
+                <div class="res-details">
+                    <h3>કૃષ્ણા હોટેલ & સ્નેક્સ</h3>
+                    <p class="cuisine">ભજીયા, ગાંઠિયા, સાઉથ ઇન્ડિયન</p>
+                    <div class="res-info">
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
+                        <span class="time"><i class="fa-solid fa-clock"></i> 15-20 મિનિટ</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ૫. ફૂટર સેક્શન -->
+    <footer>
+        <p>&copy; 2026 JANGO Food Delivery. Developed for Local Taste.</p>
+    </footer>
+
+</body>
+</html>

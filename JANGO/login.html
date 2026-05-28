@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANGO - Login</title>
+    <style>
+        /* ==========================================================================
+   ૭. લોગીન પેજ સ્ટાઈલ (Login Page Styles)
+   ========================================================================== */
+
+/* આખા પેજનું બેકગ્રાઉન્ડ સેટ કરવા */
+.login-body {
+    background: linear-gradient(135deg, #fff5f2 0%, #ffe0d6 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* લોગીન બોક્સ/કાર્ડ */
+.login-container {
+    background: #ffffff;
+    max-width: 420px;
+    width: 100%;
+    padding: 40px 35px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(255, 87, 34, 0.1);
+    text-align: center;
+    border: 1px solid rgba(255, 87, 34, 0.1);
+}
+
+.login-logo {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ff5722;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-container h2 {
+    font-size: 26px;
+    color: #222;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+/* ઇનપુટ બોક્સનું સેટિંગ */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    border: 1.5px solid #eaeaea;
+    background: #fafafa;
+    border-radius: 50px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s ease;
+    color: #333;
+}
+
+/* ફોકસ થાય ત્યારે ઓરેન્જ બોર્ડર */
+.input-group input:focus {
+    border-color: #ff5722;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
+}
+
+/* આંખવાળો આઇકોન (Password Show/Hide) */
+.toggle-password {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+.toggle-password:hover {
+    color: #ff5722;
+}
+
+/* ઓપ્શન્સ (Remember me & Forgot) */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+    padding: 0 5px;
+}
+
+.login-options input {
+    cursor: pointer;
+    accent-color: #ff5722;
+}
+
+.forgot-link {
+    color: #ff5722;
+    text-decoration: none;
+    font-weight: 600;
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* મોટું સબમિટ બટન */
+.submit-btn {
+    width: 100%;
+    background: #ff5722;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+}
+
+.submit-btn:hover {
+    background: #e04716;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(255, 87, 34, 0.4);
+}
+
+/* રજીસ્ટ્રેશન લિંક નીચે */
+.signup-redirect {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+.signup-redirect a {
+    color: #ff5722;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.signup-redirect a:hover {
+    text-decoration: underline;
+}
+    </style>
+    <!-- આઇકોન્સ માટે FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="login-body">
+
+    <div class="login-container">
+        <!-- લોગો સેક્શન -->
+        <div class="login-logo">
+            <i class="fa-solid fa-utensils"></i> JANGO
+        </div>
+        
+        <h2>સ્વાગત છે!</h2>
+        <p class="login-subtitle">તમારું એકાઉન્ટ લોગીન કરો</p>
+
+        <!-- લોગીન ફોર્મ -->
+        <form id="loginForm">
+            <!-- યુઝર આઈડી / મોબાઈલ ઇનપુટ -->
+            <div class="input-group">
+                <i class="fa-solid fa-phone input-icon"></i>
+                <input type="text" id="username" placeholder="મોબાઈલ નંબર અથવા યુઝર ID" required>
+            </div>
+
+            <!-- પાસવર્ડ ઇનપુટ -->
+            <div class="input-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="password" placeholder="પાસવર્ડ" required>
+                <i class="fa-solid fa-eye-slash toggle-password" id="eyeIcon"></i>
+            </div>
+
+            <!-- રીમેમ્બર મી અને ફોરગોટ પાસવર્ડ -->
+            <div class="login-options">
+                <label><input type="checkbox"> યાદ રાખો</label>
+                <a href="#" class="forgot-link">પાસવર્ડ ભૂલી ગયા?</a>
+            </div>
+
+            <!-- લોગીન બટન -->
+            <button type="submit" class="submit-btn">લોગીન કરો</button>
+        </form>
+
+        <!-- સાઇન અપ લિંક -->
+        <div class="signup-redirect">
+            નવું એકાઉન્ટ બનાવવું છે? <a href="#">અહીં ક્લિક કરો</a>
+        </div>
+    </div>
+
+    <!-- પાસવર્ડ હાઇડ/શો કરવા માટે સિમ્પલ જાવાસ્ક્રિપ્ટ લોજિક -->
+    <script>
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        eyeIcon.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // ફોર્મ સબમિટ લોજિક (આપણે આગળ જતાં આને Google Sheet સાથે કનેક્ટ કરીશું)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('અત્યારે બેકએન્ડ કનેક્ટ નથી, પણ લોજિક રેડી છે!');
+        });
+    </script>
+</body>
+</html>

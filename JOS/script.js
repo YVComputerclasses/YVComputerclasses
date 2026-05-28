@@ -4,7 +4,7 @@ function showPopup(service) {
   const extraInfo = document.getElementById("extra-info");
 
   if (service === "A") {
-    popupTitle.textContent = "આધાર કાર્ડ માં સરનામું બદલવા માટે";
+    popupTitle.textContent = "આધાર કાર્ડ માં સરનામું બદલવા માટે ( કોઈ પણ એક )";
     docList.innerHTML = `
       <li>ચુંટણીકાર્ડ</li>
       <li>ગેજેટ ઓફોસ</li>
@@ -32,6 +32,7 @@ function showPopup(service) {
     docList.innerHTML = `
       <li>પાસપોર્ટ સાઈઝ નો તાજેતર નો ફોટો.</li>
       <li>ચુંટણીકાર્ડ</li>
+      <li>આધાર કાર્ડ.</li>
       <li>લાઈટબીલ / રેશનકાર્ડ / ગેસ બીલ અથવા ઘરવેરા પાવતીની નકલ</li>
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
@@ -76,15 +77,18 @@ function showPopup(service) {
       <li>પાસપોર્ટ સાઈઝ ફોટો 2 નંગ.</li>
       <li>આધાર કાર્ડ.</li>
       <li>પિતા/પતિ નુ આધાર કાર્ડ.</li>
+      <li>જન્મ તારીખ પુરાવો</li
       <li>સફેદ કાગળ પર સહી</li>
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
   }else if (service === "H") {
     popupTitle.textContent = "લાઈટ બીલ માં નામ બદલવા માટે ( વારસાઈ )";
     docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ ફોટો.</li>
       <li>એગ્રીમેન્ટ સ્ટેમ્પ (વકીલ દ્વારા બનાવેલ).</li>
       <li>લાઈટ બીલ.</li>
       <li>ઘરની આકારણી.</li>
+      <li>આધાર કાર્ડ.</li>
       <li>પિતા નો મરણ નો દાખલો.</li>
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
@@ -150,6 +154,7 @@ function showPopup(service) {
       <li>આધાર કાર્ડ.</li>
       <li>પાન કાર્ડ.</li>
       <li>પતિ અથવા પિતાનું આધાર કાર્ડ.</li>
+      <li>જન્મ તારીખ પુરાવો.</li>
       <li>સફેદ કાગળ પર સહી.</li>
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
@@ -175,6 +180,8 @@ function showPopup(service) {
     popupTitle.textContent = "રેશનકાર્ડ અલગ કરવા માટે";
     docList.innerHTML = `
       <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>જે વ્યક્તિ ના નામ અલગ કરવાના છે તેમના આધાર કાર્ડ.</li>
+      <li>રેશનકાર્ડ.</li>
       
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
@@ -190,7 +197,6 @@ function showPopup(service) {
     docList.innerHTML = `
       <li>જુનો જન્મ નો દાખલો.</li>
       <li>પિતા અને માતા નુ આધાર કાર્ડ.</li>
-      
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
   }else if (service === "R") {
@@ -215,6 +221,16 @@ function showPopup(service) {
       <li>આધાર કાર્ડ.</li>
       <li>જુનો પાસપોર્ટ.</li>
       <li>જન્મ નો દાખલો.</li>
+      
+    `;
+    extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
+  }else if (service === "U") {
+    popupTitle.textContent = "સિનિયર સિટીઝન કાર્ડ માટે";
+    docList.innerHTML = `
+      <li>પાસપોર્ટ સાઈઝ કલર ફોટોગ્રાફ.</li>
+      <li>આધાર કાર્ડ.</li>
+      <li>રેશન કાર્ડ.</li>
+      <li>જન્મ નો દાખલો/ LC.</li>
       
     `;
     extraInfo.textContent = "દરેક દસ્તાજેજ ની 1 ક્ષેરોક્ષ સાથે લાવી. આભાર";
