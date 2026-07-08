@@ -342,18 +342,25 @@
       .then(() => { alert("Action executed!"); loadAdminMatrixData(); });
     }
 
-    // SEARCH & TALK CORE
+    // SEARCH & TALK CORE (UPDATED WITH AUTOMATIC LOADING)
     document.getElementById('searchTargetNumber').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         const targetMobile = this.value.trim();
         if(!targetMobile) return;
+        
         fetch(`${SCRIPT_URL}?action=searchUser&mobile=${targetMobile}`)
         .then(res => res.json()).then(data => {
           if(data.status === "found") {
-            activeChatPartner.name = data.name; activeChatPartner.mobile = targetMobile;
+            activeChatPartner.name = data.name; 
+            activeChatPartner.mobile = targetMobile;
             document.getElementById('headerPartnerName').innerText = data.name;
             document.getElementById('headerPartnerPhone').innerText = targetMobile;
-          } else { document.getElementById('headerPartnerName').innerText = "User Blocked/Not Found"; }
+            
+            // Live messaging setup clear and call history
+            loadChatHistory();
+          } else { 
+            document.getElementById('headerPartnerName').innerText = "User Blocked/Not Found"; 
+          }
         });
       }
     });
@@ -366,6 +373,46 @@
       txtField.value = ''; body.scrollTop = body.scrollHeight;
       fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "sendMessage", sender: currentUser.mobile, receiver: activeChatPartner.mobile, message: msgText, type: "text" }) });
     }
+
+    // LIVE CHAT HISTORY FETCHING SYNC
+    function loadChatHistory() {
+      if (!currentUser.mobile || !activeChatPartner.mobile) return;
+
+      fetch(`${SCRIPT_URL}?action=fetchMessages&sender=${currentUser.mobile}&receiver=${activeChatPartner.mobile}`)
+      .then(res => res.json())
+      .then(data => {
+        const body = document.getElementById('chatBody');
+        
+        // Pela juna dynamic alerts sivay badhu empty karo jethi duplicate entry na thay
+        const noticeHTML = `<div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe. Aa platform par tame safe chho.</div>`;
+        body.innerHTML = noticeHTML;
+
+        data.messages.forEach(msg => {
+          // Identify row element styling classes
+          const isSent = (msg.sender == currentUser.mobile);
+          const alignmentClass = isSent ? "sent" : "received";
+          
+          const layout = `
+            <div class="msg-wrapper ${alignmentClass}">
+              <div class="msg-bubble">
+                ${msg.message}
+                <span class="msg-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
+              </div>
+            </div>`;
+          body.insertAdjacentHTML('beforeend', layout);
+        });
+        
+        body.scrollTop = body.scrollHeight; // Auto scroll to bottom frame
+      });
+    }
+
+    // INTERVAl REFRESH ENGINE: Dher 4 second ma check karsé ke navo message aavyo ke nahi
+    setInterval(function() {
+      if(document.getElementById('chatScreen').classList.contains('active') && activeChatPartner.mobile) {
+        loadChatHistory();
+      }
+    }, 4000);
+    
   </script>
 </body>
 </html>
