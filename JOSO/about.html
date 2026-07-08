@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Portal - About Us</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #1c538e;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --gray-text: #555555;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .logo-text span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        /* DROPDOWN LOGIN SYSTEM */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .login-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dropdown:hover .login-btn {
+            background-color: #0a294d;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 10px 0;
+            margin-top: 5px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: var(--primary-blue);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-bg);
+            color: var(--orange);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* BREADCRUMB BANNER */
+        .breadcrumb-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .breadcrumb-container a {
+            color: #b3cce6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-container a:hover {
+            color: var(--white);
+        }
+
+        .breadcrumb-container span {
+            color: var(--orange);
+        }
+
+        /* ABOUT US CONTENT SECTION */
+        .about-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        /* Left Side Image Layout (Capsule Grid) */
+        .about-images-grid {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .capsule-img {
+            width: 150px;
+            height: 320px;
+            background: linear-gradient(135deg, #eef4f9, #dee9f2);
+            border-radius: 100px;
+            overflow: hidden;
+            border: 4px solid var(--light-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-blue);
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Offset the middle or side capsules to match the screenshot layout */
+        .capsule-1 { transform: translateY(30px); }
+        .capsule-2 { transform: translateY(-30px); }
+        .capsule-3 { transform: translateY(10px); }
+
+        /* Right Side Content */
+        .about-content {
+            flex: 1;
+        }
+
+        .badge {
+            background-color: var(--orange);
+            color: var(--white);
+            padding: 6px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .about-content h2 {
+            font-size: 38px;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--gray-text);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo-text">Jangid <span>Services</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+            
+            <div class="dropdown">
+                <button class="login-btn">Login / Register</button>
+                <div class="dropdown-content">
+                    <a href="operator-login.html">Operator Login</a>
+                    <a href="office-login.html">Office Login</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="breadcrumb-banner">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a> » <span>About Us</span>
+        </div>
+    </div>
+
+    <section class="about-section">
+        
+        <div class="about-images-grid">
+            <div class="capsule-img capsule-1">Fast & Secure</div>
+            <div class="capsule-img capsule-2">Digital Center</div>
+            <div class="capsule-img capsule-3">24/7 Tracking</div>
+        </div>
+
+        <div class="about-content">
+            <div class="badge">📝 About Us</div>
+            <h2>Jangid Online Services</h2>
+            <p>અમારી ઓફિસ તમામ પ્રકારની ડિજિટલ અને સરકારી સેવાઓ એક જ જગ્યાએથી પૂરી પાડવા માટે કટિબદ્ધ છે. ઓપરેટર્સ આ પોર્ટલના માધ્યમથી ગ્રાહકોની એપ્લિકેશન ઝડપથી પ્રોસેસ કરી શકે છે અને સ્ટેટસ પણ ટ્રેક કરી શકે છે.</p>
+            <p>અમારો મુખ્ય હેતુ ગ્રામ્ય અને શહેરી વિસ્તારના લોકોને ઓનલાઈન ફોર્મ, પાન કાર્ડ, રિચાર્જ અને બિલ પેમેન્ટ જેવી સુવિધાઓ એકદમ પારદર્શક અને સરળ રીતે આપવાનો છે. એડમિન પેનલ દ્વારા તમામ ઓપરેટર્સના કામ પર સીધી દેખરેખ રાખી શકાય છે જેથી ભૂલ વગર કામ થઈ શકે.</p>
+        </div>
+
+    </section>
+
+</body>
+</html>

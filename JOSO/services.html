@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Portal - Services</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #1c538e;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --gray-text: #555555;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .logo-text span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        /* DROPDOWN LOGIN SYSTEM */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .login-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dropdown:hover .login-btn {
+            background-color: #0a294d;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 10px 0;
+            margin-top: 5px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: var(--primary-blue);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-bg);
+            color: var(--orange);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* BREADCRUMB BANNER */
+        .breadcrumb-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .breadcrumb-container a {
+            color: #b3cce6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-container a:hover {
+            color: var(--white);
+        }
+
+        .breadcrumb-container span {
+            color: var(--orange);
+        }
+
+        /* SERVICES TITLE SECTION */
+        .services-header {
+            text-align: center;
+            margin: 50px 0 30px 0;
+        }
+
+        .services-header h1 {
+            font-size: 36px;
+            color: var(--primary-blue);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        /* Title underline style from screenshot */
+        .services-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 30%;
+            height: 4px;
+            background-color: var(--orange);
+            border-radius: 2px;
+        }
+
+        /* SERVICES GRID LAYOUT */
+        .services-grid-container {
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        /* CARD STYLE WITH WHITE BG & RADIUS */
+        .citizen-service-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            min-height: 220px;
+            overflow: hidden;
+            border: 1px solid #eef2f5;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .citizen-service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Top Bar of the Card (Number and Icon) */
+        .card-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 15px;
+        }
+
+        .card-sl-no {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: bold;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-orange-icon {
+            background-color: var(--orange);
+            color: var(--white);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(243, 146, 0, 0.2);
+        }
+
+        /* Card Content / Text */
+        .card-main-content {
+            padding: 0 20px 20px 20px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-main-content h3 {
+            color: var(--primary-blue);
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Read More Button Area */
+        .card-action-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+            border-top: 1px solid #eef2f5;
+        }
+
+        .citizen-service-card:hover .card-action-btn {
+            background-color: var(--secondary-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo-text">Jangid <span>Services</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+            
+            <div class="dropdown">
+                <button class="login-btn">Login / Register</button>
+                <div class="dropdown-content">
+                    <a href="operator-login.html">Operator Login</a>
+                    <a href="office-login.html">Office Login</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="breadcrumb-banner">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a> » <span>Services</span>
+        </div>
+    </div>
+
+    <div class="services-header">
+        <h1>Services</h1>
+    </div>
+
+    <section class="services-grid-container">
+        
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">1</span>
+                <div class="card-orange-icon">🧑‍🌾</div>
+            </div>
+            <div class="card-main-content">
+                <h3>Farmer Certificate</h3>
+            </div>
+            <a href="service-details.html?service=farmer" class="card-action-btn">Read More</a>
+        </div>
+
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">2</span>
+                <div class="card-orange-icon">📝</div>
+            </div>
+            <div class="card-main-content">
+                <h3>Application for Varsai Certificate</h3>
+            </div>
+            <a href="#" class="card-action-btn">Read More</a>
+        </div>
+
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">3</span>
+                <div class="card-orange-icon">₹</div>
+            </div>
+            <div class="card-main-content">
+                <h3>Income and Assets Certificate (EWS)</h3>
+            </div>
+            <a href="service-details.html?service=income" class="card-action-btn">Read More</a>
+        </div>
+
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">4</span>
+                <div class="card-orange-icon">🚌</div>
+            </div>
+            <div class="card-main-content">
+                <h3>Digital SevaSetu Services</h3>
+            </div>
+            <a href="#" class="card-action-btn">Read More</a>
+        </div>
+
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">5</span>
+                <div class="card-orange-icon">💳</div>
+            </div>
+            <div class="card-main-content">
+                <h3>New PAN Card Application</h3>
+            </div>
+            <a href="service-details.html?service=pancard" class="card-action-btn">Read More</a>
+        </div>
+
+        <div class="citizen-service-card">
+            <div class="card-top-bar">
+                <span class="card-sl-no">6</span>
+                <div class="card-orange-icon">🧾</div>
+            </div>
+            <div class="card-main-content">
+                <h3>Electricity & Utility Bill Payments</h3>
+            </div>
+            <a href="#" class="card-action-btn">Read More</a>
+        </div>
+
+    </section>
+
+</body>
+</html>

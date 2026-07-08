@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Login - Jangid Services</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #1c538e;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .logo-text span { color: var(--orange); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 16px;
+        }
+
+        .breadcrumb-container a { color: #b3cce6; text-decoration: none; }
+        .breadcrumb-container span { color: var(--orange); }
+
+        /* MAIN THREE-COLUMN LAYOUT */
+        .login-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .login-column {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border-top: 25px solid var(--secondary-blue);
+            padding: 25px 20px;
+            flex: 1;
+            min-height: 450px;
+        }
+
+        .login-column.center-form {
+            flex: 1.3;
+            background-color: #eef2f7;
+        }
+
+        /* LEFT COLUMN */
+        .left-info h3 {
+            color: var(--primary-blue);
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .info-list li {
+            font-size: 15px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .info-list li::before {
+            content: '➔ ';
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .help-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--orange);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .help-box h4 { color: var(--primary-blue); margin-bottom: 5px; }
+        .help-box p { font-size: 16px; font-weight: bold; color: var(--secondary-blue); }
+
+        /* INPUT FIELDS */
+        .form-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: var(--white);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus { border-color: var(--orange); }
+
+        .form-group::before {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #94a3b8;
+            z-index: 5;
+        }
+
+        .group-user::before { content: '🧑'; }
+        .group-pass::before { content: '🔑'; }
+        .group-captcha::before { content: '🔄'; }
+
+        /* CAPTCHA */
+        .captcha-wrapper {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .captcha-wrapper input { flex: 1; }
+
+        .captcha-img-box {
+            background: #e2e8f0;
+            padding: 10px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            font-style: italic;
+            letter-spacing: 5px;
+            color: #1e293b;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            user-select: none;
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--secondary-blue);
+        }
+
+        .policy-box {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            background-color: var(--white);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .policy-box strong { color: #dc2626; }
+
+        .login-submit-btn {
+            width: 100%;
+            background-color: #cbd5e1;
+            color: #74889e;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: not-allowed;
+            transition: all 0.3s;
+        }
+
+        .login-submit-btn.active {
+            background-color: var(--orange);
+            color: var(--white);
+            cursor: pointer;
+        }
+        .login-submit-btn.active:hover { background-color: #d68100; }
+
+        /* RIGHT COLUMN (NOTICE) */
+        .notice-title {
+            color: #16a34a;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        /* OTP POPUP OVERLAY SYSTEM */
+        .otp-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .otp-container {
+            background-color: #eef2f7;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #cbd5e1;
+        }
+
+        .otp-header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .otp-body {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .otp-body h2 {
+            color: var(--primary-blue);
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .otp-body p {
+            font-size: 14px;
+            color: var(--secondary-blue);
+            margin-bottom: 25px;
+        }
+
+        .otp-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background-color: var(--white);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            max-width: 400px;
+            margin: 0 auto 25px auto;
+        }
+
+        .otp-id-text {
+            font-size: 15px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .otp-input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: var(--text-dark);
+            padding-left: 10px;
+            border-left: 1px solid #cbd5e1;
+        }
+
+        .otp-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .otp-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-confirm { background-color: var(--orange); color: var(--white); }
+        .btn-confirm:hover { background-color: #d68100; }
+        
+        .btn-resend { background-color: #cbd5e1; color: var(--primary-blue); }
+        .btn-resend:hover { background-color: #b9c9da; }
+
+        .otp-footer-notice {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+            text-align: left;
+            margin-top: 15px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo-text">Jangid <span>Services</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="breadcrumb-banner">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a> » <span>Operator Login</span>
+        </div>
+    </div>
+
+    <main class="login-wrapper">
+        <div class="login-column left-info">
+            <h3>Jangid Online Services Portal Operator Guidelines</h3>
+            <ul class="info-list">
+                <li>Secure Login Access</li>
+                <li>Direct Document uploads</li>
+                <li>Instant Application submission</li>
+            </ul>
+            <div class="help-box">
+                <h4>Contact Support Portal</h4>
+                <p>Help-Line: 1800-XX-XXXX</p>
+            </div>
+        </div>
+
+        <div class="login-column center-form">
+            <form id="loginForm" oninput="validateForm()">
+                <div class="form-group group-user">
+                    <input type="text" id="username" placeholder="User Name / Operator ID" required>
+                </div>
+
+                <div class="form-group group-pass">
+                    <input type="password" id="password" placeholder="Your Password" required>
+                </div>
+
+                <div class="captcha-wrapper">
+                    <div class="form-group group-captcha" style="margin-bottom:0; flex:1;">
+                        <input type="text" id="captchaInput" placeholder="Enter Captcha*" required>
+                    </div>
+                    <div class="captcha-img-box" id="captchaCode">47B9</div>
+                    <button type="button" class="refresh-btn" onclick="generateCaptcha()">🔄</button>
+                </div>
+
+                <div class="policy-box">
+                    <strong>Password Policy:</strong> Must be 8-20 characters.
+                </div>
+
+                <button type="submit" class="login-submit-btn" id="submitBtn" disabled>Login</button>
+            </form>
+        </div>
+
+        <div class="login-column right-notice">
+            <div class="notice-title">📢 પોર્ટલ પર તમામ ઓપરેટર્સે પોતાના આઈડીથી જ લોગિન કરવાનું રહેશે.</div>
+        </div>
+    </main>
+
+    <div class="otp-modal-overlay" id="otpModal">
+        <div class="otp-container">
+            <div class="otp-header">OTP Verify</div>
+            <div class="otp-body">
+                <h2>Confirmation-Code</h2>
+                <p>Please enter the OTP code received on your mobile.</p>
+
+                <div class="otp-input-wrapper">
+                    <span class="otp-id-text">OTP ID : <strong id="dynamicOtpId">3633688</strong></span>
+                    <input type="text" class="otp-input-field" id="otpNumberInput" placeholder="👤 Enter OTP Number" maxlength="4">
+                </div>
+
+                <div class="otp-btn-group">
+                    <button class="otp-btn btn-confirm" onclick="verifyOtpCode()">Confirm</button>
+                    <button class="otp-btn btn-resend" onclick="generateNewOtp()">Resend OTP SMS</button>
+                </div>
+
+                <div class="otp-footer-notice">
+                    ℹ "Use NIC's SANDES messaging mobile app for getting Alert/OTP SMSes related to your login from Digital Gujarat instantly. Click to get \"Android Play Store\" or \"iOS App Store\" links."
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let generatedOtp = ""; 
+        let sessionUserData = null; 
+
+        function generateCaptcha() {
+            const chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let code = "";
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captchaCode').innerText = code;
+            validateForm();
+        }
+
+        function validateForm() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const captcha = document.getElementById('captchaInput').value;
+            const actualCaptcha = document.getElementById('captchaCode').innerText;
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (user && pass.length >= 8 && captcha.toUpperCase() === actualCaptcha) {
+                submitBtn.classList.add('active');
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.remove('active');
+                submitBtn.disabled = true;
+            }
+        }
+
+        window.onload = generateCaptcha;
+
+        // લોગિન સબમિટ હેન્ડલર
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userVal = document.getElementById('username').value;
+            const passVal = document.getElementById('password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            submitBtn.innerText = "Verifying...";
+            submitBtn.disabled = true;
+
+            // ⚠️ ફાઇનલ સ્ટેપ: તમારી નવી Web App URL અહીં પર્ફેક્ટ પેસ્ટ કરી લો
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbyjrC_nQilnMLS4ni2l_8CmAsR5lWYI8o2iSYUzVtDCRh4Knkv35icuD5aLUs5MtCTB/exec";
+
+            const requestData = {
+                username: userVal,
+                password: passVal,
+                role: "operator"
+            };
+
+            fetch(webAppUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(res => res.text()) // ગુગલ તરફથી ડેટા ટેક્સ્ટ તરીકે સ્વીકારો
+            .then(text => {
+                const data = JSON.parse(text); // અહીં ટેક્સ્ટમાંથી JSON કન્વર્ટ થશે
+                
+                if (data.status === "success") {
+                    sessionUserData = data.userDetails; 
+                    generateNewOtp(); 
+                    document.getElementById('otpModal').style.display = 'flex';
+                } else {
+                    alert(`❌ લોગિન નિષ્ફળ: ${data.message}`);
+                }
+                submitBtn.innerText = "Login";
+                submitBtn.disabled = false;
+            })
+            .catch(err => {
+                console.error("Database Error Details:", err);
+                alert("⚠️ ડેટાબેઝ કનેક્શનમાં ભૂલ છે! કૃપા કરીને વેબ એપ URL અથવા ઇન્ટરનેટ ચેક કરો.");
+                submitBtn.innerText = "Login";
+                submitBtn.disabled = false;
+            });
+        });
+
+        // ૪ આંકડાનો OTP જનરેટ કરવાનું સ્વતંત્ર ફંક્શન
+        function generateNewOtp() {
+            const randomOtpId = Math.floor(1000000 + Math.random() * 9000000);
+            document.getElementById('dynamicOtpId').innerText = randomOtpId;
+
+            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+            alert(`તમારા ઓપરેટર મોબાઈલ પર મોકલેલ ૪ આંકડાનો OTP: ${generatedOtp}`);
+        }
+
+        // OTP વેરિફિકેશન અને ડેશબોર્ડ રીડાયરેક્શન
+        function verifyOtpCode() {
+            const enteredOtp = document.getElementById('otpNumberInput').value;
+
+            if (enteredOtp === generatedOtp) {
+                alert('🎉 OTP વેરિફિકેશન સફળ!');
+                
+                // ડેટા બ્રાઉઝર લોકલ સ્ટોરેજમાં કાયમી સેવ કર્યો
+                localStorage.setItem("loggedInUser", sessionUserData.fullName);
+                localStorage.setItem("officeName", sessionUserData.office);
+                localStorage.setItem("operatorPhone", sessionUserData.mobile);
+                localStorage.setItem("designation", "Portal Operator");
+                
+                document.getElementById('otpModal').style.display = 'none';
+                
+                // હવે ડેશબોર્ડ પેજ ૧૦૦% ઓપન થઈ જશે
+                window.location.href = "operator-dashboard.html"; 
+            } else {
+                alert('❌ ખોટો OTP!');
+            }
+        } 
+    </script>
+</body>
+</html>

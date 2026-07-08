@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Portal - Home</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #1c538e;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .logo-text span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        /* DROPDOWN LOGIN BUTTON SYSTEM */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .login-btn {
+            background-color: var(--primary-blue); /* સ્ક્રીનશોટ મુજબ બ્લુ કલર રાખ્યો છે */
+            color: var(--white);
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px; /* સેમી-રાઉન્ડ લુક */
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dropdown:hover .login-btn {
+            background-color: #0a294d;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 10px 0;
+            margin-top: 5px;
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: var(--primary-blue);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        /* Change color on hover */
+        .dropdown-content a:hover {
+            background-color: var(--light-bg);
+            color: var(--orange);
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+/* UPDATE: HERO SLIDER SYSTEM */
+        .hero-section {
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid var(--orange);
+            height: 400px; /* ફિક્સ હાઇટ સ્લાઇડર માટે */
+        }
+
+        .slider-container {
+            display: flex;
+            width: 200%; /* ૨ સ્લાઇડ છે એટલે ૨૦૦% */
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 50%; /* દરેક સ્લાઇડ અડધો ભાગ રોકશે */
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-shrink: 0;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-content h1 span {
+            color: var(--orange);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .hero-image-placeholder {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* સ્લાઇડ ૨ માટે સ્પેશિયલ કેપ્સ્યુલ ટાઇપ બોર્ડર ગ્રાફિક */
+        .capsule-graphic {
+            width: 380px;
+            height: 280px;
+            border: 6px solid var(--orange);
+            border-bottom-color: var(--primary-blue);
+            border-right-color: var(--primary-blue);
+            border-radius: 80px 20px 80px 20px; /* સ્ક્રીનશોટ જેવો પ્રોફેશનલ શેપ */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef4f9, #dee9f2);
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .circle-graphic {
+            width: 300px;
+            height: 300px;
+            border: 8px solid var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef4f9, #dee9f2);
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* SLIDER BUTTONS (PREV / NEXT) */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--white);
+            color: var(--orange);
+            border: 2px solid #ddd;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background-color: var(--orange);
+            color: var(--white);
+            border-color: var(--orange);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        /* SERVICES CATEGORIES SECTION */
+        .services-section {
+            background-color: var(--primary-blue);
+            padding: 60px 20px;
+            color: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 35px;
+            font-weight: 600;
+        }
+
+        .section-title span {
+            color: var(--orange);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            color: var(--text-dark);
+            padding: 35px 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 250px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 65px;
+            height: 65px;
+            background-color: var(--orange);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .service-card h3 {
+            color: var(--secondary-blue);
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-btn {
+            background-color: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .card-btn:hover {
+            background-color: #d68100;
+        }
+
+        /* TOP TRENDING SERVICES SECTION */
+        .trending-section {
+            padding: 60px 20px;
+        }
+
+        .trending-section .section-title {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .trending-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 5px solid var(--orange);
+            position: relative;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .trending-card h4 {
+            color: var(--secondary-blue);
+            font-size: 18px;
+            margin-left: 20px;
+            flex: 1;
+        }
+
+        .trending-icon {
+            width: 45px;
+            height: 45px;
+            background-color: rgba(243, 146, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--orange);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER / NAVBAR WITH DROPDOWN -->
+    <header>
+        <nav class="navbar">
+            <div class="logo-text">Jangid <span>Services</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+            
+            <!-- DROPDOWN LOGIN -->
+            <div class="dropdown">
+                <button class="login-btn">Login / Register</button>
+                <div class="dropdown-content">
+                    <a href="operator-login.html">Operator Login</a>
+                    <a href="office-login.html">Office Login</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero-section">
+        <button class="slider-btn prev-btn" onclick="moveSlide(-1)">←</button>
+        <button class="slider-btn next-btn" onclick="moveSlide(1)">→</button>
+
+        <div class="slider-container" id="sliderContainer">
+            
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>One Stop <span>Platform</span></h1>
+                    <p>Access, Apply And Track Digital Services, Application Status Effortlessly</p>
+                </div>
+                <div class="hero-image-placeholder">
+                    <div class="circle-graphic">Digital Services Portal</div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>Discover <span>Government Schemes</span> for you...</h1>
+                    <p>Find Personalised Schemes Based Of Eligibility</p>
+                </div>
+                <div class="hero-image-placeholder">
+                    <div class="capsule-graphic">Government Schemes Panel</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MAIN SERVICES CATEGORIES -->
+    <section class="services-section">
+        <div class="section-container">
+            <h2 class="section-title">Our Portal <span>Services</span></h2>
+            <div class="grid-container">
+                <div class="service-card">
+                    <div class="card-icon">📱</div>
+                    <h3>Mobile Recharges</h3>
+                    <button class="card-btn">Explore Now →</button>
+                </div>
+                <div class="service-card">
+                    <div class="card-icon">💳</div>
+                    <h3>PAN Card Services</h3>
+                    <button class="card-btn">Explore Now →</button>
+                </div>
+                <div class="service-card">
+                    <div class="card-icon">🧾</div>
+                    <h3>Bill Payments</h3>
+                    <button class="card-btn">Explore Now →</button>
+                </div>
+                <div class="service-card">
+                    <div class="card-icon">🌐</div>
+                    <h3>Other Services</h3>
+                    <button class="card-btn">Explore Now →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRENDING SERVICES -->
+    <section class="trending-section">
+        <h2 class="section-title">Top Trending Services</h2>
+        <div class="trending-grid">
+            <div class="trending-card">
+                <span class="card-number">01</span>
+                <h4>New PAN Application</h4>
+                <div class="trending-icon">📝</div>
+            </div>
+            <div class="trending-card">
+                <span class="card-number">02</span>
+                <h4>Electricity Bill</h4>
+                <div class="trending-icon">⚡</div>
+            </div>
+            <div class="trending-card">
+                <span class="card-number">03</span>
+                <h4>Fastag Recharge</h4>
+                <div class="trending-icon">🚗</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 2;
+        const sliderContainer = document.getElementById('sliderContainer');
+
+        function updateSlider() {
+            sliderContainer.style.transform = `translateX(-${currentSlide * 50}%)`;
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            updateSlider();
+        }
+
+        // Automatic Slide Change every 5 seconds
+        setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+    </script>
+
+</body>
+</html>

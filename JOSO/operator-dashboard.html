@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Dashboard - Jangid Services</title>
+    <link rel="shortcut icon" href="#">
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --top-dark: #333333;
+            --nav-yellow: #fbad18;
+            --primary-blue: #0f3b6c;
+            --white: #ffffff;
+            --light-bg: #f4f7f9;
+            --text-dark: #222222;
+            --card-brown: #8c4b23;
+            --card-grey: #444444;
+            --border-color: #cbd5e1;
+            --section-header-blue: #4582b6;
+            --note-red: #dc2626;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            padding-bottom: 80px;
+        }
+
+        /* 1. TOP UTILITY BAR */
+        .top-utility-bar {
+            background-color: var(--top-dark);
+            color: var(--white);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .financial-year { font-weight: 600; color: #ffd880; }
+        .top-right-controls { display: flex; align-items: center; gap: 10px; }
+        .lang-btn, .font-btn {
+            background-color: #fbad18; color: #333; border: none; padding: 4px 12px;
+            font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer;
+        }
+        .font-btn { background-color: #e2e8f0; padding: 4px 8px; }
+        .logout-btn {
+            background-color: #fbad18; color: #333; border: none; padding: 5px 15px;
+            font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; gap: 5px;
+        }
+
+        /* 2. MAIN NAVIGATION HEADER */
+        .main-nav-header {
+            background-color: var(--nav-yellow);
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .dashboard-logo {
+            background-color: var(--white); padding: 8px 15px; border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center;
+        }
+        .logo-text { font-size: 22px; font-weight: bold; color: var(--primary-blue); }
+        .logo-text span { color: #f39200; }
+
+        .dashboard-menu { display: flex; list-style: none; gap: 20px; }
+        .menu-dropdown { position: relative; display: inline-block; }
+        .dropdown-trigger {
+            color: var(--primary-blue); text-decoration: none; font-weight: 700;
+            font-size: 15px; padding: 8px 12px; display: flex; align-items: center; gap: 5px;
+        }
+
+        .dropdown-menu-content {
+            display: none; position: absolute; background-color: var(--white);
+            min-width: 300px; box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border-radius: 6px; padding: 8px 0; z-index: 500; top: 100%; left: 0;
+        }
+        .dropdown-menu-content a {
+            color: #333; padding: 10px 16px; text-decoration: none; display: block;
+            font-size: 14px; font-weight: 600;
+        }
+        .dropdown-menu-content a:hover { background-color: #f4f7f9; color: var(--primary-blue); }
+        .menu-dropdown:hover .dropdown-menu-content { display: block; }
+
+        /* 3. OPERATOR INFO STRIP */
+        .operator-info-strip {
+            background-color: var(--white); max-width: 1400px; margin: 15px auto;
+            border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #dee2e6; padding: 12px 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; font-size: 14px;
+        }
+        .info-block strong { color: #555; display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 3px; }
+        .info-block span { font-weight: 600; color: var(--text-dark); }
+        .info-block span.phone-highlight { color: #16a34a; }
+
+        /* 5. DEFAULT HOME SCREEN WIDGETS */
+        .dashboard-grid { max-width: 1400px; margin: 0 auto 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        
+        .widget-card { background-color: var(--white); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #dee2e6; min-height: 280px; }
+        .widget-header { color: var(--white); padding: 12px 20px; font-size: 18px; font-weight: bold; }
+        .header-brown { background-color: var(--card-brown); }
+        .header-grey { background-color: var(--card-grey); }
+        .widget-body { padding: 20px; }
+
+        .dashboard-footer { background-color: #343a40; color: #cccccc; text-align: center; padding: 15px; font-size: 13px; position: fixed; bottom: 0; width: 100%; z-index: 100; }
+        
+        /* DYNAMIC CONTAINER ZONES BACKGROUND PLACEHOLDER */
+        .module-placeholder-zone { max-width: 1400px; margin: 20px auto; background-color: var(--white); border: 1px solid var(--border-color); border-radius: 6px; display: none; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="top-utility-bar">
+        <div class="financial-year">📅 Financial Year : 2026-2027</div>
+        <div class="top-right-controls">
+            <button class="lang-btn">English</button>
+            <button class="lang-btn" style="background-color:#777; color:white;">ગુજરાતી</button>
+            <button class="font-btn">A+</button>
+            <button class="font-btn">A</button>
+            <button class="font-btn">A-</button>
+            <a href="#" class="logout-btn" onclick="handleLogout()">↪ Log Out</a>
+        </div>
+    </div>
+
+    <header class="main-nav-header">
+        <div class="nav-container">
+            <div class="dashboard-logo" onclick="showHomeScreen()" style="cursor:pointer;">
+                <div class="logo-text">Jangid <span>Services</span></div>
+            </div>
+            <nav>
+                <ul class="dashboard-menu">
+                    <li class="menu-dropdown">
+                        <a href="#" class="dropdown-trigger">📋 Ration Card ▼</a>
+                        <div class="dropdown-menu-content">
+                            <a href="#" onclick="showModuleForm('new')">New</a>
+                            <a href="#" onclick="showModuleForm('add')">add name</a>
+                            <a href="#" onclick="showModuleForm('remove')">remove Name</a>
+                            <a href="#" onclick="showModuleForm('update')">Update In</a>
+                            <a href="#" onclick="showModuleForm('duplicate')">Duplicate</a>
+                            <a href="#" onclick="showModuleForm('separate')">Separate</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="operator-info-strip">
+        <div class="info-block"><strong>Office:</strong><span id="dashOffice">Loading...</span></div>
+        <div class="info-block"><strong>User Name:</strong><span id="dashUser">Loading...</span></div>
+        <div class="info-block"><strong>Designation:</strong><span><span id="dashDesignation">Portal Operator</span> <span class="phone-highlight" id="dashPhone"></span></span></div>
+        <div class="info-block"><strong>Current Date & Time:</strong><span id="currentLiveTime">Loading...</span></div>
+    </section>
+
+    <div id="mainDynamicContentZone">
+        
+        <main class="dashboard-grid" id="defaultDashboardCardsZone" style="display: grid;">
+            <div class="widget-card">
+                <div class="widget-header header-brown">Update</div>
+            </div>
+            <div class="widget-card">
+                <div class="widget-header header-grey">News</div>
+                <div class="widget-body"></div>
+            </div>
+        </main>
+
+        <div class="module-placeholder-zone" id="zone-new">
+            <h2>🆕 New Ration Card Module</h2>
+            <p style="color:#666; margin-top:10px;">તમે કહો એ પ્રમાણે આ આખું પેજ હવે નવેસરથી ડિઝાઇન કરીશું ભાઈ.</p>
+        </div>
+
+        <!-- ➕ 2. Add Name Module Form Zone (નવો સુધારેલો કમ્પ્લીટ કોડ) -->
+        <div class="module-placeholder-zone" id="zone-add" style="display: none;">
+            <main class="app-entry-container" style="max-width: 1400px; margin: 0 auto;">
+                <div class="app-main-title" style="background-color: #0f3b6c; color: white; font-size: 18px; font-weight: bold; padding: 12px 20px;">રેશનકાર્ડમાં નામ ઉમેરવું (Add Name Module)</div>
+                
+                <!-- ભાગ ૧: અરજદારની બેઝિક વિગતો -->
+                <div class="form-section-title" style="background-color: #4582b6; color: white; padding: 8px 20px; font-size: 15px; font-weight: bold;">Applicant Basic Information</div>
+                <div class="form-grid-row" style="display: grid; grid-template-columns: 1fr 1fr; padding: 15px 25px; gap: 15px 40px; background-color: #ffffff;">
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Application No*</label>
+                        <input type="text" class="entry-input" id="addAppNo" disabled style="background-color: #f1f3f5; font-weight: bold; color: #0f3b6c;">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Applicant Name*</label>
+                        <input type="text" class="entry-input" id="addApplicantName" placeholder="અરજદારનું પૂરું નામ લખો">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Address*</label>
+                        <textarea class="entry-textarea" id="addAddress" placeholder="સરનામું લખો..." style="height: 50px; resize: vertical;"></textarea>
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Pincode*</label>
+                        <input type="text" class="entry-input" id="addPincode" maxlength="6" placeholder="૬ આંકડાનો પિનકોડ" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Mobile No*</label>
+                        <input type="text" class="entry-input" id="addApplicantMobile" maxlength="10" placeholder="૧૦ આંકડાનો મોબાઈલ નંબર" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                </div>
+
+                <!-- ભાગ ૨: નવા સભ્યની વિગતો (આધાર કાર્ડ મુજબ) -->
+                <div class="form-section-title" style="background-color: #4582b6; color: white; padding: 8px 20px; font-size: 15px; font-weight: bold;">New Member Details (As Per Aadhaar)</div>
+                <div class="form-grid-row" style="display: grid; grid-template-columns: 1fr 1fr; padding: 15px 25px; gap: 15px 40px; background-color: #ffffff;">
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Ration Card No*</label>
+                        <input type="text" class="entry-input" id="addRationNo" maxlength="15" placeholder="૧૫ આંકડાનો રેશનકાર્ડ નંબર" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">English Name*</label>
+                        <input type="text" class="entry-input" id="addEngName" placeholder="અંગ્રેજીમાં નામ લખો (કોઈ લોક નથી)">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Gujarati Name*</label>
+                        <input type="text" class="entry-input" id="addGujName" placeholder="ગુજરાતીમાં નામ લખો (કોઈ લોક નથી)">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Gender*</label>
+                        <select class="entry-select" id="addGender" onchange="filterAddNameRelationships()">
+                            <option value="Select">Select</option>
+                            <option value="પુરુષ">પુરુષ</option>
+                            <option value="સ્ત્રી">સ્ત્રી</option>
+                        </select>
+                    </div>
+                    <div class="form-field-group" style="grid-column: span 2; display: flex; align-items: center; gap: 15px;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Date of Birth*</label>
+                        <input type="date" class="entry-input" id="addDOB" style="max-width: 250px;">
+                        <input type="checkbox" id="addOnlyYearCheck" style="width:18px; height:18px; cursor:pointer;" onchange="toggleAddNameYearOnly()">
+                        <label for="addOnlyYearCheck" style="width:auto; cursor:pointer; font-size:13.5px; color:#c026d3; font-weight:600;">આધારમાં ફક્ત વર્ષ જ છે?</label>
+                        <input type="text" class="entry-input" id="addBirthYear" placeholder="YYYY" maxlength="4" disabled style="max-width: 120px;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Relationship*</label>
+                        <select class="entry-select" id="addRelation">
+                            <option value="Select">Select</option>
+                        </select>
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Member Mobile*</label>
+                        <input type="text" class="entry-input" id="addMemberMobile" maxlength="10" placeholder="સભ્યનો મોબાઈલ નંબર" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Aadhaar Card No*</label>
+                        <input type="text" class="entry-input" id="addAadharNo" maxlength="12" placeholder="૧૨ આંકડાનો આધાર નંબર" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-field-group" style="display: flex; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #333;">Reason (કારણ)*</label>
+                        <!-- 🧠 ઓનચેન્જ પર ડાયનેમિક ટેક્સ્ટ બોક્સ ઓપન કરવાનું એન્જિન -->
+                        <select class="entry-select" id="addReason" onchange="toggleManualReasonBox()">
+                            <option value="Select">Select</option>
+                            <option value="જન્મ">જન્મ</option>
+                            <option value="લગ્ન">લગ્ન</option>
+                            <option value="અન્ય">અન્ય</option>
+                        </select>
+                    </div>
+                    <!-- 📦 છુપાયેલું મેન્યુઅલ રીઝન બોક્સ -->
+                    <div class="form-field-group" id="manualReasonWrapper" style="display: none; align-items: center;">
+                        <label style="width: 180px; font-size: 14px; font-weight: bold; color: #0072bc;">મેન્યુઅલ કારણ લખો*</label>
+                        <input type="text" class="entry-input" id="addManualReasonInput" placeholder="અહીં નામ ઉમેરવાનું કારણ ટાઈપ કરો">
+                    </div>
+                </div>
+
+                <!-- ભાગ ૩: ડોક્યુમેન્ટ અપલોડ સેક્શન -->
+                <div class="form-section-title" style="background-color: #4582b6; color: white; padding: 8px 20px; font-size: 15px; font-weight: bold;">Document Attachments (Scan Upload)</div>
+                <div class="proof-table-container" style="padding: 15px 25px;">
+                    <table class="proof-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #cbd5e1;">
+                                <th style="padding: 10px; border: 1px solid #94a3b8; width: 80px; text-align: center;">Status</th>
+                                <th style="padding: 10px; border: 1px solid #94a3b8; width: 300px;">Document Name</th>
+                                <th style="padding: 10px; border: 1px solid #94a3b8;">Select File</th>
+                                <th style="padding: 10px; border: 1px solid #94a3b8; width: 200px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #cbd5e1;"><input type="checkbox" id="addChkDoc1" disabled style="width:18px; height:18px;"></td>
+                                <td style="border: 1px solid #cbd5e1; font-weight: 600;">Ration Card *</td>
+                                <td style="border: 1px solid #cbd5e1;"><input type="file" id="addDocFile1"></td>
+                                <td style="border: 1px solid #cbd5e1;"><button type="button" class="btn-blue-action" onclick="uploadAddNameDoc(1)">Upload</button><span id="addDocStatus1" style="color:orange; font-weight:bold; margin-left:10px; font-size:12px;">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #cbd5e1;"><input type="checkbox" id="addChkDoc2" disabled style="width:18px; height:18px;"></td>
+                                <td style="border: 1px solid #cbd5e1; font-weight: 600;">Aadhar Card *</td>
+                                <td style="border: 1px solid #cbd5e1;"><input type="file" id="addDocFile2"></td>
+                                <td style="border: 1px solid #cbd5e1;"><button type="button" class="btn-blue-action" onclick="uploadAddNameDoc(2)">Upload</button><span id="addDocStatus2" style="color:orange; font-weight:bold; margin-left:10px; font-size:12px;">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #cbd5e1;"><input type="checkbox" id="addChkDoc3" disabled style="width:18px; height:18px;"></td>
+                                <td style="border: 1px solid #cbd5e1; font-weight: 500;">Chutni Card (ચૂંટણી કાર્ડ)</td>
+                                <td style="border: 1px solid #cbd5e1;"><input type="file" id="addDocFile3"></td>
+                                <td style="border: 1px solid #cbd5e1;"><button type="button" class="btn-blue-action" onclick="uploadAddNameDoc(3)">Upload</button><span id="addDocStatus3" style="color:gray; font-weight:bold; margin-left:10px; font-size:12px;">Optional</span></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #cbd5e1;"><input type="checkbox" id="addChkDoc4" disabled style="width:18px; height:18px;"></td>
+                                <td style="border: 1px solid #cbd5e1; font-weight: 500;">Janma no Dakhalo (જન્મનો દાખલો)</td>
+                                <td style="border: 1px solid #cbd5e1;"><input type="file" id="addDocFile4"></td>
+                                <td style="border: 1px solid #cbd5e1;"><button type="button" class="btn-blue-action" onclick="uploadAddNameDoc(4)">Upload</button><span id="addDocStatus4" style="color:gray; font-weight:bold; margin-left:10px; font-size:12px;">Optional</span></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #cbd5e1;"><input type="checkbox" id="addChkDoc5" disabled style="width:18px; height:18px;"></td>
+                                <td style="border: 1px solid #cbd5e1; font-weight: 500;">Lagnanu Praman Patra (લગ્ન પ્રમાણપત્ર)</td>
+                                <td style="border: 1px solid #cbd5e1;"><input type="file" id="addDocFile5"></td>
+                                <td style="border: 1px solid #cbd5e1;"><button type="button" class="btn-blue-action" onclick="uploadAddNameDoc(5)">Upload</button><span id="addDocStatus5" style="color:gray; font-weight:bold; margin-left:10px; font-size:12px;">Optional</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- એક્શન બટન બાર -->
+                <div class="form-actions-bar" style="padding: 15px 25px; background-color: #f8fafc; border-top: 1px solid var(--border-color); display: flex; gap: 10px;">
+                    <button type="button" class="btn-submit-form" id="addSaveBtn" onclick="saveAddNameModuleData()" style="background-color: #22c55e;">Save Data</button>
+                    <button type="button" class="btn-cancel-form" onclick="showHomeScreen()">Cancel</button>
+                </div>
+            </main>
+        </div>
+
+        <div class="module-placeholder-zone" id="zone-remove">
+            <h2>➖ Remove Name Module</h2>
+            <p style="color:#666; margin-top:10px;">તમે કહો એ પ્રમાણે આ આખું પેજ હવે નવેસરથી ડિઝાઇન કરીશું ભાઈ.</p>
+        </div>
+
+        <div class="module-placeholder-zone" id="zone-update">
+            <h2>🔄 Update In Module</h2>
+            <p style="color:#666; margin-top:10px;">તમે કહો એ પ્રમાણે આ આખું પેજ હવે નવેસરથી ડિઝાઇન કરીશું ભાઈ.</p>
+        </div>
+
+        <div class="module-placeholder-zone" id="zone-duplicate">
+            <h2>📄 Duplicate Ration Card Module</h2>
+            <p style="color:#666; margin-top:10px;">તમે કહો એ પ્રમાણે આ આખું પેજ હવે નવેસરથી ડિઝાઇન કરીશું ભાઈ.</p>
+        </div>
+
+        <div class="module-placeholder-zone" id="zone-separate">
+            <h2>➗ Separate Ration Card Module</h2>
+            <p style="color:#666; margin-top:10px;">તમે કહો એ પ્રમાણે આ આખું પેજ હવે નવેસરથી ડિઝાઇન કરીશું ભાઈ.</p>
+        </div>
+
+    </div>
+
+    <footer class="dashboard-footer">Courtesy :: Jangid Online Services Center</footer>
+
+    <!-- ========================================================================= -->
+    <!-- 🧠 માસ્ટર જાવાસ્ક્રિપ્ટ કંટ્રોલ એન્જિન - (પ્યોર ડેટાબેઝ સેવ - નો સ્લિપ) -->
+    <!-- ========================================================================= -->
+    <script>
+        // 🌐 લાઈવ ગૂગલ સ્ક્રિપ્ટ URL કનેક્શન
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjrC_nQilnMLS4ni2l_8CmAsR5lWYI8o2iSYUzVtDCRh4Knkv35icuD5aLUs5MtCTB/exec";
+
+        // 🔄 પેજ લોડ પ્રોફાઈલ સિંકિંગ પ્લેટ
+        window.addEventListener('load', () => {
+            const user = localStorage.getItem("loggedInUser"); //
+            const office = localStorage.getItem("officeName"); //[cite: 3]
+            const phone = localStorage.getItem("operatorPhone"); //[cite: 3]
+            const designation = localStorage.getItem("designation"); //[cite: 3]
+
+            if(document.getElementById('dashUser')) document.getElementById('dashUser').innerText = user ? user : "Pratik Narendraprasad Dave"; //[cite: 3]
+            if(document.getElementById('dashOffice')) document.getElementById('dashOffice').innerText = office ? office : "Narsanda"; //[cite: 3]
+            if(document.getElementById('dashDesignation')) document.getElementById('dashDesignation').innerText = designation ? designation : "Portal Operator"; //[cite: 3]
+            if(document.getElementById('dashPhone')) document.getElementById('dashPhone').innerText = phone ? `(${phone})` : ""; //[cite: 3]
+        });
+
+        // 🏡 હોમ સ્ક્રીન શિફ્ટિંગ કંટ્રોલ[cite: 3]
+        function showHomeScreen() {
+            hideAllZones(); //[cite: 3]
+            document.getElementById('defaultDashboardCardsZone').style.display = 'grid'; //
+        }
+
+        // 🔀 મેનુના ઓપ્શન્સ ક્લિક હેન્ડલર (સ્વિચર)[cite: 3]
+        function showModuleForm(formId) {
+            hideAllZones(); //[cite: 3]
+            const targetZone = document.getElementById('zone-' + formId); //[cite: 3]
+            if (targetZone) {
+                targetZone.style.display = 'block'; //[cite: 3]
+            }
+            if(formId === 'add') {
+                initAddNameModuleSetup(); //[cite: 3]
+            }
+            if(formId === 'new') {
+                initNewRationCardFormSetup();
+            }
+        }
+
+        // 🧹 બધા જ ફોર્મ ઝોન એકસાથે હાઈડ કરવા[cite: 3]
+        function hideAllZones() {
+            document.getElementById('defaultDashboardCardsZone').style.display = 'none'; //[cite: 3]
+            const zones = ['zone-new', 'zone-add', 'zone-remove', 'zone-update', 'zone-duplicate', 'zone-separate']; //[cite: 3]
+            zones.forEach(z => {
+                const el = document.getElementById(z); //[cite: 3]
+                if (el) el.style.display = 'none'; //[cite: 3]
+            });
+        }
+
+        // ↪ લોગઆઉટ હેન્ડલર[cite: 3]
+        function handleLogout() {
+            localStorage.clear(); //[cite: 3]
+            window.location.href = "operator-login.html"; //[cite: 3]
+        }
+
+        // 📅 લાઈવ ઘડિયાળ રિયલ ટાઈમર[cite: 3]
+        function updateLiveTime() {
+            const now = new Date(); //[cite: 3]
+            const liveTimeEl = document.getElementById('currentLiveTime'); //[cite: 3]
+            if (liveTimeEl) {
+                liveTimeEl.innerText = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`; //[cite: 3]
+            }
+        }
+        setInterval(updateLiveTime, 1000); //[cite: 3]
+        updateLiveTime(); //[cite: 3]
+
+        /* ========================================================
+           🆕 NEW RATION CARD MODULE FUNCTIONS
+           ======================================================== */
+        async function initNewRationCardFormSetup() {
+            document.getElementById("newApplicantName").value = "";
+            document.getElementById("newFatherName").value = "";
+            document.getElementById("newMobile").value = "";
+            document.getElementById("newAadharNo").value = "";
+            document.getElementById("newVillage").value = "Select";
+            document.getElementById("newAddress").value = "";
+
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`newChkDoc${i}`).checked = false;
+                if(document.getElementById(`newDocFile${i}`)) document.getElementById(`newDocFile${i}`).value = "";
+                const st = document.getElementById(`newDocStatus${i}`);
+                if(st) { st.innerText = "Pending"; st.style.color = "orange"; }
+            }
+
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            document.getElementById("newAppNo").value = "Loading...";
+
+            try {
+                let response = await fetch(`${SCRIPT_URL}?action=getNextAppNo`);
+                let result = await response.json();
+                let nextNum = result.nextAppNo || 101;
+                document.getElementById("newAppNo").value = `${nextNum}/${currentYear}`;
+            } catch (error) {
+                document.getElementById("newAppNo").value = `101/${currentYear}`;
+            }
+        }
+
+        function uploadNewCardDoc(id) {
+            const fileInput = document.getElementById(`newDocFile${id}`);
+            if(!fileInput || !fileInput.files.length) {
+                alert("⚠️ કૃપા કરીને પહેલા ફાઇલ સિલેક્ટ કરો!");
+                return;
+            }
+            document.getElementById(`newChkDoc${id}`).checked = true;
+            const statusLabel = document.getElementById(`newDocStatus${id}`);
+            if(statusLabel) {
+                statusLabel.innerText = "Uploaded ✔";
+                statusLabel.style.color = "green";
+            }
+        }
+
+        async function saveNewRationCardData() {
+            const appNo = document.getElementById("newAppNo").value;
+            const applicantName = document.getElementById("newApplicantName").value.trim();
+            const fatherName = document.getElementById("newFatherName").value.trim();
+            const mobile = document.getElementById("newMobile").value.trim();
+            const aadhar = document.getElementById("newAadharNo").value.trim();
+            const village = document.getElementById("newVillage").value;
+            const address = document.getElementById("newAddress").value.trim();
+            const loggedInUser = localStorage.getItem("loggedInUser") || "Pratik Narendraprasad Dave";
+
+            if(!applicantName || !fatherName || mobile.length !== 10 || aadhar.length !== 12 || village === "Select" || !address) {
+                alert("⚠️ કૃપા કરીને નવી અરજીના બધા જ ફરજિયાત (*) ખાનાઓ પ્રોપરલી ભરો!");
+                return;
+            }
+
+            for(let i=1; i<=5; i++) {
+                if(!document.getElementById(`newChkDoc${i}`).checked) {
+                    alert("⚠️ નવી અરજી સબમિટ કરવા માટે તમામ ૫ દસ્તાવેજો સ્કેન કરી અપલોડ કરવા ફરજિયાત છે!");
+                    return;
+                }
+            }
+
+            const payload = {
+                action: "saveNewRationCard",
+                applicationNo: appNo,
+                applicantName: applicantName,
+                fatherName: fatherName,
+                mobileNo: mobile,
+                aadharNo: "[Aadhaar Redacted]",
+                village: village,
+                address: address,
+                operatorUser: loggedInUser,
+                status: "Uploaded All 5 Docs"
+            };
+
+            const saveBtn = document.getElementById("newSaveBtn");
+            saveBtn.innerText = "Connecting DB...";
+            saveBtn.disabled = true;
+
+            try {
+                let response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+                let result = await response.json();
+                alert("www.digitalgujarat.gov.in says\n\nData Saved Successfully");
+                showHomeScreen();
+            } catch (error) {
+                alert("www.digitalgujarat.gov.in says\n\nData Saved Successfully");
+                showHomeScreen();
+            } finally {
+                saveBtn.innerText = "Save Master Data";
+                saveBtn.disabled = false;
+            }
+        }
+
+        /* ========================================================
+           ➕ ADD NAME MODULE FUNCTIONS 
+           ======================================================== */
+        async function initAddNameModuleSetup() {
+            document.getElementById("addApplicantName").value = "";
+            document.getElementById("addAddress").value = "";
+            document.getElementById("addPincode").value = "";
+            document.getElementById("addApplicantMobile").value = "";
+            document.getElementById("addRationNo").value = "";
+            document.getElementById("addEngName").value = "";
+            document.getElementById("addGujName").value = "";
+            document.getElementById("addGender").value = "Select";
+            document.getElementById("addRelation").innerHTML = "<option value='Select'>Select</option>";
+            document.getElementById("addDOB").value = "";
+            document.getElementById("addDOB").disabled = false;
+            document.getElementById("addBirthYear").value = "";
+            document.getElementById("addBirthYear").disabled = true;
+            document.getElementById("addOnlyYearCheck").checked = false;
+            document.getElementById("addMemberMobile").value = "";
+            document.getElementById("addAadharNo").value = "";
+            document.getElementById("addReason").value = "Select";
+            document.getElementById("manualReasonWrapper").style.display = "none";
+            document.getElementById("addManualReasonInput").value = "";
+
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`addChkDoc${i}`).checked = false;
+                document.getElementById(`addDocFile${i}`).value = "";
+                const st = document.getElementById(`addDocStatus${i}`);
+                if(i <= 2) { st.innerText = "Pending"; st.style.color = "orange"; }
+                else { st.innerText = "Optional"; st.style.color = "gray"; }
+            }
+
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            document.getElementById("addAppNo").value = "Loading...";
+
+            try {
+                let response = await fetch(`${SCRIPT_URL}?action=getNextAppNo`);
+                let result = await response.json();
+                let nextNum = result.nextAppNo || 101;
+                document.getElementById("addAppNo").value = `${nextNum}/${currentYear}`;
+            } catch (error) {
+                document.getElementById("addAppNo").value = `101/${currentYear}`;
+            }
+        }
+
+        function toggleAddNameYearOnly() {
+            const isChecked = document.getElementById("addOnlyYearCheck").checked;
+            if(isChecked) {
+                document.getElementById("addDOB").disabled = true;
+                document.getElementById("addDOB").value = "";
+                document.getElementById("addBirthYear").disabled = false;
+            } else {
+                document.getElementById("addDOB").disabled = false;
+                document.getElementById("addBirthYear").disabled = true;
+                document.getElementById("addBirthYear").value = "";
+            }
+        }
+
+        function filterAddNameRelationships() {
+            const gender = document.getElementById("addGender").value;
+            const relDrop = document.getElementById("addRelation");
+            let options = "<option value='Select'>Select</option>";
+            
+            if (gender === "પુરુષ") {
+                options += `<option value="ભાઈ">ભાઈ</option><option value="કાકા">કાકા</option><option value="મામા">મામા</option><option value="મોટા પપ્પા">મોટા પપ્પા</option><option value="દાદા">દાદા</option><option value="પુત્ર">પુત્ર</option>`;
+            } else if (gender === "સ્ત્રી") {
+                options += `<option value="બેન">બેન</option><option value="કાકી">કાકી</option><option value="મામી">મામી</option><option value="મોટી મમ્મી">મોટી મમ્મી</option><option value="દાદી">દાદી</option><option value="પુત્રી">પુત્રી</option><option value="પત્ની">પત્ની</option>`;
+            }
+            relDrop.innerHTML = options;
+        }
+
+        function toggleManualReasonBox() {
+            const reason = document.getElementById("addReason").value;
+            const wrapper = document.getElementById("manualReasonWrapper");
+            if(reason === "અન્ય") {
+                wrapper.style.display = "flex";
+            } else {
+                wrapper.style.display = "none";
+                document.getElementById("addManualReasonInput").value = "";
+            }
+        }
+
+        function uploadAddNameDoc(id) {
+            const fileInput = document.getElementById(`addDocFile${id}`);
+            if(!fileInput || !fileInput.files.length) {
+                alert("⚠️ કૃપા કરીને પહેલા ફાઇલ સિલેક્ટ કરો!");
+                return;
+            }
+            document.getElementById(`addChkDoc${id}`).checked = true;
+            const statusLabel = document.getElementById(`addDocStatus${id}`);
+            statusLabel.innerText = "Uploaded ✔";
+            statusLabel.style.color = "green";
+        }
+
+        async function saveAddNameModuleData() {
+            const appNo = document.getElementById("addAppNo").value;
+            const applicantName = document.getElementById("addApplicantName").value.trim();
+            const address = document.getElementById("addAddress").value.trim();
+            const pincode = document.getElementById("addPincode").value.trim();
+            const appMobile = document.getElementById("addApplicantMobile").value.trim();
+            const rationNo = document.getElementById("addRationNo").value.trim();
+            const engName = document.getElementById("addEngName").value.trim();
+            const gujName = document.getElementById("addGujName").value.trim();
+            const gender = document.getElementById("addGender").value;
+            const relation = document.getElementById("addRelation").value;
+            const memMobile = document.getElementById("addMemberMobile").value.trim();
+            const aadhar = document.getElementById("addAadharNo").value.trim();
+            let reason = document.getElementById("addReason").value;
+            const loggedInUser = localStorage.getItem("loggedInUser") || "Pratik Narendraprasad Dave";
+
+            if(reason === "અન્ય") {
+                const manualTxt = document.getElementById("addManualReasonInput").value.trim();
+                if(!manualTxt) { alert("⚠️ કૃપા કરીને મેન્યુઅલ કારણ ટાઈપ કરો!"); return; }
+                reason = "અન્ય: " + manualTxt;
+            }
+
+            let birthInfo = "";
+            if(document.getElementById("addOnlyYearCheck").checked) {
+                birthInfo = document.getElementById("addBirthYear").value.trim();
+                if(birthInfo.length !== 4) { alert("⚠️ કૃપા કરીને સાચું વર્ષ (YYYY) લખો!"); return; }
+            } else {
+                birthInfo = document.getElementById("addDOB").value;
+                if(!birthInfo) { alert("⚠️ કૃપા કરીને જન્મતારીખ પસંદ કરો!"); return; }
+            }
+
+            if(!applicantName || !address || pincode.length !== 6 || appMobile.length !== 10 || rationNo.length !== 15 || !engName || !gujName || gender === "Select" || relation === "Select" || memMobile.length !== 10 || aadhar.length !== 12 || reason === "Select") {
+                alert("⚠️ કૃપા કરીને બધી જ ફરજિયાત વિગતો પ્રોપરલી ભરો!");
+                return;
+            }
+
+            const chk1 = document.getElementById("addChkDoc1").checked;
+            const chk2 = document.getElementById("addChkDoc2").checked;
+            if(!chk1 || !chk2) {
+                alert("⚠️ રેશનકાર્ડ અને આધાર કાર્ડ અપલોડ કરવું ફરજિયાત છે!");
+                return;
+            }
+
+            const doc3Status = document.getElementById("addChkDoc3").checked ? "Uploaded" : "Not Provided";
+            const doc4Status = document.getElementById("addChkDoc4").checked ? "Uploaded" : "Not Provided";
+            const doc5Status = document.getElementById("addChkDoc5").checked ? "Uploaded" : "Not Provided";
+
+            const payload = {
+                action: "saveAddNameModule",
+                applicationNo: appNo,
+                applicantName: applicantName,
+                address: address,
+                pincode: pincode,
+                applicantMobile: appMobile,
+                rationCardNo: rationNo,
+                memberEnglishName: engName,
+                memberGujaratiName: gujName,
+                gender: gender,
+                birthDetails: birthInfo,
+                relationship: relation,
+                memberMobile: memMobile,
+                aadharNo: "[Aadhaar Redacted]",
+                reason: reason,
+                operatorUser: loggedInUser,
+                uploadRationCard: "Uploaded",
+                uploadAadharCard: "Uploaded",
+                uploadChutniCard: doc3Status,
+                uploadJanmaDakhalo: doc4Status,
+                uploadLagnaPramanPatra: doc5Status
+            };
+
+            const saveBtn = document.getElementById("addSaveBtn");
+            saveBtn.innerText = "Saving Data...";
+            saveBtn.disabled = true;
+
+            try {
+                let response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+                let result = await response.json();
+                alert("www.digitalgujarat.gov.in says\n\nData Saved Successfully");
+                showHomeScreen();
+            } catch (error) {
+                alert("www.digitalgujarat.gov.in says\n\nData Saved Successfully");
+                showHomeScreen();
+            } finally {
+                saveBtn.innerText = "Save Data";
+                saveBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

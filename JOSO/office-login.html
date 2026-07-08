@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Login - Jangid Services</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #0066cc;
+            --dark-blue: #0a294d;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+            --text-dark: #333333;
+        }
+
+        body {
+            background-color: #0b509c;
+            color: var(--text-dark);
+            padding-bottom: 40px;
+        }
+
+        /* TOP BLUE HEADER */
+        .admin-header {
+            background-color: var(--white);
+            max-width: 1300px;
+            margin: 20px auto 0 auto;
+            border-radius: 30px 30px 0 0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--orange);
+        }
+
+        .admin-title {
+            color: var(--secondary-blue);
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-title span {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .brand-logo-right {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        .brand-logo-right span { color: var(--orange); }
+
+        /* MAIN WHITE CONTAINER */
+        .main-white-card {
+            background-color: var(--white);
+            max-width: 1300px;
+            margin: 0 auto;
+            border-radius: 0 0 30px 30px;
+            padding: 40px 30px;
+            display: flex;
+            gap: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            align-items: flex-start;
+        }
+
+        /* LEFT HALF: PORTAL AND LOGIN BOX */
+        .left-portal-zone {
+            flex: 1.3;
+            border: 1px solid #b4d2f0;
+            background-color: #edf5fc;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .mini-sidebar {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .welcome-msg {
+            font-size: 14px;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .mini-btn {
+            width: 100%;
+            background-color: var(--secondary-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        .mini-btn:hover { background-color: var(--primary-blue); }
+        .mini-btn.btn-orange { background-color: var(--orange); }
+        .mini-btn.btn-orange:hover { background-color: #d68100; }
+        .mini-btn.btn-dark { background-color: var(--primary-blue); }
+
+        /* Main Form Blue Card */
+        .office-login-box {
+            flex: 1.2;
+            background-color: #0072bc;
+            border-radius: 14px;
+            padding: 25px 20px;
+            color: var(--white);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .office-login-box h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-input-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* Captcha Block */
+        .captcha-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .captcha-display {
+            background-color: var(--white);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            font-style: italic;
+            letter-spacing: 3px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            user-select: none;
+            flex: 1;
+            text-align: center;
+        }
+
+        .captcha-refresh-btn {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Action Buttons Row */
+        .action-btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .form-submit-btn {
+            grid-column: span 2;
+            background-color: #e2e8f0;
+            color: #74889e;
+            border: none;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: not-allowed;
+            transition: all 0.3s;
+        }
+        .form-submit-btn.active {
+            background-color: var(--orange);
+            color: var(--white);
+            cursor: pointer;
+        }
+        .form-submit-btn.active:hover { background-color: #d68100; }
+
+        .sub-action-btn {
+            background-color: rgba(255,255,255,0.15);
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .sub-action-btn:hover { background-color: rgba(255,255,255,0.3); }
+
+        .full-width-btn { grid-column: span 2; }
+
+        /* RIGHT HALF: NOTICE BOARD */
+        .right-notice-zone {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-top: 10px;
+        }
+
+        .notice-item {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .notice-item::before {
+            content: '➔';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .notice-item strong { color: #dc2626; }
+
+        .new-badge {
+            background-color: red;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ==========================================
+           OTP POPUP OVERLAY (MODAL) SYSTEM 
+           ========================================== */
+        .otp-modal-overlay {
+            display: none; /* શરૂઆતમાં બંધ રહેશે */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .otp-container {
+            background-color: #eef2f7;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #cbd5e1;
+        }
+
+        .otp-header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .otp-body {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .otp-body h2 {
+            color: var(--primary-blue);
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .otp-body p {
+            font-size: 14px;
+            color: var(--secondary-blue);
+            margin-bottom: 25px;
+        }
+
+        .otp-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background-color: var(--white);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            max-width: 400px;
+            margin: 0 auto 25px auto;
+        }
+
+        .otp-id-text {
+            font-size: 15px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .otp-input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: var(--text-dark);
+            padding-left: 10px;
+            border-left: 1px solid #cbd5e1;
+        }
+
+        .otp-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .otp-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-confirm { background-color: var(--orange); color: var(--white); }
+        .btn-confirm:hover { background-color: #d68100; }
+        
+        .btn-resend { background-color: #cbd5e1; color: var(--primary-blue); }
+        .btn-resend:hover { background-color: #b9c9da; }
+
+        .otp-footer-notice {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+            text-align: left;
+            margin-top: 15px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="admin-title">
+            ⚙️ USER ADMINISTRATION <span>SER. 149</span>
+        </div>
+        <div class="brand-logo-right">
+            Jangid <span>Services</span>
+        </div>
+    </header>
+
+    <main class="main-white-card">
+        
+        <section class="left-portal-zone">
+            
+            <div class="mini-sidebar">
+                <div class="welcome-msg">Welcome to SSO!</div>
+                <a href="#" class="mini-btn">How to Install Security Certificate</a>
+                <a href="#" class="mini-btn">Install Security Certificate</a>
+                <div class="welcome-msg" style="margin-top:15px; font-weight:normal; font-size:12px;">Use a valid username and password to gain access.</div>
+                <a href="#" class="mini-btn btn-orange">Forgot Password ?</a>
+                <a href="#" class="mini-btn btn-orange">Unblock User</a>
+                <a href="#" class="mini-btn btn-dark">Request to create new user<br><span style="font-size:10px;font-weight:normal;">(For Admin users only)</span></a>
+            </div>
+
+            <div class="office-login-box">
+                <h2>Login...</h2>
+                <form id="officeLoginForm" oninput="validateOfficeForm()">
+                    
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input-field" id="officeUser" required>
+
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input-field" id="officePass" required>
+
+                    <div class="captcha-row">
+                        <div class="captcha-display" id="officeCaptchaCode">GpCxZX</div>
+                        <button type="button" class="captcha-refresh-btn" onclick="generateOfficeCaptcha()">🔄 Refresh</button>
+                    </div>
+                    <input type="text" class="form-input-field" id="officeCaptchaInput" placeholder="( It is case sensitive )" required>
+
+                    <div class="action-btn-grid">
+                        <button type="submit" class="form-submit-btn" id="officeSubmitBtn" disabled>Login...</button>
+                        <button type="button" class="sub-action-btn">Change Password</button>
+                        <button type="button" class="sub-action-btn">User Profile</button>
+                        <button type="button" class="sub-action-btn full-width-btn">Change/Verify your Mobile No./EMail</button>
+                        <button type="button" class="sub-action-btn full-width-btn">Link your Aadhar number</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </section>
+
+        <section class="right-notice-zone">
+            <div class="notice-item">
+                SSO login will be undergoing scheduled maintenance due to server migration on <strong>12th Sep 2026</strong> between 1:30 pm to 3:30 pm, So it will not be accessible during this period. Inconvenience caused is deeply regretted. <span class="new-badge">NEW</span>
+            </div>
+            <div class="notice-item">
+                As per the UIDAI OM regarding implementation of FIR & FMR both in fingerprint based Aadhaar Authentication, Upgrade RD Service for fingerprint to be provided by Vendor of the Device.
+            </div>
+            <div class="notice-item">
+                Use <strong>Portal SMS Messaging</strong> system for getting Alert/OTP SMSes related to your login from SSO instantly.
+            </div>
+            <div class="notice-item">
+                Please do your mobile number verification by clicking on VERIFY YOUR MOBILE NUMBER button in the login screen. (તમારા મોબાઈલ નંબરની ચકાસણી લોગીન સ્ક્રીન પર આવેલ VERIFY YOUR MOBILE NUMBER બટન પર ક્લિક કરીને કરો.)
+            </div>
+        </section>
+
+    </main>
+
+
+    <div class="otp-modal-overlay" id="officeOtpModal">
+        <div class="otp-container">
+            <div class="otp-header">OTP Verify</div>
+            <div class="otp-body">
+                <h2>Confirmation-Code</h2>
+                <p>Please enter the OTP code received on your registered mobile.</p>
+
+                <div class="otp-input-wrapper">
+                    <span class="otp-id-text">OTP ID : <strong id="officeDynamicOtpId">1122334</strong></span>
+                    <input type="text" class="otp-input-field" id="officeOtpNumberInput" placeholder="👤 Enter OTP Number" maxlength="4">
+                </div>
+
+                <div class="otp-btn-group">
+                    <button class="otp-btn btn-confirm" onclick="verifyOfficeOtpCode()">Confirm</button>
+                    <button class="otp-btn btn-resend" onclick="generateOfficeOtp()">Resend OTP SMS</button>
+                </div>
+
+                <div class="otp-footer-notice">
+                    ℹ️ Use NIC's SANDES messaging mobile app for getting Alert/OTP SMSes related to your login from SSO instantly.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let officeGeneratedOtp = ""; // સાચો OTP સ્ટોર કરવા માટે
+
+        // ૧. કેપ્ચા જનરેટ કરવું
+        function generateOfficeCaptcha() {
+            const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            let code = "";
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('officeCaptchaCode').innerText = code;
+            validateOfficeForm();
+        }
+
+        // ૨. ફોર્મ વેલિડેશન
+        function validateOfficeForm() {
+            const user = document.getElementById('officeUser').value;
+            const pass = document.getElementById('officePass').value;
+            const captchaInput = document.getElementById('officeCaptchaInput').value;
+            const actualCaptcha = document.getElementById('officeCaptchaCode').innerText;
+            const submitBtn = document.getElementById('officeSubmitBtn');
+
+            if (user && pass.length >= 4 && captchaInput === actualCaptcha) {
+                submitBtn.classList.add('active');
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.remove('active');
+                submitBtn.disabled = true;
+            }
+        }
+
+        window.onload = generateOfficeCaptcha;
+
+        // ૩. ફોર્મ સબમિટ થાય ત્યારે OTP પોપઅપ ઓપન કરવું
+        document.getElementById('officeLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateOfficeOtp(); // નવો ૪ આંકડાનો ઓટીપી બનાવો
+            document.getElementById('officeOtpModal').style.display = 'flex'; // પોપઅપ ખોલો
+        });
+
+        // ૪. ૪ આંકડાનો OTP જનરેટ કરવાનું ફંક્શન
+        function generateOfficeOtp() {
+            // રેન્ડમ ૭ આંકડાનો OTP ID
+            const randomId = Math.floor(1000000 + Math.random() * 9000000);
+            document.getElementById('officeDynamicOtpId').innerText = randomId;
+
+            // ૪ આંકડાનો સુરક્ષિત OTP
+            officeGeneratedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // ટેસ્ટિંગ માટે એલર્ટ
+            alert(`[OFFICE TEST MODE] તમારા રજીસ્ટર્ડ મોબાઈલ પર મોકલેલ ૪ આંકડાનો OTP: ${officeGeneratedOtp}`);
+        }
+
+        // ૫. OTP વેરિફિકેશન ચેક
+        function verifyOfficeOtpCode() {
+            const enteredOtp = document.getElementById('officeOtpNumberInput').value;
+
+            if (enteredOtp === officeGeneratedOtp) {
+                alert('🎉 એડમિન ઓફિસ લોગિન વેરિફિકેશન સફળ!');
+                document.getElementById('officeOtpModal').style.display = 'none';
+                // આગળ અહીંથી એડમિન પેનલ (Admin Control Panel) ઓપન કરાવી શકાશે.
+            } else {
+                alert('❌ ખોટો OTP! કૃપા કરીને ફરીથી ચેક કરીને સાચો ઓટીપી નાખો.');
+            }
+        }
+    </script>
+
+</body>
+</html>

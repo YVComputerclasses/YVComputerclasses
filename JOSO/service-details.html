@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Portal - Service Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-blue: #0f3b6c;
+            --secondary-blue: #1c538e;
+            --orange: #f39200;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .logo-text span { color: var(--orange); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .breadcrumb-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 16px;
+        }
+
+        .breadcrumb-container a { color: #b3cce6; text-decoration: none; }
+        .breadcrumb-container span { color: var(--orange); }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .sidebar-left {
+            flex: 1;
+            background-color: var(--white);
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--white);
+            color: var(--secondary-blue);
+            border: 2px solid var(--orange);
+            padding: 15px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-btn:hover {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+
+        .content-right {
+            flex: 2.5;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .service-title-text {
+            font-size: 26px;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--orange);
+            padding-left: 15px;
+        }
+
+        .accordion-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eef2f5;
+        }
+
+        .accordion-header {
+            width: 100%;
+            background-color: var(--white);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .accordion-header h3 {
+            color: var(--primary-blue);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .arrow-icon {
+            font-size: 18px;
+            color: var(--orange);
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.active .arrow-icon { transform: rotate(180deg); }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: var(--white);
+        }
+
+        .inner-content { padding: 20px; }
+
+        .doc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .doc-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: #475569;
+        }
+
+        .doc-list li::before {
+            content: '✓';
+            color: var(--orange);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo-text">Jangid <span>Services</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="breadcrumb-banner">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a> » <a href="services.html">Services</a> » <span id="breadServiceTitle">Service</span>
+        </div>
+    </div>
+
+    <main class="main-container">
+        
+        <div class="sidebar-left">
+            <a href="#" class="sidebar-btn">📄 Download Form</a>
+            <a href="#" class="sidebar-btn">💳 Payment Terms</a>
+            <a href="#" class="sidebar-btn">🌐 Apply Online</a>
+        </div>
+
+        <div class="content-right">
+            <h1 class="service-title-text" id="mainServiceTitle">Service Title</h1>
+
+            <div class="accordion-item active" id="instAccordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Instructions</h3>
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="inner-content" id="instructionsBox">
+                        </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Required Documents Attachment (Any One)</h3>
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="inner-content">
+                        <ul class="doc-list" id="documentsBox">
+                            </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ૧. બધી જ સર્વિસનો ડેટાબેઝ (તમે ગમે તેટલી સર્વિસ અહીં ઉમેરી શકો છો)
+        const servicesData = {
+            farmer: {
+                title: "Farmer Certificate (ખેડૂત પ્રમાણપત્ર)",
+                instructions: "ખેડૂત હોવા અંગેનું પ્રમાણપત્ર મેળવવા માટે તલાટી રૂબરૂ પંચનામું કરાવવું જરૂરી છે.",
+                documents: ["Ration Card", "Electricity Bill", "7/12 & 8-A Land Docs", "Election Card"]
+            },
+            pancard: {
+                title: "New PAN Card Application (નવું પાન કાર્ડ)",
+                instructions: "નવા પાન કાર્ડ માટે આધાર કાર્ડમાં મોબાઈલ નંબર લીંક હોવો અનિવાર્ય છે જેથી ઓનલાઈન OTP વેરિફિકેશન થઈ શકે.",
+                documents: ["Aadhar Card (Full DOB Required)", "2 Passport Size Photos", "Signature/Thumb Print"]
+            },
+            income: {
+                title: "Income Certificate (આવકનો દાખલો)",
+                instructions: "આવકનો દાખલો ૩ વર્ષ માટે માન્ય ગણાય છે. ફોર્મ સાથે પંચનામું જોડવું.",
+                documents: ["Ration Card", "Income Proof (Salary Slip or Talati Report)", "Aadhar Card"]
+            }
+        };
+
+        // ૨. લિંકમાંથી '?service=...' વાંચવા માટેની સ્ક્રિપ્ટ
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceKey = urlParams.get('service') || 'farmer'; // જો કંઈ ના મળે તો ડિફોલ્ટ farmer ખુલે
+
+        // ૩. પેજ પર ડેટા સેટ કરવાનું ફંક્શન
+        window.addEventListener('load', () => {
+            const currentService = servicesData[serviceKey];
+
+            if (currentService) {
+                // શીર્ષક બદલો
+                document.getElementById('mainServiceTitle').innerText = currentService.title;
+                document.getElementById('breadServiceTitle').innerText = currentService.title;
+                
+                // સૂચનાઓ બદલો
+                document.getElementById('instructionsBox').innerHTML = `<p>${currentService.instructions}</p>`;
+                
+                // ડોક્યુમેન્ટ્સ લીસ્ટ બદલો
+                const docBox = document.getElementById('documentsBox');
+                docBox.html = ''; // ખાલી કરો
+                currentService.documents.forEach(doc => {
+                    const li = document.createElement('li');
+                    li.innerText = doc;
+                    docBox.appendChild(li);
+                });
+
+                // ડિફોલ્ટ પહેલું એકોર્ડિયન ઓપન કરો
+                const instAcc = document.getElementById('instAccordion');
+                const content = instAcc.querySelector('.accordion-content');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+
+        // એકોર્ડિયન ઓપન/ક્લોઝ ફંક્શન
+        function toggleAccordion(element) {
+            const item = element.parentElement;
+            const content = item.querySelector('.accordion-content');
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = "0px";
+            }
+        }
+    </script>
+</body>
+</html>
