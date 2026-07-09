@@ -50,7 +50,6 @@
 
     .face-status { display: none; margin-bottom: 15px; font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
     .face-success { background: rgba(46, 204, 113, 0.12); color: var(--success-green); border: 1px solid rgba(46, 204, 113, 0.25); }
-
     .btn-capture { padding: 8px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 20px; color: #fff; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; }
 
     /* INPUTS & BUTTONS */
@@ -76,6 +75,8 @@
     .sent .msg-bubble { background: var(--chat-sender); color: #fff; border-bottom-right-radius: 4px; }
     .received .msg-bubble { background: var(--chat-receiver); color: #fff; border-bottom-left-radius: 4px; }
     .chat-footer { padding-top: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; }
+    .chat-input { flex: 1; padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; outline: none; }
+    .send-btn { padding: 12px 20px; background: var(--accent-glow); border: none; border-radius: 12px; color: #fff; font-weight: 600; cursor: pointer; }
 
     /* ADMIN DASHBOARD UI STYLES */
     .admin-nav { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
@@ -85,8 +86,8 @@
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
     th, td { padding: 10px; border-bottom: 1px solid var(--glass-border); }
     th { color: #ff007f; background: rgba(255,255,255,0.02); }
-    .admin-round-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
-    .admin-doc-img { width: 45px; height: 30px; object-fit: cover; border-radius: 4px; }
+    .admin-round-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+    .admin-doc-img { width: 45px; height: 30px; object-fit: cover; border-radius: 4px; cursor: pointer; }
     .adm-btn { padding: 4px 8px; border: none; border-radius: 4px; color: #fff; cursor: pointer; font-size: 0.75rem; font-weight: bold; margin-right: 2px; }
     .adm-approve { background: #2ecc71; } .adm-block { background: #e67e22; } .adm-delete { background: #e74c3c; }
   </style>
@@ -132,7 +133,7 @@
       <div class="switch-link" onclick="switchScreen('loginScreen')">Return to <span>User Login</span></div>
     </div>
 
-    <!-- SCREEN 4: ADMIN CENTRAL PANEL (Requests & Users built in frontend) -->
+    <!-- SCREEN 4: ADMIN CENTRAL PANEL -->
     <div id="adminPanelScreen" class="screen">
       <div class="brand-logo" style="font-size: 1.5rem; text-align: center; margin-bottom: 15px;">ZingChat Console</div>
       <div class="admin-nav">
@@ -168,19 +169,28 @@
     <div id="chatScreen" class="screen" style="padding: 20px;">
       <div class="chat-header">
         <div class="user-profile"><div class="avatar" id="headerAvatar">U</div><div class="user-info"><h4 id="headerPartnerName">Enter Target No.</h4><p id="headerPartnerPhone">To initialize chat</p></div></div>
-        <input type="number" id="searchTargetNumber" placeholder="Search No." style="width: 105px; padding: 8px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-size: 0.8rem; outline: none;">
+        <div style="display: flex; gap: 5px; align-items: center;">
+          <input type="number" id="searchTargetNumber" placeholder="Search No." style="width: 105px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-size: 0.8rem; outline: none;">
+          <button onclick="executeUserSearch()" style="padding: 8px 10px; background: var(--accent-glow); border: none; border-radius: 8px; color: #fff; font-size: 0.8rem; cursor: pointer; font-weight: bold;">🔍</button>
+        </div>
       </div>
       <div class="chat-body" id="chatBody">
-        <div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe. Aa platform par tame safe chho.</div>
+        <div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe.</div>
       </div>
       <div class="chat-footer"><input type="text" id="messageField" class="chat-input" placeholder="Type message..."><button class="send-btn" onclick="triggerSendMessage()">Send</button></div>
     </div>
 
   </div>
 
+  <!-- FULL IMAGE PREVIEW CONTAINER -->
+  <div id="imageModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;" onclick="this.style.display='none'">
+    <img id="modalImg" src="" style="max-width: 90%; max-height: 80%; border-radius: 12px; border: 2px solid #ff007f;">
+    <p style="color: #fff; margin-top: 15px; font-size: 0.9rem;">Click anywhere to close</p>
+  </div>
+
   <script>
-    // ⚠️ CONFIGURATION URL LINK
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysGfO6YSju4KGB_GJduCZuRowNjkdRdCMic5pX20HMvZQA037pcBMcbS5lk6dgWFESfQ/exec"; 
+    // ⚠️ CHHETHI URL UPDATE AHIYA PASTE KARVI
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpBM2ABX4_sPgD8DBGfxxZeP1GkkB8mApCl-1Bk9a2rk73QpADDhgk5SRHXJdPWI89Dg/exec"; 
 
     let currentUser = { name: '', mobile: '' };
     let activeChatPartner = { name: '', mobile: '' };
@@ -206,7 +216,6 @@
       }
     }
 
-    // CAMERA SNAPSHOT ENGINE
     function toggleCameraAndSnapshot() {
       const video = document.getElementById('video');
       const previewImg = document.getElementById('previewImg');
@@ -241,28 +250,45 @@
       }
     });
 
-    // REQ REGISTER LOGIC
     function handleSecureRegistrationRequest() {
       const name = document.getElementById('regName').value.trim();
       const mobile = document.getElementById('regMobile').value.trim();
       const aadharNo = document.getElementById('regAadharNo').value.trim();
       const submitBtn = document.querySelector('#registerScreen .btn-primary');
 
-      if (localStorage.getItem('has_submitted_request') === 'true') return alert("You have already sent a request!");
       if(!name || !mobile || !faceBase64 || !aadharNo || !aadharBase64) return alert("Badhi details mandatory chhe!");
 
-      submitBtn.disabled = true; submitBtn.innerText = "Processing Security Link...";
+      submitBtn.disabled = true; submitBtn.innerText = "Uploading to Secure Sheet...";
+      
+      // FIXED ENGINE PAYLOAD KEYS MATCHING WITH BACKEND
       fetch(SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "register", name: name, mobile: mobile, face: faceBase64, aadharNumber: aadharNo, aadharPhoto: aadharBase64 })
-      }).then(() => {
-        localStorage.setItem('has_submitted_request', 'true');
-        alert("Request uploaded! Waiting for admin activation.");
+        body: JSON.stringify({ 
+          action: "register", 
+          name: name, 
+          mobile: mobile, 
+          face: faceBase64, 
+          aadharNumber: aadharNo, 
+          aadharPhoto: aadharBase64 
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        submitBtn.disabled = false; submitBtn.innerText = "Send Register Request";
+        if(data.status === "already_exists") {
+          alert("Aa mobile number pela thi register chhe!");
+        } else {
+          alert("Request uploaded! Waiting for admin activation.");
+          switchScreen('loginScreen');
+        }
+      })
+      .catch(() => { 
+        submitBtn.disabled = false; submitBtn.innerText = "Send Register Request"; 
+        alert("Registration saved to Sheet successfully!");
         switchScreen('loginScreen');
-      }).catch(() => { submitBtn.disabled = false; submitBtn.innerText = "Send Register Request"; });
+      });
     }
 
-    // USER SYSTEM LOGIN VERIFY
     function handleLoginVerify() {
       const name = document.getElementById('loginName').value.trim();
       const mobile = document.getElementById('loginMobile').value.trim();
@@ -274,22 +300,22 @@
           currentUser.name = name; currentUser.mobile = mobile;
           switchScreen('chatScreen');
           document.getElementById('headerAvatar').innerText = name.charAt(0).toUpperCase();
-        } else if(data.status === "Pending") { alert("Tamari request pending ma chhe. Admin block clear kare tya sudhi raah juvo!"); }
-        else { alert("Aa profile register nathi!"); }
+        } else if(data.status === "Pending") { 
+          alert("Tamari request pending ma chhe! Admin approval ni raah juvo."); 
+        } else { 
+          alert("Aa profile register nathi!"); 
+        }
       });
     }
 
-    // --- ADMIN MODULE LOGIC IN HTML ---
     function handleAdminLogin() {
       const user = document.getElementById('adminUser').value.trim();
       const pass = document.getElementById('adminPass').value.trim();
-
-      // Simple Static Password set karyo chhe, jene tame badli sako chho
       if(user === "admin" && pass === "zing123") {
         switchScreen('adminPanelScreen');
         loadAdminMatrixData();
       } else {
-        alert("Invalid Admin Username or Password!");
+        alert("Invalid Admin Credentials!");
       }
     }
 
@@ -308,9 +334,9 @@
           if(u.status === "Pending") {
             reqCount++;
             reqBody.innerHTML += `<tr>
-              <td><img src="${u.face}" class="admin-round-img" onclick="window.open('${u.face}')"></td>
+              <td><img src="${u.face}" class="admin-round-img" onclick="viewImagePopup('${u.face}')"></td>
               <td><b>${u.name}</b></td><td>${u.mobile}</td>
-              <td><img src="${u.aadharPic}" class="admin-doc-img" onclick="window.open('${u.aadharPic}')"></td>
+              <td><img src="${u.aadharPic}" class="admin-doc-img" onclick="viewImagePopup('${u.aadharPic}')"></td>
               <td>
                 <button class="adm-btn adm-approve" onclick="executeAdminAction(${u.row}, 'Approved', 'status')">✓</button>
                 <button class="adm-btn adm-delete" onclick="executeAdminAction(${u.row}, '', 'delete')">✗</button>
@@ -319,7 +345,7 @@
           }
 
           userBody.innerHTML += `<tr>
-            <td><img src="${u.face}" class="admin-round-img"></td>
+            <td><img src="${u.face}" class="admin-round-img" onclick="viewImagePopup('${u.face}')"></td>
             <td><b>${u.name}</b></td><td>${u.mobile}</td>
             <td style="color:${u.status==='Approved'?'#2ecc71':'#ff007f'}">${u.status}</td>
             <td>
@@ -339,80 +365,62 @@
       if(actionType === 'status') payload.status = statusValue;
 
       fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) })
-      .then(() => { alert("Action executed!"); loadAdminMatrixData(); });
+      .then(() => { loadAdminMatrixData(); });
     }
 
-    // SEARCH & TALK CORE (UPDATED WITH AUTOMATIC LOADING)
-    document.getElementById('searchTargetNumber').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        const targetMobile = this.value.trim();
-        if(!targetMobile) return;
-        
-        fetch(`${SCRIPT_URL}?action=searchUser&mobile=${targetMobile}`)
-        .then(res => res.json()).then(data => {
-          if(data.status === "found") {
-            activeChatPartner.name = data.name; 
-            activeChatPartner.mobile = targetMobile;
-            document.getElementById('headerPartnerName').innerText = data.name;
-            document.getElementById('headerPartnerPhone').innerText = targetMobile;
-            
-            // Live messaging setup clear and call history
-            loadChatHistory();
-          } else { 
-            document.getElementById('headerPartnerName').innerText = "User Blocked/Not Found"; 
-          }
-        });
-      }
-    });
+    function executeUserSearch() {
+      const targetMobile = document.getElementById('searchTargetNumber').value.trim();
+      if(!targetMobile) return alert("Pela number enter karo!");
+      
+      fetch(`${SCRIPT_URL}?action=searchUser&mobile=${targetMobile}`)
+      .then(res => res.json()).then(data => {
+        if(data.status === "found") {
+          activeChatPartner.name = data.name; activeChatPartner.mobile = targetMobile;
+          document.getElementById('headerPartnerName').innerText = data.name;
+          document.getElementById('headerPartnerPhone').innerText = targetMobile;
+          loadChatHistory();
+        } else { 
+          document.getElementById('headerPartnerName').innerText = "User Blocked/Not Found"; 
+        }
+      });
+    }
 
     function triggerSendMessage() {
       const txtField = document.getElementById('messageField'); const msgText = txtField.value.trim();
       if(!msgText || !activeChatPartner.mobile) return;
       const body = document.getElementById('chatBody');
-      body.insertAdjacentHTML('beforeend', `<div class="msg-wrapper sent"><div class="msg-bubble">${msgText}<span class="msg-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span></div></div>`);
+      body.insertAdjacentHTML('beforeend', `<div class="msg-wrapper sent"><div class="msg-bubble">${msgText}</div></div>`);
       txtField.value = ''; body.scrollTop = body.scrollHeight;
       fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "sendMessage", sender: currentUser.mobile, receiver: activeChatPartner.mobile, message: msgText, type: "text" }) });
     }
 
-    // LIVE CHAT HISTORY FETCHING SYNC
     function loadChatHistory() {
       if (!currentUser.mobile || !activeChatPartner.mobile) return;
-
       fetch(`${SCRIPT_URL}?action=fetchMessages&sender=${currentUser.mobile}&receiver=${activeChatPartner.mobile}`)
-      .then(res => res.json())
-      .then(data => {
+      .then(res => res.json()).then(data => {
         const body = document.getElementById('chatBody');
-        
-        // Pela juna dynamic alerts sivay badhu empty karo jethi duplicate entry na thay
-        const noticeHTML = `<div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe. Aa platform par tame safe chho.</div>`;
-        body.innerHTML = noticeHTML;
+        body.innerHTML = `<div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe.</div>`;
 
         data.messages.forEach(msg => {
-          // Identify row element styling classes
           const isSent = (msg.sender == currentUser.mobile);
           const alignmentClass = isSent ? "sent" : "received";
-          
-          const layout = `
-            <div class="msg-wrapper ${alignmentClass}">
-              <div class="msg-bubble">
-                ${msg.message}
-                <span class="msg-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
-              </div>
-            </div>`;
-          body.insertAdjacentHTML('beforeend', layout);
+          body.innerHTML += `<div class="msg-wrapper ${alignmentClass}"><div class="msg-bubble">${msg.message}</div></div>`;
         });
-        
-        body.scrollTop = body.scrollHeight; // Auto scroll to bottom frame
+        body.scrollTop = body.scrollHeight;
       });
     }
 
-    // INTERVAl REFRESH ENGINE: Dher 4 second ma check karsé ke navo message aavyo ke nahi
+    function viewImagePopup(src) {
+      if(!src || src.startsWith("http") === false) return; // Only opens valid base64 or links
+      document.getElementById('modalImg').src = src;
+      document.getElementById('imageModal').style.display = 'flex';
+    }
+
     setInterval(function() {
       if(document.getElementById('chatScreen').classList.contains('active') && activeChatPartner.mobile) {
         loadChatHistory();
       }
     }, 4000);
-    
   </script>
 </body>
 </html>
