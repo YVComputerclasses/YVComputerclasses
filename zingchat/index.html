@@ -96,11 +96,11 @@
 
   <div class="app-container">
 
-    <!-- SCREEN 1: LOGIN -->
+    <!-- SCREEN 1: LOGIN (UPDATED: ONLY MOBILE NUMBER) -->
     <div id="loginScreen" class="screen form-container active">
       <div class="brand-logo">ZingChat</div>
-      <div class="brand-subtitle">Enter details to Login securely</div>
-      <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="Your Name"></div>
+      <div class="brand-subtitle">Enter Mobile Number to Login securely</div>
+      <!-- Name input box bad nikal diya hai -->
       <div class="input-group"><input type="number" id="loginMobile" class="input-field" placeholder="Mobile Number"></div>
       <button class="btn-primary" onclick="handleLoginVerify()">Login Securely</button>
       <div class="switch-link" onclick="switchScreen('registerScreen')">New User? <span>Create Account</span></div>
@@ -165,10 +165,22 @@
       </div>
     </div>
 
-    <!-- SCREEN 5: SECURE CHAT HUB -->
+    <!-- SCREEN 5: SECURE CHAT HUB (UPDATED WITH LOGOUT BUTTON) -->
     <div id="chatScreen" class="screen" style="padding: 20px;">
       <div class="chat-header">
-        <div class="user-profile"><div class="avatar" id="headerAvatar">U</div><div class="user-info"><h4 id="headerPartnerName">Enter Target No.</h4><p id="headerPartnerPhone">To initialize chat</p></div></div>
+        <div class="user-profile">
+          <div class="avatar" id="headerAvatar">Z</div>
+          <div class="user-info">
+            <h4 id="headerPartnerName">Enter Target No.</h4>
+            <p id="headerPartnerPhone">To initialize chat</p>
+          </div>
+        </div>
+        
+        <!-- REDIRECT LOGOUT BUTTON NEXT TO SEARCH BOX -->
+        <button onclick="handleChatLogoutRedirect()" style="padding: 8px 14px; background: rgba(231, 76, 60, 0.15); border: 1px solid #e74c3c; border-radius: 12px; color: #e74c3c; font-size: 0.8rem; cursor: pointer; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 4px;">
+          Logout 🚪
+        </button>
+
         <div style="display: flex; gap: 5px; align-items: center;">
           <input type="number" id="searchTargetNumber" placeholder="Search No." style="width: 105px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-size: 0.8rem; outline: none;">
           <button onclick="executeUserSearch()" style="padding: 8px 10px; background: var(--accent-glow); border: none; border-radius: 8px; color: #fff; font-size: 0.8rem; cursor: pointer; font-weight: bold;">🔍</button>
@@ -289,23 +301,34 @@
       });
     }
 
+    // USER SYSTEM LOGIN VERIFY (ONLY WITH MOBILE NUMBER)
     function handleLoginVerify() {
-      const name = document.getElementById('loginName').value.trim();
       const mobile = document.getElementById('loginMobile').value.trim();
-      if(!name || !mobile) return alert("Details fill karo!");
+      if(!mobile) return alert("Mobile number enter karo!");
+
+      // Jo local cache ma pela thi approved hoy to direct bypass
+      if (localStorage.getItem('zingchat_status_' + mobile) === "Approved") {
+        currentUser.name = "User"; // Default dummy name set karyu chhe
+        currentUser.mobile = mobile;
+        switchScreen('chatScreen');
+        document.getElementById('headerAvatar').innerText = "Z"; // Profile Avatar text
+        return;
+      }
 
       fetch(`${SCRIPT_URL}?action=checkStatus&mobile=${mobile}`)
       .then(res => res.json()).then(data => {
         if(data.status === "Approved") {
-          currentUser.name = name; currentUser.mobile = mobile;
+          localStorage.setItem('zingchat_status_' + mobile, "Approved");
+          currentUser.name = "User"; 
+          currentUser.mobile = mobile;
           switchScreen('chatScreen');
-          document.getElementById('headerAvatar').innerText = name.charAt(0).toUpperCase();
+          document.getElementById('headerAvatar').innerText = "Z";
         } else if(data.status === "Pending") { 
-          alert("Tamari request pending ma chhe! Admin approval ni raah juvo."); 
+          alert("Tamari request pending ma chhe. Admin block clear kare tya sudhi raah juvo!"); 
         } else { 
-          alert("Aa profile register nathi!"); 
+          alert("Aa profile register nathi! Create Account par click karo."); 
         }
-      });
+      }).catch(() => alert("Verification connection timed out. Retry."));
     }
 
     function handleAdminLogin() {
@@ -421,6 +444,30 @@
         loadChatHistory();
       }
     }, 4000);
+
+
+    // CHAT LOGOUT & CLEAN REDIRECT
+function handleChatLogoutRedirect() {
+  // Clear active chat partner references so background interval won't crash
+  activeChatPartner.name = '';
+  activeChatPartner.mobile = '';
+  
+  // Reset input boxes and placeholder text values back to default
+  document.getElementById('headerPartnerName').innerText = "Enter Target No.";
+  document.getElementById('headerPartnerPhone').innerText = "To initialize chat";
+  document.getElementById('searchTargetNumber').value = '';
+  
+  // Flush previous message bubbles from DOM grid
+  document.getElementById('chatBody').innerHTML = `
+    <div class="security-notice">🔒 <b>100% Security Alert & Privacy Assurance</b><br>Tamari chat completely encrypted chhe. Aa platform par tame safe chho.</div>`;
+  
+  // Optional: Jo tame user nu automatic mobile number login cache clear karva mangta hoy to niche ni line un-comment karjo
+  // localStorage.removeItem('zingchat_status_' + currentUser.mobile);
+  
+  // Instant router push back to User Mobile Login Page
+  switchScreen('loginScreen'); // Redirects back to Screen 1 instantly
+}
+    
   </script>
 </body>
 </html>
