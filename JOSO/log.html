@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Glassmorphism Login Page</title>
+  
+  <!-- Google Fonts & Remix Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism Card Effect & Entrance Animation */
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      color: #fff;
+      
+      /* Scale & Fade Animation on Page Load */
+      animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Card Shake Animation for Error */
+    .login-card.shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .card-header h2 {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .card-header p {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-top: 5px;
+    }
+
+    /* Floating Label Inputs */
+    .input-group {
+      position: relative;
+      margin-bottom: 24px;
+      /* Staggered entrance animation for inputs */
+      animation: fadeInStagger 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .input-group:nth-child(1) { animation-delay: 0.2s; }
+    .input-group:nth-child(2) { animation-delay: 0.35s; }
+
+    @keyframes fadeInStagger {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      opacity: 0.7;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 42px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      outline: none;
+      color: #fff;
+      font-size: 15px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .input-group input:focus {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Input Validation Error Border */
+    .input-group input.invalid-input {
+      border-color: #ff4d4d !important;
+      background: rgba(255, 77, 77, 0.15) !important;
+      box-shadow: 0 0 10px rgba(255, 77, 77, 0.4) !important;
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 42px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    /* Required Asterisk Marker Style */
+    .req-star {
+      color: #ff7676;
+      font-weight: bold;
+    }
+
+    /* Animated Label Logic */
+    .input-group input:focus ~ label,
+    .input-group input:not(:placeholder-shown) ~ label {
+      top: -8px;
+      left: 12px;
+      font-size: 12px;
+      background: rgba(124, 58, 237, 0.95);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #fff;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      z-index: 1;
+    }
+
+    .toggle-password:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Options */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 24px;
+      animation: fadeInStagger 0.6s ease-out 0.45s forwards;
+      opacity: 0;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .remember-me input {
+      accent-color: #7c3aed;
+      cursor: pointer;
+    }
+
+    .forgot-pass {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .forgot-pass:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* Button Ripple/Hover Effects */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #fff;
+      color: #4f46e5;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeInStagger 0.6s ease-out 0.55s forwards;
+      opacity: 0;
+    }
+
+    .login-btn:hover {
+      background: #ffffff;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-btn:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    /* Signup Link */
+    .signup-text {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .signup-text a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card" id="loginCard">
+    <div class="card-header">
+      <h2>Jangid Online Services</h2>
+      <p>Tamara account ma login karo</p>
+    </div>
+
+    <form id="loginForm" novalidate>
+      
+      <!-- Username / Email Field -->
+      <div class="input-group">
+        <i class="ri-user-line input-icon"></i>
+        <input type="text" id="username" required minlength="3" autocomplete="off" placeholder=" ">
+        <label for="username">Username / Email <span class="req-star">*</span></label>
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-group">
+        <i class="ri-lock-password-line input-icon"></i>
+        <input type="password" id="password" required minlength="4" placeholder=" ">
+        <label for="password">Password <span class="req-star">*</span></label>
+        <i class="ri-eye-off-line toggle-password" id="togglePassword"></i>
+      </div>
+
+      <!-- Remember & Forgot Password -->
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot-pass">Forgot password?</a>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="login-btn" id="loginBtn">
+        <span id="btnText">Login</span>
+        <i class="ri-arrow-right-line" id="btnIcon"></i>
+      </button>
+
+      <!-- Signup redirect -->
+      <div class="signup-text">
+        Account nathi? <a href="#">Naya account mate register karo</a>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const togglePassword = document.querySelector("#togglePassword");
+      const passwordInput = document.querySelector("#password");
+      const usernameInput = document.querySelector("#username");
+      const loginForm = document.querySelector("#loginForm");
+      const loginCard = document.querySelector("#loginCard");
+      const btnText = document.querySelector("#btnText");
+      const btnIcon = document.querySelector("#btnIcon");
+
+      // Replace this with your Google Apps Script Web App URL
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVobAW-VklCjtTy7UkB5fvgb0WjFF9KgiI6d_rvsgs8fZkK1H_jK4eshxNnhCyN9F1vQ/exec";
+
+      // Password Toggle (Show/Hide Animation)
+      togglePassword.addEventListener("click", () => {
+        const isPassword = passwordInput.getAttribute("type") === "password";
+        passwordInput.setAttribute("type", isPassword ? "text" : "password");
+        
+        togglePassword.classList.toggle("ri-eye-line", isPassword);
+        togglePassword.classList.toggle("ri-eye-off-line", !isPassword);
+      });
+
+      // Clear Error Highlight when User Starts Typing
+      [usernameInput, passwordInput].forEach(input => {
+        input.addEventListener("input", () => {
+          input.classList.remove("invalid-input");
+        });
+      });
+
+      // Form Submission with Validation & Error Animations
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        let isValid = true;
+
+        // Requirement Checks
+        if (!usernameInput.value.trim() || usernameInput.value.trim().length < 3) {
+          usernameInput.classList.add("invalid-input");
+          isValid = false;
+        }
+
+        if (!passwordInput.value.trim() || passwordInput.value.trim().length < 4) {
+          passwordInput.classList.add("invalid-input");
+          isValid = false;
+        }
+
+        // If inputs are invalid -> Trigger Shake Animation
+        if (!isValid) {
+          triggerShake();
+          return;
+        }
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // Loading State
+        btnText.textContent = "Verifying...";
+        btnIcon.className = "ri-loader-4-line ri-spin";
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ username: username, password: password })
+          });
+
+          const result = await response.json();
+
+          if (result.status === "success") {
+            // Save User Session
+            localStorage.setItem("userRole", result.role);
+            localStorage.setItem("userLocation", result.location);
+            localStorage.setItem("username", result.username);
+
+            alert(`Login Successful!\nRole: ${result.role}\nLocation: ${result.location}`);
+
+            // Redirect based on role fetched from Google Sheet
+            if (result.role === "Admin") {
+              window.location.href = "admin-dashboard.html";
+            } else {
+              window.location.href = "operator-dashboard.html";
+            }
+          } else {
+            triggerShake();
+            alert(result.message);
+          }
+        } catch (err) {
+          triggerShake();
+          alert("Connection error! Google Sheet connect nathi thai rahyu.");
+          console.error(err);
+        } finally {
+          btnText.textContent = "Login";
+          btnIcon.className = "ri-arrow-right-line";
+        }
+      });
+
+      // Trigger Card Shake Effect
+      function triggerShake() {
+        loginCard.classList.add("shake");
+        setTimeout(() => {
+          loginCard.classList.remove("shake");
+        }, 400);
+      }
+    });
+  </script>
+
+</body>
+</html>
