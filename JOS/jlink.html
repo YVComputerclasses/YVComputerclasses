@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --input-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme {
+            --bg-color: #f1f5f9;
+            --text-color: #0f172a;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
+            --input-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 25px 20px;
+        }
+
+        /* Top Bar */
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Search Box */
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 260px;
+            padding: 9px 15px 9px 38px;
+            font-size: 14px;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .shortcut-badge {
+            position: absolute;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-color);
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Cards Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+        }
+
+        .card img {
+            width: 100%;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 8px 0;
+            background: var(--accent-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        @media (max-width: 600px) {
+            .header-container { flex-direction: column; align-items: stretch; }
+            .search-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header-container">
+        <div class="brand-title">
+            <i class="fa-solid fa-gauge-high" style="color: var(--accent-color);"></i>
+            <h1>Personal Dashboard</h1>
+        </div>
+        <div class="controls">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-box" placeholder="Short name & Enter..." onkeyup="filterCards()" onkeypress="handleSearch(event)">
+                <span class="shortcut-badge">/</span>
+            </div>
+            <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+        </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid-container" id="cardsGrid">
+        <div class="card" data-short="aadhar"><img src="https://via.placeholder.com/200x110?text=Aadhaar" alt="Aadhaar"><h3>આધાર કાર્ડ</h3><a href="https://myaadhaar.uidai.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="pan"><img src="https://via.placeholder.com/200x110?text=PAN" alt="PAN"><h3>પાન કાર્ડ</h3><a href="https://www.onlineservices.nsdl.com/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="voter"><img src="https://via.placeholder.com/200x110?text=Voter" alt="Voter"><h3>મતદાર કાર્ડ</h3><a href="https://voters.eci.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="ration"><img src="https://via.placeholder.com/200x110?text=Ration" alt="Ration"><h3>રાશન કાર્ડ</h3><a href="https://dcs-d測.gujarat.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="dl"><img src="https://via.placeholder.com/200x110?text=DL" alt="DL"><h3>ડ્રાઇવિંગ લાયસન્સ</h3><a href="https://parivahan.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="passport"><img src="https://via.placeholder.com/200x110?text=Passport" alt="Passport"><h3>પાસપોર્ટ</h3><a href="https://www.passportindia.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="ayushman"><img src="https://via.placeholder.com/200x110?text=Ayushman" alt="Ayushman"><h3>આયુષ્માન કાર્ડ</h3><a href="https://beneficiary.nha.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="shram"><img src="https://via.placeholder.com/200x110?text=E-Shram" alt="E-Shram"><h3>ઈ-શ્રમ કાર્ડ</h3><a href="https://eshram.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="birth"><img src="https://via.placeholder.com/200x110?text=Birth" alt="Birth"><h3>જન્મ પ્રમાણપત્ર</h3><a href="https://crsorgi.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+        <div class="card" data-short="property"><img src="https://via.placeholder.com/200x110?text=Property" alt="Property"><h3>પ્રોપર્ટી ટેક્સ</h3><a href="https://e-nagar.gujarat.gov.in/" target="_blank" class="btn">ઓપન કરો</a></div>
+    </div>
+
+    <script>
+        const links = {
+            "aadhar": "https://myaadhaar.uidai.gov.in/",
+            "pan": "https://www.onlineservices.nsdl.com/",
+            "voter": "https://voters.eci.gov.in/",
+            "ration": "https://dcs-d測.gujarat.gov.in/",
+            "dl": "https://parivahan.gov.in/",
+            "passport": "https://www.passportindia.gov.in/",
+            "ayushman": "https://beneficiary.nha.gov.in/",
+            "shram": "https://eshram.gov.in/",
+            "birth": "https://crsorgi.gov.in/",
+            "property": "https://e-nagar.gujarat.gov.in/"
+        };
+
+        // Keyboard Shortcut: '/' to Focus Search
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+
+        // Search & Enter Redirection
+        function handleSearch(event) {
+            if (event.key === "Enter") {
+                const query = document.getElementById("searchInput").value.trim().toLowerCase();
+                if (links[query]) {
+                    window.open(links[query], "_blank");
+                    document.getElementById("searchInput").value = "";
+                    filterCards();
+                } else {
+                    alert("Short name મળ્યું નથી (જેમ કે: aadhar, pan, voter, dl).");
+                }
+            }
+        }
+
+        // Live Filter
+        function filterCards() {
+            const query = document.getElementById("searchInput").value.trim().toLowerCase();
+            const cards = document.querySelectorAll(".card");
+            cards.forEach(card => {
+                const shortName = card.getAttribute("data-short");
+                const title = card.querySelector("h3").innerText.toLowerCase();
+                card.style.display = (shortName.includes(query) || title.includes(query)) ? "flex" : "none";
+            });
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
+        // 1. Fullscreen Toggle Function
+function openFullscreen() {
+    let elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
+// પેજ લોડ થતાં જ ફૂલસ્ક્રીન કરવા માટે
+window.addEventListener('click', () => {
+    openFullscreen();
+});
+
+// 2. Lock / Exit Protection (Password System)
+const EXIT_PASSWORD = "1234"; // તમારો પાસવર્ડ અહીં બદલી શકો છો
+
+// જો યુઝર બહાર જવાનો કે ટેબ બંધ કરવાનો પ્રયત્ન કરે
+window.addEventListener('beforeunload', function (e) {
+    let userInput = prompt("વેબસાઇટ બંધ કરવા માટે પાસવર્ડ નાખો:");
+    if (userInput !== EXIT_PASSWORD) {
+        e.preventDefault();
+        e.returnValue = ''; // પેજ બંધ થવા દેશે નહીં
+    }
+});
+
+// Esc કી દબાવીને ફૂલસ્ક્રીન માંથી બહાર ન નીકળી શકે તે માટે
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        let password = prompt("ફૂલસ્ક્રીનમાંથી બહાર નીકળવા માટે પાસવર્ડ નાખો:");
+        if (password === EXIT_PASSWORD) {
+            alert("Unlocked!");
+        } else {
+            alert("ખોટો પાસવર્ડ!");
+            openFullscreen(); // પાછું ફૂલસ્ક્રીન કરી દેશે
+        }
+    }
+});
+    </script>
+</body>
+</html>
