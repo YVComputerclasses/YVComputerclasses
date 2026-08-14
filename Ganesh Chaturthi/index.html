@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>શ્રી ગણેશ મહોત્સવ - ડિજિટલ દર્શન</title>
+    <title>વિઘ્નહર્તા ગજાનન</title>
+    <link rel="icon" type="image/png" href="image/Logo1.jpg">
+
+    <!-- PWA Manifest Link -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d35400">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -11,7 +20,7 @@
             --gold: #ffc107;
             --gold-glow: #ffe082;
             --bg-dark: #120902;
-            --card-bg: rgba(35, 18, 8, 0.8);
+            --card-bg: rgba(35, 18, 8, 0.85);
         }
 
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; transition: all 0.3s ease; }
@@ -29,16 +38,16 @@
         #canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
 
         nav {
-            background: rgba(20, 10, 5, 0.9);
+            background: rgba(20, 10, 5, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 193, 7, 0.2);
             position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: center; gap: 8px; padding: 10px; flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 6px; padding: 10px 5px; flex-wrap: wrap;
         }
 
         .nav-btn {
             background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.85em;
+            padding: 7px 12px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.82em;
         }
 
         .nav-btn.active, .nav-btn:hover {
@@ -75,6 +84,39 @@
 
         .card h2 { color: var(--gold); border-bottom: 1px solid rgba(255, 193, 7, 0.2); padding-bottom: 8px; margin-top: 0; font-size: 1.2em; }
 
+        /* ૧૬:૯ રેશિયો સાથે મોબાઈલ ફ્રેન્ડલી વિડીયો પ્લેયર */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+    background: #000;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px; margin-top: 10px;
+        }
+        .gallery-item {
+            width: 100%; height: 110px; object-fit: cover;
+            border-radius: 8px; border: 2px solid rgba(255, 193, 7, 0.4);
+            cursor: pointer; transition: transform 0.2s ease;
+        }
+        .gallery-item:hover { transform: scale(1.04); border-color: var(--gold); }
+
         /* Interactive Aarti Arena */
         .aarti-arena {
             position: relative; width: 100%; height: 260px;
@@ -92,33 +134,112 @@
             box-shadow: 0 0 20px #ff9800; display: flex; justify-content: center; align-items: center; font-size: 24px;
         }
 
-        /* Wish Box Styles */
         .wish-item { background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; margin-top: 6px; font-size: 0.9em; border-left: 3px solid var(--gold); text-align: left; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+
+        /* 🌟 SMART ADVERTISEMENT POPUP STYLING 🌟 */
+        .ad-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); z-index: 1000;
+            justify-content: center; align-items: center; padding: 15px;
+        }
+
+        .ad-card {
+            background: linear-gradient(145deg, #241103, #120701);
+            border: 2px solid var(--gold); border-radius: 20px;
+            max-width: 420px; width: 100%; padding: 22px; text-align: center;
+            position: relative; box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
+            animation: adPop 0.35s ease;
+        }
+
+        @keyframes adPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .ad-badge {
+            background: var(--gold); color: #000; font-weight: bold; font-size: 0.75em;
+            padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 8px;
+        }
+
+        .ad-close-btn {
+            position: absolute; top: 10px; right: 12px; background: rgba(255,255,255,0.15);
+            border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%;
+            cursor: pointer; font-size: 16px;
+        }
+        .ad-close-btn:hover { background: #d32f2f; }
+
+        .ad-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+
+        .ad-action-link {
+            flex: 1; padding: 10px; border-radius: 8px; text-decoration: none;
+            font-weight: bold; font-size: 0.9em; display: inline-block;
+        }
     </style>
 </head>
 <body>
 
     <canvas id="canvas"></canvas>
 
+    <!-- 🌟 SPONSOR / SHOP ADVERTISEMENT POPUP 🌟 -->
+    <div id="adModal" class="ad-modal">
+        <div class="ad-card">
+            <button class="ad-close-btn" onclick="closeAd()">✕</button>
+            <span class="ad-badge">🌟 Advertisement</span>
+            
+            <h2 style="color: var(--gold); margin: 6px 0; font-size: 1.45em;">જાંગીડ ઓનલાઈન સેવાઓ</h2>
+            <p style="color: #ffe0b2; margin: 5px 0 12px 0; font-size: 0.9em;">તમામ પ્રકારની ઓનલાઇન સરકારી સેવાઓ, પાનકાર્ડ, કલર પ્રિન્ટિંગ, આધાર સેવાઓ માટે સંપર્ક કરો.</p>
+
+            <div style="background: rgba(255, 193, 7, 0.08); border: 1px dashed var(--gold); border-radius: 10px; padding: 10px; margin: 10px 0; text-align: left; font-size: 0.85em; color: #ffecb3;">
+                ✔ પાનકાર્ડ / આધારકાર્ડ સેવાઓ<br>
+                ✔ ઓનલાઇન ફોર્મ & લાઈટ બિલ પેમેન્ટ<br>
+                ✔ કલર પ્રિન્ટિંગ, ઝેરોક્ષ & લેમિનેશન
+            </div>
+
+            <p style="font-size: 0.82em; color: #bbb; margin: 8px 0;"><i class="fa-solid fa-location-dot" style="color:var(--primary);"></i> ચોરા પાસે, નરસંડા.</p>
+
+            <div class="ad-btn-group">
+                <a href="tel:+919426959052" class="ad-action-link" style="background:#27ae60; color:white;">
+                    <i class="fa-solid fa-phone"></i> કોલ કરો
+                </a>
+                <a href="https://wa.me/919426959052?text=Hello" target="_blank" class="ad-action-link" style="background:#25D366; color:white;">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+
+            <button onclick="closeAd()" style="background: transparent; border: none; color: #aaa; font-size: 0.8em; margin-top: 10px; cursor: pointer; text-decoration: underline;">
+                દર્શન આગળ વધારો 👉
+            </button>
+        </div>
+    </div>
+
     <!-- NAVIGATION TABS -->
     <nav>
         <button class="nav-btn active" onclick="switchTab('home')">🏠 હોમ</button>
-        <button class="nav-btn" onclick="switchTab('aarti-tab')">🪔 આરતી</button>
+        <button class="nav-btn" onclick="switchTab('live-darshan')">📹 લાઈવ દર્શન</button>
+        <button class="nav-btn" onclick="switchTab('gallery')">🖼️ ગેલેરી</button>
+        <button class="nav-btn" onclick="switchTab('aarti-tab')">🪔 થાળી આરતી</button>
         <button class="nav-btn" onclick="switchTab('photo-frame')">📸 સેલ્ફી</button>
         <button class="nav-btn" onclick="switchTab('wishes')">💬 મનોકામના</button>
-        <button class="nav-btn" onclick="switchTab('admin')">🔐 એડમિન</button>
+        <!-- <button class="nav-btn" onclick="window.location.href='admin.html'">🔐 એડમિન</button> -->
     </nav>
 
     <div class="container">
 
         <!-- HEADER -->
         <div class="header">
-            <h1>🚩 શ્રી ગણેશ યુવક મંડળ 🚩</h1>
-            <p style="color: #ffcc80; margin: 5px 0 0 0;">ડિજિટલ ગણેશોત્સવ ૨૦૨૬</p>
+            <h1>🚩 વિઘ્નહર્તા ગજાનન 🚩</h1>
+            <p style="color: #ffcc80; margin: 5px 0 0 0;">ગણેશોત્સવ ૨૦૨૬</p>
         </div>
+
+        <!-- DOWNLOAD / INSTALL APP BUTTON -->
+<div style="text-align: center; margin: 10px 0;">
+    <button id="installAppBtn" class="action-btn" style="display: none; margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5);">
+        📲 એપ ડાઉનલોડ કરો (Install App)
+    </button>
+</div>
 
         <!-- POOJA RITUAL BUTTONS -->
         <div class="pooja-zone">
@@ -128,41 +249,80 @@
 
         <!-- ================= TAB 1: HOME ================= -->
         <div id="home" class="tab-content active">
-            <!-- DAILY SHLOK -->
             <div class="card" style="background: rgba(255, 193, 7, 0.08);">
-                <p style="margin:0; color: var(--gold-glow); font-style: italic;">✨ <b>આજનો બોધ:</b> "વક્રતુણ્ડ મહાકાય સૂર્યકોટિ સમપ્રભ। નિર્વિઘ્નં કુરુ મે દેવ સર્વકાર્યેષુ સર્વદા॥"</p>
+                <p style="margin:0; color: var(--gold-glow); font-style: italic;">✨ <b>બોધ:</b> "વક્રતુણ્ડ મહાકાય સૂર્યકોટિ સમપ્રભ। નિર્વિઘ્નં કુરુ મે દેવ સર્વકાર્યેષુ સર્વદા॥"</p>
             </div>
 
             <div class="card">
-                <h2>🙏 આજની લાઈવ સેવા & આરતી</h2>
-                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">08:00 AM</span></p>
-                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">07:30 PM</span></p>
+                <h2>🙏 લાઈવ સેવા & આરતી</h2>
+                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">અપડેટ બાકી</span></p>
+                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">અપડેટ બાકી</span></p>
                 <hr style="border-color: rgba(255,255,255,0.1);">
                 <p><b>🍎 આજનો મહાપ્રસાદ સેવા:</b></p>
-                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">રમેશભાઈ પટેલ (A-101)</p>
+                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">અપડેટ બાકી</p>
             </div>
 
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=mandal@upi" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px;">
-                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
+                <img src="" alt="QR Code For UPI Payment" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px;">
+                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: </p>
             </div>
         </div>
 
-        <!-- ================= TAB 2: INTERACTIVE AARTI ================= -->
+        <!-- ================= TAB 2: LIVE DARSHAN ================= -->
+<div id="live-darshan" class="tab-content">
+    <div class="card">
+        <h2>🔴 લાઈવ આરતી દર્શન પ્રસારણ</h2>
+        <p style="font-size: 0.85em; color: #ffe0b2; margin-bottom: 12px;">
+            સોસાયટીના ગણેશ મંડપમાંથી સીધા લાઈવ દર્શન:
+        </p>
+
+        <!-- LIVE STREAM VIDEO CONTAINER -->
+        <div class="video-container">
+            <!-- ⚠️ નીચે જ્યાં UCxxxxxxxxxxxxxxxxxxxxxx છે ત્યાં તમારી YouTube Channel ID નાખો -->
+            <iframe 
+                src="https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxxxxxxxxxxxxxxxx&autoplay=1&mute=0" 
+                title="Ganesh Live Darshan" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div style="background: rgba(255, 193, 7, 0.08); border-radius: 8px; padding: 10px; margin-top: 12px; font-size: 0.8em; color: #ccc;">
+             <p style="margin: 0;">⏰ <b>આરતીનો સમય:</b> <!-- સવારે ૦૮:૦૦ વાગ્યે અને સાંજે ૦૭:૩૦ વાગ્યે -->અપડેટ બાકી </p>
+            <p style="margin: 4px 0 0 0; color: #ffeb3b;">*લાઈવ પ્રસારણ શરૂ થતાં જ વિડીયો આપમેળે ચાલુ થઈ જશે.</p>
+        </div>
+    </div>
+</div>
+
+        <!-- ================= TAB 3: PHOTO GALLERY ================= -->
+        <div id="gallery" class="tab-content">
+            <div class="card">
+                <h2>📸 મહોત્સવ ફોટો ગેલેરી</h2>
+                <div class="gallery-grid">
+                    <img src="https://via.placeholder.com/300x200?text=શણગાર+દર્શન" class="gallery-item" onclick="openFullImg(this.src)" alt="Decoration">
+                    <img src="https://via.placeholder.com/300x200?text=મહા+આરતી" class="gallery-item" onclick="openFullImg(this.src)" alt="Aarti">
+                    <img src="https://via.placeholder.com/300x200?text=બાળ+સ્પર્ધા" class="gallery-item" onclick="openFullImg(this.src)" alt="Event">
+                    <img src="https://via.placeholder.com/300x200?text=ગરબા+રાસ" class="gallery-item" onclick="openFullImg(this.src)" alt="Garba">
+                    <img src="https://via.placeholder.com/300x200?text=મહાપ્રસાદ" class="gallery-item" onclick="openFullImg(this.src)" alt="Prasad">
+                    <img src="https://via.placeholder.com/300x200?text=વિસર્જન+યાત્રા" class="gallery-item" onclick="openFullImg(this.src)" alt="Visarjan">
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: INTERACTIVE AARTI ================= -->
         <div id="aarti-tab" class="tab-content">
             <div class="card">
                 <h2>🪔 લાઇવ થાળી આરતી</h2>
                 <p style="font-size:0.8em; color:#ccc;">નીચે આપેલી થાળીને આંગળી અથવા માઉસથી પકડીને બાપ્પાની આસપાસ ગોળ ફેરવો!</p>
-                
                 <div class="aarti-arena" id="arena">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3588/3588658.png" class="bappa-img" alt="Bappa">
+                    <img src="" class="bappa-img" alt="Bappa">
                     <div class="thali" id="thali">🪔</div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= TAB 3: SELFIE FRAME GENERATOR ================= -->
+        <!-- ================= TAB 5: SELFIE FRAME GENERATOR ================= -->
         <div id="photo-frame" class="tab-content">
             <div class="card">
                 <h2>📸 "ગણેશજી સાથે મારી સેલ્ફી"</h2>
@@ -177,7 +337,7 @@
             </div>
         </div>
 
-        <!-- ================= TAB 4: DIGITAL WISH BOX ================= -->
+        <!-- ================= TAB 6: DIGITAL WISH BOX ================= -->
         <div id="wishes" class="tab-content">
             <div class="card">
                 <h2>💬 બાપ્પા માટે મનોકામના / પ્રાર્થના</h2>
@@ -191,22 +351,97 @@
             </div>
         </div>
 
-        <!-- ================= TAB 5: ADMIN ================= -->
-        <div id="admin" class="tab-content">
-            <div class="card">
-                <h2>🔐 એડમિન પેનલ</h2>
-                <p style="font-size:0.85em; color:#ccc;">ડેટાબેઝ અપડેટ કરવા માટે તમારો PIN નાખો:</p>
-                <input type="password" id="pinInput" placeholder="PIN (e.g. 1111)" style="width:70%; padding:8px; border-radius:5px; border:none;">
-                <button class="action-btn" style="margin:10px auto;" onclick="alert('તમારી Web App URL કનેક્ટ કરીને લોગિન કરો.')">Login</button>
-            </div>
-        </div>
-
     </div>
 
     <audio id="shankhAudio" src="https://assets.mixkit.co/active_storage/sfx/2874/2874-preview.mp3"></audio>
 
     <script>
-        // 1. TAB SWITCHING
+        const SCRIPT_URL = "તમારી_WEB_APP_URL_અહીં_મૂકો";
+
+        // Register Service Worker for PWA
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then((reg) => console.log("PWA Service Worker Registered!"))
+      .catch((err) => console.log("PWA Registration Failed:", err));
+  });
+}
+
+let deferredPrompt;
+const installBtn = document.getElementById('installAppBtn');
+
+// જ્યારે બ્રાઉઝર એપ ઇન્સ્ટોલ કરવા માટે તૈયાર હોય ત્યારે બટન દેખાશે
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // બટનને સ્ક્રીન પર બતાવો
+    if (installBtn) {
+        installBtn.style.display = 'flex';
+    }
+});
+
+// બટન પર ક્લિક થાય ત્યારે ઇન્સ્ટોલ પોપ-અપ ખોલવું
+if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('User installed the app');
+                installBtn.style.display = 'none';
+            }
+            deferredPrompt = null;
+        }
+    });
+}
+
+// એપ ઇન્સ્ટોલ થઈ ગયા પછી બટન છુપાવી દેવું
+window.addEventListener('appinstalled', () => {
+    if (installBtn) {
+        installBtn.style.display = 'none';
+    }
+});
+
+        // ================= 🌟 SMART AD SYSTEM 🌟 =================
+        let clickCounter = 0;
+        const CLICKS_PER_AD = 4;
+        let lastAdClosedTime = Date.now();
+        const AD_COOLDOWN_MS = 20000;
+
+        function showSmartAd() {
+            const modal = document.getElementById('adModal');
+            if (modal.style.display !== 'flex' && (Date.now() - lastAdClosedTime > AD_COOLDOWN_MS)) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeAd() {
+            document.getElementById('adModal').style.display = 'none';
+            lastAdClosedTime = Date.now();
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(showSmartAd, 1500);
+            fetchLiveSchedule();
+        });
+
+        setInterval(showSmartAd, 45000);
+
+        function trackUserClick() {
+            clickCounter++;
+            if (clickCounter >= CLICKS_PER_AD) {
+                showSmartAd();
+                clickCounter = 0;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const interactiveElements = document.querySelectorAll('.nav-btn, .action-btn, #imageLoader, .gallery-item, .thali');
+            interactiveElements.forEach(elem => elem.addEventListener('click', trackUserClick));
+        });
+
+        // ================= TAB SWITCHING =================
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -216,7 +451,24 @@
 
         function playShankh() { document.getElementById('shankhAudio').play(); }
 
-        // 2. INTERACTIVE THALI DRAG LOGIC
+        function openFullImg(src) { window.open(src, '_blank'); }
+
+        // ================= GOOGLE SHEETS LIVE DATA =================
+        async function fetchLiveSchedule() {
+            try {
+                let res = await fetch(SCRIPT_URL + "?action=getPublicData");
+                let data = await res.json();
+                document.getElementById('m-aarti').innerText = data.morningAarti || "માહિતી નથી";
+                document.getElementById('e-aarti').innerText = data.eveningAarti || "માહિતી નથી";
+                document.getElementById('sponsor').innerText = data.prasadSponsor || "માહિતી નથી";
+            } catch (err) {
+                document.getElementById('m-aarti').innerText = "08:00 AM";
+                document.getElementById('e-aarti').innerText = "07:30 PM";
+                document.getElementById('sponsor').innerText = "રમેશભાઈ પટેલ (A-101)";
+            }
+        }
+
+        // ================= INTERACTIVE THALI DRAG =================
         const thali = document.getElementById('thali');
         const arena = document.getElementById('arena');
         let isDragging = false;
@@ -244,7 +496,7 @@
         arena.addEventListener('mousemove', moveThali);
         arena.addEventListener('touchmove', moveThali);
 
-        // 3. WISH BOX SYSTEM
+        // ================= WISH BOX =================
         function addWish() {
             let name = document.getElementById('wishName').value;
             let msg = document.getElementById('wishText').value;
@@ -259,12 +511,11 @@
             document.getElementById('wishText').value = '';
         }
 
-        // 4. PHOTO FRAME CANVAS GENERATOR
+        // ================= SELFIE FRAME =================
         const imageLoader = document.getElementById('imageLoader');
         const frameCanvas = document.getElementById('frameCanvas');
         const ctxFrame = frameCanvas.getContext('2d');
 
-        // Draw initial frame text
         function drawFrameBorder() {
             ctxFrame.strokeStyle = "#ffc107";
             ctxFrame.lineWidth = 10;
@@ -299,7 +550,7 @@
             link.click();
         }
 
-        // 5. FLOWER SHOWER PARTICLES
+        // ================= FLOWER SHOWER =================
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
