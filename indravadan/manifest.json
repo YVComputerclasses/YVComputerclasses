@@ -1,6 +1,6 @@
 {
-  "name": "શ્રી ગણેશ મહોત્સવ",
-  "short_name": "ગણેશોત્સવ",
+  "name": "વિઘ્નહર્તા ગજાનન",
+  "short_name": "વિઘ્નહર્તા ગજાનન",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#120902",
@@ -8,14 +8,14 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3588/3588658.png",
+      "src": "image/img(192x192).jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3588/3588658.png",
+      "src": "image/img(512x512).jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ]
 }
