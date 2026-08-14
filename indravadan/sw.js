@@ -1,6 +1,6 @@
 // જૂનું: const CACHE_NAME = "ganesh-utsav-v1";
 // નવું:
-const CACHE_NAME = "ganesh-utsav-v2"; // વર્ઝન બદલવાથી નવો ડેટા ફેચ થશે
+const CACHE_NAME = "ganesh-utsav-v1"; // વર્ઝન બદલવાથી નવો ડેટા ફેચ થશે
 
 const ASSETS_TO_CACHE = [
   "./",

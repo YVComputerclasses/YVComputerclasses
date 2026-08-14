@@ -235,10 +235,32 @@
         </div>
 
         <!-- DOWNLOAD / INSTALL APP BUTTON -->
-<div style="text-align: center; margin: 10px 0;">
+<!-- <div style="text-align: center; margin: 10px 0;">
     <button id="installAppBtn" class="action-btn" style="display: none; margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5);">
         📲 એપ ડાઉનલોડ કરો (Install App)
     </button>
+</div> -->
+
+<!-- INSTANT INSTALL APP BUTTON -->
+<div style="text-align: center; margin: 12px 0;">
+    <button id="installAppBtn" class="action-btn" style="margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-weight: bold; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5); padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+        📲 એપ ડાઉનલોડ કરો (Install App)
+    </button>
+</div>
+
+<!-- MANUAL INSTALL GUIDE MODAL (જો બ્રાઉઝર ઓટો-પ્રોમ્પ્ટ સપોર્ટ ન કરે તો) -->
+<div id="installGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
+    <div style="background: #241103; border: 2px solid var(--gold); border-radius: 16px; max-width: 380px; width: 100%; padding: 20px; text-align: center; color: white;">
+        <h3 style="color: var(--gold); margin-top: 0;">📲 એપ ઇન્સ્ટોલ કરવાની રીત</h3>
+        <p style="font-size: 0.9em; line-height: 1.6; color: #ffe0b2; text-align: left;">
+            ૧. બ્રાઉઝરમાં ઉપર જમણી બાજુ રહેલા <b>૩ ટપકાં (⋮)</b> પર ક્લિક કરો.<br>
+            ૨. ત્યાં <b>"Install app"</b> અથવા <b>"Add to Home Screen"</b> પસંદ કરો.<br>
+            ૩. <b>Install</b> પર ક્લિક કરતાં જ તમારા મોબાઇલમાં એપ આવી જશે!
+        </p>
+        <button onclick="document.getElementById('installGuideModal').style.display='none'" style="background: var(--gold); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+            સમજાઈ ગયું 👍
+        </button>
+    </div>
 </div>
 
         <!-- POOJA RITUAL BUTTONS -->
@@ -368,39 +390,43 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-let deferredPrompt;
+let deferredPrompt = null;
 const installBtn = document.getElementById('installAppBtn');
+const guideModal = document.getElementById('installGuideModal');
 
-// જ્યારે બ્રાઉઝર એપ ઇન્સ્ટોલ કરવા માટે તૈયાર હોય ત્યારે બટન દેખાશે
+// ૧. બ્રાઉઝર જ્યારે ઇન્સ્ટોલ માટે રેડી થાય
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    // બટનને સ્ક્રીન પર બતાવો
-    if (installBtn) {
-        installBtn.style.display = 'flex';
-    }
+    console.log("PWA Install Prompt Captured!");
 });
 
-// બટન પર ક્લિક થાય ત્યારે ઇન્સ્ટોલ પોપ-અપ ખોલવું
+// ૨. બટન ક્લિક હેન્ડલર (તરત રિસ્પોન્સ આપશે)
 if (installBtn) {
     installBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
+            // જો ઓટોમેટિક પ્રોમ્પ્ટ તૈયાર હોય તો ડાયરેક્ટ સિસ્ટમ ડાયલોગ ખોલશે
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
             if (outcome === 'accepted') {
-                console.log('User installed the app');
                 installBtn.style.display = 'none';
             }
             deferredPrompt = null;
+        } else {
+            // જો બ્રાઉઝરે હજુ પ્રોમ્પ્ટ ન આપ્યો હોય (કે iOS/Safari હોય), તો મેન્યુઅલ ગાઇડ બતાવશે
+            guideModal.style.display = 'flex';
         }
     });
 }
 
-// એપ ઇન્સ્ટોલ થઈ ગયા પછી બટન છુપાવી દેવું
+// ૩. જો એપ પહેલેથી ઇન્સ્ટોલ થઈ ગયેલી હોય (Standalone Mode) તો બટન છુપાવો
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+    if (installBtn) installBtn.style.display = 'none';
+}
+
 window.addEventListener('appinstalled', () => {
-    if (installBtn) {
-        installBtn.style.display = 'none';
-    }
+    if (installBtn) installBtn.style.display = 'none';
+    if (guideModal) guideModal.style.display = 'none';
 });
 
         // ================= 🌟 SMART AD SYSTEM 🌟 =================
