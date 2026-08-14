@@ -1,4 +1,4 @@
-const CACHE_NAME = "ganesh-utsav-v1";
+const CACHE_NAME = "ganesh-utsav-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
