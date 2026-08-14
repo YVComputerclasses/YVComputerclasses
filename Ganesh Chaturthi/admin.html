@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>કાર્યકર્તા પોર્ટલ</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1e293b; color: white; margin: 0; padding: 0; text-align: center; }
+        nav { background: #0f172a; padding: 12px; display: flex; justify-content: center; gap: 15px; }
+        nav a { color: white; text-decoration: none; font-weight: bold; }
+        .card { background: #334155; padding: 20px; border-radius: 12px; max-width: 400px; margin: 20px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h2 { color: #f97316; margin-top: 0; }
+        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: none; font-size: 1em; box-sizing: border-box; }
+        input, select { background: #0f172a; color: white; border: 1px solid #475569; }
+        button { background: #f97316; color: white; font-weight: bold; cursor: pointer; }
+        .hidden { display: none; }
+        .status-msg { margin-top: 10px; font-weight: bold; color: #38bdf8; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="committee.html">Committee</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="admin.html">Admin</a>
+    </nav>
+
+    <h2>🚩 કાર્યકર્તા એડમિન પેનલ 🚩</h2>
+
+    <!-- LOGIN BOX -->
+    <div id="login-box" class="card">
+        <h3>PIN એન્ટર કરો</h3>
+        <input type="password" id="pin-input" placeholder="4-Digit PIN (e.g. 1111)">
+        <button onclick="login()">Login</button>
+        <div id="login-msg" class="status-msg"></div>
+    </div>
+
+    <!-- PRASAD FORM -->
+    <div id="prasad-form" class="card hidden">
+        <h3>🍎 પ્રસાદ અને આરતી અપડેટ</h3>
+        <input type="date" id="p-date">
+        <input type="text" id="p-m-aarti" placeholder="સવાર આરતી સમય (e.g. 08:00 AM)">
+        <input type="text" id="p-e-aarti" placeholder="સાંજ આરતી સમય (e.g. 07:30 PM)">
+        <input type="text" id="p-sponsor" placeholder="પ્રસાદ આપનારનું નામ અને ઘર નં.">
+        <button onclick="submitPrasad()">અપડેટ કરો</button>
+    </div>
+
+    <!-- DONATION FORM -->
+    <div id="donation-form" class="card hidden">
+        <h3>💰 ફાળો એન્ટ્રી (Internal Record)</h3>
+        <input type="text" id="d-name" placeholder="સભ્યનું નામ">
+        <input type="text" id="d-house" placeholder="ઘર નં.">
+        <input type="number" id="d-amount" placeholder="રકમ (₹)">
+        <select id="d-mode">
+            <option value="Cash">Cash</option>
+            <option value="Online">Online / UPI</option>
+        </select>
+        <button onclick="submitDonation()">સેવ કરો</button>
+    </div>
+
+    <script>
+        // ⚠️ અહીં તમારી Apps Script ની Web App URL મૂકો
+        const SCRIPT_URL = "તમારી_WEB_APP_URL_અહીં_મૂકો";
+        let userPin = "";
+
+        async function login() {
+            userPin = document.getElementById('pin-input').value;
+            let msg = document.getElementById('login-msg');
+            msg.innerText = "વેરિફાય થઈ રહ્યું છે...";
+
+            try {
+                let res = await fetch(SCRIPT_URL + "?action=verifyPin&pin=" + userPin);
+                let data = await res.json();
+
+                if (data.role === "INVALID") {
+                    msg.innerText = "❌ ખોટો PIN છે!";
+                    return;
+                }
+
+                msg.innerText = "";
+                document.getElementById('login-box').classList.add('hidden');
+
+                if (data.role === "Prasad" || data.role === "Admin") {
+                    document.getElementById('prasad-form').classList.remove('hidden');
+                }
+                if (data.role === "Donation" || data.role === "Admin") {
+                    document.getElementById('donation-form').classList.remove('hidden');
+                }
+            } catch (err) {
+                msg.innerText = "❌ સર્વર એરર!";
+            }
+        }
+
+        async function submitPrasad() {
+            let payload = {
+                pin: userPin,
+                type: "updatePrasad",
+                date: document.getElementById('p-date').value,
+                morningAarti: document.getElementById('p-m-aarti').value,
+                eveningAarti: document.getElementById('p-e-aarti').value,
+                prasadSponsor: document.getElementById('p-sponsor').value
+            };
+            sendData(payload);
+        }
+
+        async function submitDonation() {
+            let payload = {
+                pin: userPin,
+                type: "addDonation",
+                name: document.getElementById('d-name').value,
+                houseNo: document.getElementById('d-house').value,
+                amount: document.getElementById('d-amount').value,
+                mode: document.getElementById('d-mode').value
+            };
+            sendData(payload);
+        }
+
+        async function sendData(payload) {
+            try {
+                let res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+                let result = await res.json();
+                alert(result.message);
+            } catch (err) {
+                alert("❌ સેવ ન થઈ શક્યું, ફરી ટ્રાય કરો.");
+            }
+        }
+    </script>
+</body>
+</html>
