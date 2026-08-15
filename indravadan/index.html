@@ -7,11 +7,11 @@
     <link rel="icon" type="image/png" href="image/Logo1.jpg">
 
     <!-- PWA Manifest Link -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d35400">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d35400">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -84,28 +84,16 @@
 
         .card h2 { color: var(--gold); border-bottom: 1px solid rgba(255, 193, 7, 0.2); padding-bottom: 8px; margin-top: 0; font-size: 1.2em; }
 
-        /* ૧૬:૯ રેશિયો સાથે મોબાઈલ ફ્રેન્ડલી વિડીયો પ્લેયર */
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
-    border-radius: 12px;
-    border: 2px solid var(--gold);
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
-    background: #000;
-}
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; border: 2px solid var(--gold);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.2); background: #000;
+        }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
 
-        /* Gallery Grid */
         .gallery-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 10px; margin-top: 10px;
@@ -117,7 +105,6 @@
         }
         .gallery-item:hover { transform: scale(1.04); border-color: var(--gold); }
 
-        /* Interactive Aarti Arena */
         .aarti-arena {
             position: relative; width: 100%; height: 260px;
             background: radial-gradient(circle, #3e1707 0%, #170701 100%);
@@ -139,19 +126,20 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* 🌟 SMART ADVERTISEMENT POPUP STYLING 🌟 */
+        /* ADVERTISEMENT STYLING */
         .ad-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); z-index: 1000;
-            justify-content: center; align-items: center; padding: 15px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+            z-index: 9999; display: none; justify-content: center; align-items: center; padding: 15px;
         }
 
         .ad-card {
             background: linear-gradient(145deg, #241103, #120701);
             border: 2px solid var(--gold); border-radius: 20px;
-            max-width: 420px; width: 100%; padding: 22px; text-align: center;
-            position: relative; box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
-            animation: adPop 0.35s ease;
+            max-width: 420px; width: 100%; padding: 24px 20px;
+            text-align: center; position: relative;
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
+            animation: adPop 0.3s ease; box-sizing: border-box;
         }
 
         @keyframes adPop {
@@ -160,14 +148,16 @@
         }
 
         .ad-badge {
-            background: var(--gold); color: #000; font-weight: bold; font-size: 0.75em;
-            padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 8px;
+            background: var(--gold); color: #000; font-weight: bold;
+            font-size: 0.75em; padding: 4px 12px; border-radius: 12px;
+            display: inline-block; margin-bottom: 8px;
         }
 
         .ad-close-btn {
-            position: absolute; top: 10px; right: 12px; background: rgba(255,255,255,0.15);
-            border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%;
-            cursor: pointer; font-size: 16px;
+            position: absolute; top: 10px; right: 12px;
+            background: rgba(255,255,255,0.15); border: none; color: #fff;
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+            font-size: 16px; display: flex; justify-content: center; align-items: center;
         }
         .ad-close-btn:hover { background: #d32f2f; }
 
@@ -175,7 +165,7 @@
 
         .ad-action-link {
             flex: 1; padding: 10px; border-radius: 8px; text-decoration: none;
-            font-weight: bold; font-size: 0.9em; display: inline-block;
+            font-weight: bold; font-size: 0.9em; display: inline-block; color: white;
         }
     </style>
 </head>
@@ -183,35 +173,13 @@
 
     <canvas id="canvas"></canvas>
 
-    <!-- 🌟 SPONSOR / SHOP ADVERTISEMENT POPUP 🌟 -->
-    <div id="adModal" class="ad-modal">
-        <div class="ad-card">
+    <!-- 🌟 DYNAMIC ROTATING ADVERTISEMENT POPUP 🌟 -->
+    <div id="adModal" class="ad-modal" style="display: none;">
+        <div class="ad-card" id="adCardBox">
             <button class="ad-close-btn" onclick="closeAd()">✕</button>
-            <span class="ad-badge">🌟 Advertisement</span>
-            
-            <h2 style="color: var(--gold); margin: 6px 0; font-size: 1.45em;">જાંગીડ ઓનલાઈન સેવાઓ</h2>
-            <p style="color: #ffe0b2; margin: 5px 0 12px 0; font-size: 0.9em;">તમામ પ્રકારની ઓનલાઇન સરકારી સેવાઓ, પાનકાર્ડ, કલર પ્રિન્ટિંગ, આધાર સેવાઓ માટે સંપર્ક કરો.</p>
-
-            <div style="background: rgba(255, 193, 7, 0.08); border: 1px dashed var(--gold); border-radius: 10px; padding: 10px; margin: 10px 0; text-align: left; font-size: 0.85em; color: #ffecb3;">
-                ✔ પાનકાર્ડ / આધારકાર્ડ સેવાઓ<br>
-                ✔ ઓનલાઇન ફોર્મ & લાઈટ બિલ પેમેન્ટ<br>
-                ✔ કલર પ્રિન્ટિંગ, ઝેરોક્ષ & લેમિનેશન
+            <div id="adCardContent">
+                <!-- કન્ટેન્ટ JavaScript દ્વારા અહીં લોડ થશે -->
             </div>
-
-            <p style="font-size: 0.82em; color: #bbb; margin: 8px 0;"><i class="fa-solid fa-location-dot" style="color:var(--primary);"></i> ચોરા પાસે, નરસંડા.</p>
-
-            <div class="ad-btn-group">
-                <a href="tel:+919426959052" class="ad-action-link" style="background:#27ae60; color:white;">
-                    <i class="fa-solid fa-phone"></i> કોલ કરો
-                </a>
-                <a href="https://wa.me/919426959052?text=Hello" target="_blank" class="ad-action-link" style="background:#25D366; color:white;">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-            </div>
-
-            <button onclick="closeAd()" style="background: transparent; border: none; color: #aaa; font-size: 0.8em; margin-top: 10px; cursor: pointer; text-decoration: underline;">
-                દર્શન આગળ વધારો 👉
-            </button>
         </div>
     </div>
 
@@ -223,7 +191,6 @@
         <button class="nav-btn" onclick="switchTab('aarti-tab')">🪔 થાળી આરતી</button>
         <button class="nav-btn" onclick="switchTab('photo-frame')">📸 સેલ્ફી</button>
         <button class="nav-btn" onclick="switchTab('wishes')">💬 મનોકામના</button>
-        <!-- <button class="nav-btn" onclick="window.location.href='admin.html'">🔐 એડમિન</button> -->
     </nav>
 
     <div class="container">
@@ -231,37 +198,31 @@
         <!-- HEADER -->
         <div class="header">
             <h1>🚩 વિઘ્નહર્તા ગજાનન 🚩</h1>
+            <h2 style="font-size: 1.1em; color: var(--gold); margin: 5px 0;">સરદાર ચોક, નરસંડા</h2>
             <p style="color: #ffcc80; margin: 5px 0 0 0;">ગણેશોત્સવ ૨૦૨૬</p>
         </div>
 
-        <!-- DOWNLOAD / INSTALL APP BUTTON -->
-<!-- <div style="text-align: center; margin: 10px 0;">
-    <button id="installAppBtn" class="action-btn" style="display: none; margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5);">
-        📲 એપ ડાઉનલોડ કરો (Install App)
-    </button>
-</div> -->
+        <!-- INSTANT INSTALL APP BUTTON -->
+        <div style="text-align: center; margin: 12px 0;">
+            <button id="installAppBtn" class="action-btn" style="margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-weight: bold; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5); padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                📲 એપ ડાઉનલોડ કરો (Install App)
+            </button>
+        </div>
 
-<!-- INSTANT INSTALL APP BUTTON -->
-<div style="text-align: center; margin: 12px 0;">
-    <button id="installAppBtn" class="action-btn" style="margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-weight: bold; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5); padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-        📲 એપ ડાઉનલોડ કરો (Install App)
-    </button>
-</div>
-
-<!-- MANUAL INSTALL GUIDE MODAL (જો બ્રાઉઝર ઓટો-પ્રોમ્પ્ટ સપોર્ટ ન કરે તો) -->
-<div id="installGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
-    <div style="background: #241103; border: 2px solid var(--gold); border-radius: 16px; max-width: 380px; width: 100%; padding: 20px; text-align: center; color: white;">
-        <h3 style="color: var(--gold); margin-top: 0;">📲 એપ ઇન્સ્ટોલ કરવાની રીત</h3>
-        <p style="font-size: 0.9em; line-height: 1.6; color: #ffe0b2; text-align: left;">
-            ૧. બ્રાઉઝરમાં ઉપર જમણી બાજુ રહેલા <b>૩ ટપકાં (⋮)</b> પર ક્લિક કરો.<br>
-            ૨. ત્યાં <b>"Install app"</b> અથવા <b>"Add to Home Screen"</b> પસંદ કરો.<br>
-            ૩. <b>Install</b> પર ક્લિક કરતાં જ તમારા મોબાઇલમાં એપ આવી જશે!
-        </p>
-        <button onclick="document.getElementById('installGuideModal').style.display='none'" style="background: var(--gold); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-            સમજાઈ ગયું 👍
-        </button>
-    </div>
-</div>
+        <!-- MANUAL INSTALL GUIDE MODAL -->
+        <div id="installGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
+            <div style="background: #241103; border: 2px solid var(--gold); border-radius: 16px; max-width: 380px; width: 100%; padding: 20px; text-align: center; color: white;">
+                <h3 style="color: var(--gold); margin-top: 0;">📲 એપ ઇન્સ્ટોલ કરવાની રીત</h3>
+                <p style="font-size: 0.9em; line-height: 1.6; color: #ffe0b2; text-align: left;">
+                    ૧. બ્રાઉઝરમાં ઉપર જમણી બાજુ રહેલા <b>૩ ટપકાં (⋮)</b> પર ક્લિક કરો.<br>
+                    ૨. ત્યાં <b>"Install app"</b> અથવા <b>"Add to Home Screen"</b> પસંદ કરો.<br>
+                    ૩. <b>Install</b> પર ક્લિક કરતાં જ તમારા મોબાઇલમાં એપ આવી જશે!
+                </p>
+                <button onclick="document.getElementById('installGuideModal').style.display='none'" style="background: var(--gold); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                    સમજાઈ ગયું 👍
+                </button>
+            </div>
+        </div>
 
         <!-- POOJA RITUAL BUTTONS -->
         <div class="pooja-zone">
@@ -287,35 +248,33 @@
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
                 <img src="" alt="QR Code For UPI Payment" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px;">
-                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: </p>
+                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
             </div>
         </div>
 
         <!-- ================= TAB 2: LIVE DARSHAN ================= -->
-<div id="live-darshan" class="tab-content">
-    <div class="card">
-        <h2>🔴 લાઈવ આરતી દર્શન પ્રસારણ</h2>
-        <p style="font-size: 0.85em; color: #ffe0b2; margin-bottom: 12px;">
-            સોસાયટીના ગણેશ મંડપમાંથી સીધા લાઈવ દર્શન:
-        </p>
+        <div id="live-darshan" class="tab-content">
+            <div class="card">
+                <h2>🔴 લાઈવ આરતી દર્શન પ્રસારણ</h2>
+                <p style="font-size: 0.85em; color: #ffe0b2; margin-bottom: 12px;">
+                    ગણેશ મંડપમાંથી સીધા લાઈવ દર્શન:
+                </p>
 
-        <!-- LIVE STREAM VIDEO CONTAINER -->
-        <div class="video-container">
-            <!-- ⚠️ નીચે જ્યાં UCxxxxxxxxxxxxxxxxxxxxxx છે ત્યાં તમારી YouTube Channel ID નાખો -->
-            <iframe 
-                src="https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxxxxxxxxxxxxxxxx&autoplay=1&mute=0" 
-                title="Ganesh Live Darshan" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen>
-            </iframe>
-        </div>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxxxxxxxxxxxxxxxx&autoplay=1&mute=0" 
+                        title="Ganesh Live Darshan" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
 
-        <div style="background: rgba(255, 193, 7, 0.08); border-radius: 8px; padding: 10px; margin-top: 12px; font-size: 0.8em; color: #ccc;">
-             <p style="margin: 0;">⏰ <b>આરતીનો સમય:</b> <!-- સવારે ૦૮:૦૦ વાગ્યે અને સાંજે ૦૭:૩૦ વાગ્યે -->અપડેટ બાકી </p>
-            <p style="margin: 4px 0 0 0; color: #ffeb3b;">*લાઈવ પ્રસારણ શરૂ થતાં જ વિડીયો આપમેળે ચાલુ થઈ જશે.</p>
+                <!-- <div style="background: rgba(255, 193, 7, 0.08); border-radius: 8px; padding: 10px; margin-top: 12px; font-size: 0.8em; color: #ccc;">
+                    <p style="margin: 0;">⏰ <b>આરતીનો સમય:</b> સવારે ૦૮:૦૦ વાગ્યે અને સાંજે ૦૭:૩૦ વાગ્યે</p>
+                    <p style="margin: 4px 0 0 0; color: #ffeb3b;">*લાઈવ પ્રસારણ શરૂ થતાં જ વિડીયો આપમેળે ચાલુ થઈ જશે.</p>
+                </div> -->
+            </div>
         </div>
-    </div>
-</div>
 
         <!-- ================= TAB 3: PHOTO GALLERY ================= -->
         <div id="gallery" class="tab-content">
@@ -332,14 +291,46 @@
             </div>
         </div>
 
-        <!-- ================= TAB 4: INTERACTIVE AARTI ================= -->
+        <!-- ================= TAB 4: INTERACTIVE AARTI & LYRICS ================= -->
         <div id="aarti-tab" class="tab-content">
             <div class="card">
                 <h2>🪔 લાઇવ થાળી આરતી</h2>
                 <p style="font-size:0.8em; color:#ccc;">નીચે આપેલી થાળીને આંગળી અથવા માઉસથી પકડીને બાપ્પાની આસપાસ ગોળ ફેરવો!</p>
                 <div class="aarti-arena" id="arena">
-                    <img src="image/icon.png" class="bappa-img" alt="Bappa">
+                    <img src="image/icon.png" class="bappa-img" alt="Bappa" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3588/3588658.png'">
                     <div class="thali" id="thali">🪔</div>
+                </div>
+            </div>
+
+            <!-- SMART AARTI & CHALISA LYRICS -->
+            <div class="card" style="text-align: center;">
+                <h2>📜 શ્રી ગણેશ આરતી & ચાલીસા (લિરિક્સ)</h2>
+                <p style="font-size: 0.85em; color: #ffe0b2; margin-bottom: 10px;">
+                    આરતી ગાવા માટે પસંદ કરો અને ઓટો-સ્ક્રોલ ચાલુ કરો:
+                </p>
+
+                <select id="lyricsSelect" onchange="changeLyrics()" style="width: 100%; padding: 10px; border-radius: 8px; background: #2d1405; color: var(--gold); border: 1px solid var(--gold); font-size: 0.95em; font-weight: bold; margin-bottom: 12px;">
+                    <option value="jayGanesh">🚩 ૧. જય ગણેશ, જય ગણેશ દેવા (મુખ્ય આરતી)</option>
+                    <option value="sukhKarta">🌸 ૨. સુખકર્તા દુઃખહર્તા (ગુજરાતી ભાવાનુવાદ)</option>
+                    <option value="chalisa">🕉️ ૩. શ્રી ગણેશ ચાલીસા</option>
+                </select>
+
+                <div id="lyricsBox" style="height: 220px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 2px solid rgba(255,193,7,0.3); font-size: 1.05em; line-height: 2; color: #ffe082; text-align: center; scroll-behavior: smooth;">
+                </div>
+
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+                    <button id="scrollToggleBtn" class="action-btn" onclick="toggleAutoScroll()" style="padding: 8px 18px; font-size: 0.9em;">
+                        ▶️ ઓટો-સ્ક્રોલ શરૂ કરો
+                    </button>
+                    <button class="action-btn" onclick="resetScroll()" style="padding: 8px 14px; font-size: 0.9em; background: rgba(255,255,255,0.1); border-color: #888; color: #fff;">
+                        🔄 શરૂઆતથી
+                    </button>
+                </div>
+
+                <div style="margin-top: 10px; font-size: 0.8em; color: #bbb; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                    <span>ધીમું</span>
+                    <input type="range" id="scrollSpeed" min="20" max="100" value="50" style="accent-color: var(--gold); cursor: pointer;">
+                    <span>ઝડપી</span>
                 </div>
             </div>
         </div>
@@ -363,12 +354,12 @@
         <div id="wishes" class="tab-content">
             <div class="card">
                 <h2>💬 બાપ્પા માટે મનોકામના / પ્રાર્થના</h2>
-                <input type="text" id="wishName" placeholder="તમારું નામ" style="width:100%; padding:8px; margin-bottom:8px; border-radius:5px; border:none;">
-                <textarea id="wishText" placeholder="તમારી પ્રાર્થના અથવા મનોકામના લખો..." style="width:100%; padding:8px; border-radius:5px; border:none; height:60px;"></textarea>
+                <input type="text" id="wishName" placeholder="તમારું નામ" style="width:100%; padding:8px; margin-bottom:8px; border-radius:5px; border:none; background:#241103; color:white;">
+                <textarea id="wishText" placeholder="તમારી પ્રાર્થના અથવા મનોકામના લખો..." style="width:100%; padding:8px; border-radius:5px; border:none; height:60px; background:#241103; color:white;"></textarea>
                 <button class="action-btn" style="margin:10px auto 0 auto;" onclick="addWish()">પ્રાર્થના મોકલો 🙏</button>
 
                 <div id="wishList" style="margin-top:15px;">
-                    <div class="wish-item"><b>પટેલ:</b> ગણપતિ બાપ્પા મોરિયા! બધાનું સ્વાસ્થ્ય સારું રહે.</div>
+                    <div class="wish-item"><b>અમિત પટેલ:</b> ગણપતિ બાપ્પા મોરિયા! બધાનું સ્વાસ્થ્ય સારું રહે.</div>
                 </div>
             </div>
         </div>
@@ -381,69 +372,148 @@
         const SCRIPT_URL = "તમારી_WEB_APP_URL_અહીં_મૂકો";
 
         // Register Service Worker for PWA
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .then((reg) => console.log("PWA Service Worker Registered!"))
-      .catch((err) => console.log("PWA Registration Failed:", err));
-  });
-}
-
-let deferredPrompt = null;
-const installBtn = document.getElementById('installAppBtn');
-const guideModal = document.getElementById('installGuideModal');
-
-// ૧. બ્રાઉઝર જ્યારે ઇન્સ્ટોલ માટે રેડી થાય
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    console.log("PWA Install Prompt Captured!");
-});
-
-// ૨. બટન ક્લિક હેન્ડલર (તરત રિસ્પોન્સ આપશે)
-if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            // જો ઓટોમેટિક પ્રોમ્પ્ટ તૈયાર હોય તો ડાયરેક્ટ સિસ્ટમ ડાયલોગ ખોલશે
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                installBtn.style.display = 'none';
-            }
-            deferredPrompt = null;
-        } else {
-            // જો બ્રાઉઝરે હજુ પ્રોમ્પ્ટ ન આપ્યો હોય (કે iOS/Safari હોય), તો મેન્યુઅલ ગાઇડ બતાવશે
-            guideModal.style.display = 'flex';
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./sw.js")
+                    .then((reg) => console.log("PWA Service Worker Registered!"))
+                    .catch((err) => console.log("PWA Registration Failed:", err));
+            });
         }
-    });
-}
 
-// ૩. જો એપ પહેલેથી ઇન્સ્ટોલ થઈ ગયેલી હોય (Standalone Mode) તો બટન છુપાવો
-if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-    if (installBtn) installBtn.style.display = 'none';
-}
+        // PWA INSTALL LOGIC
+        let deferredPrompt = null;
+        const installBtn = document.getElementById('installAppBtn');
+        const guideModal = document.getElementById('installGuideModal');
 
-window.addEventListener('appinstalled', () => {
-    if (installBtn) installBtn.style.display = 'none';
-    if (guideModal) guideModal.style.display = 'none';
-});
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
 
-        // ================= 🌟 SMART AD SYSTEM 🌟 =================
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBtn.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                } else {
+                    guideModal.style.display = 'flex';
+                }
+            });
+        }
+
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            if (installBtn) installBtn.style.display = 'none';
+        }
+
+        window.addEventListener('appinstalled', () => {
+            if (installBtn) installBtn.style.display = 'none';
+            if (guideModal) guideModal.style.display = 'none';
+        });
+
+        // ================= 🌟 MULTIPLE ROTATING ADS DATA 🌟 =================
+        const adsList = [
+            {
+                badge: "🌟 ડિજિટલ ઉત્સવ સૌજન્ય",
+                title: "જાંગીડ ઓનલાઇન સેવાઓ",
+                desc: "તમામ પ્રકારની ઓનલાઇન સરકારી સેવાઓ, પાનકાર્ડ, કલર પ્રિન્ટિંગ, આધાર સેવાઓ માટે સંપર્ક કરો.",
+                features: [
+                    "✔ પાનકાર્ડ / સેવાઓ & અપડેટ્સ",
+                    "✔ કલર પ્રિન્ટિંગ & લેમિનેશન",
+                    "✔ ઓનલાઇન ફોર્મ & લાઈટ બિલ પેમેન્ટ"
+                ],
+                location: "ચોરા પાસે, નરસંડા.",
+                phone: "+919426959052",
+                whatsapp: "919426959052"
+            },
+            {
+                badge: "🍎 મહાપ્રસાદ સૌજન્ય",
+                title: "શ્રી ગણેશ ડેરી & સ્વીટ્સ",
+                desc: "શુદ્ધ ઘીના મોદક, પેંડા અને તમામ પ્રકારની મીઠાઈઓ માટેનું વિશ્વાસપાત્ર સ્થળ.",
+                features: [
+                    "✔ સ્પેશિયલ મોદક & લાડુ",
+                    "✔ શુદ્ધ ગાય/ભેંસનું ઘી અને માવો",
+                    "✔ ઉત્સવ અને પ્રસંગ માટે જથ્થાબંધ ઓર્ડર"
+                ],
+                location: "સ્ટેશન રોડ, નડિયાદ.",
+                phone: "+919426959052",
+                whatsapp: "919426959052"
+            },
+            {
+                badge: "🌸 શણગાર સ્પોન્સર",
+                title: "જય અંબે ફ્લાવર્સ & ડેકોરેશન",
+                desc: "ગણેશ મંડપ શણગાર, તાજા ફૂલોના હાર અને ઇવેન્ટ ડેકોરેશન સેવા.",
+                features: [
+                    "✔ તાજા ગુલાબ અને ગલગોટાના હાર",
+                    "✔ આકર્ષક સ્ટેજ & મંડપ લાઈટિંગ",
+                    "✔ હોમ પૂજા ડેકોરેશન પેકેજ"
+                ],
+                location: "મેઈન બજાર, નરસંડા.",
+                phone: "+919426959052",
+                whatsapp: "919426959052"
+            }
+        ];
+
+        let currentAdIndex = 0;
         let clickCounter = 0;
         const CLICKS_PER_AD = 4;
-        let lastAdClosedTime = Date.now();
+        let lastAdClosedTime = 0;
         const AD_COOLDOWN_MS = 20000;
 
+        function renderCurrentAd() {
+            const container = document.getElementById('adCardContent');
+            if (!container) return false;
+
+            const ad = adsList[currentAdIndex];
+            container.innerHTML = `
+                <span class="ad-badge">${ad.badge}</span>
+                <h2 style="color: #ffc107; margin: 6px 0; font-size: 1.45em;">${ad.title}</h2>
+                <p style="color: #ffe0b2; margin: 5px 0 10px 0; font-size: 0.9em; line-height: 1.4;">${ad.desc}</p>
+
+                <div style="background: rgba(255, 193, 7, 0.08); border: 1px dashed #ffc107; border-radius: 10px; padding: 10px; margin: 10px 0; text-align: left; font-size: 0.85em; color: #ffecb3;">
+                    ${ad.features.join('<br>')}
+                </div>
+
+                <p style="font-size: 0.82em; color: #bbb; margin: 8px 0;">
+                    <i class="fa-solid fa-location-dot" style="color:#ff5722;"></i> ${ad.location}
+                </p>
+
+                <div class="ad-btn-group">
+                    <a href="tel:${ad.phone}" class="ad-action-link" style="background:#27ae60;">
+                        <i class="fa-solid fa-phone"></i> કોલ કરો
+                    </a>
+                    <a href="https://wa.me/${ad.whatsapp}?text=Hello" target="_blank" class="ad-action-link" style="background:#25D366;">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+
+                <button onclick="closeAd()" style="background: transparent; border: none; color: #aaa; font-size: 0.82em; margin-top: 12px; cursor: pointer; text-decoration: underline;">
+                    દર્શન આગળ વધારો 👉
+                </button>
+            `;
+
+            currentAdIndex = (currentAdIndex + 1) % adsList.length;
+            return true;
+        }
+
         function showSmartAd() {
+            if (typeof scrollInterval !== 'undefined' && scrollInterval !== null) {
+                return;
+            }
+
             const modal = document.getElementById('adModal');
-            if (modal.style.display !== 'flex' && (Date.now() - lastAdClosedTime > AD_COOLDOWN_MS)) {
+            if (modal && modal.style.display !== 'flex' && (Date.now() - lastAdClosedTime > AD_COOLDOWN_MS)) {
+                renderCurrentAd();
                 modal.style.display = 'flex';
             }
         }
 
         function closeAd() {
-            document.getElementById('adModal').style.display = 'none';
+            const modal = document.getElementById('adModal');
+            if (modal) modal.style.display = 'none';
             lastAdClosedTime = Date.now();
         }
 
@@ -465,18 +535,22 @@ window.addEventListener('appinstalled', () => {
         document.addEventListener('DOMContentLoaded', () => {
             const interactiveElements = document.querySelectorAll('.nav-btn, .action-btn, #imageLoader, .gallery-item, .thali');
             interactiveElements.forEach(elem => elem.addEventListener('click', trackUserClick));
+            changeLyrics();
         });
 
         // ================= TAB SWITCHING =================
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) targetTab.classList.add('active');
+            if (event && event.currentTarget) event.currentTarget.classList.add('active');
+
+            if (tabId === 'aarti-tab') changeLyrics();
         }
 
         function playShankh() { document.getElementById('shankhAudio').play(); }
-
         function openFullImg(src) { window.open(src, '_blank'); }
 
         // ================= GOOGLE SHEETS LIVE DATA =================
@@ -484,13 +558,13 @@ window.addEventListener('appinstalled', () => {
             try {
                 let res = await fetch(SCRIPT_URL + "?action=getPublicData");
                 let data = await res.json();
-                document.getElementById('m-aarti').innerText = data.morningAarti || "માહિતી નથી";
-                document.getElementById('e-aarti').innerText = data.eveningAarti || "માહિતી નથી";
-                document.getElementById('sponsor').innerText = data.prasadSponsor || "માહિતી નથી";
+                document.getElementById('m-aarti').innerText = data.morningAarti || "અપડેટ બાકી";
+                document.getElementById('e-aarti').innerText = data.eveningAarti || "અપડેટ બાકી";
+                document.getElementById('sponsor').innerText = data.prasadSponsor || "અપડેટ બાકી";
             } catch (err) {
                 document.getElementById('m-aarti').innerText = "08:00 AM";
                 document.getElementById('e-aarti').innerText = "07:30 PM";
-                document.getElementById('sponsor').innerText = "રમેશભાઈ પટેલ (A-101)";
+                document.getElementById('sponsor').innerText = "અપડેટ બાકી";
             }
         }
 
@@ -551,7 +625,7 @@ window.addEventListener('appinstalled', () => {
             ctxFrame.fillStyle = "#ffffff";
             ctxFrame.font = "bold 14px Arial";
             ctxFrame.textAlign = "center";
-            ctxFrame.fillText("🚩 શ્રી ગણેશ મહોત્સવ ૨૦૨૬ 🚩", 150, 285);
+            ctxFrame.fillText("🚩 વિઘ્નહર્તા ગજાનન ૨૦૨૬ 🚩", 150, 285);
         }
         drawFrameBorder();
 
@@ -608,6 +682,126 @@ window.addEventListener('appinstalled', () => {
             requestAnimationFrame(updateParticles);
         }
         updateParticles();
+
+        // ================= 📜 AARTI & CHALISA DATA =================
+        const lyricsData = {
+            jayGanesh: `
+                <b>॥ શ્રી ગણેશજીની આરતી ॥</b><br><br>
+                જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા,<br>
+                માતા જાકી પાર્વતી, પિતા મહાદેવા... ॥ ધ્રુવ ॥<br><br>
+                એક દંત દયાવંત, ચાર ભુજાધારી,<br>
+                માથે સિંદૂર સોહે, મૂસે કી સવારી...<br>
+                અંધન કો આંખ દેત, કોઢિન કો કાયા,<br>
+                બાંઝન કો પુત્ર દેત, નિર્ધન કો માયા...<br>
+                જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા...<br><br>
+                પાન ચઢે, ફૂલ ચઢે, ઔર ચઢે મેવા,<br>
+                લડ્ડુઅન કા ભોગ લગે, સંત કરેં સેવા...<br>
+                દીનન કી લાજ રાખો, શંભુ સુત વારી,<br>
+                કામના કો પૂર્ણ કરો, જગ બલિહારી...<br>
+                જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા,<br>
+                માતા જાકી પાર્વતી, પિતા મહાદેવા...
+            `,
+            sukhKarta: `
+                <b>॥ સુખકર્તા દુઃખહર્તા આરતી ॥</b><br><br>
+                સુખકર્તા દુઃખહર્તા વાર્તા વિઘ્નાચી,<br>
+                નુરવી પૂર્વી પ્રેમ કૃપા જયાચી...<br>
+                સર્વાંગી સુંદર ઉટી શિંદુરાચી,<br>
+                કંઠી ઝળકે માળ મુક્તાફળચી... ॥ ૧ ॥<br><br>
+                જય દેવ જય દેવ જય મંગલમૂર્તિ,<br>
+                દર્શનમાત્રે મનકામના પૂરતી... ॥ ધ્રુવ ॥<br><br>
+                રત્નખચિત ફરા તુજ ગૌરીકુમરા,<br>
+                ચંદનાચી ઉટી કુમકુમ કેશરા...<br>
+                હીરાજડિત મુકુટ શોભતો બરા,<br>
+                ઋણઝુણતી નૂપુરે ચરણી ઘાગરિયા... ॥ ૨ ॥<br><br>
+                લંબોદર પીતાંબર ફણિવરબંધના,<br>
+                સરળ સોંડા વક્રતુણ્ડ ત્રિણયના...<br>
+                દાસ રામાચા વાટ પાહે સદના,<br>
+                સંકટી પાવાવે નિર્વાણી રક્ષાખે સુરવરવંદના... ॥ ૩ ॥
+            `,
+            chalisa: `
+                <b>॥ શ્રી ગણેશ ચાલીસા ॥</b><br><br>
+                <b>દોહા:</b><br>
+                જય ગણપતિ સદ્ગુણ સદન, કવિવર બદન કૃપાલ ।<br>
+                વિઘ્ન હરણ મંગલ કરણ, જય જય ગિરિજાલાલ ॥<br><br>
+                <b>ચોપાઈ:</b><br>
+                જય જય જય ગણપતિ ગણરાજુ । દ્વિતીય પ્રથમેહું સુમિરોં તુમ્હારૂ કાજુ ॥<br>
+                પાર્વતી નંદન ગૌરી સુવન । નિજ ભક્તન કે વિઘ્ન હરણ ॥<br>
+                ઋદ્ધિ-સિદ્ધિ સહિત બિરાજો દેવા । સબ વિધિ તુમ્હારી કરત સેવા ॥<br>
+                મસ્તક સિંદૂર શોભિત ભારી । મૂષક વાહન જય ત્રિપુરારી ॥<br>
+                મોદક પ્રિય મુદ મંગલ દાતા । વિદ્યા બુદ્ધિ બલ કે ત્રાતા ॥<br>
+                માતુ-પિતા કી સેવા કીન્હા । તીન લોક પરિક્રમા લીન્હા ॥<br>
+                સર્વ પ્રથમ ગણપતિ પૂજાઈ । સબ દેવન મેં મહિમા પાઈ ॥<br>
+                જય ગણેશ જય ગિરિજા નંદન । બાર-બાર પ્રભુ તુમ્હેં વંદન ॥
+            `
+        };
+
+        let scrollInterval = null;
+
+        function changeLyrics() {
+            const lyricsBox = document.getElementById('lyricsBox');
+            const selectElem = document.getElementById('lyricsSelect');
+            if (!lyricsBox || !selectElem) return;
+
+            resetScroll();
+            const selected = selectElem.value || 'jayGanesh';
+            lyricsBox.innerHTML = lyricsData[selected] || lyricsData['jayGanesh'];
+            lyricsBox.scrollTop = 0;
+        }
+
+        function toggleAutoScroll() {
+            const lyricsBox = document.getElementById('lyricsBox');
+            const scrollBtn = document.getElementById('scrollToggleBtn');
+            const speedInput = document.getElementById('scrollSpeed');
+            if (!lyricsBox || !scrollBtn) return;
+
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+                scrollBtn.innerText = "▶️ ઓટો-સ્ક્રોલ શરૂ કરો";
+                scrollBtn.style.background = "rgba(255, 193, 7, 0.1)";
+                scrollBtn.style.color = "var(--gold)";
+            } else {
+                scrollBtn.innerText = "⏸️ ઓટો-સ્ક્રોલ રોકો";
+                scrollBtn.style.background = "var(--gold)";
+                scrollBtn.style.color = "#000";
+
+                const speed = speedInput ? (110 - parseInt(speedInput.value)) : 50;
+                scrollInterval = setInterval(() => {
+                    lyricsBox.scrollTop += 1;
+                    if (lyricsBox.scrollTop >= (lyricsBox.scrollHeight - lyricsBox.clientHeight - 2)) {
+                        toggleAutoScroll();
+                    }
+                }, speed);
+            }
+        }
+
+        function resetScroll() {
+            if (scrollInterval) toggleAutoScroll();
+            const lyricsBox = document.getElementById('lyricsBox');
+            if (lyricsBox) lyricsBox.scrollTop = 0;
+        }
     </script>
+
+    <!-- DEVELOPER FOOTER BRANDING -->
+    <footer style="margin-top: 30px; padding: 20px 15px; background: rgba(18, 9, 2, 0.95); border-top: 1px solid rgba(255, 193, 7, 0.2); text-align: center;">
+        <p style="margin: 0; font-size: 0.85em; color: #aaa;">
+            © ૨૦૨૬ વિઘ્નહર્તા ગજાનન | સર્વ હક્કો સુરક્ષિત
+        </p>
+        
+        <div style="margin-top: 10px; display: inline-block; background: rgba(255, 193, 7, 0.08); border: 1px solid var(--gold); padding: 8px 18px; border-radius: 25px; box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);">
+            <p style="margin: 0; font-size: 0.85em; color: #ffe0b2;">
+                💻 Designed & Developed with ❤️ by <br>
+                <b style="color: var(--gold); font-size: 1.05em;">જાંગીડ ઓનલાઇન સેવાઓ</b>
+            </p>
+            <div style="margin-top: 6px; font-size: 0.8em;">
+                <a href="tel:+919426959052" style="color: #81c784; text-decoration: none; margin-right: 12px;">
+                    <i class="fa-solid fa-phone"></i> 94269 59052
+                </a>
+                <a href="https://wa.me/919426959052?text=Hello%20Website%20Banavava%20Mate%20Sampark%20Karyo" target="_blank" style="color: #25D366; text-decoration: none;">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
