@@ -293,7 +293,7 @@
 
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
-                <img id="upiQRImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=mandal@upi&pn=GaneshUtsav" alt="QR Code For UPI Payment" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
+                <img id="upiQRImg" src="" alt="QR Code For UPI Payment" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
                 <p id="upiIdText" style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
             </div>
         </div>
@@ -1208,6 +1208,19 @@
             }));
             changeLyrics();
         });
+
+        // લિંક ખુલતાં જ 1 સેકન્ડમાં ડાઉનલોડનું પોપઅપ સામે આવી જશે
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // જો યુઝરે હજુ ઇન્સ્ટોલ નથી કરી, તો આપોઆપ ઇન્સ્ટોલ બોક્સ ખોલી દેશે
+    setTimeout(() => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+        }
+    }, 1200);
+});
     </script>
 
     <!-- DEVELOPER FOOTER -->
