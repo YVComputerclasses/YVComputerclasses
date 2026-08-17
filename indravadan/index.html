@@ -190,6 +190,19 @@
             border: 2px solid var(--gold); border-radius: 20px;
             max-width: 440px; width: 100%; padding: 20px; text-align: center;
         }
+        /* જો ઍપ ઇન્સ્ટોલ થયેલી હોય તો બટન ક્યારેય નહીં દેખાય */
+@media all and (display-mode: standalone) {
+    #installAppBtn, #installBtnContainer {
+        display: none !important;
+    }
+}
+
+/* iOS (iPhone/iPad) માટે */
+@media all and (display-mode: fullscreen) {
+    #installAppBtn, #installBtnContainer {
+        display: none !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -244,7 +257,7 @@
         <!-- HEADER -->
         <div class="header">
             <h1>🚩 વિઘ્નહર્તા ગજાનન 🚩</h1>
-            <h2 style="font-size: 1.1em; color: var(--gold); margin: 5px 0;">સરદાર ચોક, નરસંડા</h2>
+            <h2 style="font-size: 1.1em; color: var(--gold); margin: 5px 0;">માણેક ચોક, નરસંડા</h2>
             <p style="color: #ffcc80; margin: 5px 0 0 0;">ગણેશોત્સવ ૨૦૨૬</p>
         </div>
 
@@ -491,7 +504,7 @@
     <audio id="shankhAudio" src="image/5 Shankh Sound Effect  Non Copyright  Free Use.mp3"></audio>
 
     <script>
-        const MASTER_ADMIN_PASS = "admin@3641";
+        const MASTER_ADMIN_PASS = "Daku@3641";
 
         // MASTER DATABASE
         let db = JSON.parse(localStorage.getItem('ganesh_utsav_db')) || {
@@ -650,7 +663,7 @@
 
             ctx.font = "bold 18px 'Segoe UI', Arial";
             ctx.fillStyle = "#ffe082";
-            ctx.fillText("સરદાર ચોક, નરસંડા | ગણેશોત્સવ ૨૦૨૬", 300, 95);
+            ctx.fillText("માણેક ચોક, નરસંડા | ગણેશોત્સવ ૨૦૨૬", 300, 95);
 
             // Subtitle
             ctx.fillStyle = "#ffc107";

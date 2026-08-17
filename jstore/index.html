@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOS Store - Fast & Lite Web Apps</title>
+  <!-- Google Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      padding-bottom: 50px;
+    }
+
+    /* Header */
+    header {
+      background: #ffffff;
+      padding: 16px 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-info h1 {
+      font-size: 18px;
+      color: #202124;
+      line-height: 1.2;
+    }
+
+    .brand-info p {
+      font-size: 11px;
+      color: #5f6368;
+    }
+
+    /* Search Bar */
+    .search-container {
+      margin: 15px 20px 0;
+      position: relative;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border-radius: 25px;
+      border: 1px solid #e0e0e0;
+      background: #ffffff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #757575;
+      font-size: 14px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #202124;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Apps Grid */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 15px;
+    }
+
+    /* App Card (Play Store Style) */
+    .app-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #f1f3f4;
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .app-top {
+      display: flex;
+      gap: 14px;
+    }
+
+    .app-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .app-meta h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #202124;
+      margin-bottom: 2px;
+    }
+
+    .app-meta .category {
+      font-size: 12px;
+      color: #5f6368;
+      margin-bottom: 4px;
+    }
+
+    .app-rating {
+      font-size: 11px;
+      color: #3c4043;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .app-rating i {
+      color: #fbbc04;
+      font-size: 10px;
+    }
+
+    .app-desc {
+      font-size: 12px;
+      color: #5f6368;
+      margin: 12px 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+    }
+
+    .btn-install {
+      background-color: #01875f;
+      color: #ffffff;
+    }
+
+    .btn-install:hover {
+      background-color: #016b4b;
+    }
+
+    .btn-details {
+      background-color: #f1f3f4;
+      color: #3c4043;
+    }
+
+    .btn-details:hover {
+      background-color: #e8eaed;
+    }
+
+    /* Modal for App Details */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: #f1f3f4;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #70757a;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">JOS</div>
+      <div class="brand-info">
+        <h1>JOS Store</h1>
+        <p>Jangid Online Services</p>
+      </div>
+    </div>
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" class="search-bar" placeholder="Search web apps...">
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="section-title">
+      <span>Featured Web Apps</span>
+      <span style="font-size: 12px; color: #1a73e8; font-weight: normal;">PWA Enabled</span>
+    </div>
+
+    <div class="apps-grid" id="appsList">
+      <!-- JavaScript will populate apps here -->
+    </div>
+  </div>
+
+  <!-- App Details Modal -->
+  <div class="modal" id="appModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 JOS Store &bull; Powered by Jangid Online Services</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // 1. તમારી PWAs નો ડેટા અહીં ઉમેરો
+    const appsData = [
+      {
+        id: "app1",
+        title: "JANGO Food Delivery",
+        category: "Food & Drinks",
+        rating: "4.8",
+        icon: "https://via.placeholder.com/120/1a73e8/ffffff?text=JANGO",
+        appUrl: "https://your-jango-app-link.com", // તમારી 1લી PWA નું URL
+        description: "Order fresh food and snacks online instantly with lightning fast service.",
+        features: ["Live Tracking", "No App Download Needed", "Fast & Secure"]
+      },
+      {
+        id: "app2",
+        title: "Digital Service Portal",
+        category: "Productivity / Services",
+        rating: "4.9",
+        icon: "https://via.placeholder.com/120/01875f/ffffff?text=JOS",
+        appUrl: "https://your-service-app-link.com", // તમારી 2જી PWA નું URL
+        description: "Manage documents, online service requests and application status quickly.",
+        features: ["Online Verification", "Direct Support", "Offline Ready"]
+      }
+    ];
+
+    const appsContainer = document.getElementById("appsList");
+    const searchInput = document.getElementById("searchInput");
+
+    // Display Apps Function
+    function renderApps(apps) {
+      appsContainer.innerHTML = "";
+      if(apps.length === 0) {
+        appsContainer.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#757575;'>કોઈ એપ મળી નથી.</p>";
+        return;
+      }
+
+      apps.forEach(app => {
+        const card = document.createElement("div");
+        card.className = "app-card";
+        card.innerHTML = `
+          <div>
+            <div class="app-top">
+              <img src="${app.icon}" alt="${app.title}" class="app-icon">
+              <div class="app-meta">
+                <h3>${app.title}</h3>
+                <div class="category">${app.category}</div>
+                <div class="app-rating">
+                  <span>${app.rating}</span>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p class="app-desc">${app.description}</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-details" onclick="openDetails('${app.id}')">Info</button>
+            <a href="${app.appUrl}" target="_blank" class="btn btn-install">Open / Install</a>
+          </div>
+        `;
+        appsContainer.appendChild(card);
+      });
+    }
+
+    // Search Feature
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = appsData.filter(app => 
+        app.title.toLowerCase().includes(query) || 
+        app.category.toLowerCase().includes(query)
+      );
+      renderApps(filtered);
+    });
+
+    // Details Modal
+    function openDetails(appId) {
+      const app = appsData.find(a => a.id === appId);
+      if(!app) return;
+
+      const modalBody = document.getElementById("modalBody");
+      modalBody.innerHTML = `
+        <div style="display:flex; gap:16px; align-items:center; margin-bottom:16px;">
+          <img src="${app.icon}" style="width:70px; height:70px; border-radius:16px;">
+          <div>
+            <h2 style="font-size:18px;">${app.title}</h2>
+            <p style="color:#5f6368; font-size:13px;">${app.category} &bull; ⭐ ${app.rating}</p>
+          </div>
+        </div>
+        <p style="font-size:13px; color:#3c4043; line-height:1.5; margin-bottom:15px;">${app.description}</p>
+        <h4 style="font-size:14px; margin-bottom:8px;">Features:</h4>
+        <ul style="font-size:13px; color:#5f6368; padding-left:20px; margin-bottom:20px;">
+          ${app.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <a href="${app.appUrl}" target="_blank" class="btn btn-install" style="width:100%; display:block; padding:10px 0;">Install / Launch PWA</a>
+      `;
+      document.getElementById("appModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("appModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("appModal");
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    // Initial Load     
+    renderApps(appsData);
+  </script>
+</body>
+</html>
