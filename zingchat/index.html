@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZingChat Ultra Secure</title>
+  <title>ZingChat</title>
   <link rel="icon" type="image/png" href="image/Logo1.png">
+  <!-- PWA Settings -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7f00ff">
+<link rel="apple-touch-icon" href="image/Logo1.png">
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #0a0612 0%, #120a2b 50%, #030308 100%);
@@ -468,6 +472,15 @@ function handleChatLogoutRedirect() {
   
   // Instant router push back to User Mobile Login Page
   switchScreen('loginScreen'); // Redirects back to Screen 1 instantly
+}
+
+// PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((reg) => console.log('Service Worker Registered successfully:', reg.scope))
+      .catch((err) => console.error('Service Worker registration failed:', err));
+  });
 }
     
   </script>

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Google Play - JOS Apps</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --play-green: #01875f;
+      --text-main: #202124;
+      --text-sub: #5f6368;
+      --border: #dadce0;
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --danger: #d93025;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding-bottom: 65px;
+    }
+
+    /* Top Bar */
+    .ps-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      box-shadow: 0 1px 2px rgba(60,64,67,0.1), 0 2px 6px 2px rgba(60,64,67,0.05);
+      border-radius: 28px;
+      margin: 8px 12px;
+    }
+
+    .ps-search-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      font-size: 15px;
+      color: var(--text-main);
+    }
+
+    .ps-avatar-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .ps-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Tabs */
+    .main-tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      background: #fff;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 0;
+      text-align: center;
+      background: none;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .tab-btn.active { color: var(--play-green); }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: var(--play-green);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* Grid Layout */
+    .section-head { padding: 18px 16px 10px; }
+    .section-title { font-size: 17px; font-weight: 700; }
+
+    .apps-main-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+      gap: 18px;
+      padding: 8px 16px 20px;
+    }
+
+    .play-card {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .play-card-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(60,64,67,0.15);
+      background: #f1f3f4;
+    }
+
+    .play-card-title {
+      font-size: 12px;
+      font-weight: 500;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.3;
+    }
+
+    .play-card-meta { font-size: 11px; color: var(--text-sub); }
+
+    /* App Detail Screen */
+    #detailScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 2000;
+      overflow-y: auto;
+      padding-bottom: 40px;
+    }
+
+    .dt-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      background: #fff;
+    }
+
+    .dt-header { display: flex; gap: 18px; padding: 8px 18px 16px; }
+
+    .dt-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .dt-title { font-size: 20px; font-weight: 700; line-height: 1.2; }
+    .dt-developer { color: var(--play-green); font-size: 13px; font-weight: 600; margin-top: 4px; }
+
+    .dt-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 24px;
+      border-top: 1px solid #f1f3f4;
+      border-bottom: 1px solid #f1f3f4;
+      margin: 8px 0 16px;
+      text-align: center;
+    }
+
+    .dt-stat-val { font-size: 14px; font-weight: 700; }
+    .dt-stat-lbl { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .dt-divider { width: 1px; height: 24px; background: var(--border); }
+
+    .dt-action-box { padding: 0 18px 16px; }
+
+    .dt-install-btn {
+      width: 100%;
+      background: var(--play-green);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .dt-progress-bar-wrap {
+      display: none;
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 24px;
+      height: 42px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dt-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--play-green);
+      transition: width 0.2s ease;
+    }
+
+    .dt-progress-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .dt-screenshots {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 8px 18px 18px;
+      scrollbar-width: none;
+    }
+    .dt-screenshots::-webkit-scrollbar { display: none; }
+
+    .dt-shot {
+      width: 150px;
+      height: 260px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    .dt-section { padding: 14px 18px; border-top: 1px solid #f1f3f4; }
+    .dt-sec-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .dt-description { font-size: 13px; color: #3c4043; line-height: 1.5; }
+
+    /* Ratings */
+    .rate-box {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stars-picker { display: flex; gap: 8px; font-size: 22px; color: #dadce0; cursor: pointer; }
+    .stars-picker i.active { color: #f59e0b; }
+    .review-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; font-size: 13px; }
+    .btn-submit-review { align-self: flex-end; background: var(--play-green); color: #fff; border: none; padding: 6px 14px; border-radius: 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+    /* Modals Background */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .auth-card {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 380px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-input:focus { border-color: var(--play-green); }
+
+    .btn-submit-form {
+      width: 100%;
+      background: var(--play-green);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .switch-link {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .switch-link a {
+      color: var(--play-green);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Photo Upload Style */
+    .photo-upload-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .photo-preview {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      border: 2px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface);
+      margin-bottom: 6px;
+    }
+
+    .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Admin Panel Screen */
+    #adminScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #f8fafc;
+      z-index: 4000;
+      overflow-y: auto;
+      padding: 20px 16px;
+    }
+
+    .admin-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .admin-card img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .badge-status {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-Pending { background: #fef3c7; color: #b45309; }
+    .status-Approved { background: #d1fae5; color: #065f46; }
+    .status-Rejected { background: #fee2e2; color: #991b1b; }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 58px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .nav-item i { font-size: 19px; }
+    .nav-item.active { color: var(--play-green); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== 1. HOME SCREEN ==================== -->
+  <div id="homeScreen">
+    <div class="ps-header">
+      <i class="fas fa-search" style="color: var(--text-sub);"></i>
+      <input type="text" class="ps-search-input" placeholder="Search apps & games" id="storeSearch" onkeyup="searchFilter()" />
+      <div class="ps-avatar-box" onclick="handleProfileClick()">
+        <img id="headerUserAvatar" src="" style="display:none;" />
+        <i class="fas fa-user" id="headerUserFallback"></i>
+      </div>
+    </div>
+
+    <div class="main-tab-bar">
+      <button class="tab-btn active" id="tabApps" onclick="selectTab('apps')">Apps</button>
+      <button class="tab-btn" id="tabGames" onclick="selectTab('games')">Games</button>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title" id="secTitle">Applications</div>
+    </div>
+    <div class="apps-main-grid" id="appsGrid"></div>
+  </div>
+
+  <!-- ==================== 2. APP DETAIL SCREEN ==================== -->
+  <div id="detailScreen">
+    <div class="dt-topbar">
+      <i class="fas fa-arrow-left" style="font-size: 18px; cursor: pointer; padding: 6px;" onclick="closeAppDetails()"></i>
+      <i class="fas fa-ellipsis-v" style="font-size: 18px; color: var(--text-sub);"></i>
+    </div>
+
+    <div class="dt-header">
+      <img id="dtAppIcon" src="" class="dt-icon" alt="icon">
+      <div>
+        <h1 id="dtAppName" class="dt-title">App Name</h1>
+        <div id="dtAppDev" class="dt-developer">Studio</div>
+        <div style="font-size: 11px; color: var(--text-sub); margin-top: 2px;">Verified JOS PWA</div>
+      </div>
+    </div>
+
+    <div class="dt-stats">
+      <div style="flex:1;">
+        <div class="dt-stat-val" id="dtRating">4.9 ★</div>
+        <div class="dt-stat-lbl" id="dtReviews">0 reviews</div>
+      </div>
+      <div class="dt-divider"></div>
+      <div style="flex:1;">
+        <div class="dt-stat-val" id="dtSize">2.4 MB</div>
+        <div class="dt-stat-lbl">Size</div>
+      </div>
+      <div class="dt-divider"></div>
+      <div style="flex:1;">
+        <div class="dt-stat-val" id="dtDownloads">0</div>
+        <div class="dt-stat-lbl">Downloads</div>
+      </div>
+    </div>
+
+    <div class="dt-action-box">
+      <button class="dt-install-btn" id="dtInstallBtn" onclick="handleInstallAction()">Install</button>
+      <div class="dt-progress-bar-wrap" id="dtProgressBox">
+        <div class="dt-progress-bar" id="dtProgressBar"></div>
+        <div class="dt-progress-text" id="dtProgressText">0% Installing...</div>
+      </div>
+    </div>
+
+    <div class="dt-screenshots" id="dtScreenshotsList"></div>
+
+    <div class="dt-section">
+      <div class="dt-sec-title">About this app</div>
+      <div class="dt-description" id="dtAppDesc">Description...</div>
+    </div>
+
+    <div class="dt-section">
+      <div class="dt-sec-title">Rate this app</div>
+      <div class="rate-box">
+        <div class="stars-picker" id="starContainer">
+          <i class="fas fa-star" onclick="setStarRating(1)"></i>
+          <i class="fas fa-star" onclick="setStarRating(2)"></i>
+          <i class="fas fa-star" onclick="setStarRating(3)"></i>
+          <i class="fas fa-star" onclick="setStarRating(4)"></i>
+          <i class="fas fa-star" onclick="setStarRating(5)"></i>
+        </div>
+        <input type="text" id="userReviewText" class="review-input" placeholder="Write a review..." />
+        <button class="btn-submit-review" onclick="submitReview()">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 3. LOGIN MODAL ==================== -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="auth-card">
+      <h3 style="font-size: 20px; margin-bottom: 6px;">Login to Account</h3>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;">એપ ઇન્સ્ટોલ અને રેટિંગ કરવા માટે લૉગિન કરો.</p>
+
+      <input type="tel" id="loginMobile" class="form-input" placeholder="મોબાઇલ નંબર (Mobile No)" />
+      <input type="password" id="loginPassword" class="form-input" placeholder="પાસવર્ડ (Password)" />
+
+      <button class="btn-submit-form" onclick="executeLogin()">Login</button>
+
+      <div class="switch-link">
+        નવું એકાઉન્ટ બનાવવું છે? <br>
+        <a onclick="switchToRegister()">Create New Account (રજીસ્ટ્રેશન કરો)</a>
+      </div>
+
+      <button onclick="closeModal('loginModal')" style="width: 100%; background: none; border: none; color: var(--text-sub); margin-top: 14px; cursor: pointer; font-size: 13px;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ==================== 4. REGISTRATION MODAL ==================== -->
+  <div class="modal-backdrop" id="registerModal">
+    <div class="auth-card">
+      <h3 style="font-size: 18px; margin-bottom: 6px;">New User Registration</h3>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">તમારો સાચો ડેટા ભરો જેથી એડમિન વેરિફાય કરી શકે.</p>
+
+      <!-- Photo Upload -->
+      <div class="photo-upload-container">
+        <div class="photo-preview" onclick="document.getElementById('photoFile').click()">
+          <img id="previewImg" style="display:none;" />
+          <i class="fas fa-camera" id="cameraIcon" style="color:var(--text-sub); font-size:22px;"></i>
+        </div>
+        <span style="font-size: 11px; color: var(--text-sub);">પાસપોર્ટ સાઇઝ ફોટો સિલેક્ટ કરો</span>
+        <input type="file" id="photoFile" accept="image/*" style="display:none;" onchange="handlePhotoSelect(event)" />
+      </div>
+
+      <input type="text" id="regName" class="form-input" placeholder="પૂરું નામ (Full Name)" />
+      <input type="text" id="regAddress" class="form-input" placeholder="સરનામું (Address / Village)" />
+      <input type="tel" id="regMobile" class="form-input" placeholder="મોબાઇલ નંબર (Mobile No)" />
+      <input type="email" id="regEmail" class="form-input" placeholder="ઈમેલ આઈડી (Email Address)" />
+      <input type="password" id="regPassword" class="form-input" placeholder="પાસવર્ડ બનાવો (Create Password)" />
+
+      <button class="btn-submit-form" id="btnSubmitReg" onclick="executeRegister()">Create Account</button>
+
+      <div class="switch-link">
+        પહેલેથી એકાઉન્ટ છે? <a onclick="switchToLogin()">Login Here</a>
+      </div>
+
+      <button onclick="closeModal('registerModal')" style="width: 100%; background: none; border: none; color: var(--text-sub); margin-top: 10px; cursor: pointer; font-size: 13px;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ==================== 5. ADMIN VERIFICATION PANEL ==================== -->
+  <div id="adminScreen">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h2 style="font-size: 18px;">🛡️ JOS Admin User Approval</h2>
+      <button onclick="closeAdminPanel()" style="background: #e2e8f0; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;">Close</button>
+    </div>
+    <div id="adminUserList"></div>
+  </div>
+
+  <!-- ==================== 6. BOTTOM NAVIGATION ==================== -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" id="navApps" onclick="selectTab('apps')">
+      <i class="fas fa-shapes"></i>
+      <span>Apps</span>
+    </div>
+    <div class="nav-item" id="navGames" onclick="selectTab('games')">
+      <i class="fas fa-gamepad"></i>
+      <span>Games</span>
+    </div>
+  </nav>
+
+  <script>
+    // Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+    // Static Admin Credentials
+    const ADMIN_CREDENTIALS = {
+      mobile: "admin",
+      password: "admin"
+    };
+
+    let base64Photo = "";
+    let currentOpenApp = null;
+    let currentTab = 'apps';
+    let selectedRating = 5;
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    const defaultApps = [
+      {
+        id: "zingchat",
+        type: "apps",
+        name: "ZingChat",
+        developer: "Zing Global Inc.",
+        icon: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=200&auto=format&fit=crop&q=80",
+        rating: 4.8,
+        reviewsCount: 14,
+        size: "1.9 MB",
+        downloads: 40,
+        desc: "ઝિંગચેટ એ ઝડપી અને વિશ્વસનીય ચેટિંગ એપ છે. મિત્રો સાથે એન્ક્રિપ્ટેડ ચેટ, ફોટો શેરિંગ અને ઓનલાઇન સ્ટેટસ સરળતાથી માણો.",
+        appUrl: "/zingchat/",
+        isAvailable: true,
+        screenshots: [
+          "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?w=300&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&auto=format&fit=crop&q=80"
+        ]
+      },
+      {
+        id: "vighnaharta",
+        type: "apps",
+        name: "વિઘ્નહર્તા ગજાનન",
+        developer: "JOS Devotional Apps",
+        icon: "https://images.unsplash.com/photo-1567591414240-e14b0b14c1d2?w=200&auto=format&fit=crop&q=80",
+        rating: 5.0,
+        reviewsCount: 30,
+        size: "2.4 MB",
+        downloads: 75,
+        desc: "ગણેશ ચતુર્થી સ્પેશિયલ એપ્લિકેશન - દૈનિક લાઈવ આરતી, ગણેશ સ્તોત્ર, HD વૉલપેપર્સ અને પૂજન વિધિ માર્ગદર્શન.",
+        appUrl: "/vighnaharta-gajanan/",
+        isAvailable: true,
+        screenshots: [
+          "https://images.unsplash.com/photo-1567591414240-e14b0b14c1d2?w=300&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=300&auto=format&fit=crop&q=80"
+        ]
+      },
+      {
+        id: "speed-arcade",
+        type: "games",
+        name: "JOS Turbo Racing",
+        developer: "JOS Gaming Lab",
+        icon: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&auto=format&fit=crop&q=80",
+        rating: 0,
+        reviewsCount: 0,
+        size: "3.2 MB",
+        downloads: 0,
+        desc: "એડવેન્ચર 3D આર્કેડ રેસિંગ ગેમ. ટૂંક સમયમાં પ્લે માટે ઉપલબ્ધ થશે.",
+        appUrl: "#",
+        isAvailable: false,
+        screenshots: [
+          "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&auto=format&fit=crop&q=80"
+        ]
+      }
+    ];
+
+    let appsDB = JSON.parse(localStorage.getItem('jos_store_apps')) || defaultApps;
+    let registeredUsers = JSON.parse(localStorage.getItem('jos_registered_users')) || [];
+
+    // Helper functions
+    function saveUsers() { localStorage.setItem('jos_registered_users', JSON.stringify(registeredUsers)); }
+    function getLoggedInUser() { return JSON.parse(localStorage.getItem('jos_logged_user')); }
+
+    // Modal Switching
+    function switchToRegister() {
+      closeModal('loginModal');
+      document.getElementById('registerModal').style.display = 'flex';
+    }
+
+    function switchToLogin() {
+      closeModal('registerModal');
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Photo Handler
+    function handlePhotoSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        base64Photo = e.target.result;
+        document.getElementById('previewImg').src = base64Photo;
+        document.getElementById('previewImg').style.display = 'block';
+        document.getElementById('cameraIcon').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Execute Login (Handles both Admin and Normal Users)
+    function executeLogin() {
+      const mobile = document.getElementById('loginMobile').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+
+      if (!mobile || !pass) {
+        alert("કૃપા કરીને મોબાઇલ નંબર અને પાસવર્ડ દાખલ કરો.");
+        return;
+      }
+
+      // Check Admin Login
+      if (mobile === ADMIN_CREDENTIALS.mobile && pass === ADMIN_CREDENTIALS.password) {
+        closeModal('loginModal');
+        openAdminPanel();
+        return;
+      }
+
+      // Check User Login
+      const user = registeredUsers.find(u => u.mobile === mobile && u.password === pass);
+      if (!user) {
+        alert("ખોટો મોબાઇલ નંબર અથવા પાસવર્ડ! જો એકાઉન્ટ ન હોય તો 'Create New Account' પર ક્લિક કરો.");
+        return;
+      }
+
+      localStorage.setItem('jos_logged_user', JSON.stringify(user));
+      closeModal('loginModal');
+      updateAvatarUI();
+      alert(`સ્વાગત છે, ${user.name}!`);
+    }
+
+    // Execute Registration
+    async function executeRegister() {
+      const name = document.getElementById('regName').value.trim();
+      const address = document.getElementById('regAddress').value.trim();
+      const mobile = document.getElementById('regMobile').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      if (!name || !address || !mobile || !email || !password) {
+        alert("કૃપા કરીને બધી વિગતો ભરો.");
+        return;
+      }
+
+      // Check Duplicate
+      if (registeredUsers.some(u => u.mobile === mobile)) {
+        alert("આ મોબાઇલ નંબર પહેલેથી રજીસ્ટર છે. કૃપા કરીને લૉગિન કરો.");
+        switchToLogin();
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitReg');
+      btn.innerText = "સેવ થઈ રહ્યું છે...";
+      btn.disabled = true;
+
+      const newUser = {
+        id: "usr_" + Date.now(),
+        name,
+        address,
+        mobile,
+        email,
+        password,
+        photo: base64Photo,
+        status: "Pending", // Default Pending
+        registeredAt: new Date().toLocaleDateString()
+      };
+
+      // Send to Google Apps Script
+      try {
+        if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newUser)
+          });
+        }
+      } catch (err) {
+        console.warn("Google Sheet sync error:", err);
+      }
+
+      registeredUsers.push(newUser);
+      saveUsers();
+      localStorage.setItem('jos_logged_user', JSON.stringify(newUser));
+
+      btn.innerText = "Create Account";
+      btn.disabled = false;
+
+      alert("તમારું રજીસ્ટ્રેશન સફળ થયું છે! એડમિન Approved કરશે પછી જ એપ ઇન્સ્ટોલ થઈ શકશે.");
+      closeModal('registerModal');
+      updateAvatarUI();
+    }
+
+    // Check Approval Status
+    function checkUserStatus() {
+      const user = getLoggedInUser();
+      if (!user) {
+        document.getElementById('loginModal').style.display = 'flex';
+        return false;
+      }
+
+      const record = registeredUsers.find(u => u.mobile === user.mobile);
+      if (!record || record.status === 'Pending') {
+        alert("તમારું એકાઉન્ટ હજુ Pending છે. એડમિન મંજૂર કરશે પછી જ ડાઉનલોડ થશે.");
+        return false;
+      }
+
+      if (record.status === 'Rejected') {
+        alert("તમારી રજીસ્ટ્રેશન રિક્વેસ્ટ Reject કરવામાં આવી છે.");
+        return false;
+      }
+
+      return true;
+    }
+
+    // Profile Click (Header)
+    function handleProfileClick() {
+      const user = getLoggedInUser();
+      if (user) {
+        if (confirm(`Logged in as: ${user.name} (${user.status})\nશું તમારે Logout કરવું છે?`)) {
+          localStorage.removeItem('jos_logged_user');
+          updateAvatarUI();
+        }
+      } else {
+        document.getElementById('loginModal').style.display = 'flex';
+      }
+    }
+
+    // Admin Panel Management
+    function openAdminPanel() {
+      const container = document.getElementById('adminUserList');
+      container.innerHTML = '';
+
+      if (registeredUsers.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-sub);">કોઈ યુઝર ડેટા નથી.</p>';
+      } else {
+        registeredUsers.forEach(u => {
+          const card = document.createElement('div');
+          card.className = 'admin-card';
+          card.innerHTML = `
+            <img src="${u.photo || 'https://via.placeholder.com/50'}" alt="User">
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong>${u.name}</strong>
+                <span class="badge-status status-${u.status}">${u.status}</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-sub); margin-top:3px;">
+                📞 ${u.mobile} &bull; ✉️ ${u.email}<br>
+                📍 ${u.address}
+              </div>
+              <div style="margin-top:8px;">
+                <button onclick="setApproval('${u.id}', 'Approved')" style="background:var(--play-green); color:#fff; border:none; padding:4px 12px; border-radius:6px; cursor:pointer;">Approve</button>
+                <button onclick="setApproval('${u.id}', 'Rejected')" style="background:var(--danger); color:#fff; border:none; padding:4px 12px; border-radius:6px; margin-left:6px; cursor:pointer;">Reject</button>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+      document.getElementById('adminScreen').style.display = 'block';
+    }
+
+    function setApproval(userId, status) {
+      const u = registeredUsers.find(item => item.id === userId);
+      if (u) {
+        u.status = status;
+        saveUsers();
+        // If logged user is updated
+        const current = getLoggedInUser();
+        if (current && current.id === userId) {
+          current.status = status;
+          localStorage.setItem('jos_logged_user', JSON.stringify(current));
+        }
+        openAdminPanel();
+      }
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('adminScreen').style.display = 'none';
+      updateAvatarUI();
+    }
+
+    function updateAvatarUI() {
+      const active = getLoggedInUser();
+      const img = document.getElementById('headerUserAvatar');
+      const fallback = document.getElementById('headerUserFallback');
+
+      if (active && active.photo) {
+        img.src = active.photo;
+        img.style.display = 'block';
+        fallback.style.display = 'none';
+      } else if (active && active.name) {
+        img.style.display = 'none';
+        fallback.style.display = 'block';
+        fallback.className = '';
+        fallback.innerText = active.name.charAt(0).toUpperCase();
+      } else {
+        img.style.display = 'none';
+        fallback.style.display = 'block';
+        fallback.className = 'fas fa-user';
+        fallback.innerText = '';
+      }
+    }
+
+    // Tabs & Render
+    function selectTab(tab) {
+      currentTab = tab;
+      document.getElementById('tabApps').classList.toggle('active', tab === 'apps');
+      document.getElementById('tabGames').classList.toggle('active', tab === 'games');
+      document.getElementById('navApps').classList.toggle('active', tab === 'apps');
+      document.getElementById('navGames').classList.toggle('active', tab === 'games');
+      document.getElementById('secTitle').innerText = tab === 'apps' ? 'Applications' : 'Games';
+      renderTabContent();
+    }
+
+    function renderTabContent() {
+      const grid = document.getElementById('appsGrid');
+      grid.innerHTML = '';
+      const filtered = appsDB.filter(a => a.type === currentTab);
+      filtered.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'play-card';
+        card.innerHTML = `
+          <img src="${app.icon}" class="play-card-img" alt="${app.name}">
+          <div class="play-card-title">${app.name}</div>
+          <div class="play-card-meta">${app.rating ? app.rating + ' ★' : 'Upcoming'}</div>
+        `;
+        card.onclick = () => openAppDetails(app.id);
+        grid.appendChild(card);
+      });
+    }
+
+    function openAppDetails(id) {
+      const app = appsDB.find(a => a.id === id);
+      if (!app) return;
+      currentOpenApp = app;
+
+      document.getElementById('dtAppIcon').src = app.icon;
+      document.getElementById('dtAppName').innerText = app.name;
+      document.getElementById('dtAppDev').innerText = app.developer;
+      document.getElementById('dtRating').innerText = (app.rating ? app.rating + ' ★' : 'New');
+      document.getElementById('dtReviews').innerText = app.reviewsCount + ' reviews';
+      document.getElementById('dtSize').innerText = app.size;
+      document.getElementById('dtDownloads').innerText = app.downloads + '+';
+      document.getElementById('dtAppDesc').innerText = app.desc;
+
+      const scList = document.getElementById('dtScreenshotsList');
+      scList.innerHTML = '';
+      app.screenshots.forEach(s => {
+        const img = document.createElement('img');
+        img.src = s;
+        img.className = 'dt-shot';
+        scList.appendChild(img);
+      });
+
+      const btn = document.getElementById('dtInstallBtn');
+      btn.innerText = app.isAvailable ? "Install" : "Coming Soon";
+      btn.disabled = !app.isAvailable;
+      btn.style.background = app.isAvailable ? "var(--play-green)" : "#5f6368";
+
+      document.getElementById('dtProgressBox').style.display = 'none';
+      btn.style.display = 'block';
+      setStarRating(5);
+      document.getElementById('detailScreen').style.display = 'block';
+    }
+
+    function closeAppDetails() {
+      document.getElementById('detailScreen').style.display = 'none';
+    }
+
+    function handleInstallAction() {
+      if (!currentOpenApp || !currentOpenApp.isAvailable) return;
+      if (!checkUserStatus()) return;
+
+      currentOpenApp.downloads += 1;
+      localStorage.setItem('jos_store_apps', JSON.stringify(appsDB));
+      document.getElementById('dtDownloads').innerText = currentOpenApp.downloads + '+';
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt = null;
+      }
+
+      const btn = document.getElementById('dtInstallBtn');
+      const box = document.getElementById('dtProgressBox');
+      const bar = document.getElementById('dtProgressBar');
+      const txt = document.getElementById('dtProgressText');
+
+      btn.style.display = 'none';
+      box.style.display = 'block';
+
+      let p = 0;
+      const t = setInterval(() => {
+        p += 25;
+        bar.style.width = p + '%';
+        txt.innerText = p + '% Installing...';
+        if (p >= 100) {
+          clearInterval(t);
+          setTimeout(() => {
+            box.style.display = 'none';
+            btn.style.display = 'block';
+            btn.innerText = "Open";
+            btn.style.background = "#1a73e8";
+            btn.onclick = () => window.location.href = currentOpenApp.appUrl;
+          }, 300);
+        }
+      }, 100);
+    }
+
+    function setStarRating(r) {
+      selectedRating = r;
+      const stars = document.getElementById('starContainer').children;
+      for (let i = 0; i < 5; i++) stars[i].classList.toggle('active', i < r);
+    }
+
+    function submitReview() {
+      if (!currentOpenApp) return;
+      if (!checkUserStatus()) return;
+
+      currentOpenApp.reviewsCount += 1;
+      currentOpenApp.rating = (((currentOpenApp.rating * (currentOpenApp.reviewsCount - 1)) + selectedRating) / currentOpenApp.reviewsCount).toFixed(1);
+      localStorage.setItem('jos_store_apps', JSON.stringify(appsDB));
+
+      document.getElementById('dtRating').innerText = currentOpenApp.rating + ' ★';
+      document.getElementById('dtReviews').innerText = currentOpenApp.reviewsCount + ' reviews';
+      document.getElementById('userReviewText').value = '';
+      alert(`આભાર! તમારું ${selectedRating}★ રેટિંગ સબમિટ થઈ ગયું છે.`);
+    }
+
+    function searchFilter() {
+      const q = document.getElementById('storeSearch').value.toLowerCase();
+      const grid = document.getElementById('appsGrid');
+      grid.innerHTML = '';
+      const filtered = appsDB.filter(a => a.type === currentTab && a.name.toLowerCase().includes(q));
+      filtered.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'play-card';
+        card.innerHTML = `
+          <img src="${app.icon}" class="play-card-img" alt="${app.name}">
+          <div class="play-card-title">${app.name}</div>
+          <div class="play-card-meta">${app.rating ? app.rating + ' ★' : 'Upcoming'}</div>
+        `;
+        card.onclick = () => openAppDetails(app.id);
+        grid.appendChild(card);
+      });
+    }
+
+    window.onload = () => {
+      updateAvatarUI();
+      selectTab('apps');
+    };
+  </script>
+</body>
+</html>
