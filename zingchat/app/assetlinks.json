@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.netlify.jangidos.twa",
+        "sha256_cert_fingerprints": ["51:B4:57:8B:5E:78:2E:0E:38:73:A9:9B:E2:5F:F3:0F:B0:14:F7:35:1C:55:25:96:BA:81:54:EF:72:5E:BE:19"]
+      }
+    }]
