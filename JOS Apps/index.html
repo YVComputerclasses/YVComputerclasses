@@ -981,7 +981,7 @@
 
     function handleInstallAction() {
       if (!currentOpenApp || !currentOpenApp.isAvailable) return;
-      if (!checkUserStatus()) return;
+      // if (!checkUserStatus()) return;
 
       currentOpenApp.downloads += 1;
       localStorage.setItem('jos_store_apps', JSON.stringify(appsDB));
@@ -1026,7 +1026,7 @@
 
     function submitReview() {
       if (!currentOpenApp) return;
-      if (!checkUserStatus()) return;
+      // if (!checkUserStatus()) return;
 
       currentOpenApp.reviewsCount += 1;
       currentOpenApp.rating = (((currentOpenApp.rating * (currentOpenApp.reviewsCount - 1)) + selectedRating) / currentOpenApp.reviewsCount).toFixed(1);
