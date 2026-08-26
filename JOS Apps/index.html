@@ -673,6 +673,44 @@
       }
     ];
 
+    function startDownloadProgress() {
+  currentOpenApp.downloads += 1;
+  localStorage.setItem('jos_store_apps', JSON.stringify(appsDB));
+  document.getElementById('dtDownloads').innerText = currentOpenApp.downloads + '+';
+
+  const btn = document.getElementById('dtInstallBtn');
+  const box = document.getElementById('dtProgressBox');
+  const bar = document.getElementById('dtProgressBar');
+  const txt = document.getElementById('dtProgressText');
+
+  btn.style.display = 'none';
+  box.style.display = 'block';
+
+  let p = 0;
+  const t = setInterval(() => {
+    p += 25;
+    bar.style.width = p + '%';
+    txt.innerText = p + '% Downloading APK...';
+    if (p >= 100) {
+      clearInterval(t);
+      setTimeout(() => {
+        box.style.display = 'none';
+        btn.style.display = 'block';
+        btn.innerText = "Downloaded";
+        btn.style.background = "#1a73e8";
+
+        // સીધી ફાઈલ ડાઉનલોડ ટ્રિગર કરો
+        const downloadLink = document.createElement("a");
+        downloadLink.href = currentOpenApp.apkUrl;
+        downloadLink.download = currentOpenApp.name + ".apk";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }, 300);
+    }
+  }, 100);
+}
+
     let appsDB = JSON.parse(localStorage.getItem('jos_store_apps')) || defaultApps;
     let registeredUsers = JSON.parse(localStorage.getItem('jos_registered_users')) || [];
 
