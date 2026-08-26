@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ZingChat Ultra Secure</title>
+  <link rel="icon" type="image/png" href="image/Logo1.png">
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #0a0612 0%, #120a2b 50%, #030308 100%);
@@ -98,6 +99,7 @@
 
     <!-- SCREEN 1: LOGIN (UPDATED: ONLY MOBILE NUMBER) -->
     <div id="loginScreen" class="screen form-container active">
+      <img src="image/Logo1.png" alt="ZingChat Logo" style="width: 80px; height: 80px; margin-bottom: 15px;">
       <div class="brand-logo">ZingChat</div>
       <div class="brand-subtitle">Enter Mobile Number to Login securely</div>
       <!-- Name input box bad nikal diya hai -->
@@ -270,7 +272,7 @@
 
       if(!name || !mobile || !faceBase64 || !aadharNo || !aadharBase64) return alert("Badhi details mandatory chhe!");
 
-      submitBtn.disabled = true; submitBtn.innerText = "Uploading to Secure Sheet...";
+      submitBtn.disabled = true; submitBtn.innerText = "Please Wait...";
       
       // FIXED ENGINE PAYLOAD KEYS MATCHING WITH BACKEND
       fetch(SCRIPT_URL, {
@@ -296,7 +298,7 @@
       })
       .catch(() => { 
         submitBtn.disabled = false; submitBtn.innerText = "Send Register Request"; 
-        alert("Registration saved to Sheet successfully!");
+        alert("Registration successfully!");
         switchScreen('loginScreen');
       });
     }
@@ -334,7 +336,7 @@
     function handleAdminLogin() {
       const user = document.getElementById('adminUser').value.trim();
       const pass = document.getElementById('adminPass').value.trim();
-      if(user === "admin" && pass === "zing123") {
+      if(user === "admin" && pass === "zing@7919") {
         switchScreen('adminPanelScreen');
         loadAdminMatrixData();
       } else {
