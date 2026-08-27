@@ -249,7 +249,7 @@
             <div class="card">
                 <h2>🔴 લાઈવ આરતી દર્શન</h2>
                 <div class="video-container">
-                    <iframe id="liveDarshanIframe" src="" allowfullscreen></iframe>
+                    <iframe id="liveDarshanIframe" src="#" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -494,47 +494,71 @@
             }
         }
 
-        function renderUI() {
-            document.getElementById('m-aarti').innerText = liveData.morningAarti || "--:--";
-            document.getElementById('e-aarti').innerText = liveData.eveningAarti || "--:--";
-            document.getElementById('sponsor').innerText = liveData.sponsor || "--";
-            
-            if (liveData.liveUrl) {
-                document.getElementById('liveDarshanIframe').src = liveData.liveUrl;
-            }
+        async function renderUI() {
+    document.getElementById('m-aarti').innerText = liveData.morningAarti || "--:--";
+    document.getElementById('e-aarti').innerText = liveData.eveningAarti || "--:--";
+    document.getElementById('sponsor').innerText = liveData.sponsor || "--";
+    
+    // YouTube Video & Auto Title Fetch
+    const iframe = document.getElementById('liveDarshanIframe');
+    const liveTitleHeading = document.querySelector('#live-darshan h2');
 
-            // Gallery
-            const galleryElem = document.getElementById('publicGalleryGrid');
-            if (galleryElem && liveData.photos) {
-                galleryElem.innerHTML = liveData.photos.map(img => `<img src="${img}" class="gallery-item" onclick="window.open('${img}', '_blank')">`).join('');
-            }
+    if (liveData.liveUrl) {
+        iframe.src = liveData.liveUrl;
 
-            // Donors
-            const listElem = document.getElementById('publicDonorsList');
-            const totalElem = document.getElementById('publicTotalDonation');
-            if (listElem && totalElem && liveData.donations) {
-                let total = 0;
-                listElem.innerHTML = liveData.donations.map((item, idx) => {
-                    total += Number(item.amount);
-                    return `
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; margin-bottom:6px; text-align:left;">
-                            <div>
-                                <b style="color:#fff;">${idx + 1}. ${item.name}</b>
-                                <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${item.date} | રસીદ: ${item.receiptNo}</div>
-                            </div>
-                            <div style="font-size:1.1em; font-weight:bold; color:#81c784;">₹ ${Number(item.amount).toLocaleString('en-IN')}</div>
-                        </div>
-                    `;
-                }).join('') || "<p style='color:#aaa;'>હજુ સુધી કોઈ એન્ટ્રી નથી.</p>";
-                totalElem.innerText = `₹ ${total.toLocaleString('en-IN')}`;
-            }
-
-            // Wishes
-            const wishListElem = document.getElementById('wishList');
-            if (wishListElem && liveData.wishes) {
-                wishListElem.innerHTML = liveData.wishes.map(w => `<div class="wish-item"><b>${w.name}:</b> ${w.text}</div>`).join('');
+        // જો લાઈવ સ્ટ્રીમ ચેનલ લિંક હોય
+        if (liveData.liveUrl.includes('channel=')) {
+            if (liveTitleHeading) liveTitleHeading.innerText = "🔴 લાઈવ આરતી દર્શન પ્રસારણ";
+        } else {
+            // સાદા YouTube વિડીયો કે લાઈવ વિડીયો માટે YouTube API થી ટાઈટલ લાવો
+            try {
+                const response = await fetch(`https://noembed.com/embed?dataType=json&url=${encodeURIComponent(liveData.liveUrl)}`);
+                const data = await response.json();
+                
+                if (data.title && liveTitleHeading) {
+                    // વિડીયોનું ઓરિજિનલ ટાઈટલ સેટ થશે
+                    liveTitleHeading.innerText = "🎬 " + data.title;
+                } else if (liveTitleHeading) {
+                    liveTitleHeading.innerText = "🔴 લાઈવ દર્શન / વિડીયો";
+                }
+            } catch (err) {
+                if (liveTitleHeading) liveTitleHeading.innerText = "🔴 લાઈવ દર્શન / વિડીયો";
             }
         }
+    }
+
+    // Gallery Render
+    const galleryElem = document.getElementById('publicGalleryGrid');
+    if (galleryElem && liveData.photos) {
+        galleryElem.innerHTML = liveData.photos.map(img => `<img src="${img}" class="gallery-item" onclick="window.open('${img}', '_blank')">`).join('');
+    }
+
+    // Donors Render
+    const listElem = document.getElementById('publicDonorsList');
+    const totalElem = document.getElementById('publicTotalDonation');
+    if (listElem && totalElem && liveData.donations) {
+        let total = 0;
+        listElem.innerHTML = liveData.donations.map((item, idx) => {
+            total += Number(item.amount);
+            return `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; margin-bottom:6px; text-align:left;">
+                    <div>
+                        <b style="color:#fff;">${idx + 1}. ${item.name}</b>
+                        <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${item.date} | રસીદ: ${item.receiptNo}</div>
+                    </div>
+                    <div style="font-size:1.1em; font-weight:bold; color:#81c784;">₹ ${Number(item.amount).toLocaleString('en-IN')}</div>
+                </div>
+            `;
+        }).join('') || "<p style='color:#aaa;'>હજુ સુધી કોઈ એન્ટ્રી નથી.</p>";
+        totalElem.innerText = `₹ ${total.toLocaleString('en-IN')}`;
+    }
+
+    // Wishes Render
+    const wishListElem = document.getElementById('wishList');
+    if (wishListElem && liveData.wishes) {
+        wishListElem.innerHTML = liveData.wishes.map(w => `<div class="wish-item"><b>${w.name}:</b> ${w.text}</div>`).join('');
+    }
+}
 
         function renderAdminUserPanels() {
             // Admin Panel Donors List
@@ -745,14 +769,26 @@
         }
 
         async function saveLiveUrl() {
-            const url = document.getElementById('aLiveUrl').value.trim();
-            if (!url) { alert("YouTube URL લખો!"); return; }
+    let url = document.getElementById('aLiveUrl').value.trim();
+    if (!url) { alert("YouTube લિંક લખો!"); return; }
 
-            const isSaved = await postToSheet({ action: "updateSchedule", liveUrl: url });
-            if (isSaved) {
-                alert("લાઈવ લિંક અપડેટ થઈ ગઈ! 🔴");
-            }
-        }
+    // ૧. સામાન્ય youtube.com/watch?v=ID વાળી લિંક માટે
+    if (url.includes("watch?v=")) {
+        const videoId = url.split("watch?v=")[1].split("&")[0];
+        url = "https://www.youtube.com/embed/" + videoId;
+    } 
+    // ૨. ટૂંકી youtu.be/ID વાળી લિંક માટે
+    else if (url.includes("youtu.be/")) {
+        const videoId = url.split("youtu.be/")[1].split("?")[0];
+        url = "https://www.youtube.com/embed/" + videoId;
+    }
+    // ૩. લાઈવ સ્ટ્રીમ ચેનલ વાળી લિંક હોય તો સીધી ચાલવા દેશે
+
+    const isSaved = await postToSheet({ action: "updateSchedule", liveUrl: url });
+    if (isSaved) {
+        alert("લાઈવ લિંક સફળતાપૂર્વક અપડેટ થઈ ગઈ! 🔴");
+    }
+}
 
         async function addPhoto() {
             const url = document.getElementById('aPhotoUrl').value.trim();
