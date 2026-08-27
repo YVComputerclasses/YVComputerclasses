@@ -230,16 +230,16 @@
 
             <div class="card">
                 <h2>🙏 લાઈવ સેવા & આરતી</h2>
-                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">--:--</span></p>
-                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">--:--</span></p>
+                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">Loading</span></p>
+                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">Loading</span></p>
                 <hr style="border-color: rgba(255,255,255,0.1);">
                 <p><b>🍎 આજનો મહાપ્રસાદ સેવા:</b></p>
-                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">--</p>
+                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">Loading</p>
             </div>
 
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
-                <img id="upiQRImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=mandal@upi&pn=VighnahartaGajanan" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
+                <img id="upiQRImg" src="" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
                 <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
             </div>
         </div>
@@ -329,7 +329,7 @@
             </div>
         </div>
 
-        <!-- TAB 8: USER PANEL -->
+        <!-- ================= TAB 8: USER PANEL ================= -->
         <div id="user-panel" class="tab-content">
             <div class="card" style="border: 2px solid #3498db; text-align: left;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -338,24 +338,24 @@
                 </div>
                 <hr style="border-color: rgba(255,255,255,0.1); margin:12px 0;">
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">🧾 ૧. નવી પાવતી બનાવો</h3>
+                <h3 style="color:var(--gold-glow); font-size:1em;">🧾 ૧. નવી પાવતી બનાવો & Image WhatsApp કરો</h3>
                 <input type="text" id="uDonorName" class="form-input" placeholder="દાતાનું પૂરું નામ *">
-                <input type="text" id="uDonorPhone" class="form-input" placeholder="WhatsApp નંબર">
-                <input type="text" id="uDonorAddress" class="form-input" placeholder="સરનામું">
+                <input type="text" id="uDonorPhone" class="form-input" placeholder="દાતાનો WhatsApp નંબર">
+                <input type="text" id="uDonorAddress" class="form-input" placeholder="સરનામું / ગામ / સોસાયટી">
                 <input type="number" id="uDonorAmount" class="form-input" placeholder="રકમ (₹) *">
-                <button class="action-btn" onclick="saveDonor('user')" style="width:100%; background:#25D366; color:#000; border:none; margin-bottom:20px;">
-                    🖼️ પાવતી બનાવો & WhatsApp મોકલો
+                <button class="action-btn" onclick="saveDonor('user')" style="width:100%; background:#25D366; color:#000; border:none; margin-bottom:20px; font-size:1em;">
+                    🖼️ પાવતી ઈમેજ બનાવો & WhatsApp મોકલો
                 </button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">⏰ ૨. આરતી સમય & પ્રસાદ અપડેટ</h3>
-                <input type="text" id="uMorning" class="form-input" placeholder="સવારની આરતી (08:00 AM)">
-                <input type="text" id="uEvening" class="form-input" placeholder="સાંજની આરતી (07:30 PM)">
-                <input type="text" id="uSponsor" class="form-input" placeholder="પ્રસાદ સ્પોન્સર">
+                <h3 style="color:var(--gold-glow); font-size:1em;">⏰ ૨. આરતી સમય & મહાપ્રસાદ અપડેટ</h3>
+                <input type="text" id="uMorning" class="form-input" placeholder="સવારની આરતી સમય (દા.ત. 08:00 AM)">
+                <input type="text" id="uEvening" class="form-input" placeholder="સાંજની આરતી સમય (દા.ત. 07:30 PM)">
+                <input type="text" id="uSponsor" class="form-input" placeholder="આજના મહાપ્રસાદ સેવા સ્પોન્સર">
                 <button class="action-btn" onclick="updateSchedule('user')" style="width:100%;">માહિતી અપડેટ કરો ✅</button>
             </div>
         </div>
 
-        <!-- TAB 9: ADMIN PANEL -->
+        <!-- ================= TAB 9: ADMIN PANEL ================= -->
         <div id="admin-panel" class="tab-content">
             <div class="card" style="border: 2px solid var(--gold); text-align: left;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -364,31 +364,36 @@
                 </div>
                 <hr style="border-color: rgba(255,255,255,0.1); margin:12px 0;">
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૧. પાવતી બનાવો</h3>
+                <h3 style="color:var(--gold-glow); font-size:1em; margin-top:0;">૧. પાવતી (Create, WhatsApp, Re-download)</h3>
                 <input type="text" id="aDonorName" class="form-input" placeholder="દાતાનું નામ *">
                 <input type="text" id="aDonorPhone" class="form-input" placeholder="WhatsApp નંબર">
                 <input type="text" id="aDonorAddress" class="form-input" placeholder="સરનામું">
                 <input type="number" id="aDonorAmount" class="form-input" placeholder="રકમ (₹) *">
-                <button class="action-btn" onclick="saveDonor('admin')" style="width:100%; background:#27ae60; color:#fff; border:none; margin-bottom:12px;">🖼️ પાવતી બનાવો</button>
+                <button class="action-btn" onclick="saveDonor('admin')" style="width:100%; background:#27ae60; color:#fff; border:none; margin-bottom:12px;">🖼️ + પાવતી બનાવો & WhatsApp</button>
+                
+                <p style="font-size:0.85em; color:#ffcc80; margin-bottom:6px;">દાતા યાદી કંટ્રોલ (Live Google Sheet Data):</p>
+                <div id="adminDonorsManageList" style="max-height:220px; overflow-y:auto; margin-bottom:20px;"></div>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૨. આરતી સમય & પ્રસાદ</h3>
-                <input type="text" id="aMorning" class="form-input" placeholder="સવારની આરતી">
-                <input type="text" id="aEvening" class="form-input" placeholder="સાંજની આરતી">
+                <h3 style="color:var(--gold-glow); font-size:1em;">૨. આરતી સમય & પ્રસાદ અપડેટ</h3>
+                <input type="text" id="aMorning" class="form-input" placeholder="સવારની આરતી (દા.ત. 08:00 AM)">
+                <input type="text" id="aEvening" class="form-input" placeholder="સાંજની આરતી (દા.ત. 07:30 PM)">
                 <input type="text" id="aSponsor" class="form-input" placeholder="પ્રસાદ સ્પોન્સર">
                 <button class="action-btn" onclick="updateSchedule('admin')" style="width:100%; margin-bottom:20px;">સમય અપડેટ કરો ✅</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૩. લાઈવ દર્શન લિંક</h3>
-                <input type="text" id="aLiveUrl" class="form-input" placeholder="YouTube Embed URL">
+                <h3 style="color:var(--gold-glow); font-size:1em;">૩. લાઈવ દર્શન લિંક (YouTube Embed)</h3>
+                <input type="text" id="aLiveUrl" class="form-input" placeholder="YouTube Embed URL મૂકો">
                 <button class="action-btn" onclick="saveLiveUrl()" style="width:100%; margin-bottom:20px;">લાઈવ લિંક અપડેટ કરો 🔴</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૪. ફોટો ગેલેરી</h3>
-                <input type="text" id="aPhotoUrl" class="form-input" placeholder="ફોટો URL">
-                <button class="action-btn" onclick="addPhoto()" style="width:100%; margin-bottom:20px;">+ ફોટો ઉમેરો</button>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૪. ફોટો ગેલેરી મેનેજમેન્ટ</h3>
+                <input type="text" id="aPhotoUrl" class="form-input" placeholder="નવા ફોટાની URL લિંક ઉમેરો">
+                <button class="action-btn" onclick="addPhoto()" style="width:100%; margin-bottom:10px;">+ ફોટો ઉમેરો</button>
+                <div id="adminGalleryList" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;"></div>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૫. User મેનેજમેન્ટ</h3>
-                <input type="text" id="newUserName" class="form-input" placeholder="યુઝરનેમ">
-                <input type="password" id="newUserPin" class="form-input" placeholder="PIN/પાસવર્ડ">
-                <button class="action-btn" onclick="addNewUser()" style="width:100%;">+ નવો User ઉમેરો</button>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૫. User / મંડપ કાર્યકર્તા મેનેજમેન્ટ</h3>
+                <input type="text" id="newUserName" class="form-input" placeholder="નવા યુઝરનું નામ">
+                <input type="password" id="newUserPin" class="form-input" placeholder="તેનો લૉગિન PIN/પાસવર્ડ">
+                <button class="action-btn" onclick="addNewUser()" style="width:100%; margin-bottom:10px;">+ નવો User ઉમેરો</button>
+                <div id="adminUsersList" style="max-height:150px; overflow-y:auto;"></div>
             </div>
         </div>
 
@@ -398,7 +403,7 @@
     <div id="authModal" class="modal">
         <div class="modal-card">
             <h3 id="authModalTitle" style="color: var(--gold); margin-top:0;">🔐 લૉગિન કરો</h3>
-            <input type="text" id="loginUsername" class="form-input" placeholder="યુઝરનેમ">
+            <input type="text" id="loginUsername" class="form-input" placeholder="યુઝરનેમ (Admin માટે જરૂર નથી)">
             <input type="password" id="loginPassword" class="form-input" placeholder="પાસવર્ડ / PIN">
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button class="action-btn" onclick="handleAuthLogin()" style="flex:1; background:var(--gold); color:#000;">લૉગિન</button>
@@ -410,11 +415,10 @@
     <audio id="shankhAudio" src="image/5 Shankh Sound Effect  Non Copyright  Free Use.mp3"></audio>
 
     <script>
-        // 🛑 તમારી Google Apps Script URL અહીં એન્ટર કરો
-        const GOOGLE_SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+        // 🛑 તમારી Google Apps Script Web App URL અહીં એક જ વાર મૂકો
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysgGTd5iyS3DAzTdf5TqgUPFQeXNMPj6UIuOZ1laEFQ6XLnLrgvdlsdoh8XaQ0CvRb/exec";
         const MASTER_ADMIN_PASS = "Daku@3641";
 
-        // LIVE RUNTIME DATA (NO LOCAL STORAGE)
         let liveData = {
             morningAarti: "--:--",
             eveningAarti: "--:--",
@@ -430,14 +434,13 @@
         let currentRole = null;
         let authTypeTarget = 'user';
         let currentReceiptBlob = null;
+        let currentReceiptPhone = "";
 
         // ================= 🔄 FETCH FROM GOOGLE SHEETS =================
         async function fetchLiveData() {
             const loader = document.getElementById('syncLoader');
-            if (loader) { loader.style.display = 'flex'; loader.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...'; }
-
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE") {
-                if (loader) loader.innerHTML = "⚠️ Apps Script URL મૂકો";
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+                if (loader) loader.innerHTML = "⚠️ Apps Script URL સેટ કરો";
                 return;
             }
 
@@ -447,7 +450,8 @@
                 if (json.status === "success" && json.data) {
                     liveData = json.data;
                     renderUI();
-                    if (loader) loader.innerHTML = "✅ કનેક્ટેડ";
+                    renderAdminUserPanels();
+                    if (loader) loader.innerHTML = "✅ Live Data અપડેટ";
                 }
             } catch (e) {
                 console.error("Fetch Error:", e);
@@ -457,32 +461,38 @@
             }
         }
 
-        // 1. ડેટા POST થયા પછી આપમેળે તાજો ડેટા ફેચ થશે
-async function postToSheet(payload) {
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE") return;
-    try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        
-        // ગૂગલ શીટમાં સેવ થયા બાદ તરત જ લાઈવ ડેટા રી-ફેચ કરશે
-        setTimeout(fetchLiveData, 1500);
-    } catch (e) {
-        console.error("POST Error:", e);
-    }
-}
+        // ================= 🚀 UNIVERSAL POST TO GOOGLE SHEETS =================
+        async function postToSheet(payload) {
+            const loader = document.getElementById('syncLoader');
+            if (loader) { 
+                loader.style.display = 'flex'; 
+                loader.innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-spin"></i> સેવ થઈ રહ્યું છે...'; 
+            }
 
-// 2. પેજ લોડ થતાં જ ફેચ થશે અને દર ૧૦ સેકન્ડે રિયલ-ટાઇમ ચેક કરતું રહેશે
-window.addEventListener('load', () => {
-    fetchLiveData();
-    changeLyrics();
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+                alert("⚠️ Deta Fech Error");
+                if (loader) loader.style.display = 'none';
+                return false;
+            }
 
-    // દર ૧૦ સેકન્ડે ગૂગલ શીટમાંથી નવો ડેટા આપમેળે અપડેટ થશે (Real-time Live Sync)
-    setInterval(fetchLiveData, 10000); 
-});
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                setTimeout(fetchLiveData, 1500);
+                if (loader) loader.innerHTML = "✅ સેવ થઈ ગયું";
+                return true;
+            } catch (e) {
+                console.error("POST Error:", e);
+                alert("❌ ડેટા સેવ કરતી વખતે એરર આવી!");
+                if (loader) loader.style.display = 'none';
+                return false;
+            }
+        }
 
         function renderUI() {
             document.getElementById('m-aarti').innerText = liveData.morningAarti || "--:--";
@@ -526,8 +536,57 @@ window.addEventListener('load', () => {
             }
         }
 
+        function renderAdminUserPanels() {
+            // Admin Panel Donors List
+            const admDonors = document.getElementById('adminDonorsManageList');
+            if (admDonors && liveData.donations) {
+                admDonors.innerHTML = liveData.donations.map((item) => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#180a02; padding:8px 10px; border-radius:6px; margin-bottom:5px; border:1px solid rgba(255,193,7,0.2);">
+                        <div>
+                            <b>${item.name}</b> (₹${item.amount})<br>
+                            <small style="color:#bbb;">${item.phone || 'No Phone'} | ${item.receiptNo}</small>
+                        </div>
+                        <div>
+                            <button onclick="generateReceipt('${item.receiptNo}', '${item.name}', '${item.amount}', '${item.address}', '${item.date}', '${item.phone}')" style="background:#25D366; border:none; color:#000; padding:6px 10px; border-radius:4px; cursor:pointer;" title="ઈમેજ રસીદ"><i class="fa-solid fa-image"></i> પાવતી</button>
+                        </div>
+                    </div>
+                `).join('') || "<p style='color:#aaa; font-size:0.85em;'>કોઈ દાતા મળ્યા નથી.</p>";
+            }
+
+            // Admin Gallery Preview
+            const admPhotos = document.getElementById('adminGalleryList');
+            if (admPhotos && liveData.photos) {
+                admPhotos.innerHTML = liveData.photos.map(src => `
+                    <div style="position:relative; display:inline-block;">
+                        <img src="${src}" style="width:65px; height:65px; object-fit:cover; border-radius:6px; border:1px solid var(--gold);">
+                    </div>
+                `).join('');
+            }
+
+            // Admin Users List
+            const admUsers = document.getElementById('adminUsersList');
+            if (admUsers && liveData.users) {
+                admUsers.innerHTML = liveData.users.map(u => `
+                    <div style="display:flex; justify-content:space-between; background:#180a02; padding:6px 10px; border-radius:6px; margin-bottom:4px; font-size:0.9em; border:1px solid rgba(255,255,255,0.1);">
+                        <span>👤 ${u.name} (PIN: ${u.pin})</span>
+                    </div>
+                `).join('') || "<p style='color:#aaa; font-size:0.85em;'>ગૂગલ શીટમાં કોઈ યુઝર મળ્યા નથી.</p>";
+            }
+
+            // Inputs Auto-Fill
+            if (document.getElementById('aMorning')) document.getElementById('aMorning').value = liveData.morningAarti || '';
+            if (document.getElementById('aEvening')) document.getElementById('aEvening').value = liveData.eveningAarti || '';
+            if (document.getElementById('aSponsor')) document.getElementById('aSponsor').value = liveData.sponsor || '';
+            if (document.getElementById('aLiveUrl')) document.getElementById('aLiveUrl').value = liveData.liveUrl || '';
+
+            if (document.getElementById('uMorning')) document.getElementById('uMorning').value = liveData.morningAarti || '';
+            if (document.getElementById('uEvening')) document.getElementById('uEvening').value = liveData.eveningAarti || '';
+            if (document.getElementById('uSponsor')) document.getElementById('uSponsor').value = liveData.sponsor || '';
+        }
+
         // ================= 🎨 RECEIPT GENERATOR =================
         function generateReceipt(receiptNo, name, amount, address, dateStr, phone) {
+            currentReceiptPhone = phone || "";
             const canvas = document.getElementById('receiptCanvas');
             const ctx = canvas.getContext('2d');
 
@@ -536,6 +595,10 @@ window.addEventListener('load', () => {
             ctx.strokeStyle = "#ffc107";
             ctx.lineWidth = 6;
             ctx.strokeRect(15, 15, 570, 720);
+
+            ctx.strokeStyle = "#ff5722";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(22, 22, 556, 706);
 
             ctx.fillStyle = "#ff5722";
             ctx.fillRect(25, 25, 550, 100);
@@ -580,10 +643,28 @@ window.addEventListener('load', () => {
             ctx.font = "bold 34px Arial";
             ctx.fillText(`₹ ${Number(amount).toLocaleString('en-IN')} /-`, 55, 500);
 
+            // Stamp
+            ctx.save();
+            ctx.translate(450, 590);
+            ctx.rotate(-0.15);
+            ctx.strokeStyle = "#ff5722";
+            ctx.lineWidth = 3;
+            ctx.strokeRect(-80, -25, 160, 50);
+            ctx.fillStyle = "#ff7043";
+            ctx.font = "bold 15px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("✔ રકમ સ્વીકારેલ છે", 0, -2);
+            ctx.font = "12px Arial";
+            ctx.fillText("વિઘ્નહર્તા ગજાનન મંડળ", 0, 16);
+            ctx.restore();
+
             ctx.fillStyle = "#ffcc80";
             ctx.font = "italic 15px Arial";
             ctx.textAlign = "center";
             ctx.fillText("ગણેશ મહોત્સવમાં સહયોગ બદલ આભાર!", 300, 680);
+            ctx.fillStyle = "#888";
+            ctx.font = "12px Arial";
+            ctx.fillText("Designed by જાંગીડ ઓનલાઇન સેવાઓ", 300, 710);
 
             canvas.toBlob(blob => { currentReceiptBlob = blob; }, 'image/png');
             document.getElementById('receiptModal').style.display = 'flex';
@@ -611,30 +692,37 @@ window.addEventListener('load', () => {
             document.getElementById('receiptModal').style.display = 'none';
         }
 
-        // ================= 📝 ACTIONS =================
-        function saveDonor(source) {
+        // ================= 📝 ALL ACTION HANDLERS =================
+        async function saveDonor(source) {
             const p = source === 'user' ? 'u' : 'a';
-            const name = document.getElementById(p + 'DonorName').value;
-            const phone = document.getElementById(p + 'DonorPhone').value;
-            const address = document.getElementById(p + 'DonorAddress').value;
-            const amount = document.getElementById(p + 'DonorAmount').value;
+            const name = document.getElementById(p + 'DonorName').value.trim();
+            const phone = document.getElementById(p + 'DonorPhone').value.trim();
+            const address = document.getElementById(p + 'DonorAddress').value.trim();
+            const amount = document.getElementById(p + 'DonorAmount').value.trim();
 
-            if (!name || !amount) { alert("નામ અને રકમ જરૂરી છે!"); return; }
+            if (!name || !amount) { 
+                alert("નામ અને રકમ લખવી ફરજિયાત છે!"); 
+                return; 
+            }
 
             const today = new Date();
             const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
-            liveData.receiptCounter = (Number(liveData.receiptCounter) || 100) + 1;
-            const receiptNo = "VG-" + liveData.receiptCounter;
+            const nextId = (Number(liveData.receiptCounter) || 100) + 1;
+            const receiptNo = "VG-" + nextId;
 
             const entry = {
                 action: "addDonor",
-                id: liveData.receiptCounter,
-                receiptNo, date: dateStr, name, phone, address: address || "નરસંડા", amount: Number(amount)
+                id: nextId,
+                receiptNo: receiptNo,
+                date: dateStr,
+                name: name,
+                phone: phone,
+                address: address || "નરસંડા",
+                amount: Number(amount)
             };
 
-            liveData.donations.unshift(entry);
-            renderUI();
-            postToSheet(entry);
+            const isSaved = await postToSheet(entry);
+            if (!isSaved) return;
 
             document.getElementById(p + 'DonorName').value = '';
             document.getElementById(p + 'DonorPhone').value = '';
@@ -644,71 +732,65 @@ window.addEventListener('load', () => {
             generateReceipt(receiptNo, name, amount, address, dateStr, phone);
         }
 
-        function updateSchedule(source) {
+        async function updateSchedule(source) {
             const p = source === 'user' ? 'u' : 'a';
-            const m = document.getElementById(p + 'Morning').value;
-            const e = document.getElementById(p + 'Evening').value;
-            const sp = document.getElementById(p + 'Sponsor').value;
+            const m = document.getElementById(p + 'Morning').value.trim();
+            const e = document.getElementById(p + 'Evening').value.trim();
+            const sp = document.getElementById(p + 'Sponsor').value.trim();
 
-            if (m) liveData.morningAarti = m;
-            if (e) liveData.eveningAarti = e;
-            if (sp) liveData.sponsor = sp;
-
-            renderUI();
-            postToSheet({ action: "updateSchedule", morning: m, evening: e, sponsor: sp });
-            alert("અપડેટ થઈ ગયું!");
-        }
-
-        function saveLiveUrl() {
-            const url = document.getElementById('aLiveUrl').value;
-            if (url) {
-                liveData.liveUrl = url;
-                renderUI();
-                postToSheet({ action: "updateSchedule", liveUrl: url });
-                alert("લાઈવ લિંક અપડેટ થઈ!");
+            const isSaved = await postToSheet({ action: "updateSchedule", morning: m, evening: e, sponsor: sp });
+            if (isSaved) {
+                alert("સમય અને મહાપ્રસાદ અપડેટ થઈ ગયા! ✅");
             }
         }
 
-        function addPhoto() {
-            const url = document.getElementById('aPhotoUrl').value;
-            if (url) {
-                liveData.photos.unshift(url);
-                renderUI();
-                postToSheet({ action: "addPhoto", photoUrl: url });
+        async function saveLiveUrl() {
+            const url = document.getElementById('aLiveUrl').value.trim();
+            if (!url) { alert("YouTube URL લખો!"); return; }
+
+            const isSaved = await postToSheet({ action: "updateSchedule", liveUrl: url });
+            if (isSaved) {
+                alert("લાઈવ લિંક અપડેટ થઈ ગઈ! 🔴");
+            }
+        }
+
+        async function addPhoto() {
+            const url = document.getElementById('aPhotoUrl').value.trim();
+            if (!url) { alert("ફોટાની લિંક મૂકો!"); return; }
+
+            const isSaved = await postToSheet({ action: "addPhoto", photoUrl: url });
+            if (isSaved) {
                 document.getElementById('aPhotoUrl').value = '';
-                alert("ફોટો ઉમેરાઈ ગયો!");
+                alert("ફોટો ઉમેરાઈ ગયો! 📸");
             }
         }
 
-        function addNewUser() {
-            const name = document.getElementById('newUserName').value;
-            const pin = document.getElementById('newUserPin').value;
-            if (name && pin) {
-                const u = { action: "addUser", id: Date.now(), name, pin };
-                liveData.users.push(u);
-                postToSheet(u);
+        async function addNewUser() {
+            const name = document.getElementById('newUserName').value.trim();
+            const pin = document.getElementById('newUserPin').value.trim();
+            if (!name || !pin) { alert("યુઝરનેમ અને PIN બંને જરૂરી છે!"); return; }
+
+            const isSaved = await postToSheet({ action: "addUser", name: name, pin: pin });
+            if (isSaved) {
                 document.getElementById('newUserName').value = '';
                 document.getElementById('newUserPin').value = '';
-                alert("નવો યુઝર ઉમેરાઈ ગયો!");
+                alert("નવો User ઉમેરાઈ ગયો! 👤");
             }
         }
 
-        function addWish() {
-            const name = document.getElementById('wishName').value;
-            const msg = document.getElementById('wishText').value;
+        async function addWish() {
+            const name = document.getElementById('wishName').value.trim();
+            const msg = document.getElementById('wishText').value.trim();
             if (!name || !msg) { alert("નામ અને પ્રાર્થના લખો!"); return; }
 
             const today = new Date();
             const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
-            const w = { action: "addWish", date: dateStr, name, text: msg };
-            
-            liveData.wishes.unshift(w);
-            renderUI();
-            postToSheet(w);
-
-            document.getElementById('wishName').value = '';
-            document.getElementById('wishText').value = '';
-            alert("પ્રાર્થના મોકલાઈ ગઈ!");
+            const isSaved = await postToSheet({ action: "addWish", date: dateStr, name: name, text: msg });
+            if (isSaved) {
+                document.getElementById('wishName').value = '';
+                document.getElementById('wishText').value = '';
+                alert("પ્રાર્થના સેવ થઈ ગઈ! 🙏");
+            }
         }
 
         // ================= AUTH =================
@@ -725,17 +807,14 @@ window.addEventListener('load', () => {
         function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
         function handleAuthLogin() {
-            const pass = document.getElementById('loginPassword').value;
-            const user = document.getElementById('loginUsername').value;
+            const pass = document.getElementById('loginPassword').value.trim();
+            const user = document.getElementById('loginUsername').value.trim();
 
             if (authTypeTarget === 'admin') {
                 if (pass === MASTER_ADMIN_PASS) {
                     currentRole = 'admin';
                     closeAuthModal();
-                    document.getElementById('aMorning').value = liveData.morningAarti || '';
-                    document.getElementById('aEvening').value = liveData.eveningAarti || '';
-                    document.getElementById('aSponsor').value = liveData.sponsor || '';
-                    document.getElementById('aLiveUrl').value = liveData.liveUrl || '';
+                    renderAdminUserPanels();
                     switchTab('admin-panel');
                 } else alert("ખોટો Admin પાસવર્ડ!");
             } else {
@@ -743,11 +822,9 @@ window.addEventListener('load', () => {
                 if (found) {
                     currentRole = 'user';
                     closeAuthModal();
-                    document.getElementById('uMorning').value = liveData.morningAarti || '';
-                    document.getElementById('uEvening').value = liveData.eveningAarti || '';
-                    document.getElementById('uSponsor').value = liveData.sponsor || '';
+                    renderAdminUserPanels();
                     switchTab('user-panel');
-                } else alert("ખોટું યુઝરનેમ અથવા PIN!");
+                } else alert("ખોટું યુઝરનેમ અથવા PIN! (Google Sheet માં ચેક કરો)");
             }
             document.getElementById('loginPassword').value = '';
             document.getElementById('loginUsername').value = '';
@@ -917,6 +994,7 @@ window.addEventListener('load', () => {
         window.addEventListener('load', () => {
             fetchLiveData();
             changeLyrics();
+            setInterval(fetchLiveData, 10000);
         });
     </script>
 </body>
