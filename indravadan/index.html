@@ -131,49 +131,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* ADVERTISEMENT STYLING */
-        .ad-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
-            z-index: 9999; display: none; justify-content: center; align-items: center; padding: 15px;
-        }
-
-        .ad-card {
-            background: linear-gradient(145deg, #241103, #120701);
-            border: 2px solid var(--gold); border-radius: 20px;
-            max-width: 420px; width: 100%; padding: 24px 20px;
-            text-align: center; position: relative;
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
-            animation: adPop 0.3s ease; box-sizing: border-box;
-        }
-
-        @keyframes adPop {
-            from { transform: scale(0.85); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .ad-badge {
-            background: var(--gold); color: #000; font-weight: bold;
-            font-size: 0.75em; padding: 4px 12px; border-radius: 12px;
-            display: inline-block; margin-bottom: 8px;
-        }
-
-        .ad-close-btn {
-            position: absolute; top: 10px; right: 12px;
-            background: rgba(255,255,255,0.15); border: none; color: #fff;
-            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-            font-size: 16px; display: flex; justify-content: center; align-items: center;
-        }
-        .ad-close-btn:hover { background: #d32f2f; }
-
-        .ad-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-
-        .ad-action-link {
-            flex: 1; padding: 10px; border-radius: 8px; text-decoration: none;
-            font-weight: bold; font-size: 0.9em; display: inline-block; color: white;
-        }
-
-        /* FORM INPUTS & MODAL */
         .form-input {
             width: 100%; padding: 10px; margin-bottom: 10px;
             border-radius: 8px; border: 1px solid var(--gold);
@@ -190,34 +147,25 @@
             border: 2px solid var(--gold); border-radius: 20px;
             max-width: 440px; width: 100%; padding: 20px; text-align: center;
         }
-        /* જો ઍપ ઇન્સ્ટોલ થયેલી હોય તો બટન ક્યારેય નહીં દેખાય */
-@media all and (display-mode: standalone) {
-    #installAppBtn, #installBtnContainer {
-        display: none !important;
-    }
-}
 
-/* iOS (iPhone/iPad) માટે */
-@media all and (display-mode: fullscreen) {
-    #installAppBtn, #installBtnContainer {
-        display: none !important;
-    }
-}
+        #syncLoader {
+            position: fixed; top: 15px; right: 15px;
+            background: rgba(0,0,0,0.85); border: 1px solid var(--gold);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.78em;
+            color: var(--gold); display: flex; align-items: center; gap: 6px; z-index: 2000;
+        }
+
+        @media all and (display-mode: standalone), (display-mode: fullscreen) {
+            #installAppBtn { display: none !important; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="syncLoader"><i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...</div>
     <canvas id="canvas"></canvas>
 
-    <!-- 🌟 DYNAMIC ROTATING ADVERTISEMENT POPUP 🌟 -->
-    <div id="adModal" class="ad-modal" style="display: none;">
-        <div class="ad-card" id="adCardBox">
-            <button class="ad-close-btn" onclick="closeAd()">✕</button>
-            <div id="adCardContent"></div>
-        </div>
-    </div>
-
-    <!-- 🧾 DIGITAL RECEIPT (પાવતી) PREVIEW MODAL -->
+    <!-- 🧾 DIGITAL RECEIPT MODAL -->
     <div id="receiptModal" class="modal">
         <div class="modal-card">
             <h3 style="color: var(--gold); margin: 0 0 10px 0;">🧾 ડિજિટલ પાવતી (Receipt)</h3>
@@ -225,7 +173,7 @@
             
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <button class="action-btn" onclick="shareReceiptImage()" style="background: #25D366; color: #000; border: none; font-size: 0.95em;">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp પર ઈમેજ મોકલો
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp પર મોકલો
                 </button>
                 <div style="display: flex; gap: 8px;">
                     <button class="action-btn" onclick="downloadReceiptImage()" style="flex: 1; font-size: 0.85em;">
@@ -261,73 +209,52 @@
             <p style="color: #ffcc80; margin: 5px 0 0 0;">ગણેશોત્સવ ૨૦૨૬</p>
         </div>
 
-        <!-- INSTANT INSTALL APP BUTTON -->
+        <!-- APP INSTALL BUTTON -->
         <div style="text-align: center; margin: 12px 0;">
-            <button id="installAppBtn" class="action-btn" style="margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-weight: bold; box-shadow: 0 0 12px rgba(255, 193, 7, 0.5); padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-                📲 એપ ડાઉનલોડ કરો (Install App)
+            <button id="installAppBtn" class="action-btn" style="margin: 0 auto; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-weight: bold; padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                📲 એપ ઇન્સ્ટોલ કરો
             </button>
         </div>
 
-        <!-- MANUAL INSTALL GUIDE MODAL -->
-        <div id="installGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
-            <div style="background: #241103; border: 2px solid var(--gold); border-radius: 16px; max-width: 380px; width: 100%; padding: 20px; text-align: center; color: white;">
-                <h3 style="color: var(--gold); margin-top: 0;">📲 એપ ઇન્સ્ટોલ કરવાની રીત</h3>
-                <p style="font-size: 0.9em; line-height: 1.6; color: #ffe0b2; text-align: left;">
-                    ૧. બ્રાઉઝરમાં ઉપર જમણી બાજુ રહેલા <b>૩ ટપકાં (⋮)</b> પર ક્લિક કરો.<br>
-                    ૨. ત્યાં <b>"Install app"</b> અથવા <b>"Add to Home Screen"</b> પસંદ કરો.<br>
-                    ૩. <b>Install</b> પર ક્લિક કરતાં જ તમારા મોબાઇલમાં એપ આવી જશે!
-                </p>
-                <button onclick="document.getElementById('installGuideModal').style.display='none'" style="background: var(--gold); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-                    સમજાઈ ગયું 👍
-                </button>
-            </div>
-        </div>
-
-        <!-- POOJA RITUAL BUTTONS -->
+        <!-- POOJA BUTTONS -->
         <div class="pooja-zone">
             <button class="action-btn" onclick="startFlowerShower()">🌸 ફૂલ અર્પણ કરો</button>
             <button class="action-btn" onclick="playShankh()">🔔 શંખ નાદ</button>
         </div>
 
-        <!-- ================= TAB 1: HOME ================= -->
+        <!-- TAB 1: HOME -->
         <div id="home" class="tab-content active">
             <div class="card" style="background: rgba(255, 193, 7, 0.08);">
-                <p style="margin:0; color: var(--gold-glow); font-style: italic;">✨ <b>બોધ:</b> "વક્રતુણ્ડ મહાકાય સૂર્યકોટિ સમપ્રભ। નિર્વિઘ્નં કુરુ મે દેવ સર્વકાર્યેષુ સર્વદા॥"</p>
+                <p style="margin:0; color: var(--gold-glow); font-style: italic;">✨ "વક્રતુણ્ડ મહાકાય સૂર્યકોટિ સમપ્રભ। નિર્વિઘ્નં કુરુ મે દેવ સર્વકાર્યેષુ સર્વદા॥"</p>
             </div>
 
             <div class="card">
                 <h2>🙏 લાઈવ સેવા & આરતી</h2>
-                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">07:00 AM</span></p>
-                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">07:30 PM</span></p>
+                <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">--:--</span></p>
+                <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">--:--</span></p>
                 <hr style="border-color: rgba(255,255,255,0.1);">
                 <p><b>🍎 આજનો મહાપ્રસાદ સેવા:</b></p>
-                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">શ્રી ગણેશ મંડળ પરિવાર</p>
+                <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">--</p>
             </div>
 
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
-                <img id="upiQRImg" src="" alt="QR Code For UPI Payment" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
-                <p id="upiIdText" style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
+                <img id="upiQRImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=mandal@upi&pn=VighnahartaGajanan" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
+                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
             </div>
         </div>
 
-        <!-- ================= TAB 2: LIVE DARSHAN ================= -->
+        <!-- TAB 2: LIVE DARSHAN -->
         <div id="live-darshan" class="tab-content">
             <div class="card">
-                <h2>🔴 લાઈવ આરતી દર્શન પ્રસારણ</h2>
-                <p style="font-size: 0.85em; color: #ffe0b2; margin-bottom: 12px;">ગણેશ મંડપમાંથી સીધા લાઈવ દર્શન:</p>
+                <h2>🔴 લાઈવ આરતી દર્શન</h2>
                 <div class="video-container">
-                    <iframe id="liveDarshanIframe"
-                        src="https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxxxxxxxxxxxxxxxx&autoplay=1&mute=0" 
-                        title="Ganesh Live Darshan" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowfullscreen>
-                    </iframe>
+                    <iframe id="liveDarshanIframe" src="" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
 
-        <!-- ================= TAB 3: PHOTO GALLERY ================= -->
+        <!-- TAB 3: PHOTO GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
                 <h2>📸 ફોટો ગેલેરી</h2>
@@ -335,29 +262,27 @@
             </div>
         </div>
 
-        <!-- ================= TAB 4: INTERACTIVE AARTI & LYRICS ================= -->
+        <!-- TAB 4: THALI AARTI -->
         <div id="aarti-tab" class="tab-content">
             <div class="card">
                 <h2>🪔 લાઇવ થાળી આરતી</h2>
-                <p style="font-size:0.8em; color:#ccc;">નીચે આપેલી થાળીને આંગળી અથવા માઉસથી પકડીને બાપ્પાની આસપાસ ગોળ ફેરવો!</p>
                 <div class="aarti-arena" id="arena">
                     <img src="image/icon.png" class="bappa-img" alt="Bappa" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3588/3588658.png'">
                     <div class="thali" id="thali">🪔</div>
                 </div>
             </div>
 
-            <!-- SMART AARTI & CHALISA LYRICS -->
-            <div class="card" style="text-align: center;">
-                <h2>📜 શ્રી ગણેશ આરતી & ચાલીસા (લિરિક્સ)</h2>
+            <div class="card">
+                <h2>📜 શ્રી ગણેશ આરતી & ચાલીસા</h2>
                 <select id="lyricsSelect" onchange="changeLyrics()" style="width: 100%; padding: 10px; border-radius: 8px; background: #2d1405; color: var(--gold); border: 1px solid var(--gold); font-size: 0.95em; font-weight: bold; margin-bottom: 12px;">
                     <option value="jayGanesh">🚩 ૧. જય ગણેશ, જય ગણેશ દેવા (મુખ્ય આરતી)</option>
-                    <option value="sukhKarta">🌸 ૨. સુખકર્તા દુઃખહર્તા (ગુજરાતી ભાવાનુવાદ)</option>
+                    <option value="sukhKarta">🌸 ૨. સુખકર્તા દુઃખહર્તા</option>
                     <option value="chalisa">🕉️ ૩. શ્રી ગણેશ ચાલીસા</option>
                 </select>
 
-                <div id="lyricsBox" style="height: 220px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 2px solid rgba(255,193,7,0.3); font-size: 1.05em; line-height: 2; color: #ffe082; text-align: center; scroll-behavior: smooth;"></div>
+                <div id="lyricsBox" style="height: 220px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 2px solid rgba(255,193,7,0.3); font-size: 1.05em; line-height: 2; color: #ffe082; scroll-behavior: smooth;"></div>
 
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 12px;">
                     <button id="scrollToggleBtn" class="action-btn" onclick="toggleAutoScroll()" style="padding: 8px 18px; font-size: 0.9em;">
                         ▶️ ઓટો-સ્ક્રોલ શરૂ કરો
                     </button>
@@ -365,134 +290,115 @@
                         🔄 શરૂઆતથી
                     </button>
                 </div>
-
-                <div style="margin-top: 10px; font-size: 0.8em; color: #bbb; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                    <span>ધીમું</span>
-                    <input type="range" id="scrollSpeed" min="20" max="100" value="50" style="accent-color: var(--gold); cursor: pointer;">
-                    <span>ઝડપી</span>
-                </div>
             </div>
         </div>
 
-        <!-- ================= TAB 5: DONORS LIST ================= -->
+        <!-- TAB 5: DONORS LIST -->
         <div id="donors-tab" class="tab-content">
-            <div class="card" style="border: 2px solid var(--gold); background: linear-gradient(145deg, #241103, #120701);">
-                <h2 style="color: var(--gold); margin-bottom: 5px;">📜 શ્રી ગણેશ દાનવીર દાતાઓ</h2>
-                <p style="font-size: 0.85em; color: #ffe0b2; margin-top: 0;">મહોત્સવમાં સહયોગ આપનાર તમામ દાતાઓનો ખૂબ ખૂબ આભાર 🙏</p>
-
+            <div class="card" style="border: 2px solid var(--gold);">
+                <h2>📜 શ્રી ગણેશ દાનવીર દાતાઓ</h2>
                 <div style="background: rgba(255, 193, 7, 0.12); border: 1px dashed var(--gold); border-radius: 12px; padding: 12px; margin: 15px 0;">
                     <span style="font-size: 0.85em; color: #ccc;">મહોત્સવ કુલ ફાળો / ભેટ:</span>
                     <div id="publicTotalDonation" style="font-size: 1.8em; font-weight: bold; color: #81c784; margin-top: 4px;">₹ 0</div>
                 </div>
-
-                <div id="publicDonorsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; padding-right: 4px;"></div>
+                <div id="publicDonorsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;"></div>
             </div>
         </div>
 
-        <!-- ================= TAB 6: SELFIE FRAME GENERATOR ================= -->
+        <!-- TAB 6: SELFIE FRAME -->
         <div id="photo-frame" class="tab-content">
             <div class="card">
-                <h2>📸 "ગણેશજી સાથે મારી સેલ્ફી"</h2>
-                <p style="font-size:0.85em; color:#ccc;">તમારો ફોટો પસંદ કરો અને ગણેશોત્સવ ફ્રેમ ડાઉનલોડ કરો:</p>
+                <h2>📸 ગણેશજી સાથે સેલ્ફી</h2>
                 <input type="file" id="imageLoader" accept="image/*" style="margin: 10px 0; color: white;">
-                
-                <div style="margin-top:10px;">
+                <div>
                     <canvas id="frameCanvas" width="300" height="300" style="border:2px solid var(--gold); border-radius:10px; max-width:100%;"></canvas>
                 </div>
                 <br>
-                <button class="action-btn" style="margin:0 auto;" onclick="downloadFrame()">💾 ફ્રેમ ડાઉનલોડ કરો</button>
+                <button class="action-btn" onclick="downloadFrame()">💾 ફ્રેમ ડાઉનલોડ કરો</button>
             </div>
         </div>
 
-        <!-- ================= TAB 7: DIGITAL WISH BOX ================= -->
+        <!-- TAB 7: DIGITAL WISH BOX -->
         <div id="wishes" class="tab-content">
             <div class="card">
                 <h2>💬 બાપ્પા માટે મનોકામના / પ્રાર્થના</h2>
                 <input type="text" id="wishName" placeholder="તમારું નામ" class="form-input">
-                <textarea id="wishText" placeholder="તમારી પ્રાર્થના અથવા મનોકામના લખો..." class="form-input" style="height:60px;"></textarea>
-                <button class="action-btn" style="margin:10px auto 0 auto;" onclick="addWish()">પ્રાર્થના મોકલો 🙏</button>
-
-                <div id="wishList" style="margin-top:15px;">
-                    <div class="wish-item"><b>અમિત પટેલ:</b> ગણપતિ બાપ્પા મોરિયા! બધાનું સ્વાસ્થ્ય સારું રહે.</div>
-                </div>
+                <textarea id="wishText" placeholder="તમારી પ્રાર્થના લખો..." class="form-input" style="height:60px;"></textarea>
+                <button class="action-btn" onclick="addWish()">પ્રાર્થના મોકલો 🙏</button>
+                <div id="wishList" style="margin-top:15px; max-height: 300px; overflow-y: auto;"></div>
             </div>
         </div>
 
-        <!-- ================= TAB 8: USER PANEL (મંડપ માણસ / કાઉન્ટર) ================= -->
+        <!-- TAB 8: USER PANEL -->
         <div id="user-panel" class="tab-content">
             <div class="card" style="border: 2px solid #3498db; text-align: left;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 style="margin:0; color:#3498db; border:none; padding:0;">👤 મંડપ કાઉન્ટર પેનલ</h2>
+                    <h2 style="margin:0; color:#3498db; border:none;">👤 મંડપ કાઉન્ટર પેનલ</h2>
                     <button onclick="logoutPortal()" style="background:var(--danger); border:none; color:white; padding:5px 12px; border-radius:6px; cursor:pointer;">લૉગઆઉટ</button>
                 </div>
                 <hr style="border-color: rgba(255,255,255,0.1); margin:12px 0;">
 
-                <h3 style="color:var(--gold-glow); font-size:1em; margin-top:0;">🧾 ૧. નવી પાવતી બનાવો & Image WhatsApp કરો</h3>
+                <h3 style="color:var(--gold-glow); font-size:1em;">🧾 ૧. નવી પાવતી બનાવો</h3>
                 <input type="text" id="uDonorName" class="form-input" placeholder="દાતાનું પૂરું નામ *">
-                <input type="text" id="uDonorPhone" class="form-input" placeholder="દાતાનો WhatsApp નંબર (૧૦ અંક)">
-                <input type="text" id="uDonorAddress" class="form-input" placeholder="સરનામું / ગામ / સોસાયટી">
+                <input type="text" id="uDonorPhone" class="form-input" placeholder="WhatsApp નંબર">
+                <input type="text" id="uDonorAddress" class="form-input" placeholder="સરનામું">
                 <input type="number" id="uDonorAmount" class="form-input" placeholder="રકમ (₹) *">
-                <button class="action-btn" onclick="saveDonorAndGenerateReceipt('user')" style="width:100%; background:#25D366; color:#000; border:none; margin-bottom:20px; font-size:1em;">
-                    🖼️ પાવતી ઈમેજ બનાવો & WhatsApp મોકલો
+                <button class="action-btn" onclick="saveDonor('user')" style="width:100%; background:#25D366; color:#000; border:none; margin-bottom:20px;">
+                    🖼️ પાવતી બનાવો & WhatsApp મોકલો
                 </button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">⏰ ૨. આરતી સમય & મહાપ્રસાદ અપડેટ</h3>
-                <input type="text" id="uMorning" class="form-input" placeholder="સવારની આરતી સમય (દા.ત. 08:00 AM)">
-                <input type="text" id="uEvening" class="form-input" placeholder="સાંજની આરતી સમય (દા.ત. 07:30 PM)">
-                <input type="text" id="uSponsor" class="form-input" placeholder="આજના મહાપ્રસાદ સેવા સ્પોન્સર">
+                <h3 style="color:var(--gold-glow); font-size:1em;">⏰ ૨. આરતી સમય & પ્રસાદ અપડેટ</h3>
+                <input type="text" id="uMorning" class="form-input" placeholder="સવારની આરતી (08:00 AM)">
+                <input type="text" id="uEvening" class="form-input" placeholder="સાંજની આરતી (07:30 PM)">
+                <input type="text" id="uSponsor" class="form-input" placeholder="પ્રસાદ સ્પોન્સર">
                 <button class="action-btn" onclick="updateSchedule('user')" style="width:100%;">માહિતી અપડેટ કરો ✅</button>
             </div>
         </div>
 
-        <!-- ================= TAB 9: ADMIN MASTER PANEL ================= -->
+        <!-- TAB 9: ADMIN PANEL -->
         <div id="admin-panel" class="tab-content">
             <div class="card" style="border: 2px solid var(--gold); text-align: left;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 style="margin:0; color:var(--gold); border:none; padding:0;">👑 Admin માસ્ટર કંટ્રોલ</h2>
+                    <h2 style="margin:0; color:var(--gold); border:none;">👑 Admin માસ્ટર કંટ્રોલ</h2>
                     <button onclick="logoutPortal()" style="background:var(--danger); border:none; color:white; padding:5px 12px; border-radius:6px; cursor:pointer;">લૉગઆઉટ</button>
                 </div>
                 <hr style="border-color: rgba(255,255,255,0.1); margin:12px 0;">
 
-                <h3 style="color:var(--gold-glow); font-size:1em; margin-top:0;">૧. પાવતી (Create, Image WhatsApp, Edit, Delete)</h3>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૧. પાવતી બનાવો</h3>
                 <input type="text" id="aDonorName" class="form-input" placeholder="દાતાનું નામ *">
                 <input type="text" id="aDonorPhone" class="form-input" placeholder="WhatsApp નંબર">
                 <input type="text" id="aDonorAddress" class="form-input" placeholder="સરનામું">
                 <input type="number" id="aDonorAmount" class="form-input" placeholder="રકમ (₹) *">
-                <button class="action-btn" onclick="saveDonorAndGenerateReceipt('admin')" style="width:100%; background:#27ae60; color:#fff; border:none; margin-bottom:12px;">🖼️ + પાવતી ઈમેજ બનાવો & WhatsApp</button>
-                
-                <p style="font-size:0.85em; color:#ffcc80; margin-bottom:6px;">દાતા યાદી કંટ્રોલ (Edit / Delete / Re-Send Image):</p>
-                <div id="adminDonorsManageList" style="max-height:220px; overflow-y:auto; margin-bottom:20px;"></div>
+                <button class="action-btn" onclick="saveDonor('admin')" style="width:100%; background:#27ae60; color:#fff; border:none; margin-bottom:12px;">🖼️ પાવતી બનાવો</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૨. આરતી સમય & પ્રસાદ અપડેટ</h3>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૨. આરતી સમય & પ્રસાદ</h3>
                 <input type="text" id="aMorning" class="form-input" placeholder="સવારની આરતી">
                 <input type="text" id="aEvening" class="form-input" placeholder="સાંજની આરતી">
                 <input type="text" id="aSponsor" class="form-input" placeholder="પ્રસાદ સ્પોન્સર">
                 <button class="action-btn" onclick="updateSchedule('admin')" style="width:100%; margin-bottom:20px;">સમય અપડેટ કરો ✅</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૩. લાઈવ દર્શન લિંક (Create / Edit / Delete)</h3>
-                <input type="text" id="aLiveUrl" class="form-input" placeholder="YouTube Embed URL મૂકો">
+                <h3 style="color:var(--gold-glow); font-size:1em;">૩. લાઈવ દર્શન લિંક</h3>
+                <input type="text" id="aLiveUrl" class="form-input" placeholder="YouTube Embed URL">
                 <button class="action-btn" onclick="saveLiveUrl()" style="width:100%; margin-bottom:20px;">લાઈવ લિંક અપડેટ કરો 🔴</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૪. ફોટો ગેલેરી મેનેજમેન્ટ</h3>
-                <input type="text" id="aPhotoUrl" class="form-input" placeholder="નવા ફોટાની URL લિંક ઉમેરો">
-                <button class="action-btn" onclick="addPhotoToGallery()" style="width:100%; margin-bottom:10px;">+ ફોટો ઉમેરો</button>
-                <div id="adminGalleryList" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;"></div>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૪. ફોટો ગેલેરી</h3>
+                <input type="text" id="aPhotoUrl" class="form-input" placeholder="ફોટો URL">
+                <button class="action-btn" onclick="addPhoto()" style="width:100%; margin-bottom:20px;">+ ફોટો ઉમેરો</button>
 
-                <h3 style="color:var(--gold-glow); font-size:1em;">૫. User / મંડપ કાર્યકર્તા મેનેજમેન્ટ</h3>
-                <input type="text" id="newUserName" class="form-input" placeholder="નવા યુઝરનું નામ">
-                <input type="password" id="newUserPin" class="form-input" placeholder="તેનો લૉગિન PIN/પાસવર્ડ">
-                <button class="action-btn" onclick="addNewUser()" style="width:100%; margin-bottom:10px;">+ નવો User ઉમેરો</button>
-                <div id="adminUsersList" style="max-height:150px; overflow-y:auto;"></div>
+                <h3 style="color:var(--gold-glow); font-size:1em;">૫. User મેનેજમેન્ટ</h3>
+                <input type="text" id="newUserName" class="form-input" placeholder="યુઝરનેમ">
+                <input type="password" id="newUserPin" class="form-input" placeholder="PIN/પાસવર્ડ">
+                <button class="action-btn" onclick="addNewUser()" style="width:100%;">+ નવો User ઉમેરો</button>
             </div>
         </div>
 
     </div>
 
-    <!-- AUTHENTICATION LOGIN MODAL -->
+    <!-- AUTH MODAL -->
     <div id="authModal" class="modal">
         <div class="modal-card">
             <h3 id="authModalTitle" style="color: var(--gold); margin-top:0;">🔐 લૉગિન કરો</h3>
-            <input type="text" id="loginUsername" class="form-input" placeholder="યુઝરનેમ (Admin માટે જરૂર નથી)">
+            <input type="text" id="loginUsername" class="form-input" placeholder="યુઝરનેમ">
             <input type="password" id="loginPassword" class="form-input" placeholder="પાસવર્ડ / PIN">
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button class="action-btn" onclick="handleAuthLogin()" style="flex:1; background:var(--gold); color:#000;">લૉગિન</button>
@@ -504,288 +410,200 @@
     <audio id="shankhAudio" src="image/5 Shankh Sound Effect  Non Copyright  Free Use.mp3"></audio>
 
     <script>
+        // 🛑 તમારી Google Apps Script URL અહીં એન્ટર કરો
+        const GOOGLE_SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
         const MASTER_ADMIN_PASS = "Daku@3641";
 
-        // MASTER DATABASE
-        let db = JSON.parse(localStorage.getItem('ganesh_utsav_db')) || {
-            morningAarti: "08:00 AM",
-            eveningAarti: "07:30 PM",
-            sponsor: "શ્રી ગણેશ મંડળ પરિવાર",
-            liveUrl: "https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxxxxxxxxxxxxxxxx&autoplay=1&mute=0",
-            receiptCounter: 101,
-            users: [
-                { id: 1, name: "vg", pin: "2026" }
-            ],
-            photos: [
-                "https://lh3.googleusercontent.com/d/1KBJS9mtlNX90Dgh3twyb4OEFgPHE_kZD",
-                "https://lh3.googleusercontent.com/d/19-kd1uhO79n3pmPzXxYpTJbJoeOwFcD8",
-                "https://lh3.googleusercontent.com/d/1Hj9bfAJ_hiPleHxmWsn2e9HbEj_fzDbw",
-                "https://lh3.googleusercontent.com/d/1c2LuicqKu5Mu54wBir1FjUt53dJYxkTf"
-            ],
-            donations: [
-                { id: 101, receiptNo: "VG-101", date: "16/08/2026", name: "રમેશભાઈ પટેલ", phone: "9876543210", address: "A-101, શ્રીનાથ સોસાયટી, નરસંડા", amount: 5100 },
-                { id: 102, receiptNo: "VG-102", date: "16/08/2026", name: "દિનેશભાઈ પ્રજાપતિ", phone: "9898989898", address: "બજાર ચોક, નરસંડા", amount: 2100 }
-            ]
+        // LIVE RUNTIME DATA (NO LOCAL STORAGE)
+        let liveData = {
+            morningAarti: "--:--",
+            eveningAarti: "--:--",
+            sponsor: "--",
+            liveUrl: "",
+            receiptCounter: 100,
+            photos: [],
+            donations: [],
+            wishes: [],
+            users: []
         };
 
         let currentRole = null;
         let authTypeTarget = 'user';
         let currentReceiptBlob = null;
-        let currentReceiptPhone = "";
 
-        function saveDB() {
-            localStorage.setItem('ganesh_utsav_db', JSON.stringify(db));
-            renderAllData();
-        }
+        // ================= 🔄 FETCH FROM GOOGLE SHEETS =================
+        async function fetchLiveData() {
+            const loader = document.getElementById('syncLoader');
+            if (loader) { loader.style.display = 'flex'; loader.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...'; }
 
-        function renderAllData() {
-            document.getElementById('m-aarti').innerText = db.morningAarti;
-            document.getElementById('e-aarti').innerText = db.eveningAarti;
-            document.getElementById('sponsor').innerText = db.sponsor;
-            document.getElementById('liveDarshanIframe').src = db.liveUrl;
-
-            const galleryElem = document.getElementById('publicGalleryGrid');
-            if (galleryElem) {
-                galleryElem.innerHTML = '';
-                db.photos.forEach(img => {
-                    galleryElem.innerHTML += `<img src="${img}" class="gallery-item" onclick="openFullImg('${img}')" alt="Event">`;
-                });
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE") {
+                if (loader) loader.innerHTML = "⚠️ Apps Script URL મૂકો";
+                return;
             }
 
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL);
+                const json = await res.json();
+                if (json.status === "success" && json.data) {
+                    liveData = json.data;
+                    renderUI();
+                    if (loader) loader.innerHTML = "✅ કનેક્ટેડ";
+                }
+            } catch (e) {
+                console.error("Fetch Error:", e);
+                if (loader) loader.innerHTML = "❌ કનેક્શન એરર";
+            } finally {
+                setTimeout(() => { if (loader) loader.style.display = 'none'; }, 2000);
+            }
+        }
+
+        // 1. ડેટા POST થયા પછી આપમેળે તાજો ડેટા ફેચ થશે
+async function postToSheet(payload) {
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE") return;
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        // ગૂગલ શીટમાં સેવ થયા બાદ તરત જ લાઈવ ડેટા રી-ફેચ કરશે
+        setTimeout(fetchLiveData, 1500);
+    } catch (e) {
+        console.error("POST Error:", e);
+    }
+}
+
+// 2. પેજ લોડ થતાં જ ફેચ થશે અને દર ૧૦ સેકન્ડે રિયલ-ટાઇમ ચેક કરતું રહેશે
+window.addEventListener('load', () => {
+    fetchLiveData();
+    changeLyrics();
+
+    // દર ૧૦ સેકન્ડે ગૂગલ શીટમાંથી નવો ડેટા આપમેળે અપડેટ થશે (Real-time Live Sync)
+    setInterval(fetchLiveData, 10000); 
+});
+
+        function renderUI() {
+            document.getElementById('m-aarti').innerText = liveData.morningAarti || "--:--";
+            document.getElementById('e-aarti').innerText = liveData.eveningAarti || "--:--";
+            document.getElementById('sponsor').innerText = liveData.sponsor || "--";
+            
+            if (liveData.liveUrl) {
+                document.getElementById('liveDarshanIframe').src = liveData.liveUrl;
+            }
+
+            // Gallery
+            const galleryElem = document.getElementById('publicGalleryGrid');
+            if (galleryElem && liveData.photos) {
+                galleryElem.innerHTML = liveData.photos.map(img => `<img src="${img}" class="gallery-item" onclick="window.open('${img}', '_blank')">`).join('');
+            }
+
+            // Donors
             const listElem = document.getElementById('publicDonorsList');
             const totalElem = document.getElementById('publicTotalDonation');
-            if (listElem && totalElem) {
-                listElem.innerHTML = '';
+            if (listElem && totalElem && liveData.donations) {
                 let total = 0;
-
-                if (db.donations.length === 0) {
-                    listElem.innerHTML = "<p style='color:#aaa; font-size:0.9em;'>હજુ સુધી કોઈ એન્ટ્રી નથી.</p>";
-                } else {
-                    db.donations.forEach((item, idx) => {
-                        total += Number(item.amount);
-                        listElem.innerHTML += `
-                            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; text-align:left; margin-bottom:6px;">
-                                <div>
-                                    <b style="color:#fff; font-size:0.95em;">${idx + 1}. ${item.name}</b>
-                                    <div style="font-size:0.78em; color:#ffcc80; margin-top:2px;">
-                                        📍 ${item.address || 'નરસંડા'} <span style="color:#888;">| 📅 ${item.date} | રસીદ: ${item.receiptNo || 'VG-'+item.id}</span>
-                                    </div>
-                                </div>
-                                <div style="font-size:1.1em; font-weight:bold; color:#81c784;">
-                                    ₹ ${Number(item.amount).toLocaleString('en-IN')}
-                                </div>
+                listElem.innerHTML = liveData.donations.map((item, idx) => {
+                    total += Number(item.amount);
+                    return `
+                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; margin-bottom:6px; text-align:left;">
+                            <div>
+                                <b style="color:#fff;">${idx + 1}. ${item.name}</b>
+                                <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${item.date} | રસીદ: ${item.receiptNo}</div>
                             </div>
-                        `;
-                    });
-                }
+                            <div style="font-size:1.1em; font-weight:bold; color:#81c784;">₹ ${Number(item.amount).toLocaleString('en-IN')}</div>
+                        </div>
+                    `;
+                }).join('') || "<p style='color:#aaa;'>હજુ સુધી કોઈ એન્ટ્રી નથી.</p>";
                 totalElem.innerText = `₹ ${total.toLocaleString('en-IN')}`;
             }
 
-            renderAdminManagePanels();
-        }
-
-        function renderAdminManagePanels() {
-            const admDonors = document.getElementById('adminDonorsManageList');
-            if (admDonors) {
-                admDonors.innerHTML = '';
-                db.donations.forEach((item, index) => {
-                    admDonors.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:#180a02; padding:8px 10px; border-radius:6px; margin-bottom:5px; border:1px solid rgba(255,193,7,0.2);">
-                            <div>
-                                <b>${item.name}</b> (₹${item.amount})<br>
-                                <small style="color:#bbb;">${item.phone || 'No Phone'} | ${item.receiptNo || 'VG-'+item.id}</small>
-                            </div>
-                            <div style="display:flex; gap:6px;">
-                                <button onclick="generateAndPreviewReceipt('${item.receiptNo || 'VG-'+item.id}', '${item.name}', '${item.amount}', '${item.address}', '${item.date}', '${item.phone}')" style="background:#25D366; border:none; color:#000; padding:5px 8px; border-radius:4px; cursor:pointer;" title="ઈમેજ રસીદ"><i class="fa-solid fa-image"></i></button>
-                                <button onclick="editDonor(${index})" style="background:#f39c12; border:none; color:#fff; padding:5px 8px; border-radius:4px; cursor:pointer;"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="deleteDonor(${index})" style="background:var(--danger); border:none; color:#fff; padding:5px 8px; border-radius:4px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            const admPhotos = document.getElementById('adminGalleryList');
-            if (admPhotos) {
-                admPhotos.innerHTML = '';
-                db.photos.forEach((src, idx) => {
-                    admPhotos.innerHTML += `
-                        <div style="position:relative; display:inline-block;">
-                            <img src="${src}" style="width:65px; height:65px; object-fit:cover; border-radius:6px; border:1px solid var(--gold);">
-                            <button onclick="deletePhoto(${idx})" style="position:absolute; top:-5px; right:-5px; background:red; color:#fff; border:none; border-radius:50%; width:20px; height:20px; font-size:10px; cursor:pointer;">✕</button>
-                        </div>
-                    `;
-                });
-            }
-
-            const admUsers = document.getElementById('adminUsersList');
-            if (admUsers) {
-                admUsers.innerHTML = '';
-                db.users.forEach((u, idx) => {
-                    admUsers.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; background:#180a02; padding:6px 10px; border-radius:6px; margin-bottom:4px; font-size:0.9em;">
-                            <span>👤 ${u.name} (PIN: ${u.pin})</span>
-                            <button onclick="deleteUser(${idx})" style="background:var(--danger); border:none; color:#fff; padding:2px 6px; border-radius:4px; cursor:pointer;">✕</button>
-                        </div>
-                    `;
-                });
+            // Wishes
+            const wishListElem = document.getElementById('wishList');
+            if (wishListElem && liveData.wishes) {
+                wishListElem.innerHTML = liveData.wishes.map(w => `<div class="wish-item"><b>${w.name}:</b> ${w.text}</div>`).join('');
             }
         }
 
-        // ================= 🎨 HIGH QUALITY RECEIPT IMAGE GENERATOR =================
-        function generateAndPreviewReceipt(receiptNo, name, amount, address, dateStr, phone) {
-            currentReceiptPhone = phone || "";
+        // ================= 🎨 RECEIPT GENERATOR =================
+        function generateReceipt(receiptNo, name, amount, address, dateStr, phone) {
             const canvas = document.getElementById('receiptCanvas');
             const ctx = canvas.getContext('2d');
 
-            // 1. Background
             ctx.fillStyle = "#1e0b02";
             ctx.fillRect(0, 0, 600, 750);
-
-            // Inner border
             ctx.strokeStyle = "#ffc107";
             ctx.lineWidth = 6;
             ctx.strokeRect(15, 15, 570, 720);
 
-            ctx.strokeStyle = "#ff5722";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(22, 22, 556, 706);
-
-            // Header Banner
             ctx.fillStyle = "#ff5722";
             ctx.fillRect(25, 25, 550, 100);
 
-            // Header Texts
             ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 28px 'Segoe UI', Arial";
+            ctx.font = "bold 28px Arial";
             ctx.textAlign = "center";
             ctx.fillText("🚩 વિઘ્નહર્તા ગજાનન 🚩", 300, 65);
-
-            ctx.font = "bold 18px 'Segoe UI', Arial";
+            ctx.font = "bold 18px Arial";
             ctx.fillStyle = "#ffe082";
             ctx.fillText("માણેક ચોક, નરસંડા | ગણેશોત્સવ ૨૦૨૬", 300, 95);
 
-            // Subtitle
             ctx.fillStyle = "#ffc107";
-            ctx.font = "italic 16px 'Segoe UI', Arial";
+            ctx.font = "italic 16px Arial";
             ctx.fillText("॥ શ્રી ગણેશાય નમઃ ॥ દાન / ભેટ સ્વીકૃતિ પાવતી", 300, 155);
 
-            // Horizontal Line
-            ctx.strokeStyle = "rgba(255, 193, 7, 0.4)";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(40, 175); ctx.lineTo(560, 175);
-            ctx.stroke();
-
-            // Receipt No & Date Box
             ctx.fillStyle = "#2d1405";
             ctx.fillRect(40, 190, 520, 45);
-            ctx.strokeStyle = "#ffc107";
-            ctx.strokeRect(40, 190, 520, 45);
-
             ctx.fillStyle = "#ffe082";
-            ctx.font = "bold 17px 'Segoe UI', Arial";
+            ctx.font = "bold 17px Arial";
             ctx.textAlign = "left";
             ctx.fillText(`રસીદ નં: ${receiptNo}`, 55, 218);
             ctx.textAlign = "right";
             ctx.fillText(`તારીખ: ${dateStr}`, 545, 218);
 
-            // Donor Details Form Box
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "left";
-            ctx.font = "18px 'Segoe UI', Arial";
-
             ctx.fillStyle = "#ccc";
+            ctx.textAlign = "left";
+            ctx.font = "18px Arial";
             ctx.fillText("શ્રીમાન / દાતાશ્રી:", 55, 280);
             ctx.fillStyle = "#ffc107";
-            ctx.font = "bold 22px 'Segoe UI', Arial";
+            ctx.font = "bold 22px Arial";
             ctx.fillText(name, 55, 310);
 
             ctx.fillStyle = "#ccc";
-            ctx.font = "17px 'Segoe UI', Arial";
-            ctx.fillText("સરનામું:", 55, 355);
-            ctx.fillStyle = "#fff";
-            ctx.fillText(address || "નરસંડા", 130, 355);
+            ctx.font = "17px Arial";
+            ctx.fillText("સરનામું: " + (address || "નરસંડા"), 55, 355);
+            ctx.fillText("મોબાઇલ: " + (phone || "-"), 55, 395);
 
-            ctx.fillStyle = "#ccc";
-            ctx.fillText("મોબાઇલ નં:", 55, 395);
-            ctx.fillStyle = "#fff";
-            ctx.fillText(phone || "-", 150, 395);
-
-            // Amount Box
             ctx.fillStyle = "rgba(255, 193, 7, 0.12)";
             ctx.fillRect(40, 430, 520, 90);
-            ctx.strokeStyle = "#81c784";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(40, 430, 520, 90);
-
-            ctx.fillStyle = "#fff";
-            ctx.font = "18px 'Segoe UI', Arial";
-            ctx.fillText("સ્વીકારેલ રકમ:", 55, 465);
-
             ctx.fillStyle = "#81c784";
-            ctx.font = "bold 34px 'Segoe UI', Arial";
-            ctx.fillText(`₹ ${Number(amount).toLocaleString('en-IN')} /-`, 55, 505);
+            ctx.font = "bold 34px Arial";
+            ctx.fillText(`₹ ${Number(amount).toLocaleString('en-IN')} /-`, 55, 500);
 
-            // Seal Stamp
-            ctx.save();
-            ctx.translate(450, 590);
-            ctx.rotate(-0.15);
-            ctx.strokeStyle = "#ff5722";
-            ctx.lineWidth = 3;
-            ctx.strokeRect(-80, -25, 160, 50);
-            ctx.fillStyle = "#ff7043";
-            ctx.font = "bold 15px 'Segoe UI', Arial";
-            ctx.textAlign = "center";
-            ctx.fillText("✔ રકમ સ્વીકારેલ છે", 0, -2);
-            ctx.font = "12px 'Segoe UI', Arial";
-            ctx.fillText("વિઘ્નહર્તા ગજાનન મંડળ", 0, 16);
-            ctx.restore();
-
-            // Footer note
             ctx.fillStyle = "#ffcc80";
-            ctx.font = "italic 15px 'Segoe UI', Arial";
+            ctx.font = "italic 15px Arial";
             ctx.textAlign = "center";
-            ctx.fillText("ગણેશ મહોત્સવમાં આપના સહયોગ બદલ ખૂબ ખૂબ આભાર!", 300, 680);
-            ctx.fillStyle = "#888";
-            ctx.font = "12px 'Segoe UI', Arial";
-            ctx.fillText("Designed by જાંગીડ ઓનલાઇન સેવાઓ", 300, 710);
+            ctx.fillText("ગણેશ મહોત્સવમાં સહયોગ બદલ આભાર!", 300, 680);
 
-            // Convert to Blob for Web Share
-            canvas.toBlob(blob => {
-                currentReceiptBlob = blob;
-            }, 'image/png');
-
+            canvas.toBlob(blob => { currentReceiptBlob = blob; }, 'image/png');
             document.getElementById('receiptModal').style.display = 'flex';
         }
 
         async function shareReceiptImage() {
             if (!currentReceiptBlob) return;
-
-            const file = new File([currentReceiptBlob], "Ganesh_Receipt.png", { type: "image/png" });
-
+            const file = new File([currentReceiptBlob], "Receipt.png", { type: "image/png" });
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: "શ્રી વિઘ્નહર્તા ગજાનન પાવતી",
-                        text: "🚩 શ્રી વિઘ્નહર્તા ગજાનન મહોત્સવ ૨૦૨૬ - દાન / ફાળો સ્વીકૃતિ પાવતી 🙏"
-                    });
-                } catch (err) {
-                    console.log("Share skipped", err);
-                }
+                await navigator.share({ files: [file], title: "શ્રી વિઘ્નહર્તા ગજાનન પાવતી" });
             } else {
-                // Fallback for desktop or non-supported browser
                 downloadReceiptImage();
-                alert("તમારા બ્રાઉઝરમાંથી પાવતી ઈમેજ ડાઉનલોડ થઈ ગઈ છે, હવે તેને WhatsApp માં મોકલી શકો છો.");
             }
         }
 
         function downloadReceiptImage() {
             const canvas = document.getElementById('receiptCanvas');
             const link = document.createElement('a');
-            link.download = 'Ganesh_Receipt.png';
-            link.href = canvas.toDataURL('image/png');
+            link.download = 'Receipt.png';
+            link.href = canvas.toDataURL();
             link.click();
         }
 
@@ -793,120 +611,117 @@
             document.getElementById('receiptModal').style.display = 'none';
         }
 
-        // ================= WORKFLOW ACTIONS (USER & ADMIN) =================
-        function saveDonorAndGenerateReceipt(source) {
-            const prefix = source === 'user' ? 'u' : 'a';
-            const name = document.getElementById(prefix + 'DonorName').value;
-            const phone = document.getElementById(prefix + 'DonorPhone').value;
-            const address = document.getElementById(prefix + 'DonorAddress').value;
-            const amount = document.getElementById(prefix + 'DonorAmount').value;
+        // ================= 📝 ACTIONS =================
+        function saveDonor(source) {
+            const p = source === 'user' ? 'u' : 'a';
+            const name = document.getElementById(p + 'DonorName').value;
+            const phone = document.getElementById(p + 'DonorPhone').value;
+            const address = document.getElementById(p + 'DonorAddress').value;
+            const amount = document.getElementById(p + 'DonorAmount').value;
 
-            if (!name || !amount) { alert("નામ અને રકમ લખવી ફરજિયાત છે!"); return; }
+            if (!name || !amount) { alert("નામ અને રકમ જરૂરી છે!"); return; }
 
             const today = new Date();
             const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
-            
-            db.receiptCounter = (db.receiptCounter || 100) + 1;
-            const receiptNo = "VG-" + db.receiptCounter;
+            liveData.receiptCounter = (Number(liveData.receiptCounter) || 100) + 1;
+            const receiptNo = "VG-" + liveData.receiptCounter;
 
-            db.donations.unshift({
-                id: db.receiptCounter,
-                receiptNo: receiptNo,
-                date: dateStr,
-                name: name,
-                phone: phone,
-                address: address || "નરસંડા",
-                amount: Number(amount)
-            });
+            const entry = {
+                action: "addDonor",
+                id: liveData.receiptCounter,
+                receiptNo, date: dateStr, name, phone, address: address || "નરસંડા", amount: Number(amount)
+            };
 
-            saveDB();
+            liveData.donations.unshift(entry);
+            renderUI();
+            postToSheet(entry);
 
-            // Clear inputs
-            document.getElementById(prefix + 'DonorName').value = '';
-            document.getElementById(prefix + 'DonorPhone').value = '';
-            document.getElementById(prefix + 'DonorAddress').value = '';
-            document.getElementById(prefix + 'DonorAmount').value = '';
+            document.getElementById(p + 'DonorName').value = '';
+            document.getElementById(p + 'DonorPhone').value = '';
+            document.getElementById(p + 'DonorAddress').value = '';
+            document.getElementById(p + 'DonorAmount').value = '';
 
-            // Generate and Show Image Receipt
-            generateAndPreviewReceipt(receiptNo, name, amount, address, dateStr, phone);
+            generateReceipt(receiptNo, name, amount, address, dateStr, phone);
         }
 
         function updateSchedule(source) {
-            const prefix = source === 'user' ? 'u' : 'a';
-            const m = document.getElementById(prefix + 'Morning').value;
-            const e = document.getElementById(prefix + 'Evening').value;
-            const sp = document.getElementById(prefix + 'Sponsor').value;
+            const p = source === 'user' ? 'u' : 'a';
+            const m = document.getElementById(p + 'Morning').value;
+            const e = document.getElementById(p + 'Evening').value;
+            const sp = document.getElementById(p + 'Sponsor').value;
 
-            if(m) db.morningAarti = m;
-            if(e) db.eveningAarti = e;
-            if(sp) db.sponsor = sp;
+            if (m) liveData.morningAarti = m;
+            if (e) liveData.eveningAarti = e;
+            if (sp) liveData.sponsor = sp;
 
-            saveDB();
-            alert("સમય અને મહાપ્રસાદ અપડેટ થઈ ગયું!");
-        }
-
-        function deleteDonor(idx) {
-            if(confirm("શું તમે આ પાવતી ડિલીટ કરવા માંગો છો?")) {
-                db.donations.splice(idx, 1);
-                saveDB();
-            }
-        }
-
-        function editDonor(idx) {
-            const item = db.donations[idx];
-            const newName = prompt("દાતાનું નામ:", item.name);
-            const newAmount = prompt("રકમ (₹):", item.amount);
-            const newAddress = prompt("સરનામું:", item.address);
-            if (newName && newAmount) {
-                item.name = newName;
-                item.amount = Number(newAmount);
-                item.address = newAddress || item.address;
-                saveDB();
-            }
+            renderUI();
+            postToSheet({ action: "updateSchedule", morning: m, evening: e, sponsor: sp });
+            alert("અપડેટ થઈ ગયું!");
         }
 
         function saveLiveUrl() {
             const url = document.getElementById('aLiveUrl').value;
-            if(url) { db.liveUrl = url; saveDB(); alert("લાઈવ દર્શન લિંક અપડેટ થઈ!"); }
+            if (url) {
+                liveData.liveUrl = url;
+                renderUI();
+                postToSheet({ action: "updateSchedule", liveUrl: url });
+                alert("લાઈવ લિંક અપડેટ થઈ!");
+            }
         }
 
-        function addPhotoToGallery() {
+        function addPhoto() {
             const url = document.getElementById('aPhotoUrl').value;
-            if(url) { db.photos.unshift(url); saveDB(); document.getElementById('aPhotoUrl').value = ''; }
-        }
-
-        function deletePhoto(idx) {
-            db.photos.splice(idx, 1);
-            saveDB();
+            if (url) {
+                liveData.photos.unshift(url);
+                renderUI();
+                postToSheet({ action: "addPhoto", photoUrl: url });
+                document.getElementById('aPhotoUrl').value = '';
+                alert("ફોટો ઉમેરાઈ ગયો!");
+            }
         }
 
         function addNewUser() {
             const name = document.getElementById('newUserName').value;
             const pin = document.getElementById('newUserPin').value;
-            if(name && pin) {
-                db.users.push({ id: Date.now(), name, pin });
-                saveDB();
+            if (name && pin) {
+                const u = { action: "addUser", id: Date.now(), name, pin };
+                liveData.users.push(u);
+                postToSheet(u);
                 document.getElementById('newUserName').value = '';
                 document.getElementById('newUserPin').value = '';
-                alert('નવો User ઉમેરાઈ ગયો!');
+                alert("નવો યુઝર ઉમેરાઈ ગયો!");
             }
         }
 
-        function deleteUser(idx) {
-            db.users.splice(idx, 1);
-            saveDB();
+        function addWish() {
+            const name = document.getElementById('wishName').value;
+            const msg = document.getElementById('wishText').value;
+            if (!name || !msg) { alert("નામ અને પ્રાર્થના લખો!"); return; }
+
+            const today = new Date();
+            const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
+            const w = { action: "addWish", date: dateStr, name, text: msg };
+            
+            liveData.wishes.unshift(w);
+            renderUI();
+            postToSheet(w);
+
+            document.getElementById('wishName').value = '';
+            document.getElementById('wishText').value = '';
+            alert("પ્રાર્થના મોકલાઈ ગઈ!");
         }
 
-        // ================= AUTHENTICATION =================
+        // ================= AUTH =================
         function openAuthModal(type) {
             authTypeTarget = type;
-            if (type === 'admin' && currentRole === 'admin') { switchTab('admin-panel'); return; }
-            if (type === 'user' && currentRole === 'user') { switchTab('user-panel'); return; }
+            if (type === 'admin' && currentRole === 'admin') return switchTab('admin-panel');
+            if (type === 'user' && currentRole === 'user') return switchTab('user-panel');
 
-            document.getElementById('authModalTitle').innerText = type === 'admin' ? "👑 Admin લૉગિન" : "👤 User (કાર્યકર્તા) લૉગિન";
+            document.getElementById('authModalTitle').innerText = type === 'admin' ? "👑 Admin લૉગિન" : "👤 User લૉગિન";
             document.getElementById('loginUsername').style.display = type === 'admin' ? 'none' : 'block';
             document.getElementById('authModal').style.display = 'flex';
         }
+
         function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
         function handleAuthLogin() {
@@ -917,22 +732,22 @@
                 if (pass === MASTER_ADMIN_PASS) {
                     currentRole = 'admin';
                     closeAuthModal();
-                    document.getElementById('aMorning').value = db.morningAarti;
-                    document.getElementById('aEvening').value = db.eveningAarti;
-                    document.getElementById('aSponsor').value = db.sponsor;
-                    document.getElementById('aLiveUrl').value = db.liveUrl;
+                    document.getElementById('aMorning').value = liveData.morningAarti || '';
+                    document.getElementById('aEvening').value = liveData.eveningAarti || '';
+                    document.getElementById('aSponsor').value = liveData.sponsor || '';
+                    document.getElementById('aLiveUrl').value = liveData.liveUrl || '';
                     switchTab('admin-panel');
-                } else { alert("ખોટો Admin પાસવર્ડ!"); }
+                } else alert("ખોટો Admin પાસવર્ડ!");
             } else {
-                const foundUser = db.users.find(u => u.name.toLowerCase() === user.toLowerCase() && u.pin === pass);
-                if (foundUser) {
+                const found = liveData.users && liveData.users.find(u => u.name.toLowerCase() === user.toLowerCase() && String(u.pin) === pass);
+                if (found) {
                     currentRole = 'user';
                     closeAuthModal();
-                    document.getElementById('uMorning').value = db.morningAarti;
-                    document.getElementById('uEvening').value = db.eveningAarti;
-                    document.getElementById('uSponsor').value = db.sponsor;
+                    document.getElementById('uMorning').value = liveData.morningAarti || '';
+                    document.getElementById('uEvening').value = liveData.eveningAarti || '';
+                    document.getElementById('uSponsor').value = liveData.sponsor || '';
                     switchTab('user-panel');
-                } else { alert("ખોટું યુઝરનેમ અથવા PIN!"); }
+                } else alert("ખોટું યુઝરનેમ અથવા PIN!");
             }
             document.getElementById('loginPassword').value = '';
             document.getElementById('loginUsername').value = '';
@@ -943,106 +758,55 @@
             switchTab('home');
         }
 
-        // ================= PWA & ADS =================
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("./sw.js").catch(err => console.log(err));
-            });
-        }
-
-        let deferredPrompt = null;
-        const installBtn = document.getElementById('installAppBtn');
-        const guideModal = document.getElementById('installGuideModal');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') installBtn.style.display = 'none';
-                    deferredPrompt = null;
-                } else {
-                    if (guideModal) guideModal.style.display = 'flex';
-                }
-            });
-        }
-
-        const adsList = [
-            {
-                badge: "🌟 ડિજિટલ ઉત્સવ સૌજન્ય",
-                title: "જાંગીડ ઓનલાઇન સેવાઓ",
-                desc: "તમામ પ્રકારની ઓનલાઇન સરકારી સેવાઓ, પાનકાર્ડ, કલર પ્રિન્ટિંગ, આધાર સેવાઓ માટે સંપર્ક કરો.",
-                features: ["✔ પાનકાર્ડ / સેવાઓ & અપડેટ્સ", "✔ કલર પ્રિન્ટિંગ & લેમિનેશન", "✔ ઓનલાઇન ફોર્મ & લાઈટ બિલ"],
-                location: "ચોરા પાસે, નરસંડા.",
-                phone: "+919426959052",
-                whatsapp: "919426959052"
-            }
-        ];
-
-        let currentAdIndex = 0;
-        let clickCounter = 0;
-        const CLICKS_PER_AD = 4;
-        let lastAdClosedTime = 0;
-        const AD_COOLDOWN_MS = 20000;
-
-        function renderCurrentAd() {
-            const container = document.getElementById('adCardContent');
-            if (!container) return;
-            const ad = adsList[currentAdIndex];
-            container.innerHTML = `
-                <span class="ad-badge">${ad.badge}</span>
-                <h2 style="color: #ffc107; margin: 6px 0; font-size: 1.45em;">${ad.title}</h2>
-                <p style="color: #ffe0b2; margin: 5px 0 10px 0; font-size: 0.9em;">${ad.desc}</p>
-                <div style="background: rgba(255, 193, 7, 0.08); border: 1px dashed #ffc107; border-radius: 10px; padding: 10px; margin: 10px 0; text-align: left; font-size: 0.85em; color: #ffecb3;">
-                    ${ad.features.join('<br>')}
-                </div>
-                <p style="font-size: 0.82em; color: #bbb; margin: 8px 0;"><i class="fa-solid fa-location-dot" style="color:#ff5722;"></i> ${ad.location}</p>
-                <div class="ad-btn-group">
-                    <a href="tel:${ad.phone}" class="ad-action-link" style="background:#27ae60;"><i class="fa-solid fa-phone"></i> કોલ કરો</a>
-                    <a href="https://wa.me/${ad.whatsapp}?text=Hello" target="_blank" class="ad-action-link" style="background:#25D366;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                </div>
-                <button onclick="closeAd()" style="background: transparent; border: none; color: #aaa; font-size: 0.82em; margin-top: 12px; cursor: pointer; text-decoration: underline;">દર્શન આગળ વધારો 👉</button>
-            `;
-            currentAdIndex = (currentAdIndex + 1) % adsList.length;
-        }
-
-        function showSmartAd() {
-            if (typeof scrollInterval !== 'undefined' && scrollInterval !== null) return;
-            const modal = document.getElementById('adModal');
-            if (modal && modal.style.display !== 'flex' && (Date.now() - lastAdClosedTime > AD_COOLDOWN_MS)) {
-                renderCurrentAd();
-                modal.style.display = 'flex';
-            }
-        }
-
-        function closeAd() {
-            const modal = document.getElementById('adModal');
-            if (modal) modal.style.display = 'none';
-            lastAdClosedTime = Date.now();
-        }
-
-        // ================= TAB SWITCHING =================
+        // ================= UTILITIES =================
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            const targetTab = document.getElementById(tabId);
-            if (targetTab) targetTab.classList.add('active');
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
             if (event && event.currentTarget) event.currentTarget.classList.add('active');
-
             if (tabId === 'aarti-tab') changeLyrics();
-            if (tabId === 'donors-tab') renderAllData();
         }
 
         function playShankh() { document.getElementById('shankhAudio').play(); }
-        function openFullImg(src) { window.open(src, '_blank'); }
 
-        // ================= INTERACTIVE THALI DRAG =================
+        // ================= AARTI & LYRICS =================
+        const lyricsData = {
+            jayGanesh: `<b>॥ શ્રી ગણેશજીની આરતી ॥</b><br><br>જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા,<br>માતા જાકી પાર્વતી, પિતા મહાદેવા... ॥ ધ્રુવ ॥<br><br>એક દંત દયાવંત, ચાર ભુજાધારી,<br>માથે સિંદૂર સોહે, મૂસે કી સવારી...<br>અંધન કો આંખ દેત, કોઢિન કો કાયા,<br>બાંઝન કો પુત્ર દેત, નિર્ધન કો માયા...`,
+            sukhKarta: `<b>॥ સુખકર્તા દુઃખહર્તા આરતી ॥</b><br><br>સુખકર્તા દુઃખહર્તા વાર્તા વિઘ્નાચી,<br>નુરવી પૂર્વી પ્રેમ કૃપા જયાચી...<br>સર્વાંગી સુંદર ઉટી શિંદુરાચી,<br>કંઠી ઝળકે માળ મુક્તાફળચી... ॥ ૧ ॥`,
+            chalisa: `<b>॥ શ્રી ગણેશ ચાલીસા ॥</b><br><br><b>દોહા:</b><br>જય ગણપતિ સદ્ગુણ સદન, કવિવર બદન કૃપાલ ।<br>વિઘ્ન હરણ મંગલ કરણ, જય જય ગિરિજાલાલ ॥`
+        };
+
+        let scrollInterval = null;
+        function changeLyrics() {
+            const box = document.getElementById('lyricsBox');
+            const sel = document.getElementById('lyricsSelect');
+            if (box && sel) { resetScroll(); box.innerHTML = lyricsData[sel.value]; }
+        }
+
+        function toggleAutoScroll() {
+            const box = document.getElementById('lyricsBox');
+            const btn = document.getElementById('scrollToggleBtn');
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+                btn.innerText = "▶️ ઓટો-સ્ક્રોલ શરૂ કરો";
+            } else {
+                btn.innerText = "⏸️ ઓટો-સ્ક્રોલ રોકો";
+                scrollInterval = setInterval(() => {
+                    box.scrollTop += 1;
+                    if (box.scrollTop >= (box.scrollHeight - box.clientHeight - 2)) toggleAutoScroll();
+                }, 50);
+            }
+        }
+
+        function resetScroll() {
+            if (scrollInterval) toggleAutoScroll();
+            const box = document.getElementById('lyricsBox');
+            if (box) box.scrollTop = 0;
+        }
+
+        // ================= INTERACTIVE THALI =================
         const thali = document.getElementById('thali');
         const arena = document.getElementById('arena');
         let isDragging = false;
@@ -1052,12 +816,8 @@
             const rect = arena.getBoundingClientRect();
             let clientX = e.clientX || (e.touches && e.touches[0].clientX);
             let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            let x = clientX - rect.left - 35;
-            let y = clientY - rect.top - 35;
-            x = Math.max(0, Math.min(x, rect.width - 70));
-            y = Math.max(0, Math.min(y, rect.height - 70));
-            thali.style.left = x + 'px';
-            thali.style.top = y + 'px';
+            thali.style.left = Math.max(0, Math.min(clientX - rect.left - 35, rect.width - 70)) + 'px';
+            thali.style.top = Math.max(0, Math.min(clientY - rect.top - 35, rect.height - 70)) + 'px';
         }
 
         thali.addEventListener('mousedown', () => isDragging = true);
@@ -1067,58 +827,6 @@
         arena.addEventListener('mousemove', moveThali);
         arena.addEventListener('touchmove', moveThali);
 
-        // ================= WISH BOX =================
-        function addWish() {
-            let name = document.getElementById('wishName').value;
-            let msg = document.getElementById('wishText').value;
-            if(!name || !msg) { alert('નામ અને પ્રાર્થના બંને લખો.'); return; }
-            let wishDiv = document.createElement('div');
-            wishDiv.className = 'wish-item';
-            wishDiv.innerHTML = `<b>${name}:</b> ${msg}`;
-            document.getElementById('wishList').prepend(wishDiv);
-            document.getElementById('wishName').value = '';
-            document.getElementById('wishText').value = '';
-        }
-
-        // ================= SELFIE FRAME =================
-        const imageLoader = document.getElementById('imageLoader');
-        const frameCanvas = document.getElementById('frameCanvas');
-        const ctxFrame = frameCanvas.getContext('2d');
-
-        function drawFrameBorder() {
-            ctxFrame.strokeStyle = "#ffc107";
-            ctxFrame.lineWidth = 10;
-            ctxFrame.strokeRect(0, 0, 300, 300);
-            ctxFrame.fillStyle = "#ff5722";
-            ctxFrame.fillRect(0, 260, 300, 40);
-            ctxFrame.fillStyle = "#ffffff";
-            ctxFrame.font = "bold 14px Arial";
-            ctxFrame.textAlign = "center";
-            ctxFrame.fillText("🚩 વિઘ્નહર્તા ગજાનન ૨૦૨૬ 🚩", 150, 285);
-        }
-        drawFrameBorder();
-
-        imageLoader.addEventListener('change', function(e) {
-            let reader = new FileReader();
-            reader.onload = function(event) {
-                let img = new Image();
-                img.onload = function() {
-                    ctxFrame.clearRect(0,0,300,300);
-                    ctxFrame.drawImage(img, 0, 0, 300, 260);
-                    drawFrameBorder();
-                }
-                img.src = event.target.result;
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
-
-        function downloadFrame() {
-            let link = document.createElement('a');
-            link.download = 'ganesh-selfie.png';
-            link.href = frameCanvas.toDataURL();
-            link.click();
-        }
-
         // ================= FLOWER SHOWER =================
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -1127,10 +835,10 @@
         let particles = [];
 
         function startFlowerShower() {
-            for(let i = 0; i < 35; i++) {
+            for(let i = 0; i < 30; i++) {
                 particles.push({
                     x: Math.random() * width, y: -10,
-                    size: Math.random() * 7 + 4,
+                    size: Math.random() * 6 + 4,
                     color: ['#ff9800', '#ff5722', '#ffc107'][Math.floor(Math.random() * 3)],
                     speedY: Math.random() * 3 + 2, speedX: Math.random() * 2 - 1
                 });
@@ -1146,105 +854,70 @@
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
-                if(p.y > height) { particles.splice(i, 1); i--; }
+                if (p.y > height) { particles.splice(i, 1); i--; }
             }
             requestAnimationFrame(updateParticles);
         }
         updateParticles();
 
-        // ================= 📜 AARTI & CHALISA DATA =================
-        const lyricsData = {
-            jayGanesh: `<b>॥ શ્રી ગણેશજીની આરતી ॥</b><br><br>જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા,<br>માતા જાકી પાર્વતી, પિતા મહાદેવા... ॥ ધ્રુવ ॥<br><br>એક દંત દયાવંત, ચાર ભુજાધારી,<br>માથે સિંદૂર સોહે, મૂસે કી સવારી...<br>અંધન કો આંખ દેત, કોઢિન કો કાયા,<br>બાંઝન કો પુત્ર દેત, નિર્ધન કો માયા...<br>જય ગણેશ, જય ગણેશ, જય ગણેશ દેવા...<br><br>પાન ચઢે, ફૂલ ચઢે, ઔર ચઢે મેવા,<br>લડ્ડુઅન કા ભોગ લગે, સંત કરેં સેવા...<br>દીનન કી લાજ રાખો, શંભુ સુત વારી,<br>કામના કો પૂર્ણ કરો, જગ બલિહારી...`,
-            sukhKarta: `<b>॥ સુખકર્તા દુઃખહર્તા આરતી ॥</b><br><br>સુખકર્તા દુઃખહર્તા વાર્તા વિઘ્નાચી,<br>નુરવી પૂર્વી પ્રેમ કૃપા જયાચી...<br>સર્વાંગી સુંદર ઉટી શિંદુરાચી,<br>કંઠી ઝળકે માળ મુક્તાફળચી... ॥ ૧ ॥<br><br>જય દેવ જય દેવ જય મંગલમૂર્તિ,<br>દર્શનમાત્રે મનકામના પૂરતી... ॥ ધ્રુવ ॥`,
-            chalisa: `<b>॥ શ્રી ગણેશ ચાલીસા ॥</b><br><br><b>દોહા:</b><br>જય ગણપતિ સદ્ગુણ સદન, કવિવર બદન કૃપાલ ।<br>વિઘ્ન હરણ મંગલ કરણ, જય જય ગિરિજાલાલ ॥<br><br><b>ચોપાઈ:</b><br>જય જય જય ગણપતિ ગણરાજુ । દ્વિતીય પ્રથમેહું સુમિરોં તુમ્હારૂ કાજુ ॥`
-        };
+        // ================= SELFIE FRAME =================
+        const imageLoader = document.getElementById('imageLoader');
+        const frameCanvas = document.getElementById('frameCanvas');
+        const ctxF = frameCanvas.getContext('2d');
 
-        let scrollInterval = null;
-
-        function changeLyrics() {
-            const lyricsBox = document.getElementById('lyricsBox');
-            const selectElem = document.getElementById('lyricsSelect');
-            if (!lyricsBox || !selectElem) return;
-            resetScroll();
-            lyricsBox.innerHTML = lyricsData[selectElem.value || 'jayGanesh'];
-            lyricsBox.scrollTop = 0;
+        function drawFrame() {
+            ctxF.strokeStyle = "#ffc107";
+            ctxF.lineWidth = 10;
+            ctxF.strokeRect(0, 0, 300, 300);
+            ctxF.fillStyle = "#ff5722";
+            ctxF.fillRect(0, 260, 300, 40);
+            ctxF.fillStyle = "#ffffff";
+            ctxF.font = "bold 14px Arial";
+            ctxF.textAlign = "center";
+            ctxF.fillText("🚩 વિઘ્નહર્તા ગજાનન ૨૦૨૬ 🚩", 150, 285);
         }
+        drawFrame();
 
-        function toggleAutoScroll() {
-            const lyricsBox = document.getElementById('lyricsBox');
-            const scrollBtn = document.getElementById('scrollToggleBtn');
-            const speedInput = document.getElementById('scrollSpeed');
-            if (!lyricsBox || !scrollBtn) return;
-
-            if (scrollInterval) {
-                clearInterval(scrollInterval);
-                scrollInterval = null;
-                scrollBtn.innerText = "▶️ ઓટો-સ્ક્રોલ શરૂ કરો";
-                scrollBtn.style.background = "rgba(255, 193, 7, 0.1)";
-                scrollBtn.style.color = "var(--gold)";
-            } else {
-                scrollBtn.innerText = "⏸️ ઓટો-સ્ક્રોલ રોકો";
-                scrollBtn.style.background = "var(--gold)";
-                scrollBtn.style.color = "#000";
-
-                const speed = speedInput ? (110 - parseInt(speedInput.value)) : 50;
-                scrollInterval = setInterval(() => {
-                    lyricsBox.scrollTop += 1;
-                    if (lyricsBox.scrollTop >= (lyricsBox.scrollHeight - lyricsBox.clientHeight - 2)) {
-                        toggleAutoScroll();
-                    }
-                }, speed);
-            }
-        }
-
-        function resetScroll() {
-            if (scrollInterval) toggleAutoScroll();
-            const lyricsBox = document.getElementById('lyricsBox');
-            if (lyricsBox) lyricsBox.scrollTop = 0;
-        }
-
-        // ================= INITIAL LOAD =================
-        window.addEventListener('load', () => {
-            renderAllData();
-            setTimeout(showSmartAd, 2000);
+        imageLoader.addEventListener('change', e => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = new Image();
+                img.onload = () => {
+                    ctxF.clearRect(0,0,300,300);
+                    ctxF.drawImage(img, 0, 0, 300, 260);
+                    drawFrame();
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
         });
-        setInterval(showSmartAd, 45000);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const interactiveElements = document.querySelectorAll('.nav-btn, .action-btn, #imageLoader, .gallery-item, .thali');
-            interactiveElements.forEach(elem => elem.addEventListener('click', () => {
-                clickCounter++;
-                if (clickCounter >= CLICKS_PER_AD) {
-                    showSmartAd();
-                    clickCounter = 0;
-                }
-            }));
+        function downloadFrame() {
+            const link = document.createElement('a');
+            link.download = 'Selfie.png';
+            link.href = frameCanvas.toDataURL();
+            link.click();
+        }
+
+        // ================= SERVICE WORKER & INIT =================
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+        }
+
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        document.getElementById('installAppBtn').addEventListener('click', () => {
+            if (deferredPrompt) deferredPrompt.prompt();
+        });
+
+        window.addEventListener('load', () => {
+            fetchLiveData();
             changeLyrics();
         });
-
-        // લિંક ખુલતાં જ 1 સેકન્ડમાં ડાઉનલોડનું પોપઅપ સામે આવી જશે
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // જો યુઝરે હજુ ઇન્સ્ટોલ નથી કરી, તો આપોઆપ ઇન્સ્ટોલ બોક્સ ખોલી દેશે
-    setTimeout(() => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-        }
-    }, 1200);
-});
     </script>
-
-    <!-- DEVELOPER FOOTER -->
-    <footer style="margin-top: 30px; padding: 20px 15px; background: rgba(18, 9, 2, 0.95); border-top: 1px solid rgba(255, 193, 7, 0.2); text-align: center;">
-        <p style="margin: 0; font-size: 0.85em; color: #aaa;">© ૨૦૨૬ વિઘ્નહર્તા ગજાનન | સર્વ હક્કો સુરક્ષિત</p>
-        <div style="margin-top: 10px; display: inline-block; background: rgba(255, 193, 7, 0.08); border: 1px solid var(--gold); padding: 8px 18px; border-radius: 25px;">
-            <p style="margin: 0; font-size: 0.85em; color: #ffe0b2;">
-                💻 Designed & Developed with ❤️ by <br>
-                <b style="color: var(--gold); font-size: 1.05em;">જાંગીડ ઓનલાઇન સેવાઓ</b>
-            </p>
-        </div>
-    </footer>
 </body>
 </html>
