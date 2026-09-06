@@ -589,7 +589,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; margin-bottom:6px; text-align:left;">
                     <div>
                         <b style="color:#fff;">${idx + 1}. ${item.name}</b>
-                        <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${item.date} | રસીદ: ${item.receiptNo}</div>
+                        <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${formatSheetDate(item.date)} | રસીદ: ${item.receiptNo}</div>
                     </div>
                     <div style="font-size:1.1em; font-weight:bold; color:#81c784;">₹ ${Number(item.amount).toLocaleString('en-IN')}</div>
                 </div>
@@ -1121,6 +1121,23 @@ function openSelectedDriveFolder() {
         window.open(targetUrl, '_blank');
     }
 }
+
+function formatSheetDate(rawDate) {
+    if (!rawDate) return "";
+    
+    const d = new Date(rawDate);
+    // જો તારીખ યોગ્ય ન હોય તો સીધું મૂળ ટેક્સ્ટ પાછું આપે
+    if (isNaN(d.getTime())) return rawDate; 
+
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${day}-${month}-${year}`; // પરિણામ: 03-09-2026
+}
+
+// ઉદાહરણ:
+console.log(formatSheetDate("2026-09-02T18:30:00.000Z")); // "03-09-2026"
     </script>
 </body>
 </html>
