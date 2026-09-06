@@ -233,14 +233,15 @@
                 <p><b>🌅 સવારની આરતી:</b> <span id="m-aarti" style="color:#81c784;">Loading</span></p>
                 <p><b>🌆 સાંજની આરતી:</b> <span id="e-aarti" style="color:#81c784;">Loading</span></p>
                 <hr style="border-color: rgba(255,255,255,0.1);">
-                <p><b>🍎 આજનો મહાપ્રસાદ સેવા:</b></p>
+                <p><b>🍎 આજનો આરતી & પ્રસાદ સેવા:</b></p>
                 <p id="sponsor" style="font-size: 1.1em; color: var(--gold); font-weight: bold;">Loading</p>
             </div>
 
             <div class="card">
                 <h2>💳 ઓનલાઈન ફાળો / સેવા</h2>
-                <img id="upiQRImg" src="" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
-                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: mandal@upi</p>
+                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">Love I Pathak</p>
+                <img id="upiQRImg" src="image/qrcode.jpeg" alt="QR Code" style="border: 3px solid var(--gold); border-radius: 10px; margin: 8px; width: 140px; height: 140px;">
+                <p style="font-family: monospace; color: var(--gold-glow); margin: 0;">UPI: loveipathak12-2@okicici</p>
             </div>
         </div>
 
@@ -254,13 +255,55 @@
             </div>
         </div>
 
-        <!-- TAB 3: PHOTO GALLERY -->
-        <div id="gallery" class="tab-content">
-            <div class="card">
-                <h2>📸 ફોટો ગેલેરી</h2>
-                <div class="gallery-grid" id="publicGalleryGrid"></div>
+      <!-- TAB 3: PHOTO GALLERY -->
+<div id="gallery" class="tab-content">
+    <div class="card">
+        <h2>📸 ગણેશોત્સવ ફોટો ગેલેરી</h2>
+        <p style="font-size: 0.9em; color: var(--gold-glow); margin-bottom: 15px;">
+            📁 વર્ષ અને દિવસ પસંદ કરી Google Drive પર ફોટા જુઓ:
+        </p>
+
+        <!-- COMPACT DROPDOWN SELECTOR -->
+        <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--gold); border-radius: 12px; padding: 15px; margin-bottom: 15px;">
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                <!-- ૧. વર્ષ સિલેક્ટ કરવાનું ડ્રોપડાઉન -->
+                <select id="galleryYearSelect" onchange="handleYearChange()" 
+                        style="flex: 1; min-width: 130px; padding: 10px; border-radius: 8px; background: #2d1405; color: var(--gold); border: 1px solid var(--gold); font-weight: bold; font-size: 0.95em;">
+                    <option value="2026">🚩 વર્ષ ૨૦૨૬</option>
+                    <option value="2025">📁 વર્ષ ૨૦૨૫</option>
+                </select>
+
+                <!-- ૨. ૨૦૨૬ માટે દિવસ સિલેક્ટ કરવાનું ડ્રોપડાઉન -->
+                <select id="galleryDaySelect" 
+                        style="flex: 1; min-width: 150px; padding: 10px; border-radius: 8px; background: #2d1405; color: #fff; border: 1px solid var(--gold); font-weight: bold; font-size: 0.95em;">
+                    <option value="1">🗓️ દિવસ ૧</option>
+                    <option value="2">🗓️ દિવસ ૨</option>
+                    <option value="3">🗓️ દિવસ ૩</option>
+                    <option value="4">🗓️ દિવસ ૪</option>
+                    <option value="5">🗓️ દિવસ ૫</option>
+                    <option value="6">🗓️ દિવસ ૬</option>
+                    <option value="7">🗓️ દિવસ ૭</option>
+                    <option value="8">🗓️ દિવસ ૮</option>
+                    <option value="9">🗓️ દિવસ ૯</option>
+                    <option value="10">🗓️ દિવસ ૧૦</option>
+                    <option value="11">🌸 દિવસ ૧૧ (વિસર્જન)</option>
+                </select>
             </div>
+
+            <!-- ઓપન કરવાનું મુખ્ય બટન -->
+            <button class="action-btn" onclick="openSelectedDriveFolder()" 
+                    style="width: 100%; margin-top: 12px; background: linear-gradient(45deg, #ff5722, #ffc107); color: #000; border: none; font-size: 1em; padding: 11px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-brands fa-google-drive" style="font-size: 1.2em;"></i> ફોટા જોવા માટે ક્લિક કરો.
+            </button>
         </div>
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+        <p style="font-size: 0.85em; color: #aaa; margin-bottom: 8px;">✨ તાજા ફોટા (Live Updates):</p>
+        <div class="gallery-grid" id="publicGalleryGrid"></div>
+    </div>
+</div>
+
 
         <!-- TAB 4: THALI AARTI -->
         <div id="aarti-tab" class="tab-content">
@@ -1032,6 +1075,50 @@
             changeLyrics();
             setInterval(fetchLiveData, 10000);
         });
+
+ // 🔗 તમારી Google Drive ની links અહીં સેટ કરો:
+const DRIVE_2025_URL = "https://drive.google.com/drive/folders/1g1PTo2mM-2jMe8fK1qJuiiEbtGdk-kRC";
+
+const DRIVE_2026_DAYS = {
+    1: "https://drive.google.com/drive/folders/1rNfbaqDUKpTNHeILCeaVuB4RA2EjlujL",
+    2: "https://drive.google.com/drive/folders/1fhEZ7rQvVAK-EU0poKswSrBSTr6qZ390",
+    3: "https://drive.google.com/drive/folders/1Mk8KTh303uUuN4wQCy8bF5Gt9BXuDEJQ",
+    4: "https://drive.google.com/drive/folders/1crFvGGIRj4wRnmTw7zu_VkICvOYnbc8h",
+    5: "https://drive.google.com/drive/folders/1FlwINuKawHk9Zt93PFQhkk33I7TtN33t",
+    6: "https://drive.google.com/drive/folders/1uyNJnVjdeydpazz1-r2Dkum2aAou3ba_",
+    7: "https://drive.google.com/drive/folders/1w3Yto14CZdF9I66X91isqMXvRPIoPAjQ",
+    8: "https://drive.google.com/drive/folders/1-wKlvDFLEA3B5VL7qD1OtRCDvzAfds3w",
+    9: "https://drive.google.com/drive/folders/1_FzBjWBgMwlDR0JyHhUWXh1NoFhziycF",
+    10: "https://drive.google.com/drive/folders/17JvouYp-rPDf4c4yLM7lbug2InSJaSAE",
+    11: "https://drive.google.com/drive/folders/1Em7Sz7lnswER3z38G96HYLo4XUpppZF0"
+};
+
+// વર્ષ બદલાય ત્યારે Day Dropdown ને છુપાવવું / બતાવવું
+function handleYearChange() {
+    const yearSelect = document.getElementById('galleryYearSelect');
+    const daySelect = document.getElementById('galleryDaySelect');
+
+    if (yearSelect.value === "2025") {
+        // ૨૦૨૫ માં દિવસ નથી એટલે દિવસનું ડ્રોપડાઉન છુપાઈ જશે
+        daySelect.style.display = "none";
+    } else {
+        // ૨૦૨૬ માં દિવસનું ડ્રોપડાઉન દેખાશે
+        daySelect.style.display = "block";
+    }
+}
+
+// સિલેક્ટ કરેલું ફોલ્ડર Drive માં ખોલવું
+function openSelectedDriveFolder() {
+    const year = document.getElementById('galleryYearSelect').value;
+    
+    if (year === "2025") {
+        window.open(DRIVE_2025_URL, '_blank');
+    } else {
+        const selectedDay = document.getElementById('galleryDaySelect').value;
+        const targetUrl = DRIVE_2026_DAYS[selectedDay] || DRIVE_2026_DAYS[1];
+        window.open(targetUrl, '_blank');
+    }
+}
     </script>
 </body>
 </html>

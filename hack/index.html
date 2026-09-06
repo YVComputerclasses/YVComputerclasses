@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER RECON // ADVANCED TERMINAL SUITE</title>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #05080c;
+      color: #00ff66;
+      font-family: 'Consolas', 'Courier New', monospace;
+      padding: 15px;
+      line-height: 1.5;
+    }
+    .header {
+      border-bottom: 2px solid #00ff66;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 { font-size: 16px; letter-spacing: 2px; color: #00e5ff; }
+    .status-badge { background: rgba(0, 255, 102, 0.1); border: 1px solid #00ff66; padding: 3px 8px; font-size: 11px; }
+    
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    
+    .card {
+      background: #090d14;
+      border: 1px solid #1c2636;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #ff3333;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #1c2636;
+      padding-bottom: 4px;
+    }
+    
+    .console-box {
+      background: #000;
+      border: 1px solid #111b27;
+      padding: 8px;
+      font-size: 12px;
+      color: #b0bec5;
+      min-height: 120px;
+      max-height: 160px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    .input-row { display: flex; gap: 5px; margin-bottom: 8px; }
+    input[type="text"] {
+      flex: 1;
+      background: #000;
+      border: 1px solid #00ff66;
+      color: #fff;
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+    button {
+      background: #00ff66;
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    button:active { opacity: 0.7; }
+    .btn-danger { background: #ff3333; color: #fff; }
+    
+    .val-cyan { color: #00e5ff; }
+    .val-warn { color: #ffbb00; }
+    .val-red { color: #ff3333; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>[ CYBERNETIC INTEL // RECON SUITE ]</h1>
+    <div class="status-badge" id="netStatus">SYSTEM ACTIVE</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- MODULE 1: HARDWARE & WEBRTC DEEP PROBE -->
+    <div class="card">
+      <div class="card-title">
+        <span>[01] HARDWARE & WEBRTC LAN AUDIT</span>
+        <span class="val-cyan">LIVE SENSORS</span>
+      </div>
+      <div class="console-box" id="hwOutput">Probing local runtime environment...</div>
+      <button style="width: 100%; margin-top: 8px;" onclick="runDeepHardwareAudit()">REFRESH HARDWARE TELEMETRY</button>
+    </div>
+
+    <!-- MODULE 2: CLOUDFLARE LIVE DNS RECON (REAL NAMESERVERS) -->
+    <div class="card">
+      <div class="card-title">
+        <span>[02] TARGET DOMAIN DNS RESOLVER</span>
+        <span class="val-warn">DoH PROTOCOL</span>
+      </div>
+      <div class="input-row">
+        <input type="text" id="targetDomain" placeholder="e.g. google.com or target.edu">
+        <button onclick="resolveDNS()">RESOLVE</button>
+      </div>
+      <div class="console-box" id="dnsOutput">Status: Ready to resolve public A-Records & Nameservers...</div>
+    </div>
+
+    <!-- MODULE 3: EMAIL BREACH / OSINT QUERY -->
+    <div class="card">
+      <div class="card-title">
+        <span>[03] GLOBAL DATABASE BREACH DETECTOR</span>
+        <span class="val-red">OSINT RECON</span>
+      </div>
+      <div class="input-row">
+        <input type="text" id="targetEmail" placeholder="Enter target email to verify leaks...">
+        <button class="btn-danger" onclick="checkBreach()">QUERY DUMPS</button>
+      </div>
+      <div class="console-box" id="breachOutput">Status: Standing by for email input...</div>
+    </div>
+
+    <!-- MODULE 4: P2P REMOTE SOCKET RELAY (WEBRTC) -->
+    <div class="card">
+      <div class="card-title">
+        <span>[04] DIRECT P2P C2 LINKAGE</span>
+        <span id="p2pState" class="val-red">IDLE</span>
+      </div>
+      <div class="input-row">
+        <input type="text" id="remotePeerId" placeholder="Paste Remote Node Peer ID">
+        <button onclick="connectPeer()">LINK NODE</button>
+      </div>
+      <div style="display: flex; gap: 5px; margin-bottom: 8px;">
+        <button style="flex:1;" onclick="sendPingPayload('VIBRATE')">REMOTE VIBRATE</button>
+        <button style="flex:1;" class="btn-danger" onclick="sendPingPayload('ALARM')">REMOTE BEEP</button>
+      </div>
+      <div class="console-box" id="p2pOutput">Your Node ID: Initializing WebRTC handshake...</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // ૧. રિયલ હાર્ડવેર, GPU અને WebRTC પ્રાઇવેટ IP સ્કેનર
+    // ----------------------------------------------------
+    async function runDeepHardwareAudit() {
+      const out = document.getElementById("hwOutput");
+      out.innerHTML = "[*] Extracting system runtime signatures...\n";
+
+      // GPU Detection via WebGL
+      let gpuRenderer = "Generic/Unknown";
+      try {
+        const gl = document.createElement('canvas').getContext('webgl');
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        if (dbg) gpuRenderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+      } catch(e) {}
+
+      // Battery Status
+      let batt = "N/A";
+      if (navigator.getBattery) {
+        const b = await navigator.getBattery();
+        batt = `${(b.level * 100).toFixed(0)}% [${b.charging ? 'CHARGING' : 'BATTERY'}]`;
+      }
+
+      out.innerHTML += `> CPU Cores        : <span class="val-cyan">${navigator.hardwareConcurrency || 'N/A'} Threads</span>\n` +
+                       `> RAM Architecture : <span class="val-cyan">~${navigator.deviceMemory || 'N/A'} GB Memory</span>\n` +
+                       `> GPU Driver Engine: <span class="val-warn">${gpuRenderer}</span>\n` +
+                       `> Screen Geometry  : <span class="val-cyan">${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)</span>\n` +
+                       `> Power Subsystem  : <span class="val-cyan">${batt}</span>\n`;
+
+      // WebRTC Internal IP Leak Extraction
+      try {
+        const rtc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+        rtc.createDataChannel("");
+        rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
+        rtc.onicecandidate = (e) => {
+          if (!e || !e.candidate) return;
+          const match = e.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/);
+          if (match) {
+            out.innerHTML += `> Discovered STUN Node: <span class="val-red">${match[1]}</span>\n`;
+          }
+        };
+      } catch(e) {}
+    }
+    runDeepHardwareAudit();
+
+    // ----------------------------------------------------
+    // ૨. રિયલ DNS-Over-HTTPS લાઈવ રિઝોલ્યુશન
+    // ----------------------------------------------------
+    async function resolveDNS() {
+      const domain = document.getElementById("targetDomain").value.trim();
+      const out = document.getElementById("dnsOutput");
+      if(!domain) return alert("Domain દાખલ કરો.");
+
+      out.innerHTML = `[*] Querying Cloudflare Edge DNS for ${domain}...\n`;
+      try {
+        const res = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=A`, {
+          headers: { 'Accept': 'application/dns-json' }
+        });
+        const data = await res.json();
+        if (data.Answer && data.Answer.length > 0) {
+          out.innerHTML += `<span class="val-cyan">[+] RESOLVED A-RECORDS:</span>\n`;
+          data.Answer.forEach(ans => {
+            out.innerHTML += `> Host IP: <span class="val-warn">${ans.data}</span> (TTL: ${ans.TTL}s)\n`;
+          });
+        } else {
+          out.innerHTML += `[-] No public IPv4 A-records resolved for this domain.\n`;
+        }
+      } catch (err) {
+        out.innerHTML += `[-] DNS Query Error: Network blocked or invalid host.\n`;
+      }
+    }
+
+    // ----------------------------------------------------
+    // ૩. લાઈવ OSINT ઈમેલ લીક ડેટાબેઝ ક્વેરી
+    // ----------------------------------------------------
+    async function checkBreach() {
+      const email = document.getElementById("targetEmail").value.trim();
+      const out = document.getElementById("breachOutput");
+      if(!email) return alert("Email દાખલ કરો.");
+
+      out.innerHTML = `[*] Scanning global breach indices for: ${email}...\n`;
+      try {
+        const res = await fetch(`https://api.xposedornot.com/v1/check-email/${encodeURIComponent(email)}`);
+        const data = await res.json();
+
+        if (data.breaches && data.breaches.length > 0) {
+          out.innerHTML += `<span class="val-red">[!] HIGH COMPROMISE RISK DETECTED:</span>\n`;
+          out.innerHTML += `Publicly Exposed In: <span class="val-warn">${data.breaches[0].join(', ')}</span>\n`;
+          out.innerHTML += `Summary: Credentials exposed in raw public dumps.\n`;
+        } else {
+          out.innerHTML += `<span class="val-cyan">[+] SECURE: No matches found in current verified databases.</span>\n`;
+        }
+      } catch (err) {
+        out.innerHTML += `[-] API unreachable or format non-standard.\n`;
+      }
+    }
+
+    // ----------------------------------------------------
+    // ૪. P2P WebRTC ડાયરેક્ટ નોડ કમ્યુનિકેશન
+    // ----------------------------------------------------
+    const peer = new Peer();
+    let conn = null;
+    const p2pOut = document.getElementById("p2pOutput");
+
+    peer.on('open', (id) => {
+      p2pOut.innerHTML = `Your Direct Peer Node ID:\n<span class="val-cyan">${id}</span>\n\n(Share this ID with target device to pair)`;
+    });
+
+    peer.on('connection', (c) => {
+      conn = c;
+      document.getElementById("p2pState").innerText = "LINKED";
+      document.getElementById("p2pState").className = "val-cyan";
+      p2pOut.innerHTML += `\n[!] Incoming Node Linked Successfully.\n`;
+      
+      conn.on('data', (d) => {
+        p2pOut.innerHTML += `\n[RX DATA] ${JSON.stringify(d)}`;
+        handleIncomingCommand(d);
+      });
+    });
+
+    function connectPeer() {
+      const remoteId = document.getElementById("remotePeerId").value.trim();
+      if(!remoteId) return alert("Remote Peer ID દાખલ કરો.");
+
+      p2pOut.innerHTML += `\n[*] Dialing remote node: ${remoteId}...`;
+      conn = peer.connect(remoteId);
+
+      conn.on('open', () => {
+        document.getElementById("p2pState").innerText = "CONNECTED";
+        document.getElementById("p2pState").className = "val-cyan";
+        p2pOut.innerHTML += `\n[+] P2P Tunnel Established!`;
+        conn.send({ event: 'PEER_CONNECTED', platform: navigator.platform });
+      });
+
+      conn.on('data', (d) => {
+        p2pOut.innerHTML += `\n[RX DATA] ${JSON.stringify(d)}`;
+        handleIncomingCommand(d);
+      });
+    }
+
+    function sendPingPayload(action) {
+      if (conn && conn.open) {
+        conn.send({ cmd: action });
+        p2pOut.innerHTML += `\n[TX COMMAND] Dispatched: ${action}`;
+      } else {
+        alert("કોઈ રિમોટ ડિવાઈસ કનેક્ટ નથી!");
+      }
+    }
+
+    function handleIncomingCommand(data) {
+      if (data.cmd === 'VIBRATE' && navigator.vibrate) {
+        navigator.vibrate([300, 100, 300, 100, 500]);
+      }
+      if (data.cmd === 'ALARM') {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.connect(audioCtx.destination);
+        osc.start();
+        setTimeout(() => osc.stop(), 1000);
+      }
+    }
+  </script>
+</body>
+</html>
