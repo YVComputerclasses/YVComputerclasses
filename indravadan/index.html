@@ -544,34 +544,28 @@
     document.getElementById('e-aarti').innerText = liveData.eveningAarti || "--:--";
     document.getElementById('sponsor').innerText = liveData.sponsor || "--";
     
-    // YouTube Video & Auto Title Fetch
-    const iframe = document.getElementById('liveDarshanIframe');
-    const liveTitleHeading = document.querySelector('#live-darshan h2');
+   const iframe = document.getElementById('liveDarshanIframe');
+const liveTitleHeading = document.querySelector('#live-darshan h2');
 
-    if (liveData.liveUrl) {
+if (liveData.liveUrl) {
+    // જો iframe ની લિંક પહેલેથી જ એ જ હોય, તો તેને ફરીથી લોડ ન થવા દો
+    if (iframe.src !== liveData.liveUrl) {
         iframe.src = liveData.liveUrl;
-
-        // જો લાઈવ સ્ટ્રીમ ચેનલ લિંક હોય
-        if (liveData.liveUrl.includes('channel=')) {
-            if (liveTitleHeading) liveTitleHeading.innerText = "🔴 લાઈવ આરતી દર્શન પ્રસારણ";
-        } else {
-            // સાદા YouTube વિડીયો કે લાઈવ વિડીયો માટે YouTube API થી ટાઈટલ લાવો
-            try {
-                const response = await fetch(`https://noembed.com/embed?dataType=json&url=${encodeURIComponent(liveData.liveUrl)}`);
-                const data = await response.json();
-                
-                if (data.title && liveTitleHeading) {
-                    // વિડીયોનું ઓરિજિનલ ટાઈટલ સેટ થશે
-                    liveTitleHeading.innerText = "🎬 " + data.title;
-                } else if (liveTitleHeading) {
-                    liveTitleHeading.innerText = "🔴 લાઈવ દર્શન / વિડીયો";
-                }
-            } catch (err) {
-                if (liveTitleHeading) liveTitleHeading.innerText = "🔴 લાઈવ દર્શન / વિડીયો";
-            }
-        }
     }
 
+    // ટાઇટલ અપડેટ કરવા માટેનું બાકીનું લોજિક...
+    if (liveData.liveUrl.includes('channel=')) {
+        if (liveTitleHeading) liveTitleHeading.innerText = "🔴 લાઈવ આરતી દર્શન પ્રસારણ";
+    } else {
+        fetch(`https://noembed.com/embed?dataType=json&url=${encodeURIComponent(liveData.liveUrl)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.title && liveTitleHeading) {
+                    liveTitleHeading.innerText = "🎬 " + data.title;
+                }
+            }).catch(() => {});
+    }
+}
     // Gallery Render
     const galleryElem = document.getElementById('publicGalleryGrid');
     if (galleryElem && liveData.photos) {
@@ -589,7 +583,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); border-left:4px solid var(--gold); border-radius:8px; padding:10px 12px; margin-bottom:6px; text-align:left;">
                     <div>
                         <b style="color:#fff;">${idx + 1}. ${item.name}</b>
-                        <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${formatSheetDate(item.date)} | રસીદ: ${item.receiptNo}</div>
+                        <div style="font-size:0.78em; color:#ffcc80;">📍 ${item.address || 'નરસંડા'} | 📅 ${formatSheetDate(item.date)            } | રસીદ: ${item.receiptNo}</div>
                     </div>
                     <div style="font-size:1.1em; font-weight:bold; color:#81c784;">₹ ${Number(item.amount).toLocaleString('en-IN')}</div>
                 </div>
