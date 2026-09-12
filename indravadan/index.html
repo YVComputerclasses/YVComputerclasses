@@ -279,6 +279,7 @@
                 <!-- ૨. ૨૦૨૬ માટે દિવસ સિલેક્ટ કરવાનું ડ્રોપડાઉન -->
                 <select id="galleryDaySelect" 
                         style="flex: 1; min-width: 150px; padding: 10px; border-radius: 8px; background: #2d1405; color: #fff; border: 1px solid var(--gold); font-weight: bold; font-size: 0.95em;">
+                    <option value="0">🗓️ આગમન</option>
                     <option value="1">🗓️ દિવસ ૧</option>
                     <option value="2">🗓️ દિવસ ૨</option>
                     <option value="3">🗓️ દિવસ ૩</option>
@@ -1076,6 +1077,7 @@ if (liveData.liveUrl) {
 const DRIVE_2025_URL = "https://drive.google.com/drive/folders/1g1PTo2mM-2jMe8fK1qJuiiEbtGdk-kRC";
 
 const DRIVE_2026_DAYS = {
+    0: "https://drive.google.com/drive/folders/17rN7glUAHVw7OQ_cpMjmIUja08-XdVj3",
     1: "https://drive.google.com/drive/folders/1rNfbaqDUKpTNHeILCeaVuB4RA2EjlujL",
     2: "https://drive.google.com/drive/folders/1fhEZ7rQvVAK-EU0poKswSrBSTr6qZ390",
     3: "https://drive.google.com/drive/folders/1Mk8KTh303uUuN4wQCy8bF5Gt9BXuDEJQ",
@@ -1111,7 +1113,7 @@ function openSelectedDriveFolder() {
         window.open(DRIVE_2025_URL, '_blank');
     } else {
         const selectedDay = document.getElementById('galleryDaySelect').value;
-        const targetUrl = DRIVE_2026_DAYS[selectedDay] || DRIVE_2026_DAYS[1];
+        const targetUrl = DRIVE_2026_DAYS[selectedDay] || DRIVE_2026_DAYS[0];
         window.open(targetUrl, '_blank');
     }
 }
