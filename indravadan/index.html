@@ -150,7 +150,7 @@
             max-width: 440px; width: 100%; padding: 20px; text-align: center;
         }
 
-        #syncLoader {
+        /* #syncLoader {
             position: fixed; top: 15px; right: 15px;
             background: rgba(0,0,0,0.85); border: 1px solid var(--gold);
             padding: 5px 12px; border-radius: 20px; font-size: 0.78em;
@@ -159,12 +159,326 @@
 
         @media all and (display-mode: standalone), (display-mode: fullscreen) {
             #installAppBtn { display: none !important; }
-        }
+        } */
+
+        /* Center Animated Loader Modal */
+/* 🌟 UNIQUE & PREMIUM GANESH DIYA LOADER */
+#syncLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 4, 1, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInLoader 0.3s ease-out forwards;
+}
+
+.loader-card {
+    background: radial-gradient(circle at center, rgba(60, 25, 8, 0.95), rgba(20, 8, 2, 0.98));
+    border: 2px solid #ffc107;
+    border-radius: 25px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 35px rgba(255, 87, 34, 0.4), inset 0 0 15px rgba(255, 193, 7, 0.2);
+    animation: popupScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Light Aura Effect */
+.loader-card::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,193,7,0.4) 0%, rgba(255,87,34,0) 70%);
+    top: 20%;
+    border-radius: 50%;
+    animation: pulseAura 1.5s infinite ease-in-out;
+}
+
+/* Ganeshji / Diya Glowing Icon Container */
+.unique-loader-icon {
+    font-size: 3em;
+    color: #ffc107;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 0 15px #ff5722);
+}
+
+.unique-loader-icon i {
+    animation: diyaGlow 1.2s infinite alternate ease-in-out;
+}
+
+/* Floating Modak / Flowers Animation */
+.loading-dots {
+    display: flex;
+    gap: 6px;
+    font-size: 1.2em;
+    color: #ffc107;
+}
+
+.loading-dots span {
+    animation: bounceDots 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Loader Status Text */
+/* 🪔 DIVINE DIYA & RISING SMOKE LOADER */
+#syncLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(30, 12, 3, 0.92), rgba(8, 3, 1, 0.98));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: fadeInLoader 0.3s ease-out forwards;
+}
+
+/* Glass Card */
+.diya-loader-card {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(145deg, rgba(45, 18, 5, 0.9), rgba(18, 7, 2, 0.95));
+    border: 2px solid var(--gold);
+    border-radius: 25px;
+    padding: 30px 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 35px rgba(255, 140, 0, 0.35), inset 0 0 15px rgba(255, 193, 7, 0.2);
+    animation: popupScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Diya Container */
+.diya-container {
+    position: relative;
+    width: 80px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* Canvas for Smoke Effect */
+#diyaSmokeCanvas {
+    position: absolute;
+    bottom: 30px;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Diya Body */
+.diya-body {
+    position: relative;
+    width: 70px;
+    height: 32px;
+    background: linear-gradient(180deg, #ffb300, #b76e00, #5c3000);
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+    border-top: 3px solid #ffe082;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 152, 0, 0.4);
+    z-index: 2;
+}
+
+/* Diya Rim Detail */
+.diya-body::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 8px;
+    background: #ffd54f;
+    border-radius: 50%;
+}
+
+/* Diya Flame */
+.diya-flame {
+    position: absolute;
+    bottom: 26px;
+    width: 22px;
+    height: 40px;
+    background: linear-gradient(0deg, #ff3d00 0%, #ff9100 40%, #ffea00 80%, #ffffff 100%);
+    border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+    z-index: 3;
+    filter: drop-shadow(0 0 12px #ff6d00) drop-shadow(0 0 25px #ffab00);
+    animation: flameFlicker 0.1s infinite alternate ease-in-out;
+    transform-origin: center bottom;
+}
+
+/* Loader Text */
+/* 🌸 FLOWER SHOWER LOADER (ફૂલ બરસાત) */
+#syncLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 6, 2, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: fadeInLoader 0.3s ease-out forwards;
+}
+
+/* Background Canvas for Flower Shower */
+#loaderFlowerCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Center Glassmorphism Card */
+.flower-loader-card {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(145deg, rgba(45, 18, 5, 0.95), rgba(20, 7, 2, 0.98));
+    border: 2px solid var(--gold);
+    border-radius: 25px;
+    padding: 30px 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 0 35px rgba(255, 193, 7, 0.35), inset 0 0 15px rgba(255, 193, 7, 0.15);
+    animation: popupScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+}
+
+/* Center Bappa / Om Icon Glow */
+.flower-loader-icon {
+    font-size: 2.8em;
+    color: var(--gold);
+    filter: drop-shadow(0 0 15px #ff5722);
+    animation: bappaPulse 1.5s infinite alternate ease-in-out;
+}
+
+#syncLoaderText {
+    color: #ffe082;
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Animations */
+@keyframes bappaPulse {
+    0% { transform: scale(0.92); filter: drop-shadow(0 0 8px #ffc107); }
+    100% { transform: scale(1.1); filter: drop-shadow(0 0 22px #ff5722); }
+}
+
+@keyframes fadeInLoader {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popupScale {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Social Link Buttons Style */
+/* 3 Buttons Ek J Line Ma */
+.social-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.social-btn-small {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 5px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    white-space: nowrap;
+}
+
+.social-btn-small i {
+    font-size: 1.1em;
+}
+
+/* Background Colors */
+.yt-bg {
+    background: #FF0000;
+}
+
+.insta-bg {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.wa-bg {
+    background: #25D366;
+    color: #000000;
+}
+
+.social-btn-small:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
     </style>
 </head>
 <body>
 
-    <div id="syncLoader"><i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...</div>
+    <!-- <div id="syncLoader"><i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...</div> -->
+    <!-- 🪔 DIVINE DIYA & RISING SMOKE LOADER -->
+<!-- 🌸 FLOWER SHOWER LOADER -->
+<div id="syncLoader">
+    <canvas id="loaderFlowerCanvas"></canvas>
+    <div class="flower-loader-card">
+        <div class="flower-loader-icon">
+            <i class="fa-solid fa-om"></i>
+        </div>
+        <div id="syncLoaderText">
+            <i class="fa-solid fa-arrows-rotate fa-spin"></i> લોડ થઈ રહ્યું છે...
+        </div>
+    </div>
+</div>
     <canvas id="canvas"></canvas>
 
     <!-- 🧾 DIGITAL RECEIPT MODAL -->
@@ -248,14 +562,45 @@
         </div>
 
         <!-- TAB 2: LIVE DARSHAN -->
-        <div id="live-darshan" class="tab-content">
+        <!-- <div id="live-darshan" class="tab-content">
             <div class="card">
                 <h2>🔴 લાઈવ આરતી દર્શન</h2>
                 <div class="video-container">
                     <iframe id="liveDarshanIframe" src="#" allowfullscreen></iframe>
                 </div>
             </div>
+        </div> -->
+
+        <!-- TAB 2: LIVE DARSHAN -->
+<div id="live-darshan" class="tab-content">
+    <div class="card">
+        <h2>🔴 લાઈવ આરતી દર્શન</h2>
+        <div class="video-container">
+            <iframe id="liveDarshanIframe" src="#" allowfullscreen></iframe>
         </div>
+
+        <!-- 🔗 3 NANA BUTTONS IN 1 LINE -->
+        <div class="social-row">
+            <!-- YouTube -->
+            <a href="https://youtube.com/@vgnarsanda?si=H4UKQ3p_2RqzFNRr" target="_blank" class="social-btn-small yt-bg" title="YouTube Channel">
+                <i class="fa-brands fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/vighnaharta_gajanan_?utm_source=qr&stkn=MWx2d3l0ZHdua3c0cg==" target="_blank" class="social-btn-small insta-bg" title="Instagram Page">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+
+            <!-- WhatsApp -->
+            <a href="https://chat.whatsapp.com/DJBLFCxsT03KI9A22IkMmf?s=cl&p=a&mlu=4&ilr=4" target="_blank" class="social-btn-small wa-bg" title="WhatsApp Group">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+        </div>
+    </div>
+</div>
 
       <!-- TAB 3: PHOTO GALLERY -->
 <div id="gallery" class="tab-content">
@@ -483,29 +828,91 @@
         let currentReceiptPhone = "";
 
         // ================= 🔄 FETCH FROM GOOGLE SHEETS =================
-        async function fetchLiveData() {
-            const loader = document.getElementById('syncLoader');
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
-                if (loader) loader.innerHTML = "⚠️ Apps Script URL સેટ કરો";
-                return;
-            }
+        // async function fetchLiveData() {
+        //     const loader = document.getElementById('syncLoader');
+        //     if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+        //         if (loader) loader.innerHTML = "⚠️ Apps Script URL સેટ કરો";
+        //         return;
+        //     }
 
-            try {
-                const res = await fetch(GOOGLE_SCRIPT_URL);
-                const json = await res.json();
-                if (json.status === "success" && json.data) {
-                    liveData = json.data;
-                    renderUI();
-                    renderAdminUserPanels();
-                    if (loader) loader.innerHTML = "✅ Live Data અપડેટ";
-                }
-            } catch (e) {
-                console.error("Fetch Error:", e);
-                if (loader) loader.innerHTML = "❌ કનેક્શન એરર";
-            } finally {
-                setTimeout(() => { if (loader) loader.style.display = 'none'; }, 2000);
-            }
+        //     try {
+        //         const res = await fetch(GOOGLE_SCRIPT_URL);
+        //         const json = await res.json();
+        //         if (json.status === "success" && json.data) {
+        //             liveData = json.data;
+        //             renderUI();
+        //             renderAdminUserPanels();
+        //             if (loader) loader.innerHTML = "✅ Live Data અપડેટ";
+        //         }
+        //     } catch (e) {
+        //         console.error("Fetch Error:", e);
+        //         if (loader) loader.innerHTML = "❌ કનેક્શન એરર";
+        //     } finally {
+        //         setTimeout(() => { if (loader) loader.style.display = 'none'; }, 2000);
+        //     }
+        // }
+
+        // ================= 🔄 FETCH FROM GOOGLE SHEETS =================
+async function fetchLiveData() {
+    const loader = document.getElementById('syncLoader');
+    const loaderText = document.getElementById('syncLoaderText');
+    
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+        if (loaderText) loaderText.innerHTML = "⚠️ Apps Script URL સેટ કરો";
+        return;
+    }
+
+    try {
+        const res = await fetch(GOOGLE_SCRIPT_URL);
+        const json = await res.json();
+        if (json.status === "success" && json.data) {
+            liveData = json.data;
+            renderUI();
+            renderAdminUserPanels();
+            if (loaderText) loaderText.innerHTML = "✅ Live Data અપડેટ";
         }
+    } catch (e) {
+        console.error("Fetch Error:", e);
+        if (loaderText) loaderText.innerHTML = "❌ કનેક્શન એરર";
+    } finally {
+        setTimeout(() => { if (loader) loader.style.display = 'none'; }, 1200);
+    }
+}
+
+// ================= 🚀 UNIVERSAL POST TO GOOGLE SHEETS =================
+async function postToSheet(payload) {
+    const loader = document.getElementById('syncLoader');
+    const loaderText = document.getElementById('syncLoaderText');
+    
+    if (loader) { 
+        loader.style.display = 'flex'; 
+        if (loaderText) loaderText.innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-spin"></i> સેવ થઈ રહ્યું છે...'; 
+    }
+
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+        alert("⚠️ Data Fetch Error");
+        if (loader) loader.style.display = 'none';
+        return false;
+    }
+
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        setTimeout(fetchLiveData, 1500);
+        if (loaderText) loaderText.innerHTML = "✅ સેવ થઈ ગયું";
+        return true;
+    } catch (e) {
+        console.error("POST Error:", e);
+        alert("❌ ડેટા સેવ કરતી વખતે એરર આવી!");
+        if (loader) loader.style.display = 'none';
+        return false;
+    }
+}
 
         // ================= 🚀 UNIVERSAL POST TO GOOGLE SHEETS =================
         async function postToSheet(payload) {
@@ -1134,6 +1541,74 @@ function formatSheetDate(rawDate) {
 
 // ઉદાહરણ:
 console.log(formatSheetDate("2026-09-02T18:30:00.000Z")); // "03-09-2026"
+
+// ================= 🌸 LOADER FLOWER SHOWER ANIMATION =================
+const lCanvas = document.getElementById('loaderFlowerCanvas');
+const lCtx = lCanvas ? lCanvas.getContext('2d') : null;
+
+let lWidth = lCanvas ? (lCanvas.width = window.innerWidth) : 0;
+let lHeight = lCanvas ? (lCanvas.height = window.innerHeight) : 0;
+
+window.addEventListener('resize', () => {
+    if (lCanvas) {
+        lWidth = lCanvas.width = window.innerWidth;
+        lHeight = lCanvas.height = window.innerHeight;
+    }
+});
+
+// ગુલાબ, ગલગોટા અને પાંદડીઓના ઇમોજી
+const flowerEmojis = ['🌸', '🌹', '🌼', '🌺', '💮'];
+const loaderPetals = [];
+
+// 40 ફૂલો રેન્ડમ સ્પીડ અને રોટેશન સાથે બનાવશે
+for (let i = 0; i < 40; i++) {
+    loaderPetals.push({
+        x: Math.random() * lWidth,
+        y: Math.random() * lHeight - lHeight,
+        size: Math.random() * 16 + 14, // ફૂલની સાઈઝ
+        emoji: flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)],
+        speedY: Math.random() * 2 + 1.5,
+        speedX: Math.random() * 1.5 - 0.75,
+        rotation: Math.random() * 360,
+        spin: Math.random() * 2 - 1
+    });
+}
+
+function animateLoaderFlowers() {
+    if (!lCtx) return;
+    lCtx.clearRect(0, 0, lWidth, lHeight);
+
+    const loaderDiv = document.getElementById('syncLoader');
+    // જો લોડર દેખાતું હોય તો જ એનિમેશન દોરવું
+    if (loaderDiv && loaderDiv.style.display !== 'none') {
+        for (let i = 0; i < loaderPetals.length; i++) {
+            let p = loaderPetals[i];
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.rotation += p.spin;
+
+            // જો ફૂલ નીચે જતું રહે તો પાછું ઉપરથી શરૂ થશે
+            if (p.y > lHeight) {
+                p.y = -20;
+                p.x = Math.random() * lWidth;
+            }
+
+            lCtx.save();
+            lCtx.translate(p.x, p.y);
+            lCtx.rotate((p.rotation * Math.PI) / 180);
+            lCtx.font = `${p.size}px Arial`;
+            lCtx.textAlign = 'center';
+            lCtx.textBaseline = 'middle';
+            lCtx.fillText(p.emoji, 0, 0);
+            lCtx.restore();
+        }
+    }
+    requestAnimationFrame(animateLoaderFlowers);
+}
+
+// એનિમેશન શરૂ કરો
+animateLoaderFlowers();
+
     </script>
 </body>
 </html>
