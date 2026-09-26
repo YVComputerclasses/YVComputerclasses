@@ -1,318 +1,244 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notice</title>
-    <link rel="icon" type="image/png" href="/JOS/Logo.png">
-    <style>
- /* === Sidebar Hidden by Default === */
-/* #sidebar {
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-} */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notice</title>
+  <link rel="icon" type="image/png" href="/JOS/Logo.png">
+  <style>
+    /* === Sidebar & General Styles === */
+    #sidebar.active { transform: translateX(0); }
+    .toggle-nav {
+      position: fixed; top: 55px; left: 10px; z-index: 1002;
+      padding: 10px 15px; background-color: #3498db; color: white;
+      border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); transition: background-color 0.3s ease;
+    }
+    .toggle-nav:hover { background-color: #2980b9; }
+    .sidebar {
+      position: fixed; top: 45px; left: 0; width: 220px; height: calc(100% - 45px);
+      background-color: #2c3e50; color: white; padding: 20px; z-index: 1001;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3); transform: translateX(-100%); transition: transform 0.3s ease;
+    }
+    .nav-links { list-style: none; padding: 0; margin-top: 50px; }
+    .nav-links li { margin: 15px 0; }
+    .nav-links a { color: white; text-decoration: none; font-weight: bold; display: block; padding: 10px 12px; border-radius: 4px; transition: background-color 0.3s ease; }
+    .nav-links a:hover { background-color: #34495e; }
+    .main-wrapper { transition: margin-left 0.3s ease; margin-left: 0; }
+    .sidebar.active ~ .main-wrapper { margin-left: 220px; }
+    .content { padding: 40px; margin-left: 0; }
+    
+    /* Footer */
+    .site-footer { background-color: #f4f4f4; padding: 20px; font-family: sans-serif; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; font-size: 14px; margin-left: 20px; }
+    .footer-grid a { color: #3498db; text-decoration: none; }
+    .footer-grid a:hover { text-decoration: underline; }
 
-/* === Sidebar Visible When Active === */
-#sidebar.active {
-  transform: translateX(0);
-}
+    /* Notice Board */
+    .notice-board {
+      background: linear-gradient(135deg,#fdfbfb,#ebedee);
+      padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      max-width: 800px; margin: auto;
+    }
+    .notice-board h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+    .notice-list { display: flex; flex-direction: column; gap: 15px; }
+    .notice-item {
+      background: white; padding: 15px 20px; border-left: 6px solid #3498db;
+      border-radius: 8px; position: relative; transform: translateX(-30px); opacity: 0; transition: 0.6s;
+    }
+    .notice-item.show { transform: translateX(0); opacity: 1; }
+    .notice-item:hover { transform: scale(1.02); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+    .badge {
+      position: absolute; top: 10px; right: 10px; background: red; color: white;
+      font-size: 12px; padding: 3px 8px; border-radius: 20px; animation: blink 1s infinite;
+    }
+    @keyframes blink { 50% { opacity: 0.4; } }
 
-/* === Toggle Button Styling === */
-.toggle-nav {
-  position: fixed;
-  top: 55px;
-  left: 10px;
-  z-index: 1002;
-  padding: 10px 15px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
+    /* Breaking News Bar */
+    .breaking-news {
+      display: flex; align-items: center; background: #c0392b; color: white;
+      font-weight: bold; overflow: hidden; height: 45px; position: sticky; top: 0; z-index: 9999;
+    }
+    .news-title { background: #8e0000; padding: 0 15px; height: 100%; display: flex; align-items: center; }
+    .news-wrapper { overflow: hidden; white-space: nowrap; flex: 1; }
+    .news-text { display: inline-block; padding-left: 100%; animation: scrollNews 18s linear infinite; }
+    @keyframes scrollNews { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    
+    /* Buttons Inside Card */
+    .btn-container { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .action-btn {
+      padding: 6px 12px; color: white; text-decoration: none; 
+      border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer;
+    }
+    .doc-btn { background: #27ae60; }
+    .doc-btn:hover { background: #219653; }
+    .details-btn { background: #3498db; }
+    .details-btn:hover { background: #2980b9; }
 
-.toggle-nav:hover {
-  background-color: #2980b9;
-}
+    /* Popup Modal Styling */
+    .popup-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center;
+      z-index: 10000; padding: 15px;
+    }
+    .popup-box {
+      background: white; width: 100%; max-width: 500px; padding: 25px;
+      border-radius: 8px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      max-height: 80vh; overflow-y: auto;
+    }
+    .popup-close {
+      position: absolute; top: 10px; right: 15px; font-size: 22px; 
+      cursor: pointer; color: #333; font-weight: bold;
+    }
+    .popup-title { color: #2c3e50; margin-bottom: 15px; font-size: 18px; }
+    .popup-body { color: #555; font-size: 14px; line-height: 1.6; }
+  </style>
+</head>
+<body>
 
-/* === Sidebar Container === */
-.sidebar {
-  position: fixed;
-  top: 45px;
-  left: 0;
-  width: 220px;
-  height: calc(100% - 45px);
-  background-color: #2c3e50;
-  color: white;
-  padding: 20px;
-  z-index: 1001;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-/* === Navigation Links === */
-.nav-links {
-  list-style: none;
-  padding: 0;
-  margin-top: 50px; /* Push links lower */
-}
-
-.nav-links li {
-  margin: 15px 0;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  display: block;
-  padding: 10px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.nav-links a:hover {
-  background-color: #34495e;
-}
-
-.main-wrapper {
-  transition: margin-left 0.3s ease;
-  margin-left: 0;
-}
-
-.sidebar.active ~ .main-wrapper {
-  margin-left: 220px; /* Same as sidebar width */
-}
-
-/* === Main Content Area === */
-.content {
-  padding: 40px;
-  margin-left: 0; /* Optional: adjust if sidebar is always visible */
-}
-
-/* === Footer Grid Layout === */
-.site-footer {
-  background-color: #f4f4f4;
-  padding: 20px;
-  font-family: sans-serif;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  font-size: 14px;
-  margin-left: 20px;
-}
-
-.footer-grid a {
-  color: #3498db;
-  text-decoration: none;
-}
-
-.footer-grid a:hover {
-  text-decoration: underline;
-}
-
-/* Notice Board */
-
-/* ===== NOTICE BOARD ===== */
-
-.notice-board{
-  background:linear-gradient(135deg,#fdfbfb,#ebedee);
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.15);
-  max-width:800px;
-  margin:auto;
-}
-
-.notice-board h2{
-  text-align:center;
-  color:#2c3e50;
-  margin-bottom:20px;
-}
-
-.notice-list{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-}
-
-.notice-item{
-  background:white;
-  padding:15px 20px;
-  border-left:6px solid #3498db;
-  border-radius:8px;
-  position:relative;
-  transform:translateX(-30px);
-  opacity:0;
-  transition:0.6s;
-}
-
-.notice-item.show{
-  transform:translateX(0);
-  opacity:1;
-}
-
-.notice-item:hover{
-  transform:scale(1.02);
-  box-shadow:0 6px 15px rgba(0,0,0,0.2);
-}
-
-.badge{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  color:white;
-  font-size:12px;
-  padding:3px 8px;
-  border-radius:20px;
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:0.4;}
-}
-
-/* ===== BREAKING NEWS BAR ===== */
-
-.breaking-news{
-  display:flex;
-  align-items:center;
-  background:#c0392b;
-  color:white;
-  font-weight:bold;
-  overflow:hidden;
-  height:45px;
-  position:sticky;
-  top:0;
-  z-index:9999;
-}
-
-.news-title{
-  background:#8e0000;
-  padding:0 15px;
-  height:100%;
-  display:flex;
-  align-items:center;
-}
-
-.news-wrapper{
-  overflow:hidden;
-  white-space:nowrap;
-  flex:1;
-}
-
-.news-text{
-  display:inline-block;
-  padding-left:100%;
-  animation:scrollNews 18s linear infinite;
-}
-
-@keyframes scrollNews{
-  0%{
-    transform:translateX(0);
-  }
-  100%{
-    transform:translateX(-100%);
-  }
-}
-
-</style>
-
-  </head>
-  <body>
-    <!-- ===== RUNNING NEWS BAR ===== -->
-
-<div class="breaking-news">
-  <span class="news-title">📢 IMPORTANT</span>
-
-  <div class="news-wrapper">
-    <div class="news-text" id="newsText">
-      🔴 ગ્રામ રક્ષક દળ (GRD) ની ભરતી ૨૦૨૬ (પુરુષ / મહિલા) End on : ટુક સમય. &nbsp;&nbsp;&nbsp;
-      🔴 ખેડૂત નોધણી છેલી તારીખ : ટુક સમય.
+  <!-- ===== RUNNING NEWS BAR ===== -->
+  <div class="breaking-news">
+    <span class="news-title">📢 IMPORTANT</span>
+    <div class="news-wrapper">
+      <div class="news-text" id="newsText">
+        Loading updates...
+      </div>
     </div>
   </div>
-</div>
 
-    <button class="toggle-nav" onclick="toggleSidebar()">📁 મેનુ</button>
-<nav id="sidebar" class="sidebar">
-  <ul class="nav-links">
-    <li><a href="index.html">🏠 Home</a></li>
-    <li><a href="services.html">🛠️ સેવાઓ</a></li>
-    <li><a href="contact.html">📬 સંપર્ક કરો</a></li>
-  </ul>
-</nav>
-      <div class="main-wrapper">
-  <main class="content">
-    <h1>જાંગીડ ઓનલાઈન સેવાઓમાં આપનું સ્વાગત છે.</h1>
-    <p>કોઈપણ યોજના અને સહાયના નવા અપડેટ માટે આ હોમ પેજ છે.</p>
-    <!-- ===== NEW NOTICE BOARD ===== -->
+  <button class="toggle-nav" onclick="toggleSidebar()">📁 મેનુ</button>
+  <nav id="sidebar" class="sidebar">
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="services.html">🛠️ સેવાઓ</a></li>
+      <li><a href="contact.html">📬 સંપર્ક કરો</a></li>
+    </ul>
+  </nav>
 
-<div class="notice-board">
-
-  <h2>📢 નવી સૂચનાઓ / Latest Notifications</h2>
-
-  <div class="notice-list">
-
-    <div class="notice-item">
-      <span class="badge">NEW</span>
-      <p><strong>ગ્રામ રક્ષક દળ (GRD) ની ભરતી ૨૦૨૬ (પુરુષ / મહિલા) End on :</strong> ટુક સમય.</p>
-    </div>
-
-    <div class="notice-item">
-      <span class="badge">NEW</span>
-      <p><strong>ખેડૂત નોધણી છેલી તારીખ :</strong> ટુક સમય </p>
-    </div>
-
-  </div>
-
-</div>
-  </main>
-
-      <footer class="site-footer">
-        <div class="footer-grid">
-          <div>👨‍💻 <strong>વેબસાઇટ ડેવલપર:</strong> Jangid Yashvant Vijaysinh</div>
-          <div>📞 <strong>સંપર્ક:</strong> <a href="tel:+919426959052">+91 94269 59052</a></div>
-          <div>📷 <strong>ઇન્સ્ટાગ્રામ:</strong> <a href="https://www.instagram.com/jangid_online_service_?utm_source=qr&igsh=YWlyZWgyZzZqZzU=" target="_blank">jangid_online_service_</a></div>
-          <div>💬 <strong>વોટ્સએપ:</strong> <a href="https://wa.me/919426959052" target="_blank">Chat Now</a></div>
-          <div>📍 <strong>ઓફિસ સ્થાન:</strong> <a href="https://maps.app.goo.gl/ZwFYeHjmnf3tu5we7?g_st=awb" target="_blank">Narsanda, Nadiad, Gujarat</a></div>
-          <div>📧 <strong>ઓફિસ ઈમેલ:</strong> <a href="mailto:onlinevale9714@gmail.com">onlinevale9714@gmail.com</a></div>
+  <div class="main-wrapper">
+    <main class="content">
+      <h1>જાંગીડ ઓનલાઈન સેવાઓમાં આપનું સ્વાગત છે[cite: 2].</h1>
+      <p>કોઈપણ યોજના અને સહાયના નવા અપડેટ માટે આ હોમ પેજ છે[cite: 2].</p>
+      
+      <!-- ===== NOTICE BOARD ===== -->
+      <div class="notice-board">
+        <h2>📢 નવી સૂચનાઓ / Latest Notifications[cite: 2]</h2>
+        <div class="notice-list">
+          <p style="text-align: center;">Loading notices...</p>
         </div>
-      </footer>
-    <script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("active");
-  }
+      </div>
+    </main>
 
-  // notice board
-const notices = document.querySelectorAll(".notice-item");
+    <!-- ===== DETAILS POPUP MODAL ===== -->
+    <div id="detailsPopup" class="popup-overlay">
+      <div class="popup-box">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <h3 id="popupTitle" class="popup-title">વિગત</h3>
+        <div id="popupBody" class="popup-body">માહિતી લોડ થઈ રહી છે...</div>
+      </div>
+    </div>
 
-notices.forEach((item,index)=>{
-  setTimeout(()=>{
-    item.classList.add("show");
-  },500 * index);
-});
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div>👨‍💻 <strong>વેબસાઇટ ડેવલપર:</strong> Jangid Yashvant Vijaysinh[cite: 1, 2, 3, 6]</div>
+        <div>📞 <strong>સંપર્ક:</strong> <a href="tel:+919426959052">+91 94269 59052</a>[cite: 1, 2, 3, 6]</div>
+        <div>📷 <strong>ઇન્સ્ટાગ્રામ:</strong> <a href="https://www.instagram.com/jangid_online_service_?utm_source=qr&igsh=YWlyZWgyZzZqZzU=" target="_blank">jangid_online_service_</a>[cite: 1, 2, 3, 6]</div>
+        <div>💬 <strong>વોટ્સએપ:</strong> <a href="https://wa.me/919426959052" target="_blank">Chat Now</a>[cite: 1, 2, 3, 6]</div>
+        <div>📍 <strong>ઓફિસ સ્થાન:</strong> <a href="https://maps.app.goo.gl/ZwFYeHjmnf3tu5we7?g_st=awb" target="_blank">Narsanda, Nadiad, Gujarat</a>[cite: 1, 2, 3, 6]</div>
+        <div>📧 <strong>ઓફિસ ઈમેલ:</strong> <a href="mailto:onlinevale9714@gmail.com">onlinevale9714@gmail.com</a>[cite: 1, 2, 3, 6]</div>
+      </div>
+    </footer>
+  </div>
 
-<!-- ===== RUNNING NEWS BAR ===== -->
-const news = document.getElementById("newsText");
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
 
-news.addEventListener("mouseenter",()=>{
-  news.style.animationPlayState="paused";
-});
+    // Popup Open Function
+    function openPopup(title, details) {
+      document.getElementById("popupTitle").innerText = title;
+      document.getElementById("popupBody").innerHTML = details ? details.replace(/\n/g, '<br>') : "કોઈ વધારાની વિગત ઉપલબ્ધ નથી.";
+      document.getElementById("detailsPopup").style.display = "flex";
+    }
 
-news.addEventListener("mouseleave",()=>{
-  news.style.animationPlayState="running";
-});
-</script>
-</script>
+    // Popup Close Function
+    function closePopup() {
+      document.getElementById("detailsPopup").style.display = "none";
+    }
 
-  </body>
-  </html>
+    // Window click thi popup bandh karva mate
+    window.onclick = function(event) {
+      let modal = document.getElementById("detailsPopup");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // ===== GOOGLE SHEET DATA FETCH SCRIPT =====
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxLHxtHW1xshTqhN-Lpyf4MvfMQBdmc2Ntbz1W62oIepDYKhs8KvSAw2UsO83P6Aobi/exec"; // તમારી Web App URL અહીં મૂકો
+
+    fetch(webAppUrl)
+      .then(response => response.json())
+      .then(data => {
+        let newsHtml = "";
+        let noticeHtml = "";
+        
+        data.forEach(item => {
+          // તારીખ ફોર્મેટing (DD-MM-YYYY)
+          let formattedDate = "";
+          if (item.endDate) {
+            let d = new Date(item.endDate);
+            if (!isNaN(d.getTime())) {
+              let day = String(d.getDate()).padStart(2, '0');
+              let month = String(d.getMonth() + 1).padStart(2, '0');
+              let year = d.getFullYear();
+              formattedDate = `${day}-${month}-${year}`;
+            } else {
+              formattedDate = item.endDate;
+            }
+          }
+
+          let dateInfo = formattedDate ? ` (End on: ${formattedDate})` : "";
+          newsHtml += `🔴 ${item.title} ${dateInfo} &nbsp;&nbsp;&nbsp;`;
+          
+          // Document Button (જો લિંક હોય તો જ દેખાશે)
+          let docButton = item.showDoc ? `<a href="${item.showDoc}" target="_blank" class="action-btn doc-btn">📄 દસ્તાવેજ જુઓ</a>` : "";
+          
+          // Details Button (જો વિગત હોય તો જ બટન દેખાશે અને onclick પર પોપઅપ ખુલ્લું થશે)
+          let detailsButton = item.showDetails ? `<button class="action-btn details-btn" onclick="openPopup('${item.title.replace(/'/g, "\\'")}', '${item.showDetails.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')">🔍 વિગત જુઓ</button>` : "";
+
+          // Notice Board Card
+          noticeHtml += `
+            <div class="notice-item">
+              <span class="badge">${item.badge || 'NEW'}</span>
+              <p><strong>${item.title}</strong></p>
+              ${formattedDate ? `<small style="color: #e74c3c;">છેલ્લી તારીખ: ${formattedDate}</small>` : ""}
+              <div class="btn-container">
+                ${docButton}
+                ${detailsButton}
+              </div>
+            </div>
+          `;
+        });
+        
+        document.getElementById("newsText").innerHTML = newsHtml;
+        document.querySelector(".notice-list").innerHTML = noticeHtml;
+
+        // Animation trigger
+        const notices = document.querySelectorAll(".notice-item");
+        notices.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add("show");
+          }, 500 * index);
+        });
+      })
+      .catch(error => console.error('Data fetch કરવામાં ભૂલ છે:', error));
+
+    // Breaking news pause/resume on hover
+    const news = document.getElementById("newsText");
+    news.addEventListener("mouseenter", () => { news.style.animationPlayState = "paused"; });
+    news.addEventListener("mouseleave", () => { news.style.animationPlayState = "running"; });
+  </script>
+</body>
+</html>
