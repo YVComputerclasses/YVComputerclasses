@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jangid Online Services - Operator Login</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" style="animation-duration: 4s;"></div>
+    </div>
+
+    <div class="relative bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl space-y-6">
+        
+        <!-- Logo Header -->
+        <div class="text-center space-y-2">
+            <div class="inline-flex p-3 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl text-indigo-400 mb-1 shadow-inner">
+                <i class="fa-solid fa-laptop-code text-2xl"></i>
+            </div>
+            <h1 class="font-bold text-xl tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">Jangid Online Services</h1>
+            <p class="text-xs text-slate-400">Operator Portal Login</p>
+        </div>
+
+        <!-- Login Form -->
+        <form onsubmit="handleLogin(event)" class="space-y-4 text-xs">
+            <div>
+                <label class="block font-medium text-slate-300 mb-1.5">User ID</label>
+                <div class="relative">
+                    <input type="text" id="loginUser" placeholder="Enter userid (e.g. yash01)" required class="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 text-xs transition">
+                    <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-500"></i>
+                </div>
+            </div>
+
+            <div>
+                <label class="block font-medium text-slate-300 mb-1.5">Password</label>
+                <div class="relative">
+                    <input type="password" id="loginPass" placeholder="Enter password" required class="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 text-xs transition">
+                    <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-slate-500"></i>
+                </div>
+            </div>
+
+            <!-- Captcha Code Section -->
+            <div class="space-y-1.5">
+                <label class="block font-medium text-slate-300">Captcha Code</label>
+                <div class="flex items-center space-x-3">
+                    <div id="captchaBox" class="bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 font-mono font-bold tracking-widest px-4 py-2.5 rounded-xl select-none text-sm shadow-inner w-32 text-center">
+                        JOSO84
+                    </div>
+                    <button type="button" onclick="generateCaptcha()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition border border-slate-700" title="Refresh Captcha">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+                <input type="text" id="captchaInput" placeholder="Enter captcha code" required class="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 text-xs transition mt-1.5">
+            </div>
+
+            <button type="submit" id="loginBtn" class="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition transform active:scale-95 text-xs tracking-wide">
+                <i class="fa-solid fa-right-to-bracket mr-2"></i> Login to Portal
+            </button>
+        </form>
+
+        <div class="text-center pt-2 border-t border-slate-800/80 text-[10px] text-slate-500">
+            © 2026 Jangid Online Services. All rights reserved.
+        </div>
+    </div>
+
+    <!-- OTP Input Modal -->
+    <div id="otpModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl space-y-6 text-center">
+            <div class="inline-flex p-3 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl text-indigo-400 shadow-inner">
+                <i class="fa-solid fa-paper-plane text-2xl"></i>
+            </div>
+            <div class="space-y-1">
+                <h3 class="font-bold text-lg text-slate-100">Telegram Verification Code</h3>
+                <p class="text-xs text-slate-400">A new 4-digit OTP has been sent directly to your Telegram chat via Bot.</p>
+            </div>
+            
+            <div class="flex justify-center gap-2">
+                <input type="text" maxlength="1" id="otp1" class="w-12 h-12 text-center bg-slate-800 border border-slate-700 rounded-xl text-lg font-bold text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none" onkeyup="moveToNext(this, 'otp2')">
+                <input type="text" maxlength="1" id="otp2" class="w-12 h-12 text-center bg-slate-800 border border-slate-700 rounded-xl text-lg font-bold text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none" onkeyup="moveToNext(this, 'otp3')">
+                <input type="text" maxlength="1" id="otp3" class="w-12 h-12 text-center bg-slate-800 border border-slate-700 rounded-xl text-lg font-bold text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none" onkeyup="moveToNext(this, 'otp4')">
+                <input type="text" maxlength="1" id="otp4" class="w-12 h-12 text-center bg-slate-800 border border-slate-700 rounded-xl text-lg font-bold text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none" onkeyup="moveToNext(this, '')">
+            </div>
+
+            <button type="button" onclick="verifyOTP()" class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition text-xs tracking-wide">
+                Verify & Login
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentCaptcha = "JOSO84";
+        let generatedOTP = "";
+
+        const API_URL = "https://script.google.com/macros/s/AKfycbxxpBWFq3PWbW-gvSuIT2XAQDiRRh3EbG4lVhWTr4i8Vk-9upm8O1swnTh-a4KjvksY2Q/exec";
+        
+        // **TELEGRAM BOT SETTINGS**
+        const TELEGRAM_BOT_TOKEN = "8848556831:AAHvdYYdlr8n0B2yUOvnYoBn8OoiM9JPT_E"; // Yahan apna BotFather token dalein
+
+        function generateCaptcha() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let code = "";
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentCaptcha = code;
+            document.getElementById('captchaBox').innerText = code;
+        }
+
+        async function sendTelegramOTP(chatId, username, otp) {
+            const timestamp = new Date().toLocaleString();
+            const message = `🔐 *Jangid Online Services - Login OTP*\n\n` +
+                            `Hello *${username}*,\n` +
+                            `Your new security verification code is: \`${otp}\`\n\n` +
+                            `⏱ Time: ${timestamp}\n` +
+                            `_Do not share this code with anyone._`;
+
+            const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const res = await fetch(telegramUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                const data = await res.json();
+                return data.ok;
+            } catch (err) {
+                console.error("Telegram API Error:", err);
+                return false;
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const userInput = document.getElementById('captchaInput').value.trim();
+            const inputUser = document.getElementById('loginUser').value.trim();
+            const inputPass = document.getElementById('loginPass').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (userInput.toUpperCase() !== currentCaptcha) {
+                alert("Invalid Captcha Code! Please try again.");
+                generateCaptcha();
+                return;
+            }
+
+            try {
+                loginBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Verifying...`;
+                loginBtn.disabled = true;
+
+                const response = await fetch(API_URL);
+                const operators = await response.json();
+                
+                let isValidOperator = false;
+                let operatorName = inputUser;
+                let operatorOffice = "Narsanda Service Center";
+                let operatorDesig = "System Operator";
+                let operatorChatId = "";
+
+                for (let op of operators) {
+                    let sheetUser = String(op.userid || "").trim();
+                    let sheetPass = String(op.pass || "").trim();
+
+                    if (sheetUser === inputUser && sheetPass === inputPass) {
+                        isValidOperator = true;
+                        operatorName = String(op.name || inputUser).trim();
+                        operatorOffice = String(op.office || "Narsanda Service Center").trim();
+                        operatorDesig = String(op.designation || "System Operator").trim();
+                        // Google Sheet ke 'chatid' ya 'telegram_id' column se chat id uthayega
+                        operatorChatId = String(op.chatid || op.telegram_id || "").trim();
+                        break;
+                    }
+                }
+
+                if (!isValidOperator) {
+                    alert("Invalid User ID or Password!");
+                    generateCaptcha();
+                    loginBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-2"></i> Login to Portal`;
+                    loginBtn.disabled = false;
+                    return;
+                }
+
+                if (!operatorChatId) {
+                    alert("Telegram Chat ID not found for this user in database! Please contact admin.");
+                    loginBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-2"></i> Login to Portal`;
+                    loginBtn.disabled = false;
+                    return;
+                }
+
+                // **Har baar login par ek naya random 4-digit OTP banega**
+                generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+                
+                // **Us specific user ke personal Telegram chat par bot dwara OTP bheja jayega**
+                const isSent = await sendTelegramOTP(operatorChatId, operatorName, generatedOTP);
+
+                if (isSent) {
+                    localStorage.setItem('joso_username', operatorName);
+                    localStorage.setItem('joso_office', operatorOffice);
+                    localStorage.setItem('joso_designation', operatorDesig);
+
+                    // OTP Modal Open karein
+                    document.getElementById('otpModal').classList.remove('hidden');
+                } else {
+                    alert("Failed to send OTP! Make sure the user has started a chat with your Telegram Bot first.");
+                }
+
+            } catch (error) {
+                console.error("Database connection error:", error);
+                alert("Database connection error! Please check your network or API URL.");
+                generateCaptcha();
+            } finally {
+                loginBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-2"></i> Login to Portal`;
+                loginBtn.disabled = false;
+            }
+        }
+
+        function moveToNext(current, nextFieldID) {
+            if (current.value.length >= 1 && nextFieldID) {
+                document.getElementById(nextFieldID).focus();
+            }
+        }
+
+        function verifyOTP() {
+            const d1 = document.getElementById('otp1').value;
+            const d2 = document.getElementById('otp2').value;
+            const d3 = document.getElementById('otp3').value;
+            const d4 = document.getElementById('otp4').value;
+            const enteredOTP = d1 + d2 + d3 + d4;
+
+            if (enteredOTP === generatedOTP) {
+                alert("Login Successful!");
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Invalid 4-digit code! Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
