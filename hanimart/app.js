@@ -25,15 +25,11 @@ function getActiveScriptUrl() {
   if (codeUrl && codeUrl.startsWith("https://script.google.com/") && !codeUrl.includes("TAMARO_DEPLOY_ID")) {
     return codeUrl;
   }
-  return (localStorage.getItem("hsg_script_url") || "").trim();
+  return "";
 }
 
 window.onload = function () {
   document.getElementById("billDate").valueAsDate = new Date();
-  const activeUrl = getActiveScriptUrl();
-  const urlInput = document.getElementById("scriptUrl");
-  if (urlInput) urlInput.value = activeUrl;
-
   generateBillNo();
   refreshAllUI();
   startAutoSync();
@@ -43,12 +39,10 @@ function startAutoSync() {
   if (autoSyncTimer) clearInterval(autoSyncTimer);
   const url = getActiveScriptUrl();
   if (!url) {
-    setStatus("Auto-Sync: Local Mode (URL Missing)", false);
+    setStatus("Auto-Sync: Local Mode", false);
     return;
   }
-  // Website open thata j direct Google Sheet mathi data fetch thashe
   fetchFromGoogleSheet(true);
-  // Dar 15 seconde background ma automatic sync thashe
   autoSyncTimer = setInterval(() => {
     if (!document.hidden) {
       fetchFromGoogleSheet(true);
@@ -177,37 +171,90 @@ function playBeep() {
   } catch (e) {}
 }
 
-function openCameraScanner() {
+// 1080p High-Resolution + Autofocus QR & Barcode Scanner
+async function openCameraScanner() {
   if (typeof Html5Qrcode === "undefined") {
     alert("Camera library load nathi thai, internet check karo.");
     return;
   }
+
   document.getElementById("cameraModal").classList.add("open");
-  html5QrScanner = new Html5Qrcode("cameraReader");
 
-  html5QrScanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: { width: 250, height: 120 } },
-    (decodedText) => {
-      const now = Date.now();
-      if (now - lastScanTime < 1500) return;
-      lastScanTime = now;
+  if (html5QrScanner) {
+    try { await html5QrScanner.stop(); } catch (e) {}
+  }
 
-      const scannedCode = decodedText.trim().toUpperCase();
-      const found = inventory.find(i => i.code.toUpperCase() === scannedCode);
-      if (found) {
-        playBeep();
-        addCodeDirectlyToBill(found.code);
-        closeCameraScanner();
-      } else {
-        alert("Scanned Code not found in Stock: " + scannedCode);
-      }
-    },
-    () => {}
-  ).catch((err) => {
-    alert("Camera open nathi thayu. Website HTTPS par open hoy ane Camera permission Allow hoy te check karo.\nError: " + err);
-    closeCameraScanner();
+  html5QrScanner = new Html5Qrcode("cameraReader", {
+    verbose: false,
+    experimentalFeatures: {
+      useBarCodeDetectorIfSupported: true
+    }
   });
+
+  const config = {
+    fps: 15,
+    qrbox: function(viewfinderWidth, viewfinderHeight) {
+      const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+      const boxSize = Math.floor(minEdge * 0.72);
+      return { width: boxSize, height: boxSize };
+    },
+    videoConstraints: {
+      facingMode: { ideal: "environment" },
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
+      focusMode: { ideal: "continuous" }
+    }
+  };
+
+  try {
+    await html5QrScanner.start(
+      { facingMode: "environment" },
+      config,
+      (decodedText) => {
+        const now = Date.now();
+        if (now - lastScanTime < 1500) return;
+        lastScanTime = now;
+
+        const scannedCode = decodedText.trim().toUpperCase();
+        const found = inventory.find(i => i.code.toUpperCase() === scannedCode);
+        if (found) {
+          playBeep();
+          addCodeDirectlyToBill(found.code);
+          closeCameraScanner();
+        } else {
+          alert("Scanned Code stock ma nathi: " + scannedCode);
+        }
+      },
+      () => {}
+    );
+  } catch (err) {
+    // Fallback if 1080p constraint is not supported by an older device
+    try {
+      await html5QrScanner.start(
+        { facingMode: "environment" },
+        { fps: 15, qrbox: { width: 240, height: 240 } },
+        (decodedText) => {
+          const now = Date.now();
+          if (now - lastScanTime < 1500) return;
+          lastScanTime = now;
+
+          const scannedCode = decodedText.trim().toUpperCase();
+          const found = inventory.find(i => i.code.toUpperCase() === scannedCode);
+          if (found) {
+            playBeep();
+            addCodeDirectlyToBill(found.code);
+            closeCameraScanner();
+          } else {
+            alert("Scanned Code stock ma nathi: " + scannedCode);
+          }
+        },
+        () => {}
+      );
+    } catch (err2) {
+      alert("Camera open nathi thayu. Website HTTPS par hoy ane Camera permission Allow hoy te check karo.\nError: " + err2);
+      closeCameraScanner();
+    }
+  }
 }
 
 function closeCameraScanner() {
@@ -560,6 +607,7 @@ function clearStickers() {
   renderStickers();
 }
 
+// A4 Stickers with Both Barcode & QR Code for Instant 1080p Phone Scan
 function renderStickers() {
   const sheet = document.getElementById("print-area");
   sheet.innerHTML = stickerQueue.map((item, idx) => `
@@ -567,7 +615,10 @@ function renderStickers() {
       <div class="sticker-shop">Hani Stationery &amp; Gifts Mart</div>
       <div class="sticker-sub">C/O JANGID ONLINE SERVICES</div>
       <div class="sticker-item">${item.name}</div>
-      <svg id="barcode-${idx}"></svg>
+      <div style="display:flex; align-items:center; justify-content:space-around; width:100%; gap:2px;">
+        <svg id="barcode-${idx}"></svg>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=${encodeURIComponent(item.code)}" alt="QR" style="width:24px; height:24px;" />
+      </div>
       <div class="sticker-prices">
         <span>MRP: ₹${item.mrp}</span>
         <span class="jos">JOS: ₹${item.jos}</span>
@@ -578,9 +629,9 @@ function renderStickers() {
   stickerQueue.forEach((item, idx) => {
     JsBarcode(`#barcode-${idx}`, item.code, {
       format: "CODE128",
-      width: 1.3,
-      height: 20,
-      fontSize: 9,
+      width: 1.1,
+      height: 18,
+      fontSize: 8,
       margin: 0
     });
   });
@@ -592,15 +643,6 @@ function printStickers() {
     return;
   }
   window.print();
-}
-
-function saveScriptUrl() {
-  const url = document.getElementById("scriptUrl").value.trim();
-  localStorage.setItem("hsg_script_url", url);
-  startAutoSync();
-  if (url) {
-    alert("Google Sheet Auto-Sync Enabled!");
-  }
 }
 
 async function syncToGoogleSheet(payload) {

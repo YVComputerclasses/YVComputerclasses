@@ -1,5 +1,5 @@
 // Jab bhi naya update karein, bas niche "v2" ko "v3", "v4" kar dein:
-const CACHE_NAME = "hsg-pos-v1";
+const CACHE_NAME = "hsg-pos-v2";
 
 const ASSETS_TO_CACHE = [
   "./",
