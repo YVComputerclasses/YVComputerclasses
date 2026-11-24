@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hani Stationery & Gifts Mart - POS & Stock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HSG</title>
+
+  <!-- PWA Meta Tags & Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f4c81" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HSG" />
+
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-  <!-- Phone Camera Barcode Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <style>
     :root {
@@ -37,6 +45,13 @@
     .shop-title h1 { font-size: 1.4rem; letter-spacing: 0.5px; }
     .shop-title p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .branch-box {
       display: flex;
       align-items: center;
@@ -53,6 +68,39 @@
       color: var(--primary);
       font-size: 0.95rem;
       cursor: pointer;
+    }
+
+    #installAppBtn {
+      display: none;
+      background: #fbbf24;
+      color: #0f172a;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    #updateAppBtn {
+      display: none;
+      background: #22c55e;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: pulseUpdate 1.5s infinite;
+    }
+
+    @keyframes pulseUpdate {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     nav {
@@ -236,12 +284,16 @@
       <h1>Hani Stationery & Gifts Mart</h1>
       <p>C/O JANGID ONLINE SERVICES &bull; Narsanda &amp; Ajarpura</p>
     </div>
-    <div class="branch-box">
-      <label style="color:#fff; margin:0;">Active Office:</label>
-      <select id="activeBranch" onchange="updateBranchDisplay()">
-        <option value="Narsanda">Narsanda Office</option>
-        <option value="Ajarpura">Ajarpura Office</option>
-      </select>
+    <div class="header-actions">
+      <button id="installAppBtn" onclick="installPWA()">📲 Install HSG</button>
+      <button id="updateAppBtn" onclick="applyAppUpdate()">🔄 Update App</button>
+      <div class="branch-box">
+        <label style="color:#fff; margin:0;">Active Office:</label>
+        <select id="activeBranch" onchange="updateBranchDisplay()">
+          <option value="Narsanda">Narsanda Office</option>
+          <option value="Ajarpura">Ajarpura Office</option>
+        </select>
+      </div>
     </div>
   </header>
 
@@ -249,8 +301,8 @@
     <button class="active" onclick="switchTab('billing', this)">1. Customer Bill (POS)</button>
     <button onclick="switchTab('stock', this)">2. Stock Manage (Add / Less)</button>
     <button onclick="switchTab('stickers', this)">3. A4 Scanner Stickers</button>
-    <button onclick="switchTab('history', this)">4. Bill History &amp; Google Sync</button>
-    <div class="sync-status" id="syncStatus">Auto-Sync: Local Mode</div>
+    <button onclick="switchTab('history', this)">4. Bill History</button>
+    <div class="sync-status" id="syncStatus">Auto-Sync: Active</div>
   </nav>
 
   <div class="container">
@@ -413,7 +465,7 @@
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <h2 style="border:none; margin:0; padding:0;">All Office Stock Remainder (Narsanda + Ajarpura)</h2>
-          <span class="badge badge-ok" id="stockAutoBadge">Auto-Sync Active (Every 15s)</span>
+          <span class="badge badge-ok" id="stockAutoBadge">Auto-Sync Active</span>
         </div>
         <div style="overflow-x:auto;">
           <table>
@@ -462,19 +514,8 @@
       <div id="print-area" class="a4-sheet"></div>
     </div>
 
-    <!-- TAB 4: HISTORY & GOOGLE SHEET SYNC -->
+    <!-- TAB 4: BILL HISTORY ONLY -->
     <div id="history" class="tab-section">
-      <div class="card">
-        <h2>Google Sheet Auto-Sync Setup</h2>
-        <p style="font-size:0.9rem; color:#475569; margin-bottom:10px;">
-          Google Apps Script Web App URL ek vaar save karsho etle data automatic dar 15 seconde sync thato raheshe:
-        </p>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1;" />
-          <button class="btn btn-primary" onclick="saveScriptUrl()">Save &amp; Enable Auto-Sync</button>
-        </div>
-      </div>
-
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <h2 style="border:none; margin:0; padding:0;">Recent Customer Bills (Narsanda &amp; Ajarpura)</h2>
@@ -555,5 +596,107 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    let deferredPrompt;
+    let newWorkerRegistration = null;
+    const installBtn = document.getElementById("installAppBtn");
+    const updateBtn = document.getElementById("updateAppBtn");
+
+    // 1. Install App Prompt (Only shows if not already installed)
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (updateBtn.style.display !== "inline-flex") {
+        installBtn.style.display = "inline-flex";
+      }
+    });
+
+    async function installPWA() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        installBtn.style.display = "none";
+      }
+      deferredPrompt = null;
+    }
+
+    window.addEventListener("appinstalled", () => {
+      installBtn.style.display = "none";
+    });
+
+    // 2. Service Worker Update Detector
+    function showUpdateButton(reg) {
+      newWorkerRegistration = reg;
+      installBtn.style.display = "none";
+      updateBtn.style.display = "inline-flex";
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").then((reg) => {
+          // Check immediately if an update is already waiting
+          if (reg.waiting) {
+            showUpdateButton(reg);
+          }
+
+          // Check for new updates every 30 seconds
+          setInterval(() => {
+            reg.update();
+          }, 30000);
+
+          // Listen for new Service Worker installing
+          reg.addEventListener("updatefound", () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener("statechange", () => {
+              if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                showUpdateButton(reg);
+              }
+            });
+          });
+        }).catch((err) => {
+          console.log("SW registration failed:", err);
+        });
+      });
+    }
+
+    // 3. Clear Old Cookies, Cache, Storage & Activate New Update
+    async function applyAppUpdate() {
+      updateBtn.innerText = "Updating...";
+      updateBtn.disabled = true;
+
+      try {
+        // Clear all Cookies
+        document.cookie.split(";").forEach((c) => {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
+
+        // Clear LocalStorage & SessionStorage
+        localStorage.clear();
+        sessionStorage.clear();
+
+        // Clear all Cache Storage
+        if ("caches" in window) {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map((name) => caches.delete(name)));
+        }
+
+        // Activate waiting Service Worker if present
+        if (newWorkerRegistration && newWorkerRegistration.waiting) {
+          newWorkerRegistration.waiting.postMessage({ type: "SKIP_WAITING" });
+        }
+      } catch (err) {
+        console.error("Cleanup error:", err);
+      }
+
+      // Hard reload to load fresh code & fresh Google Sheet data
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 400);
+    }
+  </script>
 </body>
 </html>

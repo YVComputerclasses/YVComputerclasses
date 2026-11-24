@@ -1,3 +1,8 @@
+// =========================================================================
+// AHI TAMARO GOOGLE APPS SCRIPT WEB APP URL EK VAAR PASTE KARO:
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxldXtJcWi8pWT_Hm62t-ZGfMwaM59lrDGjZ0VKdzD94JRW9adNuPEKxTi6MNGsw2RWhA/exec";
+// =========================================================================
+
 const defaultItems = [
   { code: "HSG-001", name: "Classmate Notebook 180 Pgs", mrp: 65, jos: 55, narsanda: 45, ajarpura: 35, alert: 15 },
   { code: "HSG-002", name: "Reynolds Trimax Gel Pen", mrp: 50, jos: 42, narsanda: 60, ajarpura: 40, alert: 20 },
@@ -15,10 +20,20 @@ let isSyncing = false;
 let html5QrScanner = null;
 let lastScanTime = 0;
 
+function getActiveScriptUrl() {
+  const codeUrl = (typeof GOOGLE_SCRIPT_URL !== "undefined") ? GOOGLE_SCRIPT_URL.trim() : "";
+  if (codeUrl && codeUrl.startsWith("https://script.google.com/") && !codeUrl.includes("TAMARO_DEPLOY_ID")) {
+    return codeUrl;
+  }
+  return (localStorage.getItem("hsg_script_url") || "").trim();
+}
+
 window.onload = function () {
   document.getElementById("billDate").valueAsDate = new Date();
-  const savedUrl = localStorage.getItem("hsg_script_url") || "";
-  document.getElementById("scriptUrl").value = savedUrl;
+  const activeUrl = getActiveScriptUrl();
+  const urlInput = document.getElementById("scriptUrl");
+  if (urlInput) urlInput.value = activeUrl;
+
   generateBillNo();
   refreshAllUI();
   startAutoSync();
@@ -26,12 +41,14 @@ window.onload = function () {
 
 function startAutoSync() {
   if (autoSyncTimer) clearInterval(autoSyncTimer);
-  const url = localStorage.getItem("hsg_script_url");
+  const url = getActiveScriptUrl();
   if (!url) {
-    setStatus("Auto-Sync: Local Mode", true);
+    setStatus("Auto-Sync: Local Mode (URL Missing)", false);
     return;
   }
+  // Website open thata j direct Google Sheet mathi data fetch thashe
   fetchFromGoogleSheet(true);
+  // Dar 15 seconde background ma automatic sync thashe
   autoSyncTimer = setInterval(() => {
     if (!document.hidden) {
       fetchFromGoogleSheet(true);
@@ -40,13 +57,14 @@ function startAutoSync() {
 }
 
 document.addEventListener("visibilitychange", function () {
-  if (!document.hidden && localStorage.getItem("hsg_script_url")) {
+  if (!document.hidden && getActiveScriptUrl()) {
     fetchFromGoogleSheet(true);
   }
 });
 
 function setStatus(text, isOk = true) {
   const el = document.getElementById("syncStatus");
+  if (!el) return;
   el.innerText = text;
   el.style.background = isOk ? "#dcfce7" : "#fee2e2";
   el.style.color = isOk ? "#166534" : "#991b1b";
@@ -63,7 +81,7 @@ function switchTab(tabId, btn) {
   document.getElementById(tabId).classList.add("active");
   btn.classList.add("active");
 
-  if (localStorage.getItem("hsg_script_url")) {
+  if (getActiveScriptUrl()) {
     fetchFromGoogleSheet(true);
   }
 }
@@ -147,7 +165,6 @@ function refreshAllUI() {
   `).join("");
 }
 
-// Phone Camera Scanner Functions
 function playBeep() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -173,7 +190,7 @@ function openCameraScanner() {
     { fps: 10, qrbox: { width: 250, height: 120 } },
     (decodedText) => {
       const now = Date.now();
-      if (now - lastScanTime < 1500) return; // Prevent double scan in 1.5s
+      if (now - lastScanTime < 1500) return;
       lastScanTime = now;
 
       const scannedCode = decodedText.trim().toUpperCase();
@@ -188,7 +205,7 @@ function openCameraScanner() {
     },
     () => {}
   ).catch((err) => {
-    alert("Camera open nathi thayu. Dhyan rakho ke website HTTPS par open hoy ane Camera permission Allow hoy.\nError: " + err);
+    alert("Camera open nathi thayu. Website HTTPS par open hoy ane Camera permission Allow hoy te check karo.\nError: " + err);
     closeCameraScanner();
   });
 }
@@ -587,7 +604,7 @@ function saveScriptUrl() {
 }
 
 async function syncToGoogleSheet(payload) {
-  const url = localStorage.getItem("hsg_script_url");
+  const url = getActiveScriptUrl();
   if (!url) return;
   try {
     isSyncing = true;
@@ -610,7 +627,7 @@ async function syncToGoogleSheet(payload) {
 }
 
 async function fetchFromGoogleSheet(silent = false) {
-  const url = localStorage.getItem("hsg_script_url");
+  const url = getActiveScriptUrl();
   if (!url || isSyncing) return;
 
   try {
