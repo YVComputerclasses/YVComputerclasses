@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hani Stationery & Gifts Mart - POS & Stock</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <!-- Phone Camera Barcode Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <style>
+    :root {
+      --primary: #0f4c81;
+      --secondary: #1b6ca8;
+      --accent: #e67e22;
+      --bg: #f4f7fa;
+      --card: #ffffff;
+      --text: #1e293b;
+      --border: #cbd5e1;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .shop-title h1 { font-size: 1.4rem; letter-spacing: 0.5px; }
+    .shop-title p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+
+    .branch-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.15);
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+    .branch-box select {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
+      color: var(--primary);
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    nav {
+      background: #fff;
+      display: flex;
+      gap: 8px;
+      padding: 10px 25px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav button {
+      padding: 10px 18px;
+      border: none;
+      background: #e2e8f0;
+      color: var(--text);
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    nav button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .sync-status {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .container { max-width: 1250px; margin: 20px auto; padding: 0 15px; }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    .card {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #475569; }
+    input, select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    input:focus, select:focus { outline: none; border-color: var(--primary); }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
+    th, td { padding: 10px; border: 1px solid #e2e8f0; text-align: left; }
+    th { background: #f1f5f9; color: var(--primary); font-weight: 700; }
+    tr:nth-child(even) { background: #f8fafc; }
+
+    .badge { padding: 3px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: bold; }
+    .badge-ok { background: #dcfce7; color: #166534; }
+    .badge-low { background: #fee2e2; color: #991b1b; }
+
+    .bill-totals {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .total-highlight { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+    .savings-highlight { color: var(--success); font-weight: 700; font-size: 0.95rem; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 95%;
+      max-width: 480px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .a4-sheet {
+      width: 210mm;
+      min-height: 297mm;
+      background: #fff;
+      padding: 6mm;
+      margin: 15px auto;
+      border: 1px solid #94a3b8;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 28mm;
+      gap: 2.5mm;
+    }
+    .sticker-box {
+      border: 1px dashed #64748b;
+      border-radius: 3px;
+      padding: 2px 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+    }
+    .sticker-shop { font-size: 7pt; font-weight: 800; color: #000; line-height: 1.05; }
+    .sticker-sub { font-size: 5.5pt; color: #333; line-height: 1; }
+    .sticker-item { font-size: 7pt; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .sticker-prices { display: flex; justify-content: space-around; width: 100%; font-size: 7pt; font-weight: 700; border-top: 1px solid #ccc; padding-top: 1px; }
+    .sticker-prices span.jos { color: #000; font-size: 7.5pt; }
+    .sticker-box svg { max-width: 95%; height: 22px; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #print-area, #print-area * { visibility: visible; }
+      #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        border: none !important;
+        margin: 0 !important;
+        padding: 6mm !important;
+      }
+      .sticker-box { border: 1px solid #cbd5e1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="shop-title">
+      <h1>Hani Stationery & Gifts Mart</h1>
+      <p>C/O JANGID ONLINE SERVICES &bull; Narsanda &amp; Ajarpura</p>
+    </div>
+    <div class="branch-box">
+      <label style="color:#fff; margin:0;">Active Office:</label>
+      <select id="activeBranch" onchange="updateBranchDisplay()">
+        <option value="Narsanda">Narsanda Office</option>
+        <option value="Ajarpura">Ajarpura Office</option>
+      </select>
+    </div>
+  </header>
+
+  <nav>
+    <button class="active" onclick="switchTab('billing', this)">1. Customer Bill (POS)</button>
+    <button onclick="switchTab('stock', this)">2. Stock Manage (Add / Less)</button>
+    <button onclick="switchTab('stickers', this)">3. A4 Scanner Stickers</button>
+    <button onclick="switchTab('history', this)">4. Bill History &amp; Google Sync</button>
+    <div class="sync-status" id="syncStatus">Auto-Sync: Local Mode</div>
+  </nav>
+
+  <div class="container">
+
+    <!-- TAB 1: CUSTOMER BILLING -->
+    <div id="billing" class="tab-section active">
+      <div class="card">
+        <h2>New Customer Bill (<span id="billBranchLabel">Narsanda</span> Office)</h2>
+        <div class="grid-4" style="margin-bottom: 15px;">
+          <div>
+            <label>Bill No (Auto Next)</label>
+            <input type="text" id="billNo" readonly />
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="date" id="billDate" />
+          </div>
+          <div>
+            <label>Customer Name</label>
+            <input type="text" id="custName" placeholder="Walk-in Customer" />
+          </div>
+          <div>
+            <label>Mobile Number</label>
+            <input type="text" id="custMobile" placeholder="10-digit mobile" />
+          </div>
+        </div>
+
+        <div class="grid-4" style="background:#f1f5f9; padding:12px; border-radius:8px; align-items:end;">
+          <div>
+            <label>Scan Barcode / Item Code</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="scanInput" placeholder="Code & Enter" onkeyup="handleScanEnter(event)" autofocus />
+              <button class="btn btn-accent" type="button" onclick="openCameraScanner()" title="Phone Camera thi Scan Karo">📷 Scan</button>
+            </div>
+          </div>
+          <div>
+            <label>Or Select Item</label>
+            <select id="billItemSelect" onchange="selectItemFromDropdown()">
+              <option value="">-- Select Item --</option>
+            </select>
+          </div>
+          <div>
+            <label>Quantity</label>
+            <input type="number" id="billQty" value="1" min="1" />
+          </div>
+          <div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addItemToBill()">+ Add to Bill</button>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Item Name</th>
+                <th>MRP (₹)</th>
+                <th>JOS Price (₹)</th>
+                <th>Qty</th>
+                <th>Line Total (₹)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="billTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="bill-totals">
+          <div>
+            <div class="savings-highlight">Customer Total Savings: ₹<span id="billSavings">0.00</span></div>
+            <small style="color:#64748b;">MRP Total: ₹<span id="billMrpTotal">0.00</span></small>
+          </div>
+          <div class="total-highlight">
+            Payable (JOS Total): ₹<span id="billGrandTotal">0.00</span>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-success" id="saveBillBtn" onclick="saveAndPrintBill()">Save &amp; Print Bill</button>
+            <button class="btn btn-danger" onclick="clearBill()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: STOCK MANAGEMENT -->
+    <div id="stock" class="tab-section">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Add New Item &amp; Code</h2>
+          <div class="grid-2" style="gap:10px;">
+            <div>
+              <label>Item Code (Scanner Use)</label>
+              <input type="text" id="newCode" placeholder="HSG-006" />
+            </div>
+            <div>
+              <label>Item Name</label>
+              <input type="text" id="newName" placeholder="e.g. A4 Rim Paper" />
+            </div>
+            <div>
+              <label>MRP (₹)</label>
+              <input type="number" id="newMrp" placeholder="350" />
+            </div>
+            <div>
+              <label>JOS Selling Price (₹)</label>
+              <input type="number" id="newJos" placeholder="290" />
+            </div>
+            <div>
+              <label>Narsanda Opening Stock</label>
+              <input type="number" id="newNarStock" value="0" />
+            </div>
+            <div>
+              <label>Ajarpura Opening Stock</label>
+              <input type="number" id="newAjaStock" value="0" />
+            </div>
+            <div>
+              <label>Low Stock Alert Limit</label>
+              <input type="number" id="newAlert" value="10" />
+            </div>
+            <div style="display:flex; align-items:end;">
+              <button class="btn btn-primary" style="width:100%;" onclick="addNewProduct()">Save New Item</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Quick Stock Add (+) / Less (-)</h2>
+          <div class="grid-2" style="gap:10px;">
+            <div>
+              <label>Select Branch</label>
+              <select id="adjBranch">
+                <option value="Narsanda">Narsanda</option>
+                <option value="Ajarpura">Ajarpura</option>
+              </select>
+            </div>
+            <div>
+              <label>Select Item</label>
+              <select id="adjItemSelect"></select>
+            </div>
+            <div>
+              <label>Action Type</label>
+              <select id="adjType">
+                <option value="ADD">ADD Stock (+)</option>
+                <option value="LESS">LESS Stock (-)</option>
+              </select>
+            </div>
+            <div>
+              <label>Quantity</label>
+              <input type="number" id="adjQty" value="1" min="1" />
+            </div>
+            <div style="grid-column: span 2;">
+              <label>Remarks (Optional)</label>
+              <input type="text" id="adjRemarks" placeholder="e.g. New Purchase / Damage / Transfer" />
+            </div>
+            <div style="grid-column: span 2;">
+              <button class="btn btn-accent" style="width:100%;" onclick="adjustStock()">Update Stock Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <h2 style="border:none; margin:0; padding:0;">All Office Stock Remainder (Narsanda + Ajarpura)</h2>
+          <span class="badge badge-ok" id="stockAutoBadge">Auto-Sync Active (Every 15s)</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Item Name</th>
+                <th>MRP (₹)</th>
+                <th>JOS Price (₹)</th>
+                <th>Narsanda Stock</th>
+                <th>Ajarpura Stock</th>
+                <th>Total Remainder</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: A4 SCANNER STICKERS -->
+    <div id="stickers" class="tab-section">
+      <div class="card">
+        <h2>A4 Size Barcode Sticker Generator (With MRP &amp; JOS Price)</h2>
+        <div class="grid-4" style="align-items:end;">
+          <div>
+            <label>Select Item</label>
+            <select id="stickerItemSelect"></select>
+          </div>
+          <div>
+            <label>Number of Stickers (Max 40/page)</label>
+            <input type="number" id="stickerQty" value="12" min="1" max="80" />
+          </div>
+          <div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addStickersToSheet()">+ Add to A4 Sheet</button>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-success" style="width:100%;" onclick="printStickers()">Print A4 Sheet</button>
+            <button class="btn btn-danger" onclick="clearStickers()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="print-area" class="a4-sheet"></div>
+    </div>
+
+    <!-- TAB 4: HISTORY & GOOGLE SHEET SYNC -->
+    <div id="history" class="tab-section">
+      <div class="card">
+        <h2>Google Sheet Auto-Sync Setup</h2>
+        <p style="font-size:0.9rem; color:#475569; margin-bottom:10px;">
+          Google Apps Script Web App URL ek vaar save karsho etle data automatic dar 15 seconde sync thato raheshe:
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1;" />
+          <button class="btn btn-primary" onclick="saveScriptUrl()">Save &amp; Enable Auto-Sync</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <h2 style="border:none; margin:0; padding:0;">Recent Customer Bills (Narsanda &amp; Ajarpura)</h2>
+          <span class="badge badge-ok" id="billAutoBadge">Auto-Sync Active</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Bill No</th>
+                <th>Date</th>
+                <th>Branch</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total JOS (₹)</th>
+                <th>Saved (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PHONE CAMERA SCANNER MODAL -->
+  <div id="cameraModal" class="modal-overlay">
+    <div class="modal-box" style="text-align:center;">
+      <h2 style="color:var(--primary); margin-bottom:8px;">Scan Item Barcode</h2>
+      <p style="font-size:0.85rem; color:#475569; margin-bottom:10px;">Barcode ne camera ni same rakho</p>
+      <div id="cameraReader" style="width:100%; border-radius:8px; overflow:hidden;"></div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-danger" style="width:100%;" onclick="closeCameraScanner()">Close Camera</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT ITEM MODAL -->
+  <div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+      <h2 style="color:var(--primary); margin-bottom:12px;">Edit Stock Item</h2>
+      <div class="grid-2" style="gap:10px;">
+        <div>
+          <label>Item Code</label>
+          <input type="text" id="editCode" readonly style="background:#f1f5f9;" />
+        </div>
+        <div>
+          <label>Item Name</label>
+          <input type="text" id="editName" />
+        </div>
+        <div>
+          <label>MRP (₹)</label>
+          <input type="number" id="editMrp" />
+        </div>
+        <div>
+          <label>JOS Price (₹)</label>
+          <input type="number" id="editJos" />
+        </div>
+        <div>
+          <label>Narsanda Stock</label>
+          <input type="number" id="editNarStock" />
+        </div>
+        <div>
+          <label>Ajarpura Stock</label>
+          <input type="number" id="editAjaStock" />
+        </div>
+        <div style="grid-column: span 2;">
+          <label>Low Stock Alert Limit</label>
+          <input type="number" id="editAlert" />
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:15px;">
+        <button class="btn btn-danger" onclick="closeEditModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveEditedItem()">Update Item</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

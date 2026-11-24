@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <title>ઓપરેટર પેનલ - Google Sheet Sync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">પ્રિન્ટ કંટ્રોલ ડેશબોર્ડ</h1>
+        <p class="text-xs text-gray-500">Google Sheets આધારિત લાઈવ ઓર્ડર ટ્રેકિંગ</p>
+      </div>
+      <button onclick="fetchOrders()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+        <span>રીફ્રેશ ઓર્ડર્સ</span>
+      </button>
+    </div>
+
+    <div id="ordersContainer" class="space-y-3">
+      <p class="text-gray-500 text-center py-8">ઓર્ડર્સ લોડ થઈ રહ્યા છે...</p>
+    </div>
+  </div>
+
+  <!-- Hidden iframe for automatic printing -->
+  <iframe id="printFrame" class="hidden"></iframe>
+
+  <script>
+    // તમારો Google Apps Script Web App URL અહીં પેસ્ટ કરો
+    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+    async function fetchOrders() {
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getOrders`);
+        const orders = await res.json();
+        renderOrders(orders);
+      } catch (e) {
+        console.error("Error loading orders", e);
+      }
+    }
+
+    function renderOrders(orders) {
+      const container = document.getElementById("ordersContainer");
+      container.innerHTML = "";
+
+      if (orders.length === 0) {
+        container.innerHTML = "<p class='text-gray-500 text-center py-6'>હજુ કોઈ ઓર્ડર નથી મળ્યો.</p>";
+        return;
+      }
+
+      // નવા ઓર્ડર પહેલા બતાવવા માટે reverse
+      orders.reverse().forEach(o => {
+        const card = document.createElement("div");
+        card.className = `p-4 bg-white border rounded-xl shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-4 ${
+          o.status === "Pending" ? "border-amber-400 bg-amber-50/30" : "border-emerald-300"
+        }`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-gray-900">${o.customerName}</span>
+              <span class="text-xs font-bold px-2 py-0.5 rounded ${o.printer === 'Brother' ? 'bg-gray-800 text-white' : 'bg-pink-600 text-white'}">
+                ${o.printer === 'Brother' ? 'Brother B/W' : 'Epson Color'}
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded ${o.status === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}">
+                ${o.status}
+              </span>
+            </div>
+            <p class="text-xs text-gray-600 mt-1">
+              પેજ: <b>${o.pages}</b> | નકલો: <b>${o.copies}</b> | રકમ: <b class="text-indigo-700">₹${o.amount}</b> | 
+              UTR: <span class="bg-gray-100 px-1 py-0.5 border rounded font-mono text-gray-800">${o.utr}</span>
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a href="${o.fileUrl}" target="_blank" class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50">
+              ફાઈલ જુઓ
+            </a>
+            ${o.status === "Pending" ? `
+              <button onclick="directPrint('${o.fileUrl}', ${o.row})" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-lg font-bold">
+                પ્રિન્ટ કરો
+              </button>
+            ` : `
+              <span class="text-xs font-bold text-emerald-600">પૂર્ણ થયેલ</span>
+            `}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function directPrint(fileUrl, row) {
+      // ગુગલ ડ્રાઈવ ફાઈલ પ્રિન્ટ કરવા માટે નવું વિન્ડો ખોલી સીધું print() કરવું
+      const printWindow = window.open(fileUrl, '_blank');
+      if (printWindow) {
+        printWindow.focus();
+      }
+
+      // શીટમાં સ્ટેટસ 'Completed' કરવું
+      fetch(`${SCRIPT_URL}?action=updateStatus&row=${row}&status=Completed`)
+        .then(() => fetchOrders());
+    }
+
+    // પેજ લોડ થતાં જ ઓર્ડર ફેચ કરવા અને દર 10 સેકન્ડે ઓટો-ચેક
+    fetchOrders();
+    setInterval(fetchOrders, 10000);
+  </script>
+</body>
+</html>

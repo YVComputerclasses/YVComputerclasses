@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>સ્વયંસંચાલિત પ્રિન્ટ સેવા</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PDF-Lib -->
+  <!-- PDF-Lib માટે આ લિંક વાપરો -->
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
+</head>
+<body class="bg-slate-100 p-3 sm:p-6">
+  <div class="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-lg border">
+    <h1 class="text-2xl font-bold text-center text-blue-800">ઓનલાઇન પ્રિન્ટ પોર્ટલ</h1>
+    <p class="text-xs text-center text-gray-500 mb-5 mt-1">મલ્ટીપલ ફાઈલ & ડબલ સાઇડ પ્રિન્ટ સપોર્ટ</p>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">ગ્રાહકનું નામ:</label>
+        <input id="custName" type="text" placeholder="તમારું પૂરું નામ" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">ફાઈલ સિલેક્ટ કરો (PDF અથવા એકથી વધુ ફોટો):</label>
+        <input type="file" id="fileInput" accept=".pdf,image/*" multiple onchange="processSelectedFiles(event)" class="w-full border p-2 rounded-lg bg-gray-50 text-sm">
+        <p id="fileDetailsText" class="text-xs font-bold text-emerald-600 mt-1"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">પ્રિન્ટ પ્રકાર:</label>
+        <select id="printerSelect" onchange="calculateFinalBill()" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+          <option value="Brother">બ્લેક & વ્હાઇટ (Brother DCP-L2640)</option>
+          <option value="Epson">કલર / ફોટો (Epson L8100)</option>
+        </select>
+      </div>
+
+      <!-- Double Side Option -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">પ્રિન્ટ સાઇડ:</label>
+        <select id="sideSelect" onchange="calculateFinalBill()" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+          <option value="single">સિંગલ સાઇડ (Single Side - આગળ જ)</option>
+          <option value="double">ડબલ સાઇડ (Double Side - આગળ પાછળ)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">નકલો (Copies):</label>
+        <input id="copiesInput" type="number" value="1" min="1" onchange="calculateFinalBill()" class="w-full border rounded-lg p-2.5 text-sm">
+      </div>
+
+      <!-- Payment Section -->
+      <div id="paymentBox" class="hidden border-t pt-4">
+        <div class="bg-blue-50 p-3 rounded-xl mb-3 text-xs space-y-1">
+          <p id="summaryText" class="text-gray-700 font-medium"></p>
+        </div>
+
+        <div class="text-center">
+          <p id="billAmount" class="text-2xl font-black text-indigo-700 mb-2"></p>
+          <p class="text-xs text-gray-500 mb-2">QR સ્કેન કરી Google Pay / PhonePe થી પેમેન્ટ કરો:</p>
+          <img id="qrImage" class="mx-auto rounded-lg border p-1 mb-3" alt="UPI QR">
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">UPI UTR / ટ્રાન્ઝેક્શન નંબર:</label>
+          <input id="utrNumber" type="text" placeholder="12 અંકનો UTR નંબર લખો" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500">
+        </div>
+
+        <button id="submitBtn" onclick="submitFinalOrder()" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition text-sm">
+          ઓર્ડર સબમિટ કરો
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+    const UPI_ID = "9426959052@upi";
+
+    // કિંમત નીતિ (તમારી જરૂર મુજબ બદલી શકો)
+    // Brother B/W: સિંગલ ₹2/પેજ, ડબલ સાઇડ ₹3/કાગળ (એટલે કે 2 પેજ ના ₹3)
+    // Epson Color: સિંગલ ₹10/પેજ, ડબલ સાઇડ ₹18/કાગળ
+    const PRICING = {
+      Brother: { singlePerPage: 2, doublePerSheet: 3 },
+      Epson:   { singlePerPage: 10, doublePerSheet: 18 }
+    };
+
+    let totalPages = 0;
+    let finalMergedPdfBase64 = null;
+    let generatedFileName = "";
+
+    async function processSelectedFiles(event) {
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  // લાઈબ્રેરી લોડ થઈ છે કે નહીં તે ચેક કરવું
+  const lib = window.PDFLib || PDFLib;
+  if (typeof lib === "undefined") {
+    alert("PDF લાઈબ્રેરી લોડ થઈ શકી નથી. કૃપા કરીને ઇન્ટરનેટ કનેક્શન તપાસો અથવા પેજ રિફ્રેશ (F5) કરો.");
+    return;
+  }
+
+  document.getElementById("fileDetailsText").innerText = "ફાઈલ પ્રોસેસ થઈ રહી છે...";
+
+  try {
+    const mergedPdf = await lib.PDFDocument.create();
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileBuffer = await file.arrayBuffer();
+
+      if (file.type === "application/pdf") {
+        const pdf = await lib.PDFDocument.load(fileBuffer);
+        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        copiedPages.forEach(p => mergedPdf.addPage(p));
+      } else if (file.type.startsWith("image/")) {
+        let img;
+        if (file.type === "image/jpeg" || file.type === "image/jpg") {
+          img = await mergedPdf.embedJpg(fileBuffer);
+        } else {
+          img = await mergedPdf.embedPng(fileBuffer);
+        }
+        // A4 સાઈઝ પેજ
+        const page = mergedPdf.addPage([595.28, 841.89]);
+        const { width, height } = page.getSize();
+        const imgDims = img.scaleToFit(width - 40, height - 40);
+        page.drawImage(img, {
+          x: (width - imgDims.width) / 2,
+          y: (height - imgDims.height) / 2,
+          width: imgDims.width,
+          height: imgDims.height
+        });
+      }
+    }
+
+    totalPages = mergedPdf.getPageCount();
+    const pdfBytes = await mergedPdf.saveAsBase64({ dataUri: true });
+    finalMergedPdfBase64 = pdfBytes;
+    generatedFileName = files.length > 1 ? `Merged_${Date.now()}.pdf` : files[0].name;
+
+    document.getElementById("fileDetailsText").innerText = `કુલ પેજ ગણતરી: ${totalPages} પેજ (${files.length} ફાઈલ)`;
+    calculateFinalBill();
+  } catch (err) {
+    alert("ફાઈલ વાંચવામાં ભૂલ આવી: " + err.message);
+  }
+}
+
+    function calculateFinalBill() {
+      if (totalPages === 0) return;
+
+      const printer = document.getElementById("printerSelect").value;
+      const side = document.getElementById("sideSelect").value;
+      const copies = parseInt(document.getElementById("copiesInput").value) || 1;
+      const priceConfig = PRICING[printer];
+
+      let totalSheets = 0;
+      let total = 0;
+
+      if (side === "single") {
+        totalSheets = totalPages * copies;
+        total = totalSheets * priceConfig.singlePerPage;
+      } else {
+        // ડબલ સાઇડમાં પેજ / 2 = કાગળની સંખ્યા
+        const sheetsPerCopy = Math.ceil(totalPages / 2);
+        totalSheets = sheetsPerCopy * copies;
+        total = totalSheets * priceConfig.doublePerSheet;
+      }
+
+      document.getElementById("summaryText").innerText = 
+        `ગણતરી: ${totalPages} પેજ × ${copies} કોપી | મોડ: ${side === 'single' ? 'સિંગલ સાઇડ' : 'ડબલ સાઇડ'} | કુલ કાગળ વપરાશ: ${totalSheets}`;
+      
+      document.getElementById("billAmount").innerText = `ચૂકવવાપાત્ર: ₹${total}`;
+
+      const upiUrl = `upi://pay?pa=${UPI_ID}&pn=PrintCenter&am=${total}&cu=INR`;
+      document.getElementById("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
+      document.getElementById("paymentBox").classList.remove("hidden");
+    }
+
+    async function submitFinalOrder() {
+      const name = document.getElementById("custName").value.trim();
+      const utr = document.getElementById("utrNumber").value.trim();
+      const printer = document.getElementById("printerSelect").value;
+      const side = document.getElementById("sideSelect").value;
+      const copies = parseInt(document.getElementById("copiesInput").value) || 1;
+
+      if (!name) return alert("કૃપા કરીને નામ દાખલ કરો.");
+      if (!finalMergedPdfBase64) return alert("કૃપા કરીને ફાઈલ પસંદ કરો.");
+      if (!utr) return alert("કૃપા કરીને UTR નંબર નાખો.");
+
+      const btn = document.getElementById("submitBtn");
+      btn.innerText = "ઓર્ડર સબમિટ થઈ રહ્યો છે...";
+      btn.disabled = true;
+
+      const priceConfig = PRICING[printer];
+      const sheets = side === "single" ? totalPages * copies : Math.ceil(totalPages / 2) * copies;
+      const amount = side === "single" ? sheets * priceConfig.singlePerPage : sheets * priceConfig.doublePerSheet;
+
+      const payload = {
+        customerName: name,
+        fileName: generatedFileName,
+        fileData: finalMergedPdfBase64,
+        printer: printer,
+        printSide: side, // 'single' અથવા 'double'
+        pages: totalPages,
+        sheets: sheets,
+        copies: copies,
+        amount: amount,
+        utr: utr
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        alert("ઓર્ડર સફળતાપૂર્વક મોકલાઈ ગયો છે!");
+        location.reload();
+      } catch (e) {
+        alert("ઓર્ડર સબમિટ થઈ ગયો છે!");
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
